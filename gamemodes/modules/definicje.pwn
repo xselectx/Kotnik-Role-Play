@@ -2,9 +2,9 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v0.9"
+#define VERSION "v1.0"
 
-#define DEBUG 2     // 2 - off  /  1 - on
+#define DEBUG 2   // 2 - off  /  1 - on
 
 #define BODY_PART_TORSO 3
 #define BODY_PART_GROIN 4
@@ -13,6 +13,8 @@
 #define BODY_PART_LEFT_LEG 7
 #define BODY_PART_RIGHT_LEG 8
 #define BODY_PART_HEAD 9
+
+#define PASS_SALT_SIZE 10
 
 new Float:czitX;
 new Float:czitY;

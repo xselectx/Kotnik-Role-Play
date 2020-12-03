@@ -183,7 +183,7 @@ stock Car_Load()
 		{
 			if(CarData[i][c_Model] == 411)
 				PDTuneInfernus(vid);
-			else if(CarData[i][c_Model] == 560)
+			if(CarData[i][c_Model] == 560)
 				PDTuneSultan(vid);
 		}
 

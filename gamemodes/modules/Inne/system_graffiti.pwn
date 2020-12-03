@@ -113,7 +113,6 @@ AddGrafDatabase(id, objectid)
 	gCache[id][gRotY],
 	gCache[id][gRotZ]);
 	mysql_query(query);
-
 	new uID;
 	format(query, sizeof(query), "SELECT uID FROM graffiti WHERE oID = %d", gCache[id][gOID]);
 	mysql_query(query);
@@ -164,10 +163,28 @@ LoadGraffitis()
 	format(query, sizeof(query), "SELECT * FROM graffiti");
 	mysql_query(query);
 	mysql_store_result();
+	printf("%s", query);
 	while(mysql_fetch_row_format(query,"|"))
 	{
-		//printf("%d", graffitiNum);
+		printf("%s", query);
 		sscanf(query, "p<|>ddds[26]s[128]s[128]dddffffff",
+		gCache[graffitiNum][gUID],
+		gCache[graffitiNum][gOID],
+		gCache[graffitiNum][gPlayerUID],
+		gCache[graffitiNum][gPlayerName],
+		gCache[graffitiNum][gText],
+		gCache[graffitiNum][gFont],
+		gCache[graffitiNum][gSize],
+		gCache[graffitiNum][gLen],
+		gCache[graffitiNum][gColor],
+		gCache[graffitiNum][gPosX],
+		gCache[graffitiNum][gPosY],
+		gCache[graffitiNum][gPosZ],
+		gCache[graffitiNum][gRotX],
+		gCache[graffitiNum][gRotY],
+		gCache[graffitiNum][gRotZ]);
+
+		printf("\n%d\n%d\n%d\n%s\n%s\n%s\n%d\n%d\n%d\n%f\n%f\n%f\n%f\n%f\n%f",
 		gCache[graffitiNum][gUID],
 		gCache[graffitiNum][gOID],
 		gCache[graffitiNum][gPlayerUID],
@@ -186,7 +203,7 @@ LoadGraffitis()
 
 		objectid = CreateDynamicObject(19482, gCache[graffitiNum][gPosX], gCache[graffitiNum][gPosY], gCache[graffitiNum][gPosZ], gCache[graffitiNum][gRotX], gCache[graffitiNum][gRotY] ,gCache[graffitiNum][gRotZ]);
 		SetDynamicObjectMaterialText(objectid, 0,  gCache[graffitiNum][gText], OBJECT_MATERIAL_SIZE_512x128, gCache[graffitiNum][gFont], gCache[graffitiNum][gSize], 1, gCache[graffitiNum][gColor], 0, 1);
-		
+		print("Zrobiæ by ^ zapisywalo sie w bazie, a potem przy ³adowaniu do gry zamienia³o siê na \n");
 		gCache[graffitiNum][gOID] = objectid;
 		//graffitiIDS[graffitiNum] = objectid;
 

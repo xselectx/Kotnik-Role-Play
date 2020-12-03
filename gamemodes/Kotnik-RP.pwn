@@ -42,6 +42,7 @@ Kotnik® Role Play
 //-------------------------------------------<[ Includy ]>---------------------------------------------------//
 //-                                                                                                         -//
 #include <a_samp>
+#include <a_http>
 
 //#include <fixes> zbugowane gówno XD
 
@@ -52,7 +53,7 @@ Kotnik® Role Play
 #include <foreach>
 #include <dini>
 #include <a_mysql>
-#include <MD5>
+//#include <MD5>
 #include <strlib>
 #include <regex>
 #include <pause>
@@ -64,6 +65,7 @@ Kotnik® Role Play
 #include <timestamp>
 #include <timestamptodate>
 #include <discord-connector>
+#include <SHA256>
 
 #include "modules/definicje.pwn"
 #include "modules/enum.pwn"
@@ -119,7 +121,7 @@ main()
 	print("\n----------------------------------");
 	print("K | ---  Kotnik Role Play  --- | K");
 	print("O | ---        ****        --- | O");
-	print("T | ---        v0.8        --- | T");
+	print("T | ---        v1.0        --- | T");
 	print("N | ---        ****        --- | N");
 	print("I | ---                    --- | I");
 	print("K | ---                    --- | K");
@@ -802,6 +804,11 @@ public OnPlayerConnect(playerid)
     strcat(pNameRp[playerid], name);
 
     //strreplace(pNameRp[playerid], '_', ' ');
+
+    new ip[16], string[59];
+    GetPlayerIp(playerid, ip, sizeof ip);
+    format(string, sizeof string, "blackbox.ipinfo.app/lookup/%s", ip);
+    HTTP(playerid, HTTP_GET, string, "", "VPNCheck");
     
 	LoadTextDraws(playerid);
 
@@ -1717,10 +1724,14 @@ public OnPlayerSpawn(playerid) //Przebudowany
     if(PlayerInfo[playerid][pGun7] == 41) PlayerInfo[playerid][pGun7] = 0;
     SetTimerEx("AntySB", 5000, 0, "d", playerid); //by nie kickowa³o timer broni
     AntySpawnBroni[playerid] = 5;
-    SetTimerEx("SpectatingPlayerSpawnFix", 500, 0, "d", playerid);
-    SetTimerEx("SpectatingPlayerSpawnFix", 1000, 0, "d", playerid);
-    SetTimerEx("SpectatingPlayerSpawnFix", 2000, 0, "d", playerid);
-    SetTimerEx("SpectatingPlayerSpawnFix", 4000, 0, "d", playerid);
+
+    if(PlayerInfo[playerid][pTut] == 1)
+    {
+        SetTimerEx("SpectatingPlayerSpawnFix", 500, 0, "d", playerid);
+        SetTimerEx("SpectatingPlayerSpawnFix", 1000, 0, "d", playerid);
+        SetTimerEx("SpectatingPlayerSpawnFix", 2000, 0, "d", playerid);
+        SetTimerEx("SpectatingPlayerSpawnFix", 4000, 0, "d", playerid);
+    }
     
     //Minusowe pieniadze (-10kk) = ban
     if(kaska[playerid] <= -10000000)
@@ -1823,7 +1834,7 @@ SetPlayerSpawnPos(playerid)
 	//Po /spec off
     if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING) // prawdopodobny fix do losowych bugów ze spawnem
     {
-        if(gPlayerLogged[playerid] == 1)
+        if(gPlayerLogged[playerid] == 1 && PlayerInfo[playerid][pTut] == 1)
         {
             SetTimerEx("SpectatingPlayerTimer", 500, 0, "d", playerid);
         }
@@ -1848,8 +1859,12 @@ SetPlayerSpawnPos(playerid)
 		RegistrationStep[playerid] = 1;
         PlayerInfo[playerid][pMuted] = 1;
         SetTimerEx("TutorialFirstStep", 20, 0, "i", playerid);
-		_MruGracz(playerid, "Witaj na Kotnik Role Play!");
-		_MruGracz(playerid, "Aby zacz¹æ grê musisz przejœæ procedury rejestracji.");
+
+        _MruGracz(playerid, "Witaj na Kotnik Role Play!");
+        _MruGracz(playerid, "Aby zacz¹æ grê musisz przejœæ procedury rejestracji.");
+        TogglePlayerSpectating(playerid, true);
+        
+		TutorialFix[playerid] = 1;
 		ShowPlayerDialogEx(playerid, 70, DIALOG_STYLE_MSGBOX, "Witaj na Kotnik Role Play", "Witaj na serwerze Kotnik Role Play\nJeœli jesteœ tu nowy, to przygotowaliœmy dla ciebie poradnik\nZa chwilê bêdziesz móg³ go obejrzeæ, lecz najpierw bêdziesz musia³ opisaæ postaæ któr¹ bêdziesz sterowa³\nAby przejœæ dalej wciœnij przycisk 'dalej'", "Dalej", "");
     }
     //Wiêzienie:
@@ -5337,6 +5352,7 @@ public OnGameModeInit()
     TJD_Load();
     Car_Load(); //Wszystkie pojazdy MySQL
 
+    LoadScriptableObjects();
     LoadBramy();
     ConvertAnimations();
     LoadAnimations();
@@ -5941,8 +5957,8 @@ OnPlayerRegister(playerid, password[])
 {
 	if(IsPlayerConnected(playerid))
 	{
-        new string[128];
-        if(CheckAlfaNumeric(password))
+        //new string[128];
+        /*if(CheckAlfaNumeric(password))
         {
             format(string, 128, "Twoje has³o posiada³o nie-alfanumeryczne znaki - nowe has³o: %s", password);
             _MruGracz(playerid, string);
@@ -5952,7 +5968,7 @@ OnPlayerRegister(playerid, password[])
             _MruGracz(playerid, "Zalecamy zmieniæ has³o poprzez /zmienhaslo");
             _MruGracz(playerid, string);
             _MruGracz(playerid, "Zalecamy zmieniæ has³o poprzez /zmienhaslo");
-        }
+        }*/
 		MruMySQL_CreateAccount(playerid, password);
 		OnPlayerLogin(playerid, password);
 	}
@@ -5966,8 +5982,9 @@ OnPlayerLogin(playerid, password[])
 	#endif
     new nick[MAX_PLAYER_NAME], string[256], oldpass[64];
 	GetPlayerName(playerid, nick, sizeof(nick));
-    new pass[64];
-    format(pass, 64, "%s", MruMySQL_ReturnPassword(nick));
+    new pass[256], salt[128];
+    format(pass, 256, "%s", MruMySQL_ReturnPassword(nick));
+    format(salt, sizeof(salt), "%s", MruMySQL_ReturnSalt(nick));
     new bool:UseMYSQL=false, bool:UseDINI=false;
 
 
@@ -6001,7 +6018,7 @@ OnPlayerLogin(playerid, password[])
     }
     if(UseDINI)
     {
-        if(CheckAlfaNumeric(password))
+        /*if(CheckAlfaNumeric(password))
         {
             format(string, 128, "Twoje has³o posiada³o nie-alfanumeryczne znaki - nowe has³o: %s", password);
             _MruGracz(playerid, string);
@@ -6011,7 +6028,7 @@ OnPlayerLogin(playerid, password[])
             _MruGracz(playerid, string);
             _MruGracz(playerid, string);
             _MruGracz(playerid, "Zalecamy zmieniæ has³o poprzez /zmienhaslo");
-        }
+        }*/
 
         new escapepass[64];
         format(escapepass, 64, "%s", password);
@@ -6028,12 +6045,21 @@ OnPlayerLogin(playerid, password[])
             printf("Zmieniono has³o dla %s", GetNick(playerid));
         }
     }
-	if((UseMYSQL && strcmp(pass,MD5_Hash(password), true ) == 0) || UseDINI)
+
+    new passwd[256];
+    //format(passwd, sizeof(passwd), "%s", MD5_Hash(password)); rezygnacja z MD5 + SHA256, znaki specjalne typu @#$% nie dzia³aj¹.
+
+    new hash[129];
+    format(hash, sizeof(hash), "%s%s", SHA256(passwd), SHA256(salt));
+    format(hash, sizeof(hash), "%s", SHA256(hash));
+
+	if((UseMYSQL && strcmp(pass,hash,true ) == 0) || UseDINI)
 	{//poprawne has³o
         MruMySQL_KonwertujBana(playerid);
         if(MruMySQL_SprawdzBany(playerid)) return KickEx(playerid);
 		//Konwertowanie kont:
-        format(PlayerInfo[playerid][pKey], 64, "%s",MD5_Hash(password));
+        format(PlayerInfo[playerid][pKey], 256, "%s",hash);
+        format(PlayerInfo[playerid][pSalt], 256, "%s",salt);
         new result = MruMySQL_ConvertAccount(playerid);
 		if( result == 1 )
 		{
@@ -6142,7 +6168,7 @@ OnPlayerLogin(playerid, password[])
 		PlayerInfo[playerid][pReg] = 1;
 		PlayerInfo[playerid][pDowod] = 0;
         PlayerInfo[playerid][pCarSlots] = 4;
-		DajKase(playerid, 5000);
+		DajKase(playerid, 50000); // 50k na start serwera
 	}
 
 

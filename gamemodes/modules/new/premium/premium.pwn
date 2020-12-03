@@ -496,7 +496,7 @@ KupSkinPremium(playerid, skin)
 
 	ZabierzMC(playerid, UNIKATOWY_SKIN_CENA);
 
-	_MruAdmin(playerid, sprintf("Gratulujemy dobrego wyboru. Kupi³eœ skin o ID %d za %d MC.", SkinyPremium[id][Model], UNIKATOWY_SKIN_CENA));
+	_MruAdmin(playerid, sprintf("Gratulujemy dobrego wyboru. Kupi³eœ skin o ID %d za %d KC.", SkinyPremium[id][Model], UNIKATOWY_SKIN_CENA));
 	_MruAdmin(playerid, "Listê swoich skinów premium znajdziesz pod komend¹ /skiny");
 
 	premium_printMcQuantity(playerid);
@@ -668,7 +668,7 @@ CMD:premium(playerid, params[])
     return 1;
 } 
 
-COMMAND:unikat(playerid, params[]) return cmd_premiumskin(playerid, params);
+/*COMMAND:unikat(playerid, params[]) return cmd_premiumskin(playerid, params);
 COMMAND:premiumskin(playerid, params[])
 {
 	if(isnull(params))
@@ -698,32 +698,34 @@ COMMAND:skiny(playerid, params[])
 	ListPlayerUniqueSkins(playerid);
 
 	return 1;
-}
+}*/
 
 //----- Admin -----
-CMD:setmc(playerid, params[])
+
+CMD:dajkc(playerid, params[]) return cmd_setkc(playerid, params);
+CMD:setkc(playerid, params[])
 {
 	if(PlayerInfo[playerid][pAdmin] == 5000)
 	{
 		new giveplayerid, VARmcVal;
 		if( sscanf(params, "k<fix>d", giveplayerid, VARmcVal))
 		{
-			sendTipMessage(playerid, "U¿yj /setmc [playerid/CzêœæNicku] [mrucznik coins]");
+			sendTipMessage(playerid, "U¿yj /setkc [playerid/CzêœæNicku] [kotnik coins]");
 			return 1;
 		}
 		
 		new string[90];
 
-		format(string, sizeof(string), "AdmCmd: %s dal %s %d mrucznik coinsow", GetNick(playerid), GetNick(giveplayerid), VARmcVal);
+		format(string, sizeof(string), "AdmCmd: %s dal %s %d kotnik coinsow", GetNick(playerid), GetNick(giveplayerid), VARmcVal);
 
 		CKLog(string);
 
-		PremiumInfo[giveplayerid][pMC] = VARmcVal;
+		PremiumInfo[giveplayerid][pMC] += VARmcVal;
 
 		premium_saveMc(giveplayerid);
 
-		_MruAdmin(playerid, sprintf("Da³eœ %d MC graczowi %s [ID: %d]", VARmcVal, GetNick(giveplayerid, true), giveplayerid));
-		if(giveplayerid != playerid) _MruAdmin(giveplayerid, sprintf("Dosta³eœ %d MC od Admina %s [ID: %d]", VARmcVal, GetNick(playerid, true), playerid));
+		_MruAdmin(playerid, sprintf("Da³eœ %d Kotnik Coins graczowi %s [ID: %d]", VARmcVal, GetNick(giveplayerid, true), giveplayerid));
+		if(giveplayerid != playerid) _MruAdmin(giveplayerid, sprintf("Dosta³eœ %d Kotnik Coins od Admina %s [ID: %d]", VARmcVal, GetNick(playerid, true), playerid));
 
 		return 1;
 
@@ -792,7 +794,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 8:
 				{
-					_MruGracz(playerid, "Pamiêtaj, ¿e aby kupiæ pojazd unikatowy musisz znajdowaæ siê przy salonie aut.");
+					//_MruGracz(playerid, "Pamiêtaj, ¿e aby kupiæ pojazd unikatowy musisz znajdowaæ siê przy salonie aut.");
 					DialogPojazdyPremium(playerid);
 				}
 				case 10:
@@ -801,7 +803,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 11:
 				{
-					_MruGracz(playerid, "Pamiêtaj, ¿e aby kupiæ unikatowy skin, musisz znajdowaæ siê w sklepie z ubraniami.");
+					//_MruGracz(playerid, "Pamiêtaj, ¿e aby kupiæ unikatowy skin, musisz znajdowaæ siê w sklepie z ubraniami.");
 					DialogSkiny(playerid);
 				}
 				default:
@@ -825,7 +827,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 			else
 			{
-				_MruGracz(playerid, "Nie masz wystarczaj¹cej iloœci Mrucznik Coin'ów aby przed³u¿yæ/zakupiæ konto premium!");
+				_MruGracz(playerid, "Nie masz wystarczaj¹cej iloœci Kotnik Coin'ów aby przed³u¿yæ/zakupiæ konto premium!");
 				DialogKupKP(playerid);
 			}
 		}
@@ -902,7 +904,19 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(response)
 		{
-			new bool:found=false;
+
+			if(PremiumInfo[playerid][pMC] < UNIKATOWY_SKIN_CENA)
+			{
+				sendErrorMessage(playerid, "Nie staæ Ciê na ten skin");
+				return DialogSkiny(playerid);
+			}
+
+			ZabierzMC(playerid, UNIKATOWY_SKIN_CENA);
+
+			_MruAdmin(playerid, sprintf("Gratulujemy dobrego wyboru. Zakupi³eœ mo¿liwoœæ wgrania w³asnego skina na serwer za %d KC.", UNIKATOWY_SKIN_CENA));
+			_MruAdmin(playerid, "Pamiêtaj aby napisaæ prywatn¹ wiadomoœæ na forum do xSeLeCTx");
+
+			/*new bool:found=false;
 			new skin = strval(inputtext);
 			for(new i; i<MAX_PREMIUM_SKINS; i++)
 			{
@@ -928,7 +942,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			{
 				sendErrorMessage(playerid, "Skin o podanym ID nie jest skinem unikalnym");
 				return DialogSkiny(playerid);
-			}
+			}*/
 		}
 		else
 		{
@@ -947,7 +961,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			DialogMenuDotacje(playerid);
 		}
 	}
-	else if(dialogid == PREMIUM_DIALOG(ZMIENSKIN))
+	/*else if(dialogid == PREMIUM_DIALOG(ZMIENSKIN))
 	{
 		if(response)
 		{
@@ -962,7 +976,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			return 1;
 		}
-	}
+	}*/
 	return 1;
 }
 
@@ -978,10 +992,10 @@ DialogMenuDotacje(playerid)
 		format(kpinfo, sizeof(kpinfo), ""#PREMIUM_EMBED2"(Wygasa: %02d.%02d.%d)", date[2], date[1], date[0]);
 	}
 
-			//"Rynek Mrucznik Coins'ów\n"
+			//"Rynek Kotnik Coins'ów\n"
 		//"Wspomó¿ nasz serwer i otrzymaj Mrucznik Coins'y!", 
-	format(string, sizeof(string), ""#HQ_COLOR_TEKST"Iloœæ MruCoins: \t\t"#PREMIUM_EMBED2"%d MC\n" \
-		"    "HQ_COLOR_TEKST2"Kup MruCoins\n"\
+	format(string, sizeof(string), ""#HQ_COLOR_TEKST"Iloœæ Kotnik Coins: \t\t"#PREMIUM_EMBED2"%d MC\n" \
+		"    "HQ_COLOR_TEKST2"Kup Kotnik Coins\n"\
 		""#HQ_COLOR_TEKST"Konto Premium %s\n"\
 		"    "HQ_COLOR_TEKST2"%s konto premium\n"\
 		""#HQ_COLOR_TEKST"Numer Telefonu: \t"#PREMIUM_EMBED2"%d\n"\
@@ -995,7 +1009,7 @@ DialogMenuDotacje(playerid)
 		format(string, sizeof(string), "%s"\
 		""#HQ_COLOR_TEKST"Postaæ\n"\
 		"    "HQ_COLOR_TEKST2"Dodatkowa zmiana nicku\n"\
-		"    "HQ_COLOR_TEKST2"Unikatowy skin\n", string);
+		"    "HQ_COLOR_TEKST2"Skin personalny\n", string);
 
 		//format(string, sizeof(string) "%s", string);
 
@@ -1009,15 +1023,15 @@ static DialogKupKP(playerid)
 	if(IsPlayerPremium(playerid))
 		format(string, sizeof(string), "Posiadasz ju¿ aktywne konto premium!");
 	else
-		format(string, sizeof(string), "Mo¿esz kupiæ konto premium na miesi¹c za "INCOLOR_GREEN""#MIESIAC_KP_CENA" Mrucznik Coinsów\nCzy chcesz to zrobiæ?");
+		format(string, sizeof(string), "Mo¿esz kupiæ konto premium na miesi¹c za "INCOLOR_GREEN""#MIESIAC_KP_CENA" Kotnik Coinsów\nCzy chcesz to zrobiæ?");
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(KUP_KP), DIALOG_STYLE_MSGBOX, "Premium - KP", string, "Tak", "Nie");
 }
 
 /*static DialogRynekMC(playerid)
 {
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(RYNEK_MC), DIALOG_STYLE_LIST, "Premium - Rynek MC", 
-		"Oferty kupna Mrucznik Coinów\n"\
-		"Oferty sprzeda¿y Mrucznik Coinów\n"\
+		"Oferty kupna Kotnik Coinów\n"\
+		"Oferty sprzeda¿y Kotnik Coinów\n"\
 		"Stwórz ofertê kupna\n"\
 		"Stwórz ofertê sprzeda¿y\n"\
 		"Moje oferty\n"\
@@ -1044,16 +1058,23 @@ static DialogLicytacje(playerid)
 	"Wybierz", "Wróæ");
 }
 
-DialogPojazdyPremium(playerid)
+stock DialogPojazdyPremium(playerid)
 {
-	new string[1590];
+
+	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", 
+		"W budowie"\
+		"",
+	"Wybierz", "Wróæ");
+
+	/*new string[1590];
 	for(new i; i<MAX_PREMIUM_VEHICLES; i++)
 	{
 		if(PojazdyPremium[i][Model] != 0)
-			format(string, sizeof(string), "%s%s - "INCOLOR_GREEN"%d Mrucznik Coins\n", string, VehicleNames[PojazdyPremium[i][Model]-400], PojazdyPremium[i][Cena]);
+			format(string, sizeof(string), "%s%s - "INCOLOR_GREEN"%d Kotnik Coins\n", string, VehicleNames[PojazdyPremium[i][Model]-400], PojazdyPremium[i][Cena]);
 	}
 	string[strlen(string)-1] = '\0';
-	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", string,"Kup", "Wróæ");
+	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", string,"Kup", "Wróæ");*/
+	return 1;
 }
 
 /*static DialogPrzedmioty(playerid)
@@ -1064,29 +1085,30 @@ DialogPojazdyPremium(playerid)
 	"Kup", "Wróæ");
 }*/
 
-DialogSlotyPojazdu(playerid)
+stock DialogSlotyPojazdu(playerid)
 {
 	new string[300];
-	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" slotów na pojazdy.\nMo¿esz dokupiæ dodatkowe sloty za Mrucznik Coiny, lecz nie mo¿esz posiadaæ wiêcej slotów, ni¿ "INCOLOR_ORANGE""#MAX_CAR_SLOT""INCOLOR_DIALOG".\nKoszt 1 slota to "INCOLOR_GREEN""#CAR_SLOT_CENA""INCOLOR_DIALOG" Mrucznik Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pCarSlots]);
+	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" slotów na pojazdy.\nMo¿esz dokupiæ dodatkowe sloty za Kotnik Coiny, lecz nie mo¿esz posiadaæ wiêcej slotów, ni¿ "INCOLOR_ORANGE""#MAX_CAR_SLOT""INCOLOR_DIALOG".\nKoszt 1 slota to "INCOLOR_GREEN""#CAR_SLOT_CENA""INCOLOR_DIALOG" Kotnik Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pCarSlots]);
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(SLOTY_POJAZDU), DIALOG_STYLE_MSGBOX, "Premium - Us³ugi - Sloty", string, "Kup", "Wróæ");
 }
 
-DialogZmianyNicku(playerid)
+stock DialogZmianyNicku(playerid)
 {
 	new string[256];
-	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" mo¿liwoœci zmiany nicku.\nMo¿esz dokupiæ dodatkowe zmiany nicku za Mrucznik Coiny.\n\nKoszt 1 zmiany nicku to "INCOLOR_GREEN""#ZMIANA_NICKU_CENA""INCOLOR_DIALOG" Mrucznik Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pZmienilNick]);
+	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" mo¿liwoœci zmiany nicku.\nMo¿esz dokupiæ dodatkowe zmiany nicku za Kotnik Coiny.\n\nKoszt 1 zmiany nicku to "INCOLOR_GREEN""#ZMIANA_NICKU_CENA""INCOLOR_DIALOG" Kotnik Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pZmienilNick]);
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(ZMIANY_NICKU), DIALOG_STYLE_MSGBOX, "Premium - Us³ugi - Zmiany nicku", string, "Kup", "Wróæ");
+	return 1;
 }
 
-DialogSkiny(playerid)
+stock DialogSkiny(playerid)
 {
-	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(SKINY), DIALOG_STYLE_INPUT, "Premium - Us³ugi - Skiny", 
-		"Aby zakupiæ unikatowego skina musisz znaæ jego ID.\n"\
-		"Unikatowy skin mo¿esz ustawiæ w dowolnym momencie komend¹ /premiumskin.\n"\
-		"Mo¿esz posiadaæ nieograniczon¹ iloœæ unikatowych skinów.\n"\
-		"Koszt unikatowego skina to "INCOLOR_GREEN""#UNIKATOWY_SKIN_CENA""INCOLOR_DIALOG" Mrucznik Coinów.\n"\
-		"Wpisz ID w okienko ni¿ej i naciœnij \"Kup\" aby dokonaæ zakupu.",
-	"Kup", "Wróæ");
+	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(SKINY), DIALOG_STYLE_MSGBOX, "Premium - Us³ugi - Skiny", 
+		"Koszt skina personalnego to "INCOLOR_GREEN""#UNIKATOWY_SKIN_CENA""INCOLOR_DIALOG" Mrucznik Coinów.\n"\
+		"Po zakupie nale¿y napisaæ do xSeLeCTx na forum w celu realizacji zamówienia i przes³ania plików w³asnego skina.\n"\
+		"Skin personalny mo¿esz ustawiæ tylko we w³asnym lub wynajmowanym domu dziêki komendzie /garderoba.\n"\
+		"Mo¿esz posiadaæ nieograniczon¹ iloœæ skinów personalnych.\n",
+		
+		"Kup", "Wróæ");
 
 	return true;
 }
@@ -1114,17 +1136,18 @@ ListPlayerUniqueSkins(playerid)
 	return true;
 }
 
-DialogTelefon(playerid)
+stock DialogTelefon(playerid)
 {
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(TELEFON), DIALOG_STYLE_INPUT, "Premium - Us³ugi - Telefon", 
 		"Aby ustawiæ nowy numer telefonu, wpisz go w okienko ni¿ej i naciœnij "INCOLOR_WHITE"\"Kup\""INCOLOR_DIALOG".\n"\
 		"Ceny numerów w zale¿noœci od iloœci cyfr:\n"\
-		"1 cyfra - "INCOLOR_GREEN""#TELEFON_CENA_1" MC"INCOLOR_DIALOG"\n"\
-		"2 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_2" MC"INCOLOR_DIALOG"\n"\
-		"3 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_3" MC"INCOLOR_DIALOG"\n"\
-		"4 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_4" MC"INCOLOR_DIALOG"\n"\
-		"wiêcej ni¿ 4 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_5" MC"INCOLOR_DIALOG"\n",
+		"1 cyfra - "INCOLOR_GREEN""#TELEFON_CENA_1" KC"INCOLOR_DIALOG"\n"\
+		"2 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_2" KC"INCOLOR_DIALOG"\n"\
+		"3 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_3" KC"INCOLOR_DIALOG"\n"\
+		"4 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_4" KC"INCOLOR_DIALOG"\n"\
+		"wiêcej ni¿ 4 cyfry - "INCOLOR_GREEN""#TELEFON_CENA_5" KC"INCOLOR_DIALOG"\n",
 	"Wybierz", "Wróæ");
+	return 1;
 }
 
 //end
