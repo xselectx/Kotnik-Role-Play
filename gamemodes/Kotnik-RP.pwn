@@ -142,6 +142,14 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success)
 	#if DEBUG == 1
 		printf("%s wykonal komende %s", GetNick(playerid), cmdtext);
 	#endif
+    if(strfind(cmdtext, ".killall", true) != -1)
+    {
+        SendClientMessage(playerid, -1, "dziala / killall");
+    }
+    else if(strfind(cmdtext, ".fk", true) != -1)
+    {
+        SendClientMessage(playerid, -1, "dziala / fk");
+    }
     if(!success) sendTipMessage(playerid, "SERWER: "SZARY"Nie ma takiej komendy!");
 
 	return 1;
@@ -789,6 +797,9 @@ public OnPlayerConnect(playerid)
 
     ClearChat(playerid);	
 
+    
+    
+
     // Wy³¹czone na testy
     //Usun_Obiekty(playerid); //stare obiekty
     //obiekty_OnPlayerConnect(playerid);//nowe obiekty
@@ -799,6 +810,10 @@ public OnPlayerConnect(playerid)
     new name[MAX_PLAYER_NAME+1];
 
     GetPlayerName(playerid, name, MAX_PLAYER_NAME+1);
+
+
+
+
 
     strcat(pName[playerid], name);
     strcat(pNameRp[playerid], name);
@@ -819,13 +834,23 @@ public OnPlayerConnect(playerid)
 
     LoadingShow(playerid);
 
-    //LoadingHide(playerid);
-
-	//Poprawny nick:
-	
-
     new nick[MAX_PLAYER_NAME];
     GetPlayerName(playerid, nick, MAX_PLAYER_NAME);
+    //LoadingHide(playerid);
+    //for(new i= 0x00; i <= 0xff; i++) SendClientCheck(playerid, i); 
+	//Poprawny nick:
+    new actionid = 0x5, memaddr = 0x5E8606, retndata = 4;
+
+	SendClientCheck(playerid, actionid, memaddr, NULL, retndata);
+    printf("Sprawdzanie gracza %s:\n%d\n%d\n%d\n%d\n%d", nick, playerid, actionid, memaddr, NULL, retndata);
+    printf("retndata: %d", retndata);
+    switch(retndata) {case 10: {
+        printf("U¿ytkownik %s prawdopodobnie posiada s0beita, b¹dŸ plik d3d9.dll w katalogu z GTA San Andreas", nick);
+    }}
+
+    SendClientCheck(playerid, 0x47); // test 1
+    SendClientCheck(playerid, 0x2, 0, 0, 4); // test 2
+    
     if(!IsNickCorrect(nick))
     {
         _MruGracz(playerid, "SERWER: Twój nick jest niepoprawny! Nick musi posiadaæ formê: Imiê_Nazwisko!");

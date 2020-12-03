@@ -16978,6 +16978,52 @@ CMD:r(playerid, params[])
 	}
 	return 1;
 }
+CMD:rcicho(playerid, params[]) return cmd_rlow(playerid, params);
+CMD:rc(playerid, params[]) return cmd_rlow(playerid, params);
+CMD:rlow(playerid, params[])
+{
+    new string[256];
+    new sendername[MAX_PLAYER_NAME];
+
+    if(IsPlayerConnected(playerid))
+    {
+        GetPlayerName(playerid, sendername, sizeof(sendername));
+        if(isnull(params))
+        {
+            sendTipMessage(playerid, "U¿yj (/r)adio [tekst]");
+            return 1;
+        }
+        new member = GetPlayerFraction(playerid);
+        if(0 < member <= 4 || member == 11 || member == 7 || member == 17 || member == 14)
+        {
+            format(string, sizeof(string), "** %s %s: %s **", FracRang[member][PlayerInfo[playerid][pRank]],GetNick(playerid, true), params);
+            SendRadioMessage(member, TEAM_BLUE_COLOR, string);
+            format(string, sizeof(string), "%s mówi przez radio: %s", sendername, params);
+            ProxDetector(3.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
+            printf("%s", string);
+            //format(string, sizeof(string), "Radio: %s", params);
+            //SetPlayerChatBubble(playerid,string,COLOR_YELLOW,10.0,8000);
+        }
+        else if(GetPlayerOrg(playerid) == FAMILY_SAD) //SAD i BOR po³aczenie
+        {
+            member = GetPlayerOrg(playerid);
+            format(string, sizeof(string), "** %s %s: %s **", FamRang[member][PlayerInfo[playerid][pRank]],GetNick(playerid, true), params);
+            SendFamilyMessage(FRAC_BOR, TEAM_AZTECAS_COLOR, string);
+            SendNewFamilyMessage(FAMILY_SAD, TEAM_BLUE_COLOR, string);
+            format(string, sizeof(string), "%s mówi przez radio: %s", sendername, params);
+            ProxDetector(3.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
+            printf("%s", string);
+            //format(string, sizeof(string), "Radio: %s", params);
+            //SetPlayerChatBubble(playerid,string,COLOR_YELLOW,10.0,8000);
+        }
+        else
+        {
+            noAccessMessage(playerid);
+            return 1;
+        }
+    }
+    return 1;
+}
 
 
 CMD:radioooc(playerid, params[]) return cmd_rooc(playerid, params);
@@ -26147,7 +26193,7 @@ CMD:admini(playerid)
                 format(string, sizeof(string), "{FF6347}Skrypter:{FFFFFF} %s (ID: %d)", GetNick(i), i);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
             }
-            else if(PlayerInfo[i][pNewAP] > 0)
+            else if(PlayerInfo[i][pNewAP] > 0 && PlayerInfo[i][pNewAP] < 4)
             {
                 format(string, sizeof(string), "{33CCFF}Pó³ Admin:{FFFFFF} %s (ID: %d)", GetNick(i), i);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
@@ -37576,6 +37622,13 @@ CMD:patrol(playerid, params[])
             }
         }
     }
+    else if(strcmp(var, "vsign", true) == 0)
+    {
+        new var[64];
+        if(sscanf(params, "s[64]", var)) return sendTipMessage(playerid, "U¿yj /patrol vsign [kryptonim]");
+
+        Create3DTextLabel(var, 0xFFFFFFFF, Float:X, Float:Y, Float:Z, 10, 0, testLOS=0)
+    }
     else if(strcmp(var, "akceptuj", true) == 0)
     {
         if(GetPVarInt(playerid, "patrol-dec") == 0) return sendTipMessageEx(playerid, COLOR_PAPAYAWHIP, "Nikt nie oferowa³ Ci patrolu.");
@@ -37662,7 +37715,7 @@ CMD:patrol(playerid, params[])
 CMD:c(playerid, params[])
 {
     new var[64];
-    if(sscanf(params, "s[64]", var)) return sendTipMessage(playerid, "U¿j /c [KOD RADIOWY]");
+    if(sscanf(params, "s[64]", var)) return sendTipMessage(playerid, "U¿yj: /c [KOD RADIOWY]");
     new str[128];
     if(GetPVarInt(playerid, "patrol") == 1)
     {

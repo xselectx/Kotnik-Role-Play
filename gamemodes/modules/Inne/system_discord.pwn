@@ -127,7 +127,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 								ilosc++;
 								format(admin_list, sizeof(admin_list), "%s\n%d. Skrypter %s [%d]", admin_list, ilosc, GetNick(i), i);
 							}
-							else if(PlayerInfo[i][pNewAP] > 0)
+							else if(PlayerInfo[i][pNewAP] > 0 && PlayerInfo[i][pNewAP] < 4)
 							{
 								ilosc++;
 								format(admin_list, sizeof(admin_list), "%s\n%d. PolAdmin %s [%d] %dP@LVL", admin_list, ilosc, GetNick(i), i, PlayerInfo[i][pNewAP]);
