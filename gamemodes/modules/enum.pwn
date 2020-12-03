@@ -32,32 +32,6 @@ new DiscordFractionChannels[][][128] =
     {"brak", "brak", "brak", "brak"}  // 20
 };
 
-new DiscordFractionPrivateChannels[][][128] = 
-{
-    {"brak","brak"}, // id 0 - BRAK
-    {"714215412698447882","776791736630116433"}, // LSPD - #logi-radio
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"}, // 5
-    {"brak", "brak"},
-    {"brak", "brak"}, 
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"}, // 10
-    {"brak", "brak"}, 
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"}, // 15
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"},
-    {"brak", "brak"}  // 20
-};
-
-
 new DiscordFamilyChannels[][][128] = 
 {
     {"21", "760578155806982205", "776726492385378304"} // Kotnik Role Play - #ammuls
@@ -1362,7 +1336,8 @@ enum pInfo
 {
 	pUID,
 	pNick[24],
-	pKey[128],
+	pKey[256],
+    pSalt[256],
 	pLevel,
 	pAdmin,
 	pDonateRank,

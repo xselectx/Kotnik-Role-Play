@@ -15,6 +15,7 @@ public AktywujPozar()
 {
     SetTimer("UsunPozar", 3600000, false);
     new losowy = random(10);
+    if(losowy == 5) losowy = 1;
 	if(losowy == 1)
 	{
     	SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
@@ -138,7 +139,7 @@ public AktywujPozar()
 		AddFire(2237.981,-1664.275,14.506, 400);
 		AddFire(2237.690,-1664.275,13.356, 400);
     }
-	else if(losowy == 5)
+	/*else if(losowy == 5)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -160,7 +161,7 @@ public AktywujPozar()
 		AddFire(1008.369,-938.445,40.229, 400);
 		AddFire(1010.778,-938.445,40.229, 400);
 		AddFire(1009.228,-938.445,40.229, 400);
-    }
+    }*/
 	else if(losowy == 6)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
@@ -2402,6 +2403,15 @@ public JednaSekundaTimer()
 			}
 		}
 
+		if(gPlayerLogged[i] == 0 && GetPlayerVirtualWorld(i) != 1488) // anty omijanie logowania
+		{
+			if(!IsPlayerNPC(i))
+			{
+				printf("%s [%d] zosta³ wyrzucony za omijanie logowania.", GetNick(i), i);
+				KickEx(i);
+			}
+		}
+
 
         //budki telefoniczne//
         if(GetPVarInt(i, "budka-used") != 999) {
@@ -2678,6 +2688,9 @@ public JednaSekundaTimer()
 		{
 			TutTime[i] += 1;
 			//TutTime[i] = 125; skip tutoriala
+
+
+
 			if(TutTime[i] == 3)
 			{
 				
@@ -2691,6 +2704,7 @@ public JednaSekundaTimer()
 			}
 			else if(TutTime[i] == 14)
 			{
+				//printf("state %d", GetPlayerState(i));
 				SetPlayerPosEx(i, 326.09194946289, -1521.3157958984, 20.0);
 				SetPlayerCameraPos(i, 398.16021728516, -1511.9237060547, 78.641815185547);// kamera
 				SetPlayerCameraLookAt(i, 326.09194946289, -1521.3157958984, 42.154850006104);// patrz
@@ -2808,6 +2822,51 @@ public JednaSekundaTimer()
 				//SetPlayerCameraPos(i, 206.288314, -38.114028, 1002.229675);
 				//SetPlayerCameraLookAt(i, 208.775955, -34.981678, 1001.929687);
 			}
+
+
+			if(!IsPlayerPaused(i) && IsPlayerConnected(i) && gPlayerLogged[i] == 1)
+			{
+				if(TutTime[i] >= 4 && TutTime[i] <= 112)
+				{
+					if(GetPlayerState(i) != PLAYER_STATE_SPECTATING) 
+					{
+						OnCheatDetected(i, "", 1, 101);
+					}
+				}
+			}
+
+			/*if(!IsPlayerPaused(i) && IsPlayerConnected(i) && gPlayerLogged[i] == 1)
+			{
+				if(TutTime[i] >= 4 && TutTime[i] < 13)
+				{
+					if(!IsPlayerInRangeOfPoint(i, 10,  849.62371826172, -989.92199707031, -5.0)) OnCheatDetected(i, "", 1, 101); // ban za omijanie samouczka
+				}
+				else if(TutTime[i] >= 15 && TutTime[i] < 29)
+				{
+					if(!IsPlayerInRangeOfPoint(i, 10,  326.09194946289, -1521.3157958984, 20.0)) OnCheatDetected(i, "", 1, 101); // ban za omijanie samouczka
+				}
+				else if(TutTime[i] >= 31 && TutTime[i] < 51)
+				{
+					if(!IsPlayerInRangeOfPoint(i, 10,  1016.9872436523, -1372.0234375, -5.0)) OnCheatDetected(i, "", 1, 101); // ban za omijanie samouczka
+				}
+				else if(TutTime[i] >= 53 && TutTime[i] < 73)
+				{
+					if(!IsPlayerInRangeOfPoint(i, 10, 1352.2797851563, -1757.189453125, -5.0)) OnCheatDetected(i, "", 1, 101); // ban za omijanie samouczka
+				}
+				else if(TutTime[i] >= 75 && TutTime[i] < 95)
+				{
+					if(!IsPlayerInRangeOfPoint(i, 10, 370.02825927734, -2083.5886230469, -10.0)) OnCheatDetected(i, "", 1, 101); // ban za omijanie samouczka
+				}
+				else if(TutTime[i] >= 97 && TutTime[i] < 111)
+				{
+					if(!IsPlayerInRangeOfPoint(i, 10, 1172.8602294922, -1331.978515625, -5.0)) OnCheatDetected(i, "", 1, 101); // ban za omijanie samouczka
+				}
+				else if(TutTime[i] >= 113 && TutTime[i] < 124)
+				{
+					if(!IsPlayerInRangeOfPoint(i, 10, 412.80743408203, -1312.4066162109, -5.0)) OnCheatDetected(i, "", 1, 101); // ban za omijanie samouczka
+				}
+			}*/
+
 		}
 		if(PlayerTazeTime[i] >= 1)
 		{
@@ -2834,7 +2893,7 @@ public JednaSekundaTimer()
 					if(GetPlayerState(i) == 2)
 					{
 						GetPlayerName(i, plname, sizeof(plname));
-						format(string, sizeof(string), "%s Krzyczy: AAAAAhHahahahhaaa!!", plname);
+						format(string, sizeof(string), "%s krzyczy: AAAAAhHahahahhaaa!!", plname);
 						ProxDetector(30.0, i, string,COLOR_WHITE,COLOR_WHITE,COLOR_WHITE,COLOR_FADE1,COLOR_FADE2);
 					}
 				}

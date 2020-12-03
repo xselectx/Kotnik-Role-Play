@@ -5,6 +5,8 @@ new GMX;
 new DC_AntySpam;
 new LOCALHOST = 0;
 
+new TutorialFix[MAX_PLAYERS];
+
 new Text3D:quittext[MAX_PLAYERS];
 new kaska[MAX_PLAYERS];
 
@@ -362,16 +364,17 @@ new gItemList[TOTAL_ITEMS] = {
 1424,3091,1238,3578,997,1427 ,1422,1434,981,7933,1237,19834
 };
 //LSMC
-new Float:ElevatorDoors[7][5] = { //18756 - lewe | 18757 - prawe
-    {1167.27161, -1312.94873, 32.48730,90.00000, 90.0}, //Izba
-    {1104.34827, -1293.05273, 22.49580,90.00000, 94.0}, //Bufet oraz strefa pracowników LSMC
-    {1134.33020, -1358.83142, 26.34220,0.00000, 91.0}, //Sale operacyjne oraz pooperacyjne
-    {1169.86865, -1296.29382, 32.60717,0.00000, 95.0}, //Sale Specjalistyczne
-    {1155.31372, -1363.99761, 27.77301,90.00000, 92.0}, //Akademia Medyczna
-    {1127.28833, -1340.81335, 21.16070,90.00000, 96.0}, //Gabinety lekarskie
-    {1178.92749, -1376.46936, 25.04158,0.00000, 93.0} //Gabinety ordynatorów
+new Float:ElevatorDoors[8][5] = { //18756 - lewe | 18757 - prawe
+    {-2805.166503, 2600.131591, -97.273040,90.00000, 90.0}, //Pkostnica
+    {1138.354125, -1320.493530, 69.180976,0.00000, 90.0}, //P1
+    {1182.949340, -1333.508178, 88.932754,0.00000, 90.0}, //P2
+    {1167.979980, -1340.695556, 101.147979,0.00000, 90.0}, //P3
+    {1158.328491, -1339.429199, 121.063812,0.00000, 90.0}, //P4
+    {1167.583007, -1332.331176, 135.575759,0.00000, 90.0}, //P5
+    {1177.126708, -1320.746459, 178.873077,0.00000, 90.0}, //P6
+    {1177.757812, -1330.786621, 192.331710,0.00000, 90.0} //P7
 };
-new bool:ElevatorDoorsState[7], ElevatorObject[7], bool:LSMCElevatorQueue;
+new bool:ElevatorDoorsState[8], ElevatorObject[8], bool:LSMCElevatorQueue;
 new bool:ElevatorVar;
 new VAR_LSMCTopic;
 new lsmc1;
@@ -1425,6 +1428,9 @@ stock ZerujZmienne(playerid)
 
     BW_Time[playerid] = 0;
     RannyHQ[playerid] = 0;
+
+    TutorialFix[playerid] = 0;
+    
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
 
     strdel(PlayerDesc[playerid], 0, 128 char);
