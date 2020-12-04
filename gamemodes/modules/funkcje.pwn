@@ -4713,6 +4713,12 @@ stock NickLog(text[])
     Log(plik, text);
 }
 
+stock AdminDutyLog(text[])
+{
+	new plik[32] = "Admini/wszyscy.log";
+	Log(plik, text);
+}
+
 stock Log(plik[], text[])
 {
 	new File:file = fopen(plik, io_append);
@@ -13150,12 +13156,14 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		}
     		case 3: // Ostrze¿enie (/cziterzy)
     		{
-	
+    			SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+
     		}
     		case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
     		{
     			format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
     			SendAdminMessage(COLOR3, string);
+    			SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
     		}
     		case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
     		{
@@ -13163,7 +13171,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
     			{
     				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
     				SendAdminMessage(COLOR3, string);
-	
+					SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
     				KodyACDelay[playerid][code] = 1;
     				SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
     			}
@@ -14386,3 +14394,20 @@ public VPNCheck(playerid, response_code, data[])
 	return 1;
 }
 
+
+forward AdminDutyCzas(playerid);
+public AdminDutyCzas(playerid)
+{
+	if(GetPVarInt(playerid, "dutyadmin") == 1)
+	{
+		if(!IsPlayerPaused(playerid))
+		{
+			AdminDutyMinuty[playerid]++;
+			if(AdminDutyMinuty[playerid] >= 60)
+			{
+				AdminDutyMinuty[playerid] = 0;
+				AdminDutyGodziny[playerid]++;
+			}
+		}
+	}
+}

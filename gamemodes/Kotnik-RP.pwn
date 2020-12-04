@@ -938,6 +938,31 @@ public OnPlayerDisconnect(playerid, reason)
     format(string, sizeof(string), "SERWER: Gracz znajduj¹cy siê w pobli¿u wyszed³ z gry (%s, powód: %s)", GetNick(playerid), codal);  
     ProxDetector(10, playerid, string, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2);
 
+
+    if(GetPVarInt(playerid, "dutyadmin") == 1)
+    {
+        new y1,mi1,d1;//Data
+        new stringlog[256];
+        SetPVarInt(playerid, "dutyadmin", 0); 
+
+        getdate(y1, mi1, d1); 
+        format(stringlog, sizeof(stringlog), "[%d:%d:%d] Admin %s zakonczyl sluzbe - wykonal w czasie %d:%d [B%d/W%d/K%d/I%d] - %s", d1, mi1, y1, GetNick(playerid), AdminDutyGodziny[playerid], AdminDutyMinuty[playerid],iloscBan[playerid],iloscWarn[playerid],iloscKick[playerid],iloscInne[playerid], codal); //GENERATE LOG
+        AdminDutyLog(stringlog); //Create LOG
+
+        iloscKick[playerid] = 0;
+        iloscWarn[playerid] = 0;
+        iloscBan[playerid] = 0;
+        iloscInne[playerid] = 0;
+        iloscAJ[playerid] = 0;
+        iloscInWiadomosci[playerid] = 0;
+        iloscOutWiadomosci[playerid] = 0;
+        iloscZapytaj[playerid] = 0;
+
+        KillTimer(AdminDutyTimer[playerid]);
+        AdminDutyGodziny[playerid] = 0;
+        AdminDutyMinuty[playerid] = 0;
+    }
+
     if(grafID[playerid] == 1)
     {
         grafID[playerid] = 0;
@@ -6112,13 +6137,13 @@ OnPlayerLogin(playerid, password[])
     new passwd[256];
     //format(passwd, sizeof(passwd), "%s", MD5_Hash(password)); rezygnacja z MD5 + SHA256, znaki specjalne typu @#$% nie dzia³aj¹.
 
-    printf("password: %s", password);
+    //printf("password: %s", password);
     new hash[129];
     format(hash, sizeof(hash), "%s%s", SHA256(password), SHA256(salt));
     format(hash, sizeof(hash), "%s", SHA256(hash));
 
 
-    printf("pass: %s\nhash: %s",pass, hash);
+    //printf("pass: %s\nhash: %s",pass, hash);
 
 	if((UseMYSQL && strcmp(pass,hash,true ) == 0) || UseDINI)
 	{//poprawne has³o

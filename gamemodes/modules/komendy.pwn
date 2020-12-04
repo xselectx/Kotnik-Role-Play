@@ -9502,6 +9502,7 @@ CMD:pwarn(playerid, params[])
             if(!KarywTXD) SendPunishMessage(string);
             else KaraTextdraw("Warn (offline)", nick, playerid, result);
        		WarnLog(string);
+            iloscWarn[playerid]++;
 			format(string, sizeof(string), "AdmCmd: Konto gracza offline %s zostalo zwarnowane przez %s, Powod: %s", nick, sendername, (result));
             //ABroadCast(COLOR_LIGHTRED,string,1);
             MruMySQL_SetAccInt("Warnings", nick, MruMySQL_GetAccInt("Warnings", nick)+1);
@@ -9550,6 +9551,7 @@ CMD:paj(playerid, params[])
             GetPlayerName(playerid, sendername, sizeof(sendername));
 			format(string, sizeof(string), "AdmCmd: Konto gracza offline %s dosta³o aj na %d od %s, Powod: %s", nick, czas, sendername, (result));
 			KickLog(string);
+            iloscAJ[playerid]++;
             //ABroadCast(COLOR_LIGHTRED,string,1);
             if(!KarywTXD) SendPunishMessage(string);
             else KaraTextdraw(sprintf("AJ (offline %d minut)", czas), nick, playerid, result);
@@ -22928,6 +22930,9 @@ CMD:adminajail(playerid, params[])
                         if(!KarywTXD) SendPunishMessage(string, playa);
                         else KaraTextdraw(sprintf("Admin Jail (%d minut)", money), giveplayer, playerid, result);
                         poscig[playa] = 0;
+
+                        iloscAJ[playerid]++;
+
                         KickLog(string);
 						//adminowe logi
    						format(string, sizeof(string), "Admini/%s.ini", sendername);
@@ -25586,6 +25591,7 @@ CMD:slap(playerid, params[])
 					printf("AdmCmd: %s da³ klaspa w dupsko %s",sendername,  giveplayer);
 					format(string, sizeof(string), "AdmCmd: %s da³ klapsa w dupsko %s",sendername, giveplayer);
 					ABroadCast(COLOR_LIGHTRED,string,1);
+                    iloscInne[playerid]++;
 					format(string, sizeof(string), "Dosta³eœ klapsa w dupsko od administratora %s, widocznie zrobi³eœ coœ z³ego :)", sendername);
 					_MruAdmin(playa, string);
 				}
@@ -25635,6 +25641,7 @@ CMD:ucisz(playerid, params[])
 						ABroadCast(COLOR_LIGHTRED,string,1);
 						format(string, sizeof(string), "Zosta³eœ uciszony przez administratora %s, widocznie powiedzia³eœ coœ z³ego :)", sendername);
 						_MruAdmin(playa, string);
+                        iloscInne[playerid]++;
 					}
 					else
 					{
@@ -25713,6 +25720,7 @@ CMD:kick(playerid, params[])
 							format(string, sizeof(string), "Admini/%s.ini", sendername);
 					     	dini_IntSet(string, "Ilosc_Kickow", dini_Int(string, "Ilosc_Kickow")+1 );
 						}
+                        iloscKick[playerid]++;
 						KickEx(giveplayerid);
 						SetTimerEx("AntySpamTimer",5000,0,"d",playerid);
 	    				AntySpam[playerid] = 1;
@@ -25778,6 +25786,7 @@ CMD:warn(playerid, params[])
 				    GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
 					GetPlayerName(playerid, sendername, sizeof(sendername));
 					PlayerInfo[giveplayerid][pWarns] += 1;
+                    iloscWarn[playerid]++;
 					if(PlayerInfo[giveplayerid][pWarns] >= 3)
 					{
 					    if(gPlayerLogged[giveplayerid] != 0)
@@ -25793,6 +25802,7 @@ CMD:warn(playerid, params[])
 					        dini_IntSet(str, "Ilosc_Warnow", dini_Int(str, "Ilosc_Warnow")+1 );
 							MruMySQL_Banuj(giveplayerid, result, playerid);
 							KickEx(giveplayerid);
+                            iloscBan[playerid]++;
 							return 1;
 						}
 					}
@@ -25910,6 +25920,7 @@ CMD:skick(playerid, params[])
 					GetPlayerName(playerid, sendername, sizeof(sendername));
 					format(string, sizeof(string), "AdmCmd: Admin %s was kicked by admin %s, Powód: CICHY kick", giveplayer, sendername);
 					KickLog(string);
+                    iloscKick[playerid]++;
 					KickEx(giveplayerid);
 					SetTimerEx("AntySpamTimer",5000,0,"d",playerid);
 					AntySpam[playerid] = 1;
@@ -25956,7 +25967,7 @@ CMD:sban(playerid, params[])
 						sendTipMessageEx(playerid, COLOR_WHITE, "Nie mozesz zabanowaæ Admina!");
 						return 1;
 					}
-					
+					iloscBan[playerid]++;
 					format(string, sizeof(string), "AdmCmd: Ukryty (/sban) Admin %s zbanowal %s, powód: %s",  sendername, giveplayer, result);
 					BanLog(string);
 				    MruMySQL_Banuj(giveplayerid, result, playerid);
@@ -26053,6 +26064,7 @@ CMD:ban(playerid, params[])
 					{
 					    SetTimerEx("AntySpamTimer",5000,0,"d",playerid);
 					    AntySpam[playerid] = 1;
+                        iloscBan[playerid]++;
 					}
 					return 1;
 			  	}
@@ -26080,6 +26092,7 @@ CMD:ban(playerid, params[])
 						BanLog(string);
                         if(!KarywTXD) SendPunishMessage(string, giveplayerid);
                         else KaraTextdraw("Banicja", giveplayer, playerid, result);
+                        iloscBan[playerid]++;
 						format(str,sizeof(str),"~y~Ban Info:~n~~r~Osoba zbanowana: ~w~%s~n~~r~Powod: ~w~%s~n~~r~Nalozyl: ~w~%s", giveplayer ,(result), sendername);
 						MruMySQL_Banuj(giveplayerid, result, playerid);
 						KickEx(giveplayerid);
@@ -26131,6 +26144,7 @@ CMD:zamroz(playerid, params[])
 					printf("%s",string);
 					format(string, sizeof(string), "AdmCmd: %s zosta³ zamro¿ony przez %s",giveplayer ,sendername);
 					ABroadCast(COLOR_LIGHTRED,string,1);
+                    iloscInne[playerid]++;
 				}
 			}
 		}
@@ -26205,27 +26219,27 @@ CMD:admini(playerid)
 {
     new string[64];
     //new sendername[MAX_PLAYER_NAME];
-    SendClientMessage(playerid, COLOR_GRAD1, "Lista administratorów:");
+    SendClientMessage(playerid, COLOR_GRAD1, "Lista administratorów na s³u¿bie:");
     for(new i = 0; i<MAX_PLAYERS; i++)
     {
         if(IsPlayerConnected(i) && gPlayerLogged[i] == 1)
         {
-            if(PlayerInfo[i][pAdmin] >= 5000 && PlayerInfo[i][pAdmin] != 5555)
-            {
-                format(string, sizeof(string), "{FF0000}H@:{FFFFFF} %s (ID: %d)", GetNick(i), i);
+            if(PlayerInfo[i][pAdmin] >= 5000 && PlayerInfo[i][pAdmin] != 5555 && GetPVarInt(i, "dutyadmin") == 1)
+            {  
+                format(string, sizeof(string), "{FF0000}H@:{FFFFFF} %s (ID: %d) ", GetNick(i), i);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
             } 
-            else if(PlayerInfo[i][pAdmin] > 0 && PlayerInfo[i][pAdmin] < 5000 && PlayerInfo[i][pAdmin] != 7) 
+            else if(PlayerInfo[i][pAdmin] > 0 && PlayerInfo[i][pAdmin] < 5000 && PlayerInfo[i][pAdmin] != 7 && GetPVarInt(i, "dutyadmin") == 1) 
             {
                 format(string, sizeof(string), "{FF6347}Admin:{FFFFFF} %s (ID: %d) @LVL: %d", GetNick(i), i, PlayerInfo[i][pAdmin]);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
             }
-            else if(PlayerInfo[i][pNewAP] == 5)
+            else if(PlayerInfo[i][pNewAP] == 5 && GetPVarInt(i, "dutyadmin") == 1)
             {
                 format(string, sizeof(string), "{FF6347}Skrypter:{FFFFFF} %s (ID: %d)", GetNick(i), i);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
             }
-            else if(PlayerInfo[i][pNewAP] > 0 && PlayerInfo[i][pNewAP] < 4)
+            else if(PlayerInfo[i][pNewAP] > 0 && PlayerInfo[i][pNewAP] < 4 && GetPVarInt(i, "dutyadmin") == 1)
             {
                 format(string, sizeof(string), "{33CCFF}Pó³ Admin:{FFFFFF} %s (ID: %d)", GetNick(i), i);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
@@ -36906,19 +36920,20 @@ CMD:cziterzy(playerid, params[])
     if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] >= 1) {
         foreach(Player, i) {
             if(GetPVarInt(i, "AC-warn") > 1) {
-                format(string, sizeof(string), "%s[AC] %s (ID: %d)\n", string, GetNick(i), i);
+                format(string, sizeof(string), "%s[AC] %s (ID: %d) - %d\n", string, GetNick(i), i, GetPVarInt(i, "AC-warn"));
                 czity++;
             } else if(GetPVarInt(i, "AC_oznaczony") == 1) {
-                format(string, sizeof(string), "%s[S0BEIT] %s (ID: %d)\n", string, GetNick(i), i);
+                format(string, sizeof(string), "%s[S0BEIT] %s (ID: %d) - %d\n", string, GetNick(i), i, GetPVarInt(i, "AC-warn"));
                 czity++;
             } 
         }
-    }
 
-    if(czity == 0) {
-        sendTipMessage(playerid, "Nie wykryto ¿adnych potencjalnych cziterów");
+
+        if(czity == 0) {
+            sendTipMessage(playerid, "Nie wykryto ¿adnych potencjalnych cziterów");
+        }
+        ShowPlayerDialogEx(playerid, 0, DIALOG_STYLE_LIST, "Lista Potencjalnych Cziterów", string, "Ok", "");
     }
-    ShowPlayerDialogEx(playerid, 0, DIALOG_STYLE_LIST, "Lista Potencjalnych Cziterów", string, "Ok", "");
     return 1;
 }
 
@@ -38231,18 +38246,80 @@ CMD:removecar(playerid, p[])
 } */
 
 
+CMD:adminstats(playerid)
+{
+    if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0) return noAccessMessage(playerid);
+    if(GetPVarInt(playerid, "dutyadmin") == 1)
+    {
+        new string[256];
+        format(string, sizeof(string), 
+            "Czas na s³u¿bie: %02d:%02d\n\
+            \nIloœæ kicków: %d\n\
+            Iloœæ warnów: %d\n\
+            Iloœæ AJ: %d\n\
+            Iloœæ banów/blocków: %d\n\
+            Iloœæ innych zadañ: %d", AdminDutyGodziny[playerid], AdminDutyMinuty[playerid], iloscKick[playerid], iloscWarn[playerid], iloscAJ[playerid],iloscBan[playerid],iloscInne[playerid]);
+        
+        ShowPlayerDialogEx(playerid, 777, DIALOG_STYLE_MSGBOX, "Statystyki administratora", string, "OK", "");
+    }
+    else return sendTipMessage(playerid, "Musisz byæ na s³u¿bie by zobaczyæ swoje statystyki.");
+    return 1;
+}
+
+CMD:aduty(playerid) return cmd_adminduty(playerid);
 CMD:adminduty(playerid)
 {
-    if(PlayerInfo[playerid][pAdmin] < 1000) return 1;
-    if(GetPVarInt(playerid, "adminduty") == 0)
+    if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0) return noAccessMessage(playerid);
+    
+    new string[256];
+    new stringlog[325];//String do logu
+    new y1,mi1,d1;//Data
+
+    if(GetPVarInt(playerid, "dutyadmin") == 0)
     {
+        if(OnDuty[playerid] == 1 || JobDuty[playerid] == 1 || SanDuty[playerid] == 1)//Zabezpieczenie przed duty - odkryte w doœæ ciekawy sposób, dlatego traktujemy jako easter egg
+        {
+            sendTipMessage(playerid, "Najpierw zejdŸ z duty!");
+            return 1;
+        }
+
+        AdminDutyTimer[playerid] = SetTimerEx("AdminDutyCzas", 60000, true, "i", playerid);
+        format(string, sizeof(string), "Administrator %s wszed³  na s³u¿bê administratora!", GetNick(playerid, true));
+        SendAdminMessage(COLOR_RED, string); 
+        MSGBOX_Show(playerid, "Admin Duty ~g~ON", MSGBOX_ICON_TYPE_OK); 
+        //format(string, sizeof(string), "%s", AdminName); 
+        //SetPlayerName(playerid, string);
+        SetPVarInt(playerid, "dutyadmin", 1);
         SetPlayerColor(playerid, 0xFF0000FF);
-        SetPVarInt(playerid, "adminduty", 1);
+
     }
-    else
+    else if(GetPVarInt(playerid, "dutyadmin") == 1)
     {
+        SetPVarInt(playerid, "dutyadmin", 0); 
         SetPlayerColor(playerid,TEAM_HIT_COLOR);
-        SetPVarInt(playerid, "adminduty", 0);
+        format(string, sizeof(string), "@DUTY: Wykona³eœ ->  %d banów | %d warnów | %d kicków | %d innych akcji!", iloscBan[playerid],iloscWarn[playerid],iloscKick[playerid], iloscInne[playerid]); 
+        sendErrorMessage(playerid, string); 
+        MSGBOX_Show(playerid, "Admin Duty ~r~OFF", MSGBOX_ICON_TYPE_OK);
+        sendTipMessage(playerid, "Dziêkujemy za sumienn¹ s³u¿bê, administratorze!"); 
+
+
+        getdate(y1, mi1, d1); 
+        format(stringlog, sizeof(stringlog), "[%d:%d:%d] Admin %s zakonczyl sluzbe - wykonal w czasie %d:%d [B%d/W%d/K%d/I%d] - gra dalej", d1, mi1, y1, GetNick(playerid), AdminDutyGodziny[playerid], AdminDutyMinuty[playerid],iloscBan[playerid],iloscWarn[playerid],iloscKick[playerid],iloscInne[playerid]); //GENERATE LOG
+        AdminDutyLog(stringlog); //Create LOG
+
+        iloscKick[playerid] = 0;
+        iloscWarn[playerid] = 0;
+        iloscBan[playerid] = 0;
+        iloscInne[playerid] = 0;
+        iloscAJ[playerid] = 0;
+        iloscInWiadomosci[playerid] = 0;
+        iloscOutWiadomosci[playerid] = 0;
+        iloscZapytaj[playerid] = 0;
+
+        KillTimer(AdminDutyTimer[playerid]);
+        AdminDutyGodziny[playerid] = 0;
+        AdminDutyMinuty[playerid] = 0;
+
     }
     return 1;
 }
