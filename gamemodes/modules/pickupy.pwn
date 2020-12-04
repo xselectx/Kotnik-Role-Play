@@ -90,6 +90,10 @@ ZaladujPickupy()
 	CreateDynamicPickup(1239, 2, 301.29656982422, -1515.7513427734, 13.809589385986, -1); // "i" w windzie w biurowcu
     CreateDynamicPickup(1239, 2, 319.72470092773, -1548.3374023438, 13.845289230347, -1); // "i" w kancelarii
     CreateDynamicPickup(1239, 2, 322.0553894043, 303.41961669922, 999.1484375, -1); // "i" w biurze detektywów
+
+    CreateDynamicPickup(19523, 1, 849.2945, -1336.3616, 13.5690, 0); //MOTEL w Market
+    CreateDynamicPickup(19523, 1, 2178.3113, -1770.5784, 13.5451, 0); //MOTEL w Idlewood
+
 	
 	return 1;
 }
@@ -157,6 +161,8 @@ Zaladuj3DTexty()
     CreateDynamic3DTextLabel("Motel 'Dziki Tygrys'", 0xFF69B4, 1941.1919,-2115.6655,13.6953, 10.0);
     CreateDynamic3DTextLabel("Biuro\nKorporacji Transportowej", COLOR_BLUE, 2518.0, -2127.0, 13.5, 7.0);
     CreateDynamic3DTextLabel("Tylne wejœcie", COLOR_BLUE, 593.5989,-1489.5365,15.2650, 5.0);
+    CreateDynamic3DTextLabel("Motel Market", COLOR_WHITE, 849.2945, -1336.3616, 13.5690, 15.0);
+    CreateDynamic3DTextLabel("Motel Idlewood", COLOR_WHITE, 2178.3113, -1770.5784, 13.5451, 15.0);
 
 	//--------------[Moje Pickupy i 3D moje 3d texty]---------------- {9ACD32}
 

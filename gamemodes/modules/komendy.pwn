@@ -80,7 +80,7 @@ CMD:marcepan(playerid, params[])
     return 1;
 }
 
-
+#if DEBUG == 1
 CMD:pakietkotnika(playerid)
 {
 
@@ -107,6 +107,7 @@ CMD:pakietkotnika(playerid)
 
     return 1;
 }
+#endif
 
 #if DEBUG == 1
 CMD:dosalonu(playerid)
@@ -14750,6 +14751,7 @@ CMD:kogut(playerid)
 }
 
 CMD:auto(playerid) return cmd_car(playerid);
+CMD:v(playerid) return cmd_car(playerid);
 CMD:pojazd(playerid) return cmd_car(playerid);
 CMD:samochod(playerid) return cmd_car(playerid);
 CMD:car(playerid)
@@ -37159,6 +37161,24 @@ CMD:lock(playerid)
                 Car_Lock(playerid, newcar);
             }
         }
+    }
+    return 1;
+}
+
+CMD:motel(playerid, params[])
+{
+    new var[32];
+    if(sscanf(params, "s[32]", var)) return sendTipMessage(playerid, "U¿yj /motel wynajmij wejdz wyjdz");
+    if(!IsPlayerInRangeOfPoint(playerid, 2, 849.2945, -1336.3616, 13.5690) && !IsPlayerInRangeOfPoint(playerid, 2, 2178.3113, -1770.5784, 13.5451)) return sendTipMessage(playerid, "Nie znajdujesz siê w pobli¿u motelu!");
+    if(strcmp(var, "wynajmij", true) == 0)
+    {
+        sendTipMessage(playerid, "Motel jest obecnie w trakcie remontu!")
+
+
+    }
+    else if(strcmp(var, "wejdz", true) == 0)
+    {
+        sendTipMessage(playerid, "Motel jest obecnie w trakcie remontu!")
     }
     return 1;
 }
