@@ -1088,7 +1088,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			return 1;
 		}
 	}
-    else if(dialogid == D_ELEVATOR_LSMC)
+    /*else if(dialogid == D_ELEVATOR_LSMC)
     {
         if(response)
         {
@@ -1142,6 +1142,36 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    //ElevatorTravel(playerid,1174.5618,-1376.4209,24.2193,93,270.0);
 				//case 8:
 				    //ElevatorTravel(playerid, 1161.8228, -1337.0521, 31.6112,0,180.0);
+			}
+        }
+	}*/
+    else if(dialogid == D_ELEVATOR_LSMC)
+    {
+        if(response)
+        {
+            if(LSMCElevatorQueue) return SendClientMessage(playerid, -1, "Proszê poczekaæ... Winda jest w u¿yciu!");
+			switch(listitem)
+			{
+			    case 0:
+				    ElevatorTravel(playerid,-2805.0967,2596.0566,-98.0829, 90,0.0);//pkostnica
+				case 1:
+					ElevatorTravel(playerid,1144.4740, -1333.2556, 13.8348, 0,90.0);//parking
+				case 2:
+        			ElevatorTravel(playerid,1134.0449,-1320.7128,68.3750,90,270.0);//p1
+				case 3:
+				    ElevatorTravel(playerid,1183.3129,-1333.5684,88.1627,90,90.0);//p2
+				case 4:
+					ElevatorTravel(playerid,1168.2112,-1340.6785,100.3780,90,90.0);//p3
+				case 5:
+				    ElevatorTravel(playerid,1158.6868,-1339.4423,120.2738,90,90.0);//p4
+				case 6:
+				    ElevatorTravel(playerid,1167.7832,-1332.2727,134.7856,90,90.0);//p5
+    			case 7:
+				    ElevatorTravel(playerid,1177.4791,-1320.7749,178.0699,90,90.0);//p6
+				case 8:
+            		ElevatorTravel(playerid,1178.2081,-1330.6317,191.5315,90,90.0);//p7
+                case 9:
+            		ElevatorTravel(playerid,1161.8228, -1337.0521, 31.6112,0,180.0);//dach
 			}
         }
 	}
@@ -7541,7 +7571,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		    {
 		        if(strlen(inputtext) >= 1 && strlen(inputtext) <= 64)
 			    {
-			        if(strcmp(inputtext,"SiveMopY", false) == 0 )//WiE772Min Zi3EeL$sKoXnUBy RaTMiiN67
+			        if(strcmp(inputtext,"CzarneMopY", false) == 0 )//WiE772Min Zi3EeL$sKoXnUBy RaTMiiN67
 			        {
 						weryfikacja[playerid] = 1;
                         if(PlayerInfo[playerid][pJailed] == 0 && PlayerInfo[playerid][pBW] == 0)
@@ -7588,7 +7618,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		    {
 		        if(strlen(inputtext) >= 1 && strlen(inputtext) <= 50)
 			    {
-			        if(strcmp(inputtext,"TheGFPower69", false) == 0)//Zi3EeL$sKoXnUBy WiE772Min
+			        if(strcmp(inputtext,"TheGFPower6969", false) == 0)//Zi3EeL$sKoXnUBy WiE772Min
 			        {
 					    weryfikacja[playerid] = 1;
 					    new gf[64], nickbrusz[MAX_PLAYER_NAME];
@@ -8052,7 +8082,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 		    if(!response)
 		    {
-		        ShowPlayerDialogEx(playerid, 70, DIALOG_STYLE_MSGBOX, "Witaj na Kotnik Role Play", "Witaj na serwerze Kotnik Role Play\nJeœli jesteœ tu nowy, to przygotowaliœmy dla ciebie 2 poradniki\nZa chwilê bêdziesz móg³ je obejrzeæ, lecz najpierw musisz opisaæ postaæ któr¹ bêdziesz gra³\n¯yczymy mi³ej gry.", "Dalej", "");
+		        ShowPlayerDialogEx(playerid, 70, DIALOG_STYLE_MSGBOX, "Witaj na Kotnik Role Play", "Witaj na serwerze Kotnik Role Play\nJeœli jesteœ tu nowy, to przygotowaliœmy dla ciebie poradnik\nZa chwilê bêdziesz móg³ go obejrzeæ, lecz najpierw bêdziesz musia³ opisaæ postaæ któr¹ bêdziesz sterowa³\nAby przejœæ dalej wciœnij przycisk 'dalej'", "Dalej", "");
 		    }
 		}
 		if(dialogid == 72)
@@ -16551,7 +16581,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 					if(GetPlayerWeapon(playerid) == WEAPON_SPRAYCAN)
 					{
-						if(GetPlayerGraffitis(playerid) < 4)
+						if(GetPlayerGraffitis(playerid) < 5)
 						{
 							if(graffitiNum < 490)
 							{
@@ -16646,9 +16676,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(PlayerInfo[playerid][pAdmin] > 0)
 			{
-				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\nEdytuj\nUsun", "Wybierz", "Anuluj");
+				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti\nUsun", "Wybierz", "Anuluj");
 			} else {
-				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\n", "Wybierz", "Anuluj");
+				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti", "Wybierz", "Anuluj");
 			}
 		} 
 		wyczyscgraffiti(playerid,strval(inputtext));
@@ -16659,9 +16689,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(PlayerInfo[playerid][pAdmin] > 0)
 			{
-				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\nEdytuj\nUsun", "Wybierz", "Anuluj");
+				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti\nUsun", "Wybierz", "Anuluj");
 			} else {
-				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\n", "Wybierz", "Anuluj");
+				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti", "Wybierz", "Anuluj");
 			}
 		} 
 		edytujgraffiti(playerid,strval(inputtext));
@@ -16672,9 +16702,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(PlayerInfo[playerid][pAdmin] > 0)
 			{
-				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\nEdytuj\nUsun", "Wybierz", "Anuluj");
+				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti\nUsun", "Wybierz", "Anuluj");
 			} else {
-				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\n", "Wybierz", "Anuluj");
+				return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti", "Wybierz", "Anuluj");
 			}
 		} 
 		usungraffiti(playerid,strval(inputtext));
@@ -16685,12 +16715,39 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(strlen(inputtext) > 0)
 		{
 			new string[128];
-			inputtext[strfind(inputtext, "\\", false)] = ' ';
-			inputtext[strfind(inputtext, "^", false)] = '\n';
+			mysql_real_escape_string(string,string);
+			for(new i = 0; i<strlen(inputtext); i++)
+			{
+				inputtext[strfind(inputtext, "\\", false)] = ' ';
+				inputtext[strfind(inputtext, "%", false)] = ' ';
+				inputtext[strfind(inputtext, "|", false)] = '^';
+				inputtext[strfind(inputtext, "(", false)] = '{';
+				inputtext[strfind(inputtext, ")", false)] = '}';
+			}
+
+
+			
 			format(string, sizeof(string),"%s",inputtext);
 			graffitiLen[playerid] = strlen(inputtext);
+
+			for(new i = 0; i<strlen(inputtext); i++)
+			{
+				if(inputtext[i] == '{')
+				{
+					if(strlen(inputtext) > i+7)
+					{
+						printf("%c", inputtext[i+7]);
+						if(inputtext[i+7] == '}')
+						{
+							graffitiLen[playerid] -= 7;
+							if(graffitiLen[playerid] <= 0) return sendErrorMessage(playerid, "Wyst¹pi³ b³¹d!");
+						}
+					}
+				}
+			}
+			
 			graffiti[playerid] = string;
-			ShowPlayerDialogEx(playerid, D_GRAFFITI_FONT_SIZE, DIALOG_STYLE_INPUT, "Graffiti (wielkoœæ)", "Wpisz jak¹ wielkoœæ ma mieæ Twoje graffiti (0 - 100)", "OK", "Anuluj");
+			ShowPlayerDialogEx(playerid, D_GRAFFITI_FONT_SIZE, DIALOG_STYLE_INPUT, "Graffiti (wielkoœæ)", "Wpisz jak¹ wielkoœæ ma mieæ Twoje graffiti (20 - 60)", "OK", "Anuluj");
 			//CreateGraffiti(playerid,string);
 		} else return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê", "OK", "Anuluj");
 	}
@@ -16705,12 +16762,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		}
 		
 		graffitiSize[playerid] = strval(inputtext);
-		if(graffitiSize[playerid] > 0 && graffitiSize[playerid] < 101)
+		if(graffitiSize[playerid] >= 20 && graffitiSize[playerid] <= 60)
 		{
 			ShowPlayerDialogEx(playerid, D_GRAFFITI_FONT, DIALOG_STYLE_LIST, "Graffiti (czcionka)", "1. Arial\n2. Ink Free\n3. Impact\n4. Comic Sans MS\n5. Gabriola\n6. MV Boli ", "OK", "Anuluj");
 		} else
 		{
-			return ShowPlayerDialogEx(playerid, D_GRAFFITI_FONT_SIZE, DIALOG_STYLE_INPUT, "Graffiti (wielkoœæ)", "Wielkoœæ musi byæ wiêksza od 0 i mniejsza od 100", "OK", "Anuluj");
+			return ShowPlayerDialogEx(playerid, D_GRAFFITI_FONT_SIZE, DIALOG_STYLE_INPUT, "Graffiti (wielkoœæ)", "Wielkoœæ musi byæ wiêksza od 20 i mniejsza od 60", "OK", "Anuluj");
 		} 
 	}
 	else if (dialogid == D_GRAFFITI_FONT)
@@ -16799,9 +16856,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				graffitiTimerVar[playerid] = 0;
 				SendClientMessage(playerid, 0xE9E9E9E9, "Zacznij sprejowaæ!");
 			}
-			case 4:
+			default:
 			{
-				ShowPlayerDialogEx(playerid, D_GRAFFITI_COLOR2, DIALOG_STYLE_INPUT, "Graffiti (kolor)", "Wpisz kolor w formacie ARGB (przyk³ad FFFF0000)", "NIE DZIA£A", "Anuluj");
+				ShowPlayerDialogEx(playerid, D_GRAFFITI_COLOR2, DIALOG_STYLE_INPUT, "Graffiti (kolor)", "Wpisz kolor w formacie RGB (przyk³ad FF0000)", "Wybierz", "Anuluj");
 			}
 		}
 	}
@@ -16817,11 +16874,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			return 1;
 		}
 		new string[128];
-		format(string, sizeof(string), "0x%s", inputtext);
-		graffitiColor[playerid] = sscanf(string, "x", string);
-		SendClientMessage(playerid, 0xE9E9E9E9, string);
-		format(string, sizeof(string), "%d", graffitiColor[playerid]);
-		SendClientMessage(playerid, 0xE9E9E9E9, string);
+		format(string, sizeof(string), "{%s}", inputtext);
+		strins(graffiti[playerid], string, 0);
+
+		graffitiColor[playerid] = 0xFFFFFFFF;
 		SetTimerEx("GraffitiTimer", 1000, false, "dd", playerid, graffitiLen[playerid]);
 		graffitiTimerVar[playerid] = 0;
 		SendClientMessage(playerid, 0xE9E9E9E9, "Zacznij sprejowaæ!");

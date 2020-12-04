@@ -288,8 +288,8 @@ stock PDTuneSultan(vehicleid)
 
 stock PDTuneInfernus(vehicleid)
 {
-    new alspdo = CreateDynamicObject(2286,-0.0972000,-1.9730999,0.2444000,275.5001526,0.0000000,0.0000000);
-    SetDynamicObjectMaterial(alspdo, 1, 0, "none", "none");
+    //new alspdo = CreateDynamicObject(2286,-0.0972000,-1.9730999,0.2444000,275.5001526,0.0000000,0.0000000);
+    //SetDynamicObjectMaterial(alspdo, 1, 0, "none", "none");
     new lspdo1 = CreateDynamicObject(19280, -0.5947266,2.6767578,-0.4871000,341.4990234,0.0000000,12.7496338);
     new lspdo3 = CreateDynamicObject(19280, -0.7447000,2.6440001,-0.4871000,341.4990234,0.0000000,12.7496338);
     new lspdo4 = CreateDynamicObject(19280, 0.6053000,2.6768000,-0.4871000,341.4990234,0.0000000,346.7496338);
@@ -298,18 +298,18 @@ stock PDTuneInfernus(vehicleid)
     SetDynamicObjectMaterial(lspdo3, 1, 18646, "matcolours", "red");
     SetDynamicObjectMaterial(lspdo4, 1, 18646, "matcolours", "blue");
     SetDynamicObjectMaterial(lspdo5, 1, 18646, "matcolours", "blue");
-    SetDynamicObjectMaterialText(alspdo, 0, " POLICE", OBJECT_MATERIAL_SIZE_256x128, "Arial", 75, 1, 0xFFFFFFFF, 0, 1);
-    AttachDynamicObjectToVehicle(alspdo, vehicleid, -0.0972000,-1.9730999,0.2444000,275.5001526,0.0000000,0.0000000);
+    /*SetDynamicObjectMaterialText(alspdo, 0, " POLICE", OBJECT_MATERIAL_SIZE_256x128, "Arial", 75, 1, 0xFFFFFFFF, 0, 1);
+    AttachDynamicObjectToVehicle(alspdo, vehicleid, -0.0972000,-1.9730999,0.2444000,275.5001526,0.0000000,0.0000000);*/
     AttachDynamicObjectToVehicle(lspdo1, vehicleid, -0.5947266,2.6767578,-0.4871000,341.4990234,0.0000000,12.7496338);
     AttachDynamicObjectToVehicle(lspdo3, vehicleid, -0.7447000,2.6440001,-0.4871000,341.4990234,0.0000000,12.7496338);
     AttachDynamicObjectToVehicle(lspdo4, vehicleid, 0.6053000,2.6768000,-0.4871000,341.4990234,0.0000000,346.7496338);
     AttachDynamicObjectToVehicle(lspdo5, vehicleid, 0.7545000,2.6418002,-0.4871000,341.4990234,0.0000000,346.7449951);
-    new hsiu_text = CreateDynamicObject(2659,-1.1012001,0.0907000,-0.1102000,0.0000000,0.0000000,271.5000000);
+    /*new hsiu_text = CreateDynamicObject(2659,-1.1012001,0.0907000,-0.1102000,0.0000000,0.0000000,271.5000000);
     new hsiu_text2 = CreateDynamicObject(2659,1.1012998,0.0907000,-0.1102000,0.0000000,0.0000000,88.7496338);
     SetDynamicObjectMaterialText(hsiu_text, 0, " SAPD", OBJECT_MATERIAL_SIZE_256x128, "Arial", 74, 1, 0xFFFFFFFF, 0, 1);
     SetDynamicObjectMaterialText(hsiu_text2, 0, " SAPD", OBJECT_MATERIAL_SIZE_256x128, "Arial", 74, 1, 0xFFFFFFFF, 0, 1);
     AttachDynamicObjectToVehicle(hsiu_text, vehicleid, -1.1012001,0.0907000,-0.150000,0.0000000,0.0000000,271.5000000);
-    AttachDynamicObjectToVehicle(hsiu_text2, vehicleid, 1.1013298,0.0907000,-0.150000,0.0000000,0.0000000,88.7496338);
+    AttachDynamicObjectToVehicle(hsiu_text2, vehicleid, 1.1013298,0.0907000,-0.150000,0.0000000,0.0000000,88.7496338);*/
 }
 
 forward OznaczCzitera(playerid);
@@ -322,6 +322,23 @@ public OznaczCzitera(playerid)
 		SetPVarInt(playerid, "lastSobMsg", gettime() + 60);
 		format(string, sizeof(string), "%s[%d] jest podejrzany o S0beita", GetNick(playerid, true), playerid);
 		SendAdminMessage(COLOR_PANICRED, string);
+
+		new ilosc_adminow;
+		for(new i=0; i<MAX_PLAYERS; i++)
+		{
+			if(PlayerInfo[i][pAdmin] >= 1) ilosc_adminow++;
+		}
+
+		if(ilosc_adminow <= 0)
+		{
+			if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
+			{
+				MruMySQL_Banuj(playerid, "S0beit");
+				KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", "s0beit");
+				KickEx(playerid);
+			}
+		}
+
 	}
 	return 1;
 }
@@ -805,6 +822,11 @@ public CountDown()
 			if(!used[v])
 			{
 			    SetVehicleToRespawn(v);
+			    if(vSigny[v] == 1) 
+			    {
+			    	Delete3DTextLabel(vSignyText[v]);
+			    	vSigny[v] = 0;
+			    }
 			    if(Car_GetOwnerType(v) == CAR_OWNER_PLAYER)
 			    {
                     Car_Unspawn(v);
@@ -3811,7 +3833,204 @@ IsATrain(carid)
 	return 0;
 }
 
-CanUseCar(pid, carid)
+
+
+CanUseCar(playerid, newcar)
+{
+	new string[128];
+	new lID = VehicleUID[newcar][vUID];
+
+	new own = CarData[lID][c_Owner];
+	new rank = CarData[lID][c_Rang];
+	if(lID == 0) return 1;
+	if(GetPVarInt(playerid, "dajdowozu") > 0) {
+		DeletePVar(playerid, "dajdowozu");
+		return 1;
+	} 
+
+	if(IsACopCar(newcar))
+	{
+	    if(IsACop(playerid))
+	    {
+	        if(OnDuty[playerid] == 0)
+	        {
+	            if(GetVehicleModel(newcar) != 445)
+	            {
+	            	sendTipMessageEx(playerid, COLOR_GREY, "Musisz byæ na s³u¿bie aby jeŸdziæ autem policyjnym !");
+                    return 0;
+	            }
+	        }
+	    }
+	}
+
+	if(VehicleUID[newcar][vUID] != 0)
+    {
+        new lcarid = VehicleUID[newcar][vUID];
+	    if(CarData[lcarid][c_OwnerType] == CAR_OWNER_FRACTION)// wszystkie auta frakcji
+	    {
+            if(CarData[lcarid][c_Owner] != GetPlayerFraction(playerid) && CarData[lcarid][c_Owner] != 11)
+            {
+                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                format(string, sizeof(string), " Ten pojazd nale¿y do %s i nie mo¿esz nim kierowaæ.", FractionNames[CarData[lcarid][c_Owner]]);
+                sendTipMessageEx(playerid,COLOR_GREY,string);
+                return 0;
+            }
+            if(CarData[lcarid][c_Owner] == 11)
+            {
+                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                if(GetPlayerFraction(playerid) == 11 && PlayerInfo[playerid][pRank] >= CarData[lcarid][c_Rang]) return 1;
+                if(GetPlayerFraction(playerid) == 11 && PlayerInfo[playerid][pRank] < CarData[lcarid][c_Rang])
+	        	{
+                	//format(string, sizeof(string), "Aby kierowaæ tym pojazdem potrzebujesz %d rangi!", CarData[lcarid][c_Rang]);
+		        	//sendTipMessageEx(playerid,COLOR_GREY,string);
+		        	sendTipMessageEx(playerid, COLOR_GREY, sprintf("Nie mo¿esz u¿ywaæ tego pojazdu! Wymagana ranga: [%d] %s!", CarData[lID][c_Rang], FracRang[own][rank]));
+		        	return 0;
+	        	}
+                if(TakingLesson[playerid] == 1) return 1;
+                format(string, sizeof(string), " Ten pojazd nale¿y do %s i nie mo¿esz nim kierowaæ.", FractionNames[CarData[lcarid][c_Owner]]);
+                sendTipMessageEx(playerid,COLOR_GREY,string);
+                return 0;
+            }
+	        if(PlayerInfo[playerid][pRank] < CarData[lcarid][c_Rang])
+	        {
+                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                sendTipMessageEx(playerid, COLOR_GREY, sprintf("Nie mo¿esz u¿ywaæ tego pojazdu! Wymagana ranga: [%d] %s!", CarData[lID][c_Rang], FracRang[own][rank]));
+                //format(string, sizeof(string), "Aby kierowaæ tym pojazdem potrzebujesz %d rangi!", CarData[lcarid][c_Rang]);
+		        //sendTipMessageEx(playerid,COLOR_GREY,string);
+		        return 0;
+	        }
+	    }
+        else if(CarData[lcarid][c_OwnerType] == CAR_OWNER_SPECIAL) //specjalne
+        {
+            /*if(CarData[lcarid][c_Owner] == RENT_CAR)
+            {
+                if (CarData[lcarid][c_Rang]-1 != playerid)
+    			{
+    			    sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Ten pojazd nale¿y do wypo¿yczalni! Nie wypo¿yczy³eœ go!");
+    				//format(string, sizeof(string), "~w~Mozesz wypozyczyc ten pojazd~n~Cena:~g~$%d~n~~w~Aby to zrobic wpisz ~g~/rentcar~w~~n~aby wyjsc wpisz ~r~/wyjdz",5000);
+    				//TogglePlayerControllable(playerid, 0);
+    				//GameTextForPlayer(playerid, string, 5000, 3);
+                    //HireCar[playerid] = newcar;
+    			}
+            }*/
+            if(CarData[lcarid][c_Owner] == CAR_ZUZEL)
+            {
+                if(zawodnik[playerid] != 1)
+    		    {
+    				sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Nie jesteœ zawodnikiem ¿u¿lowym, zg³oœ siê do administracji jeœli chcesz nim zostaæ.");
+    				return 0;
+    			}
+            }
+        }
+        else if(CarData[lcarid][c_OwnerType] == CAR_OWNER_JOB) //reszta do pracy
+        {
+            if(CarData[lcarid][c_Owner] == PlayerInfo[playerid][pJob])
+            {
+                new bool:wywal;
+                switch(PlayerInfo[playerid][pJob])
+                {
+                    case JOB_LOWCA: if(PlayerInfo[playerid][pDetSkill] < CarData[lcarid][c_Rang]) wywal=true;
+                    case JOB_LAWYER: if(PlayerInfo[playerid][pLawSkill] < CarData[lcarid][c_Rang]) wywal=true;
+                    case JOB_MECHANIC: if(PlayerInfo[playerid][pMechSkill] < CarData[lcarid][c_Rang]) wywal=true;
+                    case JOB_BUSDRIVER: if(PlayerInfo[playerid][pCarSkill] < CarData[lcarid][c_Rang]) wywal=true;
+                    case JOB_TRUCKER: if(PlayerInfo[playerid][pTruckSkill] < CarData[lcarid][c_Rang]) wywal=true;
+                    default: wywal=false;
+                }
+                if(wywal)
+                {
+                    if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                    format(string, sizeof(string), "Aby prowadziæ ten pojazd potrzebujesz %d skilla w zawodzie %s.", CarData[lcarid][c_Rang], JobNames[CarData[lcarid][c_Owner]]);
+                    sendTipMessageEx(playerid,COLOR_GREY,string);
+                    return 0;
+                }
+            }
+            else
+            {
+                if(CarData[lcarid][c_Owner] == JOB_BUSDRIVER)
+                {
+                    if(GetPlayerFraction(playerid) == FRAC_KT) return 1;
+                }
+                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                format(string, sizeof(string), "Aby prowadziæ ten pojazd musisz byæ w zawodzie %s.", JobNames[CarData[lcarid][c_Owner]]);
+                sendTipMessageEx(playerid,COLOR_GREY,string);
+				return 0;
+            }
+            //if(CarData[lcarid][c_Owner] == JOB_BUSDRIVER) sendTipMessageEx(playerid, COLOR_YELLOW, "SERVER: Wpisz /trasa aby rozpocz¹æ pracê");
+        }
+        else if(CarData[lcarid][c_OwnerType] == CAR_OWNER_FAMILY)// wszystkie auta RODZIN
+	    {
+            if(CarData[lcarid][c_Owner] != GetPlayerOrg(playerid))
+            {
+                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+				//ERROR WUT
+                //format(string, sizeof(string), " Ten pojazd nale¿y do rodziny %s i nie mo¿esz nim kierowaæ.", OrgInfo[orgID(CarData[lcarid][c_Owner])][o_Name]);
+                format(string, sizeof(string), " Ten pojazd nale¿y do rodziny i nie mo¿esz nim kierowaæ.");
+                sendTipMessageEx(playerid,COLOR_GREY,string);
+                return 0;
+            }
+	        if(PlayerInfo[playerid][pRank] < CarData[lcarid][c_Rang])
+	        {
+                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                
+				sendTipMessageEx(playerid, COLOR_GREY, sprintf("Nie mo¿esz u¿ywaæ tego pojazdu! Wymagana ranga: [%d] %s!", CarData[lID][c_Rang], FamRang[own][rank]));
+                //format(string, sizeof(string), "Aby kierowaæ tym pojazdem potrzebujesz %d rangi!", CarData[lcarid][c_Rang]);
+		        //sendTipMessageEx(playerid,COLOR_GREY,string);
+		        return 0;
+	        }
+	    }
+        else if(CarData[lcarid][c_OwnerType] == CAR_OWNER_PLAYER) //Pojazdy graczy
+        {
+            if(IsCarOwner(playerid, newcar, true))
+	        {
+                if(CarData[lcarid][c_Keys] != 0 && CarData[lcarid][c_Owner] != PlayerInfo[playerid][pUID])
+                {
+                    if(CarData[lcarid][c_Keys] != PlayerInfo[playerid][pUID])
+    	       	    {
+                        sendTipMessageEx(playerid, COLOR_NEWS, "Kluczyki od tego pojazdu zosta³y zabrane przez w³aœciciela.");
+                        PlayerInfo[playerid][pKluczeAuta] = 0;
+    				   	return 0;
+    	       	    }
+                }
+	       	}
+	       	else
+	       	{
+	       	    sendTipMessageEx(playerid, COLOR_NEWS, "Nie masz kluczy do tego pojazdu, a zabezpieczenia s¹ zbyt dobre abyœ móg³ go ukraœæ.");
+	       		return 0;
+	       	}
+        }
+    }
+
+	if(IsABoat(newcar))
+	{
+	    if(PlayerInfo[playerid][pBoatLic] < 1)
+		{
+		    sendTipMessageEx(playerid, COLOR_GREY, "Nie wiesz w jaki sposób p³ywaæ ³odzi¹, wiêc decydujesz siê j¹ opuœciæ !");
+		    return 0;
+		}
+	}
+	else if(IsAPlane(newcar))
+	{
+	    if(PlayerInfo[playerid][pFlyLic] < 1)
+		{
+			sendTipMessageEx(playerid, COLOR_GREY, "Nie wiesz w jaki sposób lataæ samolotem, wiêc decydujesz siê go opuœciæ !");
+			return 0;
+		}
+	}
+	else
+	{
+		if(PlayerInfo[playerid][pCarLic] != 1)
+		{
+			if(!IsABike(newcar))
+			{
+				sendTipMessageEx(playerid, COLOR_GREY, "Nie masz prawa jazdy, postanawiasz opuœciæ pojazd!");
+				return 0;
+			} else return 1;
+		}
+	}
+	return 1;
+}
+
+/*CanUseCar(pid, carid)
 {
 	new lID = VehicleUID[carid][vUID];
 	if(lID == 0) return 1;
@@ -3995,7 +4214,7 @@ CanUseCar(pid, carid)
 		}
 	}
 	return 1;
-}
+}*/
 
 RemoveFromVeh(pid)
 {
@@ -5357,6 +5576,10 @@ stock orgSetSpawnAtPlayerPos(playerid, orgid)
     if(!orgIsValid(orgid)) return 0;
     GetPlayerPos(playerid, OrgInfo[orgid][o_Spawn][0], OrgInfo[orgid][o_Spawn][1], OrgInfo[orgid][o_Spawn][2]);
     GetPlayerFacingAngle(playerid, OrgInfo[orgid][o_Spawn][3]);
+
+    new query[256];
+    format(query, sizeof(query), "UPDATE `mru_org` SET `x` = '%f',`y` = '%f',`z` = '%f',`a` = '%f' WHERE `UID` = '%d'", OrgInfo[orgid][o_Spawn][0], OrgInfo[orgid][o_Spawn][1], OrgInfo[orgid][o_Spawn][2], OrgInfo[orgid][o_Spawn][3], orgid);
+    mysql_query(query);
     SendClientMessage(playerid, COLOR_LIGHTBLUE, "ORG » Spawn zmieniony.");
     return 1;
 }
@@ -8530,7 +8753,7 @@ public OPCLogin(playerid)
         //Logowanie
 		new string[256];
 		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na serwerze Kotnik Role Play! Zaloguj siê aby rozpocz¹æ grê.");
-		SendClientMessage(playerid, COLOR_LIGHTRED, "Witaj na serwerze Kotnik Role Play BETA! Wszystkie konta zostan¹ wyzerowane i skasowane na start serwera!");
+		//SendClientMessage(playerid, COLOR_LIGHTRED, "Witaj na serwerze Kotnik Role Play BETA! Wszystkie konta zostan¹ wyzerowane i skasowane na start serwera!");
 		format(string, sizeof(string), "Nick %s jest zarejestrowany.\nZaloguj siê wpisuj¹c w okienko poni¿ej has³o.\nJeœli nie znasz has³a do tego konta, wejdŸ pod innym nickiem", nick);
 		ShowPlayerDialogEx(playerid, D_LOGIN, DIALOG_STYLE_PASSWORD, "Logowanie", string, "Zaloguj", "WyjdŸ");
 		gPlayerAccount[playerid] = 1; //logowanie
@@ -8599,6 +8822,18 @@ public NG_OpenGateWithKey(playerid)
 }
 
 //      Aktualizacja    09.06.2014  KUBI  fix 09.07
+stock LoadLSMCElevatorDoor()
+{
+    for(new i=0;i<8;i++)
+    {
+        //lewe
+        ElevatorObject[i] = CreateDynamicObject(18756, ElevatorDoors[i][0],ElevatorDoors[i][1],ElevatorDoors[i][2], 0.0, 0.0, ElevatorDoors[i][3], floatround(ElevatorDoors[i][4]));
+        //prawe
+        CreateDynamicObject(18757, ElevatorDoors[i][0],ElevatorDoors[i][1],ElevatorDoors[i][2], 0.0, 0.0, ElevatorDoors[i][3], floatround(ElevatorDoors[i][4]));
+    }
+    ChangeLSMCElevatorState();
+}
+
 stock ElevatorTravel(playerid, Float:x, Float:y, Float:z, vw, Float:face)
 {
     if(LSMCElevatorQueue) return;
@@ -8655,7 +8890,7 @@ public LSMCElevatorFree()
 
 stock ChangeLSMCElevatorState()
 {
-    for(new i=0;i<7;i++)
+    for(new i=0;i<8;i++)
     {
         if(ElevatorObject[i] == 0)  break;
         if(ElevatorDoorsState[i]) //close them
@@ -12479,9 +12714,47 @@ stock ReturnUser(text[], playerid = INVALID_PLAYER_ID)
     return userid; // INVALID_PLAYER_ID for bad return
 }
 
+LoadScriptableObjects()
+{	
+	// --- [ LSMC ] --- //
+	rezonans = CreateDynamicObject(1997, 1157.257324, -1325.527221, 133.955657, 0.000000, 0.000000, 0.000000, 90, 0, -1, 200.00, 200.00);
+	LoadLSMCElevatorDoor();
+	// --- [ LSFD ] --- //
+	// exterior
+	bramafd[0] = CreateDynamicObject(3037, 1712.68005, -1141.50000, 25.27000,   0.00000, 0.00000, 90.00000, 0, 0, -1, 500.0, 500.0);
+	SetDynamicObjectMaterial(bramafd[0], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+	bramafd[1] = CreateDynamicObject(3037, 1729.71997, -1141.50000, 25.27000,   0.00000, 0.00000, 90.00000, 0, 0, -1, 500.0, 500.0);
+	SetDynamicObjectMaterial(bramafd[1], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+	bramafd[2] = CreateDynamicObject(3037, 1746.76001, -1141.50000, 25.27000,   0.00000, 0.00000, 90.00000, 0, 0, -1, 500.0, 500.0);
+	SetDynamicObjectMaterial(bramafd[2], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+	bramafd[3] = CreateDynamicObject(1535, 1703.37000, -1131.09998, 23.06920,   0.00000, 0.00000, 270.00000, 0, 0, -1, 500.0, 500.0);
+	SetDynamicObjectMaterial(bramafd[3], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+	//interior
+	bramafd[4] = CreateDynamicObject(3089, 1764.19995, -1116.97290, 224.47000,   0.00000, 0.00000, 180.00000, 22, 0, -1, 500.0, 500.0);
+	bramafd[5] = CreateDynamicObject(3089, 1764.33105, -1117.38000, 224.47000,   0.00000, 0.00000, -90.00000, 22, 0, -1, 500.0, 500.0);
+
+	// --- [ IBIZA ] --- //
+	Telebim[tID] = CreateDynamicObject(17951, 1941.885507, -2465.744140, 19.590543, 0, 0, 93.048683, 1);
+	Telebim[tCzcionkaKolor] = 0xFFFFFFFF;
+	Telebim[tFSize] = 24;
+	Telebim[tSize] = OBJECT_MATERIAL_SIZE_256x128;
+	Telebim[tSzybkosc] = 100; //w ms
+	Telebim[tIndex] = 0;
+	Telebim[tAli] = 1;
+	Telebim[tBackg] = 0;
+	Telebim[tBold] = 1;
+	Telebim[tRuchomy] = 0;
+	Telebim[tWRuchu] = 0;
+	format(Telebim[tTekst], sizeof(Telebim[tTekst]), "%s", "Welcome to Ibiza!");
+	format(Telebim[tCzcionka], sizeof(Telebim[tCzcionka]), "%s", "Verdana");
+	SetDynamicObjectMaterialText(Telebim[tID], 0 , Telebim[tTekst],  Telebim[tSize], Telebim[tCzcionka], Telebim[tFSize], Telebim[tBold], Telebim[tCzcionkaKolor], Telebim[tBackg], Telebim[tAli]);
+    StopDynamicObject(Telebim[tID]);
+    
+}
+
 LoadBramy()
 {
-	new brama;
+	new brama, tmpobjid;
 	// ----- [ PARKING LSPD ] ---- //
 	brama = CreateDynamicObject(969, 1544.698779, -1631.405151, 12.542816, 0.000000, 0.000000, 90.00000, -1, -1, -1, 300.00, 300.00);
 	DodajBrame(brama, 1544.698779, -1631.405151, 12.542816, 0.000000, 0.000000, 90.00000, 1544.698779, -1638.90000, 12.542816, 0, 0, 90, 4, 9, BRAMA_UPR_TYPE_FRACTION, 1); // brama wjazdowa
@@ -12520,7 +12793,112 @@ LoadBramy()
 
 
 
+	// ------ [ LSMC ] ---- //
+	new drzwilsmc1 = CreateDynamicObject(3089, 1178.585571, -1341.639648, 88.182792, 0.000000, 0.000000, 360.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc1, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	new drzwilsmc2 = CreateDynamicObject(3089, 1178.629882, -1325.408813, 88.202674, 0.000000, 0.000000, 0.00000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc2, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	
+	DodajBrame(drzwilsmc1,1178.585571, -1341.639648, 88.182792, 0.000000, 0.000000, 360.000000, 1178.585571, -1341.639648, 88.182792, 0.000000, 0.000000, 90.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(drzwilsmc2,1178.629882, -1325.408813, 88.202674, 0.000000, 0.000000, 0.00000000, 1178.629882, -1325.408813, 88.202674, 0.000000, 0.000000, -90.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc3 = CreateDynamicObject(3089, 1172.747192, -1327.229370, 178.067108, 0.000000, 0.000000, 360.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc3, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc3,1172.747192, -1327.229370, 178.067108, 0.000000, 0.000000, 360.000000,1172.747192, -1327.229370, 178.067108, 0.000000, 0.000000, 90.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	
+	new drzwilsmc4 = CreateDynamicObject(3089, 1168.732421, -1322.219360, 178.067108, 0.000000, 0.000000, 90.000000, 90, 0, -1, 200.00, 200.00);//door1
+	SetDynamicObjectMaterial(drzwilsmc3, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc4,1168.732421, -1322.219360, 178.067108, 0.000000, 0.000000, 90.000000,1168.732421, -1322.219360, 178.067108, 0.000000, 0.000000, 0.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	
+	new drzwilsmc5 = CreateDynamicObject(3089, 1168.736694, -1319.238525, 178.067108, 0.000000, 0.000000, 270.000000, 90, 0, -1, 200.00, 200.00);//door2
+	SetDynamicObjectMaterial(drzwilsmc3, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+    DodajBrame(drzwilsmc5,1168.736694, -1319.238525, 178.067108, 0.000000, 0.000000, 270.000000,1168.736694, -1319.238525, 178.067108, 0.000000, 0.000000, 0.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+    
+	new drzwilsmc6 = CreateDynamicObject(3089, 1172.757202, -1314.268432, 178.067108, 0.000000, 0.000000, 360.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc3, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc3, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+    DodajBrame(drzwilsmc6,1172.757202, -1314.268432, 178.067108, 0.000000, 0.000000, 360.000000,1172.757202, -1314.268432, 178.067108, 0.000000, 0.000000, 270.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+    new drzwilsmc7 = CreateDynamicObject(3089, 1154.429077, -1331.322509, 191.471572, -0.000007, 0.000000, 2250.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc7, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc7, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc7, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc7,1154.429077, -1331.322509, 191.471572, -0.000007, 0.000000, 2250.000000,1154.429077, -1331.322509, 191.471572, -0.000007, 0.000000, 1980.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc8 = CreateDynamicObject(3089, 1157.519165, -1333.256835, 191.481430, 0.000000, 0.000000, 1080.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc8, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc8, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc8, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc8,1157.519165, -1333.256835, 191.481430, 0.000000, 0.000000, 1080.000000,1157.519165, -1333.256835, 191.481430, 0.000000, 0.000000, 810.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc9 = CreateDynamicObject(3089, 1159.022705, -1327.767089, 191.481430, 0.000000, 0.000000, 900.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc9, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc9, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc9, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc9,1159.022705, -1327.767089, 191.481430, 0.000000, 0.000000, 900.000000,1159.022705, -1327.767089, 191.481430, 0.000000, 0.000000, 630.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc10 = CreateDynamicObject(3089, 1163.921752, -1333.256835, 191.481430, 0.000000, 0.000000, 0.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc10, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc10, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc10, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc10,1163.921752, -1333.256835, 191.481430, 0.000000, 0.000000, 0.000000,1163.921752, -1333.256835, 191.481430, 0.000000, 0.000000, 90.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc11 = CreateDynamicObject(3089, 1165.413208, -1327.767089, 191.481430, 0.000000, 0.000000, 540.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc11, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc11, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc11, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc11,1165.413208, -1327.767089, 191.481430, 0.000000, 0.000000, 540.000000,1165.413208, -1327.767089, 191.481430, 0.000000, 0.000000, 630.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc12 = CreateDynamicObject(3089, 1169.610229, -1331.893066, 191.711532, -0.000007, 0.000000, 1170.000000, 90, 0, -1, 200.00, 200.00);//door1
+	SetDynamicObjectMaterial(drzwilsmc12, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc12, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc12, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc12, 1169.610229, -1331.893066, 191.711532, -0.000007, 0.000000, 1170.000000,1169.610229, -1331.893066, 191.711532, -0.000007, 0.000000, 1080.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc13 = CreateDynamicObject(3089, 1169.610229, -1329.280517, 191.711532, 0.000007, 0.000000, -90.000000, 90, 0, -1, 200.00, 200.00);//door2
+	SetDynamicObjectMaterial(drzwilsmc13, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc13, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	SetDynamicObjectMaterial(drzwilsmc13, 2, 14581, "ab_mafiasuitea", "cof_wood2", 0x00000000);
+	DodajBrame(drzwilsmc13,1169.610229, -1329.280517, 191.711532, 0.000007, 0.000000, -90.000000,1169.610229, -1329.280517, 191.711532, 0.000007, 0.000000, -360.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc14 = CreateDynamicObject(3089, -2800.335937, 2605.141601, -98.132957, 0.000000, 0.000000, 450.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc14, 0, 18646, "matcolours", "grey-10-percent", 0x00000000);
+	DodajBrame(drzwilsmc14,-2800.335937, 2605.141601, -98.132957, 0.000000, 0.000000, 450.000000,-2800.335937, 2605.141601, -98.132957, 0.000000, 0.000000, 180.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc15 = CreateDynamicObject(3089, -2809.981933, 2605.141601, -98.132957, 0.000000, 0.000000, 450.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(drzwilsmc15, 0, 18646, "matcolours", "grey-10-percent", 0x00000000);
+	DodajBrame(drzwilsmc15,-2809.981933, 2605.141601, -98.132957, 0.000000, 0.000000, 450.000000,-2809.981933, 2605.141601, -98.132957, 0.000000, 0.000000, 360.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	new drzwilsmc16 = CreateDynamicObject(3089, 1155.813964, -1339.087158, 68.404998, 0.000000, 0.000000, 1890.000000, 90, 0, -1, 200.00, 200.00);
+	SetDynamicObjectMaterial(tmpobjid, 0, 3857, "ottos_glass", "carshowroom1", 0x00000000);
+	SetDynamicObjectMaterial(tmpobjid, 1, 10765, "airportgnd_sfse", "black64", 0x00000000);
+	DodajBrame(drzwilsmc16,1155.813964, -1339.087158, 68.404998, 0.000000, 0.000000, 1890.000000,1155.813964, -1340.367065, 68.404998, 0.000000, 0.000000, 1890.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1142.203369, -1303.953369, 68.354995, 0.000000, 0.000000, 450.000000, 90, 0, -1, 300.00, 300.00),1142.203369, -1303.953369, 68.354995, 0.000000, 0.000000, 450.000000, 1142.203369, -1303.953369, 68.354995, 0.000000, 0.000000, 360.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1142.203369, -1312.454467, 68.355003, 0.000000, 0.000000, 450.000000, 90, 0, -1, 300.00, 300.00),1142.203369, -1312.454467, 68.355003, 0.000000, 0.000000, 450.000000, 1142.203369, -1312.454467, 68.355003, 0.000000, 0.000000, 360.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1147.853027, -1303.953369, 68.354988, 0.000000, 0.000000, 450.000000, 90, 0, -1, 300.00, 300.00),1147.853027, -1303.953369, 68.354988, 0.000000, 0.000000, 450.000000, 1147.853027, -1303.953369, 68.354988, 0.000000, 0.000000, 180.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1147.853027, -1312.484741, 68.354995, 0.000000, 0.000000, 450.000000, 90, 0, -1, 300.00, 300.00),1147.853027, -1312.484741, 68.354995, 0.000000, 0.000000, 450.000000, 1147.853027, -1312.484741, 68.354995, 0.000000, 0.000000, 180.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1149.552490, -1328.304565, 68.514999, 0.000000, 0.000000, 90.0000000, 90, 0, -1, 300.00, 300.00),1149.552490, -1328.304565, 68.514999, 0.000000, 0.000000, 90.0000000, 1149.552490, -1328.304565, 68.514999, 0.000000, 0.000000, 0.00000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	DodajBrame(CreateDynamicObject(3089, 1141.015136, -1342.929321, 100.347961, 0.000000, 0.000000, 720.000000, 90, 0, -1, 200.00, 200.00),1141.015136, -1342.929321, 100.347961, 0.000000, 0.000000, 720.000000,1141.015136, -1342.929321, 100.347961, 0.000000, 0.000000, 450.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1140.785522, -1338.529541, 100.327957, 0.000000, 0.000000, 360.000000, 90, 0, -1, 300.00, 300.00),1140.785522, -1338.529541, 100.327957, 0.000000, 0.000000, 360.000000,1140.785522, -1338.529541, 100.327957, 0.000000, 0.000000, 270.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1147.376098, -1342.929321, 100.347961, 0.000000, 0.000000, 720.000000, 90, 0, -1, 300.00, 300.00),1147.376098, -1342.929321, 100.347961, 0.000000, 0.000000, 720.000000,1147.376098, -1342.929321, 100.347961, 0.000000, 0.000000, 450.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1147.375976, -1338.529541, 100.327957, 0.000000, 0.000000, 360.000000, 90, 0, -1, 300.00, 300.00),1147.375976, -1338.529541, 100.327957, 0.000000, 0.000000, 360.000000,1147.375976, -1338.529541, 100.327957, 0.000000, 0.000000, 270.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1153.946044, -1342.929321, 100.327957, 0.000000, 0.000000, 360.000000, 90, 0, -1, 300.00, 300.00),1153.946044, -1342.929321, 100.327957, 0.000000, 0.000000, 360.000000,1153.946044, -1342.929321, 100.327957, 0.000000, 0.000000, 90.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1153.956054, -1338.529541, 100.327957, 0.000000, 0.000000, 360.000000, 90, 0, -1, 300.00, 300.00),1153.956054, -1338.529541, 100.327957, 0.000000, 0.000000, 360.000000,1153.956054, -1338.529541, 100.327957, 0.000000, 0.000000, 270.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
+	DodajBrame(CreateDynamicObject(3089, 1151.596923, -1334.564453, 134.785812, 0.000000, 0.000000, 720.000000, 90, 0, -1, 200.00, 200.00),1151.596923, -1334.564453, 134.785812, 0.000000, 0.000000, 720.000000,1151.596923, -1334.564453, 134.785812, 0.000000, 0.000000, 450.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+	DodajBrame(CreateDynamicObject(3089, 1153.108398, -1330.023193, 134.785812, 0.000000, 0.000000, 540.000000, 90, 0, -1, 300.00, 300.00),1153.108398, -1330.023193, 134.785812, 0.000000, 0.000000, 540.000000,1153.108398, -1330.023193, 134.785812, 0.000000, 0.000000, 270.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
+
 }
+
+
 
 /*PreloadAnimLibs(playerid)
 {
@@ -12661,6 +13039,7 @@ Wybieralka_Spawn(playerid)
 OnCheatDetected(playerid, ip_address[], type, code)
 {
 	new code_decoded[32], string[256];
+	format(ip_address, 32, "%s", ip_address);
     switch(code)
     {
         case 0:     format(code_decoded, sizeof(code_decoded), "AirBreak (pieszo)");
@@ -12723,11 +13102,32 @@ OnCheatDetected(playerid, ip_address[], type, code)
     }
     if(IsPlayerPaused(playerid) && code == 19) return 1;
 
-
     new plrIP[32];
-    
-    
     GetPlayerIp(playerid, plrIP, sizeof(plrIP));
+
+    if(code == 101) // omijanie logowania
+    {
+    	switch(type) 
+    	{
+    		case 1: // omijanie samouczka
+    		{
+    			format(code_decoded, sizeof(code_decoded), "Omijanie logowania (1)"); 
+    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			SendAdminMessage(0x9ACD32AA, string);
+    			BanLog(string);
+    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
+    			SendClientMessage(playerid, 0x9ACD32AA, string);
+    			SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    			MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+
+    			KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", "Kod 101");
+				KickEx(playerid);
+    		}
+    		default: format(code_decoded, sizeof(code_decoded), "Omijanie logowania");
+    	}
+    }
+
+    
 
     if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
     {
@@ -12738,8 +13138,9 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		{
     			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
     			 SendAdminMessage(0x9ACD32AA, string);
-    			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d.", code);
+    			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d - %s.", code, code_decoded);
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
+    			 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
     			 KickEx(playerid);
     		}
     		case 2: // AdmWarning
@@ -12775,7 +13176,8 @@ OnCheatDetected(playerid, ip_address[], type, code)
     			 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
     			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
-    			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d", code)); 
+    			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+    			 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
 				 KickEx(playerid);
     		}
     	}
@@ -12924,6 +13326,7 @@ PrzystanekRide(playerid, listitem)
 
     format(string, sizeof(string), "* %s wsiada do autobusu, który jedzie w kierunku %s.", GetNick(playerid, true), PrzystankiAutobusowe[listitem][PrzystanekName]);
 	ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+	return 1;
 }
 
 forward PrzystanekCamera(playerid, part, listitem);
@@ -13043,7 +13446,7 @@ public SpectatingPlayerSpawnFix(playerid)
     {
         if(gPlayerLogged[playerid] == 1)
         {
-        	if(Spectate[playerid] == INVALID_PLAYER_ID)
+        	if(Spectate[playerid] == INVALID_PLAYER_ID && noclipdata[playerid][cameramode] == CAMERA_MODE_NONE)
         	{
             	TogglePlayerSpectating(playerid, 0);
         	}
@@ -13315,6 +13718,7 @@ stock HideDriveByWeapon(playerid)
 
 stock hq_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
+	format(inputtext, 1024, "%s", inputtext);
     //noYsi_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
     if(dialogid == 1595)
     {
@@ -13558,6 +13962,7 @@ stock ShowHeadquarters(playerid, page=HQ_MAIN)
 
 stock fPanel_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
+	format(inputtext, 1024, "%s", inputtext);
 	//opis_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	//changeLog_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	if(dialogid == 1958)
@@ -13889,32 +14294,36 @@ public AC_OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float
 
 stock LoadPlayerSkins(id)
 {
-	new uid, skiny[1024], skin[1024], sid = 0, query[1024];
-	format(query, sizeof(query), "SELECT * FROM `mru_personale` WHERE `UID` = '%d'", PlayerInfo[id][pUID]);
-	mysql_query(query);
+	new uid; 
+	new skiny[1024];
+	new skin[1024];
+	new qry[512];
+	format(qry, sizeof(qry), "SELECT * FROM `mru_personale` WHERE `UID` = '%d'", PlayerInfo[id][pUID]);
+	mysql_query(qry);
     mysql_store_result();
-
-    while(mysql_fetch_row_format(query, "|"))
-    {
-    	//printf("%s", query);
-        sscanf(query, "p<|>ds[1024]", uid, skiny);
-        //printf("%d | %s", uid, skiny);
-        sscanf(skiny, "p<,>A<d>(0)[22]", skin);
-        //printf("%s", skiny);
-        for(new i=0;i<MAX_SKIN_SELECT+120;i++)
-        {
-            if(skin[i] > 0) PERSONAL_SKINS[id][i] = skin[i];
-        }
-    }
+	if(mysql_num_rows()>0)
+	{
+    	while(mysql_fetch_row_format(qry, "|"))
+    	{
+    		//printf("%s", qry);
+    	    sscanf(qry, "p<|>ds[512]", uid, skiny);
+    	    //printf("%d | %s", uid, skiny);
+    	    sscanf(skiny, "p<,>A<d>(0)[22]", skin);
+    	    //printf("%s", skiny);
+    	    for(new i=0;i<MAX_SKIN_SELECT+120;i++)
+    	    {
+    	        if(skin[i] > 0) PERSONAL_SKINS[id][i] = skin[i];
+    	    }
+    	}
+    	//printf("Wczytano skiny gracza %s[%d]", GetNick(id), id);
+	}
     mysql_free_result();
-    printf("Wczytano skiny gracza %s[%d]", GetNick(id), id);
 }
 
 
 ShowPlayerSkins(id, type)
 {
 	new ilosc = 0;
-	new ilosc_p = 0;
 	new skins_p[128];
     new string[8 * sizeof(skins_p)];
     if(type == 0)
@@ -13941,8 +14350,39 @@ ShowPlayerSkins(id, type)
 				ilosc++;
 			}
 		}
-		if(ilosc <= 0 ) return sendTipMessage(id, "Brak ubrañ personalnych! Mo¿esz je zakupiæ pod komend¹ /kp!");
+		if(ilosc <= 0 ) return sendTipMessage(id, "Brak ubrañ personalnych! Mo¿esz je zakupiæ pod komend¹ /premium!");
 	}
 	
 	return ShowPlayerDialogEx(id, D_SHOWSKINS, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
 }
+
+forward VPNCheck(playerid, response_code, data[]);
+public VPNCheck(playerid, response_code, data[])
+{
+	new name[MAX_PLAYERS],string[256];
+	new ip[16];
+	GetPlayerName(playerid, name, sizeof(name));
+	GetPlayerIp(playerid, ip, sizeof ip);
+	if(!strcmp(ip, "127.0.0.1",true)) return 1;
+	if(response_code == 200)
+	{	
+		if(data[0] == 'Y')
+		{
+			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
+	    	SendAdminMessage( 0xFF0000FF, string);
+	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
+	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
+	    	KickEx(playerid);
+		}
+		if(data[0] == 'X' || data[0] == 'E')
+		{
+			printf("WRONG IP FORMAT");
+		}	
+	}
+	else
+	{
+		printf("The request failed! The response code was: %d", response_code);
+	}
+	return 1;
+}
+

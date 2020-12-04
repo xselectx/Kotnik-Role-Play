@@ -305,7 +305,6 @@ AddPlayerItem(pid, item[], quant)
 
 RemovePlayerItem(pid, item[], quant)
 {
-
 	return 1;
 }
 

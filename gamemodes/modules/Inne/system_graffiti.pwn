@@ -73,14 +73,30 @@ new playerGraffitis[MAX_PLAYERS][5];
 
 //FUNKCJE
 
+ReturnFixedGraffiti(string[])
+{
+	printf("string before: %s", string);
+	for(new i = 0; i<strlen(string);i++)
+	{
+		string[strfind(string, "^", false)] = '\n';
+	}
+	printf("string after: %s", string);
+	return string;
+}
+
 CreateGraffiti(playerid)
 {
 	new Float:X,Float:Y,Float:Z, Float:ang, Float:RotX, Float:RotY, Float:RotZ;
 	GetPlayerPos(playerid, X, Y, Z);
 	GetXYInFrontOfPlayer(playerid, X, Y, 2);
 	GetPlayerFacingAngle(playerid, ang);
+	new string[256];
+	format(string,sizeof(string), "%s", graffiti[playerid]);
+
+	ReturnFixedGraffiti(string);
+
 	new objectid = CreateDynamicObject(19482, X, Y, Z, 0.0, 0.0, 0.0);
-	SetDynamicObjectMaterialText(objectid, 0, graffiti[playerid], OBJECT_MATERIAL_SIZE_512x128, graffitiFont[playerid], graffitiSize[playerid], 1, graffitiColor[playerid], 0, 1);
+	SetDynamicObjectMaterialText(objectid, 0,string , OBJECT_MATERIAL_SIZE_512x512, graffitiFont[playerid], graffitiSize[playerid], 1, graffitiColor[playerid], 0, 1);
 	GetDynamicObjectRot(objectid, RotX, RotY, RotZ);
 	SetDynamicObjectRot(objectid, RotX, RotY, ang-90);
 	editGraf[playerid] = 1;
@@ -113,7 +129,6 @@ AddGrafDatabase(id, objectid)
 	gCache[id][gRotY],
 	gCache[id][gRotZ]);
 	mysql_query(query);
-
 	new uID;
 	format(query, sizeof(query), "SELECT uID FROM graffiti WHERE oID = %d", gCache[id][gOID]);
 	mysql_query(query);
@@ -155,7 +170,7 @@ SaveGraffitiPos(playerid, id, objectid)
 	print(string);
 	GrafLog(string);
 	//PlayerLog(PlayerInfo[playerid][pNick], string);
-	sendErrorMessage(playerid, "Edytowano graffiti!");
+	sendTipMessage(playerid, "Edytowano graffiti!");
 }
 
 LoadGraffitis()
@@ -166,7 +181,6 @@ LoadGraffitis()
 	mysql_store_result();
 	while(mysql_fetch_row_format(query,"|"))
 	{
-		//printf("%d", graffitiNum);
 		sscanf(query, "p<|>ddds[26]s[128]s[128]dddffffff",
 		gCache[graffitiNum][gUID],
 		gCache[graffitiNum][gOID],
@@ -184,9 +198,15 @@ LoadGraffitis()
 		gCache[graffitiNum][gRotY],
 		gCache[graffitiNum][gRotZ]);
 
+		new string[256];
+
+		format(string,sizeof(string), "%s", gCache[graffitiNum][gText]);
+
+		ReturnFixedGraffiti(string);
+
 		objectid = CreateDynamicObject(19482, gCache[graffitiNum][gPosX], gCache[graffitiNum][gPosY], gCache[graffitiNum][gPosZ], gCache[graffitiNum][gRotX], gCache[graffitiNum][gRotY] ,gCache[graffitiNum][gRotZ]);
-		SetDynamicObjectMaterialText(objectid, 0,  gCache[graffitiNum][gText], OBJECT_MATERIAL_SIZE_512x128, gCache[graffitiNum][gFont], gCache[graffitiNum][gSize], 1, gCache[graffitiNum][gColor], 0, 1);
-		
+		SetDynamicObjectMaterialText(objectid, 0, string, OBJECT_MATERIAL_SIZE_512x512, gCache[graffitiNum][gFont], gCache[graffitiNum][gSize], 1, gCache[graffitiNum][gColor], 0, 1);
+		//print("Zrobiæ by ^ zapisywalo sie w bazie, a potem przy ³adowaniu do gry zamienia³o siê na \n");
 		gCache[graffitiNum][gOID] = objectid;
 		//graffitiIDS[graffitiNum] = objectid;
 
@@ -219,14 +239,19 @@ usungraffiti(playerid, oID)
 	{
 		if(PlayerInfo[playerid][pAdmin] > 0)
 		{
-			if(gCache[oID][gUID] != 0)
+			new id = GetGraffitiUIDFromID(oID);
+			if(gCache[id][gUID] != 0)
 			{
-				new id = GetGraffitiUIDFromID(oID);
+				
 				new query[256],string[128];
 				DestroyDynamicObject(oID);
 				format(query,sizeof(query), "DELETE FROM `graffiti` WHERE UID = %d", gCache[id][gUID]);
 				mysql_query(query);
-				sendErrorMessage(playerid, "Graffiti usuniête!");
+				sendTipMessage(playerid, "Graffiti usuniête!");
+
+				format(string, sizeof(string), ">> %s(UID: %d) usunal graffiti UID: %d, text: '%s', stworzone przez gracza: %s (UID: %d).",PlayerInfo[playerid][pNick],PlayerInfo[playerid][pUID], gCache[id][gUID], gCache[id][gText], gCache[id][gPlayerName], gCache[id][gPlayerUID]);
+				print(string);
+				GrafLog(string);
 
 				gCache[id][gUID] = 0;
 				gCache[id][gOID] = 0;
@@ -249,11 +274,18 @@ usungraffiti(playerid, oID)
 					}
 				}
 				graffitiNum--;
-				format(string, sizeof(string), ">> %s(UID: %d) usunal graffiti UID: %d, text: '%s', stworzone przez gracza: %s (UID: %d).",PlayerInfo[playerid][pNick],PlayerInfo[playerid][pUID], gCache[oID][gUID], gCache[oID][gText], gCache[oID][gPlayerName], gCache[oID][gPlayerUID]);
-				print(string);
-				GrafLog(string);
+				
 				//PlayerLog(PlayerInfo[playerid][pNick], string);
-			} else return ShowPlayerDialogEx(playerid, D_GRAFFITI_CLEAR, DIALOG_STYLE_INPUT, "Graffiti (usuwanie)", "To nie jest graffiti!\n\nWybierz oID graffiti, które chcesz usun¹æ\nWpisz /ginfo lub wybierz z listy INFO, ¿eby zobaczyæ oID graffiti", "OK", "Anuluj");
+			} 
+			else
+			{
+				if(PlayerInfo[playerid][pAdmin] > 0)
+				{
+					return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\nEdytuj\nUsun", "Wybierz", "Anuluj");
+				} else {
+					return ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nInfo\nEdytuj", "Wybierz", "Anuluj");
+				}
+			}
 
 		} else return sendErrorMessage(playerid, "Brak uprawnieñ!");
 	}
@@ -273,7 +305,7 @@ wyczyscgraffiti(playerid,oID)
 				ApplyAnimation(playerid, "GRAFFITI", "SPRAYCAN_FIRE", 4.0, 1, 0, 0, 1, 0, 1);
 				clearGraffiti[playerid] = 1;
 				graffitiTimerVar[playerid] = 0;
-				SetTimerEx("GraffitiClearTimer", 1000, false, "ddd", playerid,gCache[oID][gLen]*2,oID);
+				SetTimerEx("GraffitiClearTimer", 1000, false, "ddd", playerid,gCache[id][gLen]*2,oID);
 
 			}
 		} 
@@ -299,8 +331,28 @@ edytujgraffiti(playerid, oID)
 				editGraf[playerid] = 2;
 				EditDynamicObject(playerid, oID);
 
-			} else return ShowPlayerDialogEx(playerid, D_GRAFFITI_CLEAR, DIALOG_STYLE_INPUT, "Graffiti (edycja)", "Jesteœ za daleko od wybranego graffiti!\n\nWybierz oID graffiti, które chcesz edytowaæ\nWpisz /ginfo lub wybierz z listy INFO, ¿eby zobaczyæ oID graffiti", "OK", "Anuluj");
-		} else return ShowPlayerDialogEx(playerid, D_GRAFFITI_CLEAR, DIALOG_STYLE_INPUT, "Graffiti (edycja)", "To nie jest graffiti!\n\nWybierz oID graffiti, które chcesz edytowaæ\nWpisz /ginfo lub wybierz z listy INFO, ¿eby zobaczyæ oID graffiti", "OK", "Anuluj");
+			} 
+			else
+			{
+				sendErrorMessage(playerid, "B³¹d (jesteœ za daleko).");
+				if(PlayerInfo[playerid][pAdmin] > 0)
+				{
+					ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti\nUsun", "Wybierz", "Anuluj");
+				} else {
+					ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti", "Wybierz", "Anuluj");
+				}
+			}
+		} 
+		else
+		{
+			sendErrorMessage(playerid, "B³¹d (niew³aœciwe graffiti).");
+			if(PlayerInfo[playerid][pAdmin] > 0)
+			{
+				ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti\nUsun", "Wybierz", "Anuluj");
+			} else {
+				ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti", "Wybierz", "Anuluj");
+			}
+		}
 	}
 	return 1;
 }
@@ -312,15 +364,15 @@ forward GraffitiClearTimer(playerid,len, oID);
 public GraffitiClearTimer(playerid,len, oID)
 {
     new string[128];
+    new id = GetGraffitiUIDFromID(oID);
     if(clearGraffiti[playerid] == 1)
     {
-        if(GetDistanceBetweenGraffiti(playerid,oID) > 6)
+        if(GetDistanceBetweenGraffiti(playerid,id) > 6)
         {   
-            format(string, sizeof(string), "%f | %d", GetDistanceBetweenGraffiti(playerid,oID), GetDistanceBetweenGraffiti(playerid,oID));
-            sendErrorMessage(playerid, string);
             format(string,sizeof(string),"~y~PRZERWANO CZYSZCZENIE");
             GameTextForPlayer(playerid, string, 1000, 4);
             clearGraffiti[playerid] = 0;
+            ClearAnimations(playerid, 1);
             return 1;
         }
         if(graffitiTimerVar[playerid] >= 0 && graffitiTimerVar[playerid] != len)
@@ -328,7 +380,7 @@ public GraffitiClearTimer(playerid,len, oID)
             format(string,sizeof(string),"~y~CZYSZCZENIE ~w~%d/%d",graffitiTimerVar[playerid], len);
             GameTextForPlayer(playerid, string, 1000, 4);
             graffitiTimerVar[playerid]++;
-            SetTimerEx("GraffitiClearTimer", 1000, false, "ddd", playerid,gCache[oID][gLen]*3,oID);
+            SetTimerEx("GraffitiClearTimer", 1000, false, "ddd", playerid,gCache[id][gLen]*2,oID);
             return 1;
         }
         if(graffitiTimerVar[playerid] == len)
@@ -354,7 +406,7 @@ public ClearGraf(playerid, oID)
     DestroyDynamicObject(oID);
     format(query,sizeof(query), "DELETE FROM `graffiti` WHERE UID = %d", gCache[id][gUID]);
     mysql_query(query);
-    sendErrorMessage(playerid, "Graffiti wyczysczone!");
+    sendTipMessage(playerid, "Graffiti wyczysczone!");
     for(new i = 0; i < 1000; i++)
     {
         if(graffitiIDS[i] == oID)
@@ -414,9 +466,9 @@ CMD:graffiti(playerid)
 				{
 					ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti\nUsun", "Wybierz", "Anuluj");
 				} else {
-					ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nMoje graffiti\nInfo", "Wybierz", "Anuluj");
+					ShowPlayerDialogEx(playerid, D_GRAFFITI_MAIN, DIALOG_STYLE_LIST, "Graffiti", "Stworz\nWyczysc\nEdytuj\nInfo\nMoje graffiti", "Wybierz", "Anuluj");
 				}
-			} else return sendErrorMessage(playerid, "Jesteœ w trakcie sprejowania!");
+			} else return sendTipMessage(playerid, "Jesteœ w trakcie sprejowania!");
 			/*if(GetPlayerWeapon(playerid) == WEAPON_SPRAYCAN)
 			{
 				if(graffitiOnSprayingPhase[playerid] == 0)
@@ -424,7 +476,7 @@ CMD:graffiti(playerid)
 					ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê", "OK", "Anuluj");
 				} else return sendErrorMessage(playerid, "Jesteœ w trakcie sprejowania!");
 			} else return sendErrorMessage(playerid, "Musisz trzymaæ puszkê spreju!");*/
-		} else return sendErrorMessage(playerid, "Nie mo¿esz byæ w pojeŸdzie!");
+		} else return sendTipMessage(playerid, "Nie mo¿esz byæ w pojeŸdzie!");
 	}
 	return 1;
 }
@@ -436,56 +488,49 @@ CMD:ginfo(playerid)
 		if(grafID[playerid] == 0)
 		{
 			grafID[playerid] = 1;
-			new query[128], string[128], oid;
-			format(query, sizeof(query), "SELECT * FROM graffiti");
-			mysql_query(query);
-			mysql_store_result();
-			for(new i = 0; i < 1000; i++)
+			new string[128];
+			for(new i = 0; i < 500; i++)
 			{	
-				oid = graffitiIDS[i];
-				if(oid != 0)
+				if(gCache[i][gUID] != 0)
 				{
+
 					if(PlayerInfo[playerid][pAdmin] > 0)
 					{
-						format(string, sizeof(string), "UID: %d(oID: %d)\nText: %s(len: %d)\nSize: %d\nColor: %d\n\nStworzy³: %s(UID: %d)",
-						gCache[oid][gUID],
-						oid, 
-						gCache[oid][gText], 
-						gCache[oid][gLen],
-						gCache[oid][gSize],
-						gCache[oid][gColor],
-						gCache[oid][gPlayerName],
-						gCache[oid][gPlayerUID]
+						format(string, sizeof(string), "UID: %d\nText: %s\nSize: %d\nColor: %d\n\nStworzy³: %s(UID: %d)",
+						gCache[i][gUID],
+						gCache[i][gText], 
+						gCache[i][gSize],
+						gCache[i][gColor],
+						gCache[i][gPlayerName],
+						gCache[i][gPlayerUID]
 						);
 					} else
 					{
-						format(string, sizeof(string), "UID: %d(oID: %d)\nText: %s(len: %d)\nSize: %d\nColor: %d",
-						gCache[oid][gUID],
-						oid, 
-						gCache[oid][gText], 
-						gCache[oid][gLen],
-						gCache[oid][gSize],
-						gCache[oid][gColor]
+						format(string, sizeof(string), "UID: %d\nText: %s",
+						gCache[i][gUID],
+						gCache[i][gText]
 						);
 					}
 					//new PlayerText3D:text = 
 					//CreatePlayer3DTextLabel(playerid, text[], color, Float:X, Float:Y, Float:Z, Float:DrawDistance, attachedplayer=INVALID_PLAYER_ID, attachedvehicle=INVALID_VEHICLE_ID, testLOS=0)
-					graffiti3D[playerid][i] = CreatePlayer3DTextLabel(playerid, string, 0x33CCFFAA, gCache[oid][gPosX], gCache[oid][gPosY], gCache[oid][gPosZ], 30);
+					graffiti3D[playerid][i] = CreatePlayer3DTextLabel(playerid, string, 0x33CCFFAA, gCache[i][gPosX], gCache[i][gPosY], gCache[i][gPosZ], 30);
 				}
 			}
-			mysql_free_result();
-			sendErrorMessage(playerid, "Pokazano graffiti info!");
+			sendTipMessage(playerid, "Pokazano graffiti info!");
 			return 1;
 		}
 
 		if(grafID[playerid] == 1)
 		{
 			grafID[playerid] = 0;
-			for(new i = 0; i < 1000; i++)
+			for(new i = 0; i < 500; i++)
 			{
-				DeletePlayer3DTextLabel(playerid, graffiti3D[playerid][i]);
+				//if(gCache[i][gUID] != 0)
+				//{
+					DeletePlayer3DTextLabel(playerid, graffiti3D[playerid][i]);
+				//}
 			}
-			sendErrorMessage(playerid, "Ukryto graffiti info!");
+			sendTipMessage(playerid, "Ukryto graffiti info!");
 			return 1;
 		}
 	}

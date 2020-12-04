@@ -75,8 +75,21 @@ MruMySQL_CreateAccount(playerid, pass[])
 	
 	new query[256];
     new password[64];
-    format(password, 64, "%s", MD5_Hash(pass));
-	format(query, sizeof(query), "INSERT INTO `mru_konta` (`Nick`, `Key`) VALUES ('%s', '%s')", GetNick(playerid), password);
+    new salt_seed[63] = "abcdefghijklmnopqrstuwvxyzABCDEFGHIJKLMNOPQRSTUWVXYZ0123456789";
+	new salt[PASS_SALT_SIZE+1];
+    new hash[256];
+
+    
+    //format(password, 64, "%s", MD5_Hash(pass)); rezygnacja z MD5 + SHA256, znaki specjalne typu @#$% nie dzia³aj¹.
+
+    for(new i = 0; i < PASS_SALT_SIZE; i++)
+	{
+		format(salt, sizeof(salt), "%s%c", salt, salt_seed[random(63)]);
+	}
+	format(hash, sizeof(hash), "%s%s", SHA256(pass), SHA256(salt));
+	format(hash, sizeof(hash), "%s", SHA256(hash));
+
+	format(query, sizeof(query), "INSERT INTO `mru_konta` (`Nick`, `Key`, `Salt`) VALUES ('%s', '%s', '%s')", GetNick(playerid), hash, salt);
 	mysql_query(query);
 	return 1;
 }
@@ -832,7 +845,7 @@ MruMySQL_DoesAccountExist(nick[])
 
 stock MruMySQL_ReturnPassword(nick[])
 {
-	new string[128], key[64];
+	new string[512], key[256];
 	
 	format(string, sizeof(string), "SELECT `Key` FROM `mru_konta` WHERE `Nick` = '%s'", nick);
 
@@ -848,6 +861,26 @@ stock MruMySQL_ReturnPassword(nick[])
 	
 	return key;
 }
+
+stock MruMySQL_ReturnSalt(nick[])
+{
+	new string[512], key[256];
+	
+	format(string, sizeof(string), "SELECT `Salt` FROM `mru_konta` WHERE `Nick` = '%s'", nick);
+
+	mysql_query(string);
+	mysql_store_result();
+	
+	if(mysql_retrieve_row())
+	{
+		mysql_fetch_field_row(key, "Salt");
+	}
+	
+	mysql_free_result();
+	
+	return key;
+}
+
 
 StripNewLine(string[])
 {
