@@ -6112,9 +6112,13 @@ OnPlayerLogin(playerid, password[])
     new passwd[256];
     //format(passwd, sizeof(passwd), "%s", MD5_Hash(password)); rezygnacja z MD5 + SHA256, znaki specjalne typu @#$% nie dzia³aj¹.
 
+    printf("password: %s", password);
     new hash[129];
-    format(hash, sizeof(hash), "%s%s", SHA256(passwd), SHA256(salt));
+    format(hash, sizeof(hash), "%s%s", SHA256(password), SHA256(salt));
     format(hash, sizeof(hash), "%s", SHA256(hash));
+
+
+    printf("pass: %s\nhash: %s",pass, hash);
 
 	if((UseMYSQL && strcmp(pass,hash,true ) == 0) || UseDINI)
 	{//poprawne has³o

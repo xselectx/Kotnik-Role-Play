@@ -86,7 +86,7 @@ MruMySQL_CreateAccount(playerid, pass[])
 	{
 		format(salt, sizeof(salt), "%s%c", salt, salt_seed[random(63)]);
 	}
-	format(hash, sizeof(hash), "%s%s", SHA256(password), SHA256(salt));
+	format(hash, sizeof(hash), "%s%s", SHA256(pass), SHA256(salt));
 	format(hash, sizeof(hash), "%s", SHA256(hash));
 
 	format(query, sizeof(query), "INSERT INTO `mru_konta` (`Nick`, `Key`, `Salt`) VALUES ('%s', '%s', '%s')", GetNick(playerid), hash, salt);
