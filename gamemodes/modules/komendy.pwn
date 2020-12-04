@@ -80,7 +80,7 @@ CMD:marcepan(playerid, params[])
     return 1;
 }
 
-
+#if DEBUG == 1
 CMD:pakietkotnika(playerid)
 {
 
@@ -107,7 +107,7 @@ CMD:pakietkotnika(playerid)
 
     return 1;
 }
-
+#endif
 #if DEBUG == 1
 CMD:dosalonu(playerid)
 {
