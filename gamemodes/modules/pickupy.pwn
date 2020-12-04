@@ -15,6 +15,8 @@ ZaladujPickupy()
 	CreateDynamicPickup(1239, 0, 2029.5945,-1404.6426,17.2512, -1); //Hospital 2 near speedway
 	//CreateDynamicPickup(1239, 2, 1381.0413,-1088.8511,27.3906, -1); //Bill Board (old Job Department)
 
+	CreateDynamicPickup(19523, 1, 849.2945, -1336.3616, 13.5690, 0); //MOTEL w Market
+    CreateDynamicPickup(19523, 1, 2178.3113, -1770.5784, 13.5451, 0); //MOTEL w Idlewood
 	
 
 	CreateDynamicPickup(371, 2, 1544.2,-1353.4,329.4, -1); //LS towertop
@@ -98,7 +100,8 @@ Zaladuj3DTexty()
 {
 	//wybory
 	//CreateDynamic3DTextLabel("Urna wyborcza", 0x33CCFFAA, 1304.1296, -1299.9874, 35.6941, 25.0);
-
+	CreateDynamic3DTextLabel("Motel Market", COLOR_WHITE, 849.2945, -1336.3616, 13.5690, 15.0);
+    CreateDynamic3DTextLabel("Motel Idlewood", COLOR_WHITE, 2178.3113, -1770.5784, 13.5451, 15.0);
 	//okienko[0] = CreateDynamic3DTextLabel("Urz¹d Miasta Los Santos\n{0080FF}Okienko 1 \n {FF0000}Nieczynne",COLOR_WHITE,1090.3307,1057.3446,-15.8397,9,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50);
 	//okienko[1] = CreateDynamic3DTextLabel("Urz¹d Miasta Los Santos\n{0080FF}Okienko 2 \n {FF0000}Nieczynne",COLOR_WHITE,1086.4092,1057.3446,-15.8397,9,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50);
 	//okienko[2] = CreateDynamic3DTextLabel("Urz¹d Miasta Los Santos\n{0080FF}Okienko 3 \n {FF0000}Nieczynne",COLOR_WHITE,1082.3263,1057.3446,-15.8397,9,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50);

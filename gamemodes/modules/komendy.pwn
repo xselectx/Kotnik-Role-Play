@@ -9654,6 +9654,7 @@ CMD:setname(playerid, params[])
     					SendClientMessageToAll(COLOR_LIGHTRED, string);
     					NickLog(string);
 
+                        TogglePlayerSpectating(giveplayerid, true);
                         ShowPlayerDialogEx(giveplayerid, 70, DIALOG_STYLE_MSGBOX, "Zmiana nicku", "W³aœnie zmieni³eœ nick. Nastêpuj¹ce elementy zosta³y wyzerowane:\n\nPraca\nFrakcja\nWanted Level\nRodzina\nLider\nRanga\nSkin\nZaufany Gracz\n\n\nPamiêtaj, ¿e ka¿da zmiana nicku jest na wagê z³ota wiêc nie trwoñ ich pochopnie!\nJe¿eli dosz³o do b³êdnej zmiany zg³oœ ten fakt prêdko na forum w panelu strat!\nPamiêtaj: nowa postaæ = nowe ¿ycie.", "Dalej", "");
 
     					/*SetPlayerName(giveplayerid, newname);
@@ -9716,7 +9717,7 @@ CMD:zmiennick(playerid, params[])
                         format(string, sizeof(string), "%s[%d] zmieni³ sobie nick - Nowy nick: %s",sendername,PlayerInfo[playerid][pUID],params);
                     	SendClientMessageToAll(COLOR_LIGHTRED, string);
                     	NickLog(string);
-                        
+                        TogglePlayerSpectating(playerid, true);
 						ShowPlayerDialogEx(playerid, 70, DIALOG_STYLE_MSGBOX, "Zmiana nicku", "W³aœnie zmieni³eœ nick. Nastêpuj¹ce elementy zosta³y wyzerowane:\n\nPraca\nFrakcja\nWanted Level\nRodzina\nLider\nRanga\nSkin\nZaufany Gracz\n\n\nPamiêtaj, ¿e ka¿da zmiana nicku jest na wagê z³ota wiêc nie trwoñ ich pochopnie!\nJe¿eli dosz³o do b³êdnej zmiany zg³oœ ten fakt prêdko na forum w panelu strat!\nPamiêtaj: nowa postaæ = nowe ¿ycie.", "Dalej", "");
                     }
                 }
@@ -39229,6 +39230,23 @@ CMD:garderoba(playerid)
             } else return sendTipMessage(playerid, "Nie posiadasz lub nie wynajmujesz domu!"); 
         }
         //ShowPlayerSkins(playerid);
+    }
+    return 1;
+}
+
+CMD:motel(playerid, params[])
+{
+    new var[32];
+    if(sscanf(params, "s[32]", var)) return sendTipMessage(playerid, "U¿yj /motel wynajmij wejdz wyjdz");
+    if(!IsPlayerInRangeOfPoint(playerid, 2, 849.2945, -1336.3616, 13.5690) && !IsPlayerInRangeOfPoint(playerid, 2, 2178.3113, -1770.5784, 13.5451)) return sendTipMessage(playerid, "Nie znajdujesz siê w pobli¿u motelu!");
+    if(strcmp(var, "wynajmij", true) == 0)
+    {
+        sendTipMessage(playerid, "Motel jest obecnie w trakcie remontu!");
+    }
+
+    else if(strcmp(var, "wejdz", true) == 0)
+    {
+        sendTipMessage(playerid, "Motel jest obecnie w trakcie remontu!");
     }
     return 1;
 }

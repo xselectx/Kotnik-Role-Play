@@ -8150,7 +8150,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		    if(response)
 		    {
 		        gOoc[playerid] = 1; gNews[playerid] = 1; gFam[playerid] = 1;
-		        //TogglePlayerSpectating(playerid, false);
+		        
 				TogglePlayerControllable(playerid, 0);
 				SetPlayerVirtualWorld(playerid, 0);
 				GUIExit[playerid] = 0;

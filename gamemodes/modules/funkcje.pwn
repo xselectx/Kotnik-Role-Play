@@ -13144,9 +13144,9 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		{
     			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
     			 SendAdminMessage(0x9ACD32AA, string);
-    			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d - %s.", code, code_decoded);
+    			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
-    			 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
+    			 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
     			 KickEx(playerid);
     		}
     		case 2: // AdmWarning
@@ -13185,7 +13185,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
     			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
     			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-    			 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
+    			 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
 				 KickEx(playerid);
     		}
     	}
