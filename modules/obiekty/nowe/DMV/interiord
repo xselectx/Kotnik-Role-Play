@@ -1,0 +1,549 @@
+aaa//interiord.pwn
+//----------------------------------------------<< Source >>-------------------------------------------------//
+//----------------------------------------[ Obiekty: interiord.pwn ]------------------------------------------//
+//----------------------------------------------------*------------------------------------------------------//
+//----[                                                                                                 ]----//
+//----[         |||||             |||||                       ||||||||||       ||||||||||               ]----//
+//----[        ||| |||           ||| |||                      |||     ||||     |||     ||||             ]----//
+//----[       |||   |||         |||   |||                     |||       |||    |||       |||            ]----//
+//----[       ||     ||         ||     ||                     |||       |||    |||       |||            ]----//
+//----[      |||     |||       |||     |||                    |||     ||||     |||     ||||             ]----//
+//----[      ||       ||       ||       ||     __________     ||||||||||       ||||||||||               ]----//
+//----[     |||       |||     |||       |||                   |||    |||       |||                      ]----//
+//----[     ||         ||     ||         ||                   |||     ||       |||                      ]----//
+//----[    |||         |||   |||         |||                  |||     |||      |||                      ]----//
+//----[    ||           ||   ||           ||                  |||      ||      |||                      ]----//
+//----[   |||           ||| |||           |||                 |||      |||     |||                      ]----//
+//----[  |||             |||||             |||                |||       |||    |||                      ]----//
+//----[                                                                                                 ]----//
+//----------------------------------------------------*------------------------------------------------------//
+//BY- Beczka
+//-----------------<[ ZMIENNE ]>---------------------------
+new SufitDMV[4];
+new PodlogaDMV[3];
+new SzybaDMV[19];
+new DrzwiDMV[1];
+new KolumnaDMV[53];
+new ScianaDMV[25];
+new PasekDMV[46];
+new LadaDMV[31];
+new BankomatDMV[2];
+new OkienkoDMV[4];
+new BarierkaDMV[1];
+new LaptopDMV[4];
+new DrzwiWejscieDMV[2];
+new TablicaDMV[1];
+new SchodyDMV[5];
+new NapisDMV[3];
+new NiewidzialneDMV[3];
+ 
+//-----------------<[ G3ówne funkcje: ]>-------------------
+interiord_Init()
+{
+	StworzObiekty();
+	StworzBramy();
+	return 1;
+}
+//-----------------<[ Funkcje: ]>-------------------
+static StworzObiekty()
+{
+
+//Urzad By Tom_Barrel
+   
+    //drzwi zamkniete DrzwiDMV[0] = CreateDynamicObject(1493, 1499.96851, -1809.31079, 1002.80524,   0.00000, 0.00000, 0.00000);
+    //drzwi zamkniete DrzwiDMV[0] = CreateDynamicObject(1493, 1499.96851, -1809.31079, 1002.80524,   0.00000, 0.00000, 90.00000);
+    CreateDynamicObject(19999, 1501.81104, -1788.14673, 1002.86218,   0.00000, 0.00000, 270.00000);//krzeslo
+    CreateDynamicObject(2206, 1500.22058, -1798.09070, 1002.74182,   0.00000, 0.00000, 90.00000);//biurko
+    CreateDynamicObject(2161, 1503.71777, -1787.96680, 1002.86279,   0.00000, 0.00000, 270.00000);//szafka
+    CreateDynamicObject(3930, 1489.66321, -1804.52686, 1002.83630,   0.00000, 0.00000, 0.00000);//kamien
+    CreateDynamicObject(3930, 1488.97839, -1804.15881, 1002.83630,   0.00000, 0.00000, 0.00000);//kamien
+    CreateDynamicObject(3930, 1489.08362, -1804.58167, 1002.83630,   0.00000, 0.00000, 0.00000);//kamien
+    CreateDynamicObject(3931, 1489.35742, -1804.53101, 1002.74249,   0.00000, 0.00000, 0.00000);//kamien
+    CreateDynamicObject(3930, 1488.97656, -1804.78064, 1003.44226,   0.00000, 0.00000, 0.00000);//kamien
+    CreateDynamicObject(3931, 1489.57556, -1804.85547, 1003.44232,   0.00000, 0.00000, 0.00000);//kamien
+    CreateDynamicObject(2206, 1500.22058, -1795.09070, 1002.74182,   0.00000, 0.00000, 90.00000);//biurko
+    CreateDynamicObject(2206, 1500.22058, -1792.09070, 1002.74182,   0.00000, 0.00000, 90.00000);//biurko
+    CreateDynamicObject(2206, 1500.25134, -1789.02539, 1002.74182,   0.00000, 0.00000, 90.00000);//biurko
+    CreateDynamicObject(2161, 1503.71777, -1790.96680, 1002.86279,   0.00000, 0.00000, 270.00000);//szafka
+    CreateDynamicObject(2161, 1503.71777, -1793.96680, 1002.86279,   0.00000, 0.00000, 270.00000);//szafka
+    CreateDynamicObject(2161, 1503.71777, -1796.96680, 1002.86279,   0.00000, 0.00000, 270.00000);//szafka
+    CreateDynamicObject(19999, 1501.81104, -1791.14673, 1002.86218,   0.00000, 0.00000, 270.00000);//krzeslo
+    CreateDynamicObject(19999, 1501.81104, -1794.14673, 1002.86218,   0.00000, 0.00000, 270.00000);//krzeslo
+    CreateDynamicObject(19999, 1501.81104, -1797.14673, 1002.86218,   0.00000, 0.00000, 270.00000);//krzeslo
+    CreateDynamicObject(1823, 1483.81140, -1793.53040, 1002.8231,   0.00000, 0.00000, 90.00000);//stolik
+    CreateDynamicObject(19603, 1489.26794, -1803.80127, 1003.3890,   0.00000, 0.00000, 0.00000);//woda
+    CreateDynamicObject(18755, 1489.1369, -1812.83618, 1007.2901,   0.00000, 0.00000, 270.00000);//winda
+    CreateDynamicObject(18756, 1489.1160, -1812.86670, 1007.2950,   0.00000, 0.00000, 270.00000);//winda
+    CreateDynamicObject(18757, 1489.1165, -1812.84668, 1007.2950,   0.00000, 0.00000, 270.00000);//winda
+    CreateDynamicObject(1726, 1483.38110, -1790.98352, 1002.8262,   0.00000, 0.00000, 90.00000);//kanapa
+    CreateDynamicObject(1726, 1483.27808, -1796.96948, 1002.8262,   0.00000, 0.00000, 90.00000);//kanapa
+    CreateDynamicObject(18705, 1489.26917, -1804.38379, 1002.00000,   0.00000, 0.00000, 0.00000);
+    CreateDynamicObject(2002, 1483.41895, -1787.07080, 1002.85999,   0.00000, 0.00000, 90.00000);
+    CreateDynamicObject(2773, 1498.32190, -1789.69971, 1003.38135,   0.00000, 0.00000, 90.00000);
+    CreateDynamicObject(2773, 1498.29626, -1786.70190, 1003.38135,   0.00000, 0.00000, 90.00000);
+    CreateDynamicObject(2773, 1498.29211, -1792.67615, 1003.38135,   0.00000, 0.00000, 90.00000);
+    CreateDynamicObject(2773, 1498.33923, -1795.63391, 1003.38135,   0.00000, 0.00000, 90.00000);
+    CreateDynamicObject(2773, 1498.32239, -1798.69226, 1003.38129,   0.00000, 0.00000, 90.00000);
+   
+    NiewidzialneDMV[0] = CreateDynamicObject(18981, 1499.99744, -1795.24866, 998.67212,   90.00000, 90.00000, 90.00000);
+    NiewidzialneDMV[1] = CreateDynamicObject(18981, 1499.99744, -1821.79895, 998.67212,   90.00000, 90.00000, 90.00000);
+    NiewidzialneDMV[2] = CreateDynamicObject(18981, 1499.99744, -1820.16833, 1017.91602,   90.00000, 90.00000, 90.00000);
+    SetDynamicObjectMaterial(NiewidzialneDMV[0], 0, 0, "none", "background", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(NiewidzialneDMV[1], 0, 0, "none", "background", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(NiewidzialneDMV[2], 0, 0, "none", "background", 0xFFFFFFFF);
+   
+    SchodyDMV[0] = CreateDynamicObject(14409, 1493.95618, -1802.78076, 1002.15167,   0.00000, 0.00000, 0.00000);
+    SchodyDMV[1] = CreateDynamicObject(14409, 1484.65833, -1802.72253, 1002.15173,   0.00000, 0.00000, 0.00000);
+    SchodyDMV[2] = CreateDynamicObject(14409, 1498.27710, -1808.69080, 1002.15167,   0.00000, 0.00000, 270.00000);
+    SchodyDMV[3] = CreateDynamicObject(14409, 1489.16626, -1784.58301, 999.64313,   0.00000, 0.00000, 0.00000);
+    SchodyDMV[4] = CreateDynamicObject(14409, 1493.26294, -1784.58301, 999.64313,   0.00000, 0.00000, 0.00000);
+    SetDynamicObjectMaterial(SchodyDMV[0], 0, 3587, "snpedhusxref", "sjmlawood2", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SchodyDMV[1], 0, 3587, "snpedhusxref", "sjmlawood2", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SchodyDMV[2], 0, 3587, "snpedhusxref", "sjmlawood2", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SchodyDMV[3], 0, 3587, "snpedhusxref", "sjmlawood2", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SchodyDMV[4], 0, 3587, "snpedhusxref", "sjmlawood2", 0xFFFFFFFF);
+ 
+    NapisDMV[0] = CreateDynamicObject(19482,1490.135009,-1786.337280,1010.745239,0.000000,0.000000,-90.007583);
+    SetDynamicObjectMaterialText(NapisDMV[0], 0,"{E0E000}Urzad Miasta", 130, "Arial", 54, 1, -1, 0, 1);
+    NapisDMV[1] = CreateDynamicObject(19482,1490.135009,-1786.337280,1010.294799,0.000000,0.000000,-90.007583);
+    SetDynamicObjectMaterialText(NapisDMV[1], 0,"{E0E000}Los Santos", 130, "Arial", 54, 1, -1, 0, 1);
+    NapisDMV[2] = CreateDynamicObject(19482,1490.135009,-1786.337280,1008.684875,0.000000,0.000000,-90.007583);
+    SetDynamicObjectMaterialText(NapisDMV[2], 0,"{E0E000}G", 130, "Webdings", 255, 0, -1, 0, 1);
+ 
+    TablicaDMV[0] = CreateDynamicObject(2737, 1496.48157, -1786.57605, 1004.72583,   0.00000, 0.00000, 0.00000);
+    SetDynamicObjectMaterial(TablicaDMV[0], 0, 12954, "sw_furniture", "CJ_WOOD5", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(TablicaDMV[0], 1, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+ 
+    DrzwiWejscieDMV[0] = CreateDynamicObject(1537, 1490.18176, -1776.58484, 1000.00690,   0.00000, 0.00000, 0.00000);
+    DrzwiWejscieDMV[1] = CreateDynamicObject(1537, 1491.65833, -1776.57776, 1000.00690,   0.00000, 0.00000, 0.00000);
+    SetDynamicObjectMaterial(DrzwiWejscieDMV[0], 0, 1676, "wshxrefpump", "metalic128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(DrzwiWejscieDMV[1], 0, 1676, "wshxrefpump", "metalic128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(DrzwiWejscieDMV[0], 1, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(DrzwiWejscieDMV[1], 1, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(DrzwiWejscieDMV[0], 2, 12954, "sw_furniture", "CJ_WOOD5", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(DrzwiWejscieDMV[1], 2, 12954, "sw_furniture", "CJ_WOOD5", 0xFFFFFFFF);
+ 
+    LaptopDMV[0] = CreateDynamicObject(19893, 1500.32922, -1797.25708, 1003.67670,   0.00000, 0.00000, 90.00000);
+    LaptopDMV[1] = CreateDynamicObject(19893, 1500.37231, -1794.10376, 1003.67670,   0.00000, 0.00000, 90.00000);
+    LaptopDMV[2] = CreateDynamicObject(19893, 1500.34094, -1791.09143, 1003.67670,   0.00000, 0.00000, 90.00000);
+    LaptopDMV[3] = CreateDynamicObject(19893, 1500.34290, -1788.12512, 1003.67670,   0.00000, 0.00000, 90.00000);
+    //SetDynamicObjectMaterialText(LaptopDMV[0], 1, "{000000}DMV",130,"Arial",54,1,0x00000000,0xFFFFFFFF,1);
+    //SetDynamicObjectMaterialText(LaptopDMV[1], 1, "{000000}DMV",130,"Arial",54,1,0x00000000,0xFFFFFFFF,1);
+    //SetDynamicObjectMaterialText(LaptopDMV[2], 1, "{000000}DMV",130,"Arial",54,1,0x00000000,0xFFFFFFFF,1);
+    //SetDynamicObjectMaterialText(LaptopDMV[3], 1, "{000000}DMV",130,"Arial",54,1,0x00000000,0xFFFFFFFF,1);
+   
+    SetDynamicObjectMaterial(LaptopDMV[0], 1, 2255, "picture_frame_clip", "CJ_PAINTING9", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LaptopDMV[1], 1, 2255, "picture_frame_clip", "CJ_PAINTING9", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LaptopDMV[2], 1, 2255, "picture_frame_clip", "CJ_PAINTING9", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LaptopDMV[3], 1, 2255, "picture_frame_clip", "CJ_PAINTING9", 0xFFFFFFFF);
+ 
+    SufitDMV[0] = CreateDynamicObject(18981, 1491.51086, -1798.7950, 1011.50110,   0.00000, 90.00000, 0.00000);
+    SufitDMV[1] = CreateDynamicObject(18981, 1512.4255, -1799.0460, 1008.9899,   0.00000, 90.00000, 0.00000);
+    SufitDMV[2] = CreateDynamicObject(18981, 1491.51086, -1773.81494, 1007.55670,   0.00000, 90.00000, 0.00000);
+    SufitDMV[3] = CreateDynamicObject(18981, 1512.60547, -1787.20605, 1006.78821,   0.00000, 90.00000, 0.00000);
+    SetDynamicObjectMaterial(SufitDMV[0], 0, 10932, "station_sfse", "ws_stationfloor", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SufitDMV[1], 0, 10932, "station_sfse", "ws_stationfloor", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SufitDMV[2], 0, 10932, "station_sfse", "ws_stationfloor", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SufitDMV[3], 0, 10932, "station_sfse", "ws_stationfloor", 0xFFFFFFFF);
+   
+    PodlogaDMV[0] = CreateDynamicObject(18981, 1489.91943, -1779.67322, 999.54980,   0.00000, 90.00000, 0.00000);
+    PodlogaDMV[1] = CreateDynamicObject(18981, 1491.51086, -1798.95496, 1002.36407,   0.00000, 90.00000, 0.00000);
+    PodlogaDMV[2] = CreateDynamicObject(18981, 1483.97595, -1817.03125, 1004.86517,   0.00000, 90.00000, 0.00000);
+    SetDynamicObjectMaterial(PodlogaDMV[0], 0, 10966, "depot_sfse", "ws_metalpanel1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PodlogaDMV[1], 0, 10966, "depot_sfse", "ws_metalpanel1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PodlogaDMV[2], 0, 3587, "snpedhusxref", "sjmlawood2", 0xFFFFFFFF);
+   
+    SzybaDMV[0] = CreateDynamicObject(1649, 1499.90942, -1801.16895, 1003.65839,   0.00000, 0.00000, 90.00000);
+    SzybaDMV[1] = CreateDynamicObject(1649, 1499.90930, -1811.52100, 1003.65839,   0.00000, 0.00000, 90.00000);
+    SzybaDMV[2] = CreateDynamicObject(1649, 1499.90942, -1805.60107, 1003.65839,   0.00000, 0.00000, 90.00000);
+    SzybaDMV[3] = CreateDynamicObject(1649, 1499.90942, -1805.60107, 1006.98022,   0.00000, 0.00000, 90.00000);
+    SzybaDMV[4] = CreateDynamicObject(1649, 1499.90942, -1810.04114, 1006.98022,   0.00000, 0.00000, 90.00000);
+    SzybaDMV[5] = CreateDynamicObject(1649, 1499.90942, -1801.16895, 1006.98022,   0.00000, 0.00000, 90.00000);
+    SzybaDMV[6] = CreateDynamicObject(1649, 1499.90942, -1801.16895, 1003.65839,   0.00000, 0.00000, 270.00000);
+    SzybaDMV[7] = CreateDynamicObject(1649, 1499.90930, -1811.52100, 1003.65839,   0.00000, 0.00000, 270.00000);
+    SzybaDMV[8] = CreateDynamicObject(1649, 1499.90942, -1805.60107, 1003.65839,   0.00000, 0.00000, 270.00000);
+    SzybaDMV[9] = CreateDynamicObject(1649, 1499.90942, -1805.60107, 1006.98022,   0.00000, 0.00000, 270.00000);
+    SzybaDMV[10] = CreateDynamicObject(1649, 1499.90942, -1810.04114, 1006.98022,   0.00000, 0.00000, 270.00000);
+    SzybaDMV[11] = CreateDynamicObject(1649, 1499.90942, -1801.16895, 1006.98022,   0.00000, 0.00000, 270.00000);
+    SzybaDMV[12] = CreateDynamicObject(1649, 1497.75879, -1806.57654, 1003.69745,   0.00000, 0.00000, 0.00000);
+    SzybaDMV[13] = CreateDynamicObject(1649, 1497.75879, -1806.57654, 1003.69739,   0.00000, 0.00000, 180.00000);
+    SzybaDMV[14] = CreateDynamicObject(970, 1499.59, -1789.72034, 1003.52777,   0.00000, 90.00000, 270.00000);
+    SzybaDMV[15] = CreateDynamicObject(970, 1499.59, -1792.72034, 1003.52777,   0.00000, 90.00000, 270.00000);
+    SzybaDMV[16] = CreateDynamicObject(970, 1499.59, -1795.70032, 1003.52777,   0.00000, 90.00000, 270.00000);
+    SzybaDMV[17] = CreateDynamicObject(970, 1499.59, -1798.70032, 1003.52777,   0.00000, 90.00000, 270.00000);
+    SzybaDMV[18] = CreateDynamicObject(970, 1499.59, -1786.72034, 1003.52777,   0.00000, 90.00000, 270.00000);
+    SetDynamicObjectMaterial(SzybaDMV[0], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[1], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[2], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[3], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[4], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[5], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[6], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[7], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[8], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[9], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[10], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[11], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[12], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[13], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[14], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[15], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[16], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[17], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[18], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[14], 1, 0, "none", "background", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[15], 1, 0, "none", "background", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[16], 1, 0, "none", "background", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[17], 1, 0, "none", "background", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(SzybaDMV[18], 1, 0, "none", "background", 0xFFFFFFFF);
+   
+    DrzwiDMV[0] = CreateDynamicObject(1493, 1499.96851, -1809.31079, 1002.80524,   0.00000, 0.00000, 90.00000);
+    SetDynamicObjectMaterial(DrzwiDMV[0], 0, 3673, "xrf_refineryla", "Metal3_128", 0xFFFFFFFF);//klamka
+    SetDynamicObjectMaterial(DrzwiDMV[0], 1, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+ 
+    BarierkaDMV[0] = CreateDynamicObject(970, 1489.24646, -1804.61462, 1005.74768,   0.00000, 0.00000, 0.00000);
+    SetDynamicObjectMaterial(BarierkaDMV[0], 0, 14689, "int_tatoo", "barbersmir1", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(BarierkaDMV[0], 1, 16150, "ufo_bar", "sa_wood08_128", 0xFFFFFFFF);
+ 
+    KolumnaDMV[0] = CreateDynamicObject(18762, 1493.99353, -1811.03235, 1005.70258,   0.00000, 90.00000, 0.00000);
+    KolumnaDMV[1] = CreateDynamicObject(18762, 1486.96594, -1778.10364, 1006.58478,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[2] = CreateDynamicObject(18762, 1503.28442, -1786.09875, 1006.1082,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[3] = CreateDynamicObject(18762, 1493.28589, -1783.10364, 1006.58478,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[4] = CreateDynamicObject(18762, 1493.28674, -1774.82349, 1000.53522,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[5] = CreateDynamicObject(18762, 1486.96594, -1779.82349, 1000.53522,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[6] = CreateDynamicObject(18762, 1486.95996, -1783.96338, 1001.57520,   0.00000, -55.00000, 90.00000);
+    KolumnaDMV[7] = CreateDynamicObject(18762, 1486.96594, -1774.82349, 1000.53522,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[8] = CreateDynamicObject(18762, 1493.28699, -1783.96338, 1001.57520,   0.00000, -55.00000, 90.00000);
+    KolumnaDMV[9] = CreateDynamicObject(18762, 1493.28674, -1779.82349, 1000.53522,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[10] = CreateDynamicObject(18762, 1493.28674, -1778.10364, 1006.58478,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[11] = CreateDynamicObject(18762, 1486.96594, -1783.10364, 1006.58478,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[12] = CreateDynamicObject(18762, 1499.39502, -1786.65662, 1009.47070,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[13] = CreateDynamicObject(18762, 1498.30579, -1811.04004, 1004.37659,   0.00000, -55.52000, 0.00000);
+    KolumnaDMV[14] = CreateDynamicObject(18762, 1502.47180, -1810.85242, 1003.34070,   0.00000, 90.00000, 0.00000);
+    KolumnaDMV[15] = CreateDynamicObject(18980, 1503.51184, -1810.84985, 1006.24281,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[16] = CreateDynamicObject(18980, 1486.50134, -1794.04065, 1004.70410,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[17] = CreateDynamicObject(18980, 1493.11292, -1794.04065, 1004.70410,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[18] = CreateDynamicObject(18980, 1482.29297, -1791.42700, 1003.32153,   90.00000, 0.00000, 0.00000);
+    KolumnaDMV[19] = CreateDynamicObject(18980, 1482.28247, -1817.25366, 1005.55627,   90.00000, 0.00000, 0.00000);
+    KolumnaDMV[20] = CreateDynamicObject(18980, 1496.41956, -1804.25842, 993.57483,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[21] = CreateDynamicObject(18980, 1487.02734, -1804.25842, 993.57483,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[22] = CreateDynamicObject(18980, 1487.26794, -1802.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[23] = CreateDynamicObject(18980, 1487.26794, -1803.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[24] = CreateDynamicObject(18980, 1487.26794, -1804.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[25] = CreateDynamicObject(18980, 1491.26794, -1802.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[26] = CreateDynamicObject(18980, 1491.51941, -1804.25842, 993.57483,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[27] = CreateDynamicObject(18980, 1491.26794, -1801.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[28] = CreateDynamicObject(18980, 1486.96594, -1786.10352, 1004.70410,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[29] = CreateDynamicObject(18980, 1493.28589, -1786.10352, 1004.70410,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[30] = CreateDynamicObject(18980, 1499.61194, -1799.24988, 1006.47491,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[31] = CreateDynamicObject(18980, 1499.39185, -1786.28992, 1006.47284,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[32] = CreateDynamicObject(18980, 1499.39185, -1786.28992, 1010.63898,   0.00000, 90.00000, 90.00000);
+    KolumnaDMV[33] = CreateDynamicObject(18980, 1490.26794, -1801.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[34] = CreateDynamicObject(18980, 1489.26794, -1801.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[35] = CreateDynamicObject(18980, 1488.26794, -1801.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[36] = CreateDynamicObject(18980, 1487.26794, -1801.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[37] = CreateDynamicObject(18980, 1491.26794, -1803.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[38] = CreateDynamicObject(18980, 1491.26794, -1804.65198, 991.12433,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[39] = CreateDynamicObject(18980, 1482.28735, -1804.25842, 993.57483,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[40] = CreateDynamicObject(18980, 1482.28296, -1793.75061, 998.57990,   55.52000, 0.00000, 0.00000);
+    KolumnaDMV[41] = CreateDynamicObject(18980, 1482.28296, -1793.75061, 997.36511,   55.52000, 0.00000, 0.00000);
+    KolumnaDMV[42] = CreateDynamicObject(18980, 1482.29297, -1798.56702, 1010.66333,   90.00000, 0.00000, 0.00000);
+    KolumnaDMV[43] = CreateDynamicObject(18980, 1474.27234, -1811.01025, 1005.54242,   90.00000, 0.00000, 90.00000);
+    KolumnaDMV[44] = CreateDynamicObject(18980, 1495.28564, -1811.27026, 1010.66333,   90.00000, 0.00000, 90.00000);
+    KolumnaDMV[45] = CreateDynamicObject(18980, 1496.41956, -1805.25842, 993.57483,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[46] = CreateDynamicObject(18980, 1496.41956, -1806.25842, 993.57483,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[47] = CreateDynamicObject(18980, 1499.61194, -1806.18994, 1006.47491,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[48] = CreateDynamicObject(18980, 1499.61194, -1810.84985, 1006.47491,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[49] = CreateDynamicObject(18766, 1498.77356, -1786.10352, 1001.33,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[50] = CreateDynamicObject(18766, 1498.78003, -1786.10352, 1012.67462,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[51] = CreateDynamicObject(18766, 1481.47363, -1786.10352, 1001.33173,   0.00000, 0.00000, 0.00000);
+    KolumnaDMV[52] = CreateDynamicObject(18766, 1481.47363, -1786.10352, 1012.67462,   0.00000, 0.00000, 0.00000);
+    SetDynamicObjectMaterial(KolumnaDMV[0], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[1], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[2], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[3], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[4], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[5], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[6], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[7], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[8], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[9], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[10], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[11], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[12], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[13], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[14], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[15], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[16], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[17], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[18], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[19], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[20], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[21], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[22], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[23], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[24], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[25], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[26], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[27], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[28], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[29], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[30], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[31], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[32], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[33], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[34], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[35], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[36], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[37], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[38], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[39], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[40], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[41], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[42], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[43], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[44], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[45], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[46], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[47], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[48], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[49], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[50], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[51], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(KolumnaDMV[52], 0, 4033, "civic01_lan", "airportwall_256128", 0xFFFFFFFF);
+ 
+    ScianaDMV[0] = CreateDynamicObject(18981, 1504.22437, -1799.01697, 998.67212,   90.00000, 90.00000, 90.00000);
+    ScianaDMV[1] = CreateDynamicObject(19353, 1491.92749, -1803.30078, 1002.53888,   55.52000, 0.00000, 0.00000);
+    ScianaDMV[2] = CreateDynamicObject(19353, 1486.62744, -1803.30078, 1002.53888,   55.52000, 0.00000, 0.00000);
+    ScianaDMV[3] = CreateDynamicObject(19353, 1496.02734, -1803.30078, 1002.53888,   55.52000, 0.00000, 0.00000);
+    ScianaDMV[4] = CreateDynamicObject(19353, 1490.17773, -1804.68823, 1003.03156,   0.00000, 0.00000, 90.00000);
+    ScianaDMV[5] = CreateDynamicObject(19353, 1486.97754, -1804.68823, 1003.03162,   0.00000, 0.00000, 90.00000);
+    ScianaDMV[6] = CreateDynamicObject(18766, 1499.64891, -1793.76001, 1008.48932,   0.00000, 0.00000, 90.00000);
+    ScianaDMV[7] = CreateDynamicObject(18766, 1499.64893, -1783.78003, 1008.48932,   0.00000, 0.00000, 90.00000);
+    ScianaDMV[8] = CreateDynamicObject(18766, 1498.7736, -1786.0436, 1009.4783,   0.00000, 0.00000, 0.00000);
+    ScianaDMV[9] = CreateDynamicObject(18766, 1489.66138, -1776.29785, 1005.25171,   0.00000, 0.00000, 0.00000);//wejscie
+    ScianaDMV[10] = CreateDynamicObject(18766, 1496.80139, -1776.29785, 1000.25153,   0.00000, 0.00000, 0.00000);//wejscie
+    ScianaDMV[11] = CreateDynamicObject(18766, 1483.48145, -1776.29785, 1000.25153,   0.00000, 0.00000, 0.00000);//wejscie
+    ScianaDMV[12] = CreateDynamicObject(18766, 1500.34460, -1804.51465, 1011.01239,   0.00000, 0.00000, 90.00000);
+    ScianaDMV[13] = CreateDynamicObject(18766, 1500.34460, -1814.51465, 1011.01239,   0.00000, 0.00000, 90.00000);
+    ScianaDMV[14] = CreateDynamicObject(18981, 1505.75745, -1786.04199, 994.49316,   90.00000, 90.00000, 0.00000);
+    ScianaDMV[15] = CreateDynamicObject(18981, 1486.83057, -1773.28064, 994.46527,   90.00000, 90.00000, 90.00000);
+    ScianaDMV[16] = CreateDynamicObject(18981, 1473.99768, -1786.01819, 998.67212,   90.00000, 90.00000, 0.00000);
+    ScianaDMV[17] = CreateDynamicObject(18981, 1490.87317, -1776.05200, 994.46533,   90.00000, 90.00000, 0.00000);
+    ScianaDMV[18] = CreateDynamicObject(18981, 1475.98645, -1798.84082, 998.67212,   90.00000, 90.00000, 90.00000);
+    ScianaDMV[19] = CreateDynamicObject(18981, 1493.55994, -1773.22900, 994.46527,   90.00000, 90.00000, 90.00000);
+    ScianaDMV[20] = CreateDynamicObject(18981, 1481.84790, -1798.89258, 998.67212,   90.00000, 90.00000, 90.00000);
+    ScianaDMV[21] = CreateDynamicObject(18981, 1492.22705, -1811.52209, 998.67212,   90.00000, 90.00000, 0.00000);
+    ScianaDMV[22] = CreateDynamicObject(18981, 1482.64075, -1785.82446, 1019.56714,   90.00000, 90.00000, 0.00000);
+    ScianaDMV[23] = CreateDynamicObject(18981, 1512.58752, -1799.21313, 1018.79266,   0.00000, 0.00000, 90.00000);
+    ScianaDMV[24] = CreateDynamicObject(19460, 1498.95764, -1806.59338, 1001.49292,   -40.00000, 0.00000, 270.00000);
+    SetDynamicObjectMaterial(ScianaDMV[0], 0, 8494, "vgslowbuild1", "vgnmetalwall1_256", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[1], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[2], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[3], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[4], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[5], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[6], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[7], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[8], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[9], 0, 8494, "vgslowbuild1", "vgnmetalwall1_256", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[10], 0, 8494, "vgslowbuild1", "vgnmetalwall1_256", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[11], 0, 8494, "vgslowbuild1", "vgnmetalwall1_256", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[12], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[13], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[14], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[15], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[16], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[17], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[18], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[19], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[20], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[21], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[22], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[23], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(ScianaDMV[24], 0, 8395, "pyramid", "white", 0xFFFFFFFF);
+   
+    LadaDMV[0] = CreateDynamicObject(968, 1499.59033, -1785.43396, 1003.75220,   90.00000, 90.00000, 270.00000);
+    LadaDMV[1] = CreateDynamicObject(968, 1499.83997, -1785.43396, 1003.75220,   90.00000, 90.00000, 270.00000);
+    LadaDMV[2] = CreateDynamicObject(968, 1499.64600, -1799.56763, 1003.75220,   90.00000, 90.00000, 90.00000);
+    LadaDMV[3] = CreateDynamicObject(968, 1499.89600, -1799.56763, 1003.75220,   90.00000, 90.00000, 90.00000);
+    LadaDMV[4] = CreateDynamicObject(18880, 1502.88818, -1789.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[5] = CreateDynamicObject(18880, 1502.88818, -1792.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[6] = CreateDynamicObject(18880, 1502.88818, -1795.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[7] = CreateDynamicObject(18880, 1502.88818, -1798.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[8] = CreateDynamicObject(18880, 1500.57275, -1798.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[9] = CreateDynamicObject(18880, 1500.57275, -1795.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[10] = CreateDynamicObject(18880, 1500.57275, -1792.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[11] = CreateDynamicObject(18880, 1500.57275, -1789.65466, 1005.98712,   180.00000, 0.00000, 0.00000);
+    LadaDMV[12] = CreateDynamicObject(18880, 1499.59912, -1786.65662, 1006.27728,   180.00000, 0.00000, 0.00000);
+    LadaDMV[13] = CreateDynamicObject(18880, 1499.59912, -1789.65662, 1006.27728,   180.00000, 0.00000, 0.00000);
+    LadaDMV[14] = CreateDynamicObject(18880, 1499.59912, -1792.65662, 1006.25861,   180.00000, 0.00000, 0.00000);
+    LadaDMV[15] = CreateDynamicObject(18880, 1499.59912, -1795.65662, 1006.27728,   180.00000, 0.00000, 0.00000);
+    LadaDMV[16] = CreateDynamicObject(18880, 1499.59912, -1798.65662, 1006.27728,   180.00000, 0.00000, 0.00000);
+    LadaDMV[17] = CreateDynamicObject(18880, 1499.21912, -1789.65662, 1006.97211,   0.00000, 0.00000, 0.00000);
+    LadaDMV[18] = CreateDynamicObject(18880, 1499.21912, -1792.65662, 1006.97211,   0.00000, 0.00000, 0.00000);
+    LadaDMV[19] = CreateDynamicObject(18880, 1499.21912, -1795.65662, 1006.97211,   0.00000, 0.00000, 0.00000);
+    LadaDMV[20] = CreateDynamicObject(18880, 1499.21912, -1798.65662, 1006.97211,   0.00000, 0.00000, 0.00000);
+    LadaDMV[21] = CreateDynamicObject(19866, 1502.60535, -1798.64941, 1005.98499,   0.00000, 0.00000, 90.00000);
+    LadaDMV[22] = CreateDynamicObject(19866, 1502.60535, -1795.64941, 1005.98499,   0.00000, 0.00000, 90.00000);
+    LadaDMV[23] = CreateDynamicObject(19866, 1502.60535, -1792.64941, 1005.98499,   0.00000, 0.00000, 90.00000);
+    LadaDMV[24] = CreateDynamicObject(19866, 1502.60535, -1789.64941, 1005.98499,   0.00000, 0.00000, 90.00000);
+    LadaDMV[25] = CreateDynamicObject(19866, 1499.59509, -1796.43091, 1003.00293,   0.00000, 0.00000, 0.00000);
+    LadaDMV[26] = CreateDynamicObject(19866, 1499.59509, -1796.43091, 1002.26001,   0.00000, 0.00000, 0.00000);
+    LadaDMV[27] = CreateDynamicObject(19866, 1499.59509, -1791.43091, 1003.00293,   0.00000, 0.00000, 0.00000);
+    LadaDMV[28] = CreateDynamicObject(19866, 1499.59509, -1791.43091, 1002.26001,   0.00000, 0.00000, 0.00000);
+    LadaDMV[29] = CreateDynamicObject(19866, 1499.59509, -1786.43091, 1003.00293,   0.00000, 0.00000, 0.00000);
+    LadaDMV[30] = CreateDynamicObject(19866, 1499.59509, -1786.43091, 1002.26001,   0.00000, 0.00000, 0.00000);
+    SetDynamicObjectMaterial(LadaDMV[0], 1, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[1], 1, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[2], 1, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[3], 1, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[4], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[5], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[6], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[7], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[8], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[9], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[10], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[11], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[12], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[13], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[14], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[15], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[16], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[17], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[18], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[19], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[20], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[21], 0, 1677, "wshxrefhse2", "yellowbeige_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[22], 0, 1677, "wshxrefhse2", "yellowbeige_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[23], 0, 1677, "wshxrefhse2", "yellowbeige_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[24], 0, 1677, "wshxrefhse2", "yellowbeige_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[25], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[26], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[27], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[28], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[29], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(LadaDMV[30], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+ 
+    PasekDMV[0] = CreateDynamicObject(968, 1487.30286, -1775.26184, 1001.02417,   90.00000, 90.00000, 270.00000);
+    PasekDMV[1] = CreateDynamicObject(968, 1492.89600, -1775.26184, 1001.02417,   90.00000, 90.00000, 270.00000);
+    PasekDMV[2] = CreateDynamicObject(968, 1486.65759, -1776.59570, 1002.54633,   90.00000, 0.00000, 90.00000);
+    PasekDMV[3] = CreateDynamicObject(968, 1491.57739, -1776.59570, 996.22937,   0.00000, 0.00000, 90.00000);
+    PasekDMV[4] = CreateDynamicObject(968, 1488.71765, -1776.59570, 996.22937,   0.00000, 0.00000, 90.00000);
+    PasekDMV[5] = CreateDynamicObject(968, 1492.90198, -1780.06543, 999.43182,   55.00000, 0.00000, 0.00000);
+    PasekDMV[6] = CreateDynamicObject(968, 1487.30286, -1780.06543, 999.43182,   55.00000, 0.00000, 0.00000);
+    PasekDMV[7] = CreateDynamicObject(968, 1488.45801, -1776.67737, 996.22937,   0.00000, 0.00000, 90.00000);
+    PasekDMV[8] = CreateDynamicObject(968, 1491.81799, -1776.67737, 996.22937,   0.00000, 0.00000, 90.00000);
+    PasekDMV[9] = CreateDynamicObject(968, 1486.65759, -1776.67737, 1002.76630,   90.00000, 0.00000, 90.00000);
+    PasekDMV[10] = CreateDynamicObject(968, 1492.89600, -1776.77673, 999.67560,   0.00000, 0.00000, 0.00000);
+    PasekDMV[11] = CreateDynamicObject(968, 1487.30286, -1776.77673, 999.67560,   0.00000, 0.00000, 0.00000);
+    PasekDMV[12] = CreateDynamicObject(968, 1492.89600, -1785.61670, 999.67560,   0.00000, 0.00000, 0.00000);
+    PasekDMV[13] = CreateDynamicObject(968, 1487.30286, -1785.61670, 999.67560,   0.00000, 0.00000, 0.00000);
+    PasekDMV[14] = CreateDynamicObject(968, 1492.89600, -1772.22180, 1006.08832,   90.00000, 90.00000, 270.00000);
+    PasekDMV[15] = CreateDynamicObject(968, 1492.95605, -1786.33716, 1006.08832,   90.00000, 90.00000, 90.00000);
+    PasekDMV[16] = CreateDynamicObject(968, 1487.35608, -1786.33716, 1006.08832,   90.00000, 90.00000, 90.00000);
+    PasekDMV[17] = CreateDynamicObject(968, 1487.30005, -1772.20996, 1006.08832,   90.00000, 90.00000, 270.00000);
+    PasekDMV[18] = CreateDynamicObject(968, 1486.67773, -1782.60193, 1000.09949,   0.00000, 90.00000, 360.00000);
+    PasekDMV[19] = CreateDynamicObject(968, 1486.67773, -1782.91907, 1000.31427,   0.00000, 90.00000, 360.00000);
+    PasekDMV[20] = CreateDynamicObject(968, 1486.67773, -1783.22437, 1000.53912,   0.00000, 90.00000, 360.00000);
+    PasekDMV[21] = CreateDynamicObject(968, 1486.67773, -1783.55017, 1000.75763,   0.00000, 90.00000, 360.00000);
+    PasekDMV[22] = CreateDynamicObject(968, 1486.67773, -1783.85889, 1000.97540,   0.00000, 90.00000, 360.00000);
+    PasekDMV[23] = CreateDynamicObject(968, 1486.67773, -1784.19250, 1001.19623,   0.00000, 90.00000, 360.00000);
+    PasekDMV[24] = CreateDynamicObject(968, 1486.67773, -1784.19250, 1001.19623,   0.00000, 90.00000, 360.00000);
+    PasekDMV[25] = CreateDynamicObject(968, 1486.67773, -1784.49780, 1001.41559,   0.00000, 90.00000, 360.00000);
+    PasekDMV[26] = CreateDynamicObject(968, 1486.67773, -1784.79797, 1001.61658,   0.00000, 90.00000, 360.00000);
+    PasekDMV[27] = CreateDynamicObject(968, 1486.67773, -1785.11987, 1001.85553,   0.00000, 90.00000, 360.00000);
+    PasekDMV[28] = CreateDynamicObject(968, 1486.67773, -1785.43872, 1002.08282,   0.00000, 90.00000, 360.00000);
+    PasekDMV[29] = CreateDynamicObject(968, 1486.68823, -1785.76428, 1002.29309,   0.00000, 90.00000, 360.00000);
+    PasekDMV[30] = CreateDynamicObject(968, 1486.67529, -1786.10657, 1002.50653,   0.00000, 90.00000, 360.00000);
+    PasekDMV[31] = CreateDynamicObject(968, 1486.62598, -1786.42285, 1002.72601,   0.00000, 90.00000, 360.00000);
+    PasekDMV[32] = CreateDynamicObject(18880, 1482.24829, -1786.42542, 1007.84509,   180.00000, 0.00000, 0.00000);
+    PasekDMV[33] = CreateDynamicObject(18880, 1482.24988, -1786.41687, 1007.84509,   0.00000, 0.00000, 0.00000);
+    PasekDMV[34] = CreateDynamicObject(18880, 1482.24829, -1811.12537, 1010.67181,   180.00000, 0.00000, 0.00000);
+    PasekDMV[35] = CreateDynamicObject(19866, 1499.70544, -1789.64941, 1003.48816,   90.00000, 90.00000, 0.00000);
+    PasekDMV[36] = CreateDynamicObject(19866, 1499.70544, -1792.64941, 1003.48822,   90.00000, 90.00000, 0.00000);
+    PasekDMV[37] = CreateDynamicObject(19866, 1499.70544, -1795.64941, 1003.48822,   90.00000, 90.00000, 0.00000);
+    PasekDMV[38] = CreateDynamicObject(19866, 1499.70544, -1798.64941, 1003.48822,   90.00000, 90.00000, 0.00000);
+    PasekDMV[39] = CreateDynamicObject(19866, 1503.00537, -1789.64941, 1003.48822,   90.00000, 90.00000, 0.00000);
+    PasekDMV[40] = CreateDynamicObject(19866, 1503.00537, -1795.64941, 1003.48822,   90.00000, 90.00000, 0.00000);
+    PasekDMV[41] = CreateDynamicObject(19866, 1503.00537, -1798.64941, 1003.48822,   90.00000, 90.00000, 0.00000);
+    PasekDMV[42] = CreateDynamicObject(19866, 1503.00537, -1792.64941, 1003.48822,   90.00000, 90.00000, 0.00000);
+    PasekDMV[43] = CreateDynamicObject(18880, 1488.60779, -1776.58447, 1003.29022,   0.00000, 180.00000, 0.00000);
+    PasekDMV[44] = CreateDynamicObject(18880, 1491.68848, -1776.58447, 1003.29022,   0.00000, 180.00000, 0.00000);
+    PasekDMV[45] = CreateDynamicObject(18880, 1491.61646, -1776.57568, 1002.65363,   90.00000, 180.00000, 90.00000);
+    SetDynamicObjectMaterial(PasekDMV[0], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[1], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[2], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[3], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[4], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[5], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[6], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[7], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[8], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[9], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[10], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[11], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[12], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[13], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[14], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[15], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[16], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[17], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[18], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[19], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[20], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[21], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[22], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[23], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[24], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[25], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[26], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[27], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[28], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[29], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[30], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[31], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[32], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[33], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[34], 2, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[35], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[36], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[37], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[38], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[39], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[40], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[41], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[42], 0, 1675, "wshxrefhse", "greygreensubuild_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[43], 2, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[44], 2, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(PasekDMV[45], 2, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+   
+    BankomatDMV[0] = CreateDynamicObject(2754, 1497.70972, -1806.23047, 1003.60492,   0.00000, 0.00000, 270.00000);
+    SetDynamicObjectMaterial(BankomatDMV[0], 0, 1676, "wshxrefpump", "metalic128", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(BankomatDMV[0], 1, 9362, "sfn_byofficeint", "CJ_Black_metal", 0xFFFFFFFF);
+    SetDynamicObjectMaterial(BankomatDMV[0], 2, 1675, "wshxrefhse", "duskyblue_128", 0xFFFFFFFF);
+    BankomatDMV[1] = CreateDynamicObject(2266, 1497.5001, -1805.25500, 1004.19263,   -30.00000, 0.00000, 180.00000);
+    SetDynamicObjectMaterialText(BankomatDMV[1], 1, "{FFFFFF}Bankomat", 140, "Arial Black", 46, 1, 0xFFFFFF, 0, 0);
+    SetDynamicObjectMaterialText(BankomatDMV[1], 0, "{FFFFFF} ", 140, "Arial Black", 46, 1, 0xFFFFFF, 0, 0);
+   
+    OkienkoDMV[0] = CreateDynamicObject(19482,1499.131347,-1788.334960,1008.503723,0.000000,0.000000,179.938308);
+    SetDynamicObjectMaterialText(OkienkoDMV[0], 0, "{000000}- 1 -", 130, "Arial", 99, 1, -1, 0, 1);
+    OkienkoDMV[1] = CreateDynamicObject(19482,1499.129028,-1791.126342,1008.503723,0.000000,0.000000,179.938308);
+    SetDynamicObjectMaterialText(OkienkoDMV[1], 0, "{000000}- 2 -", 130, "Arial", 99, 1, -1, 0, 1);
+    OkienkoDMV[2] = CreateDynamicObject(19482,1499.126098,-1794.217041,1008.503723,0.000000,0.000000,179.938308);
+    SetDynamicObjectMaterialText(OkienkoDMV[2], 0, "{000000}- 3 -", 130, "Arial", 99, 1, -1, 0, 1);
+    OkienkoDMV[3] = CreateDynamicObject(19482,1499.123657,-1797.147949,1008.503723,0.000000,0.000000,179.938308);
+    SetDynamicObjectMaterialText(OkienkoDMV[3], 0, "{000000}- 4 -", 130, "Arial", 99, 1, -1, 0, 1);
+   
+    //Koniec DMV by Tom Barrel
+    
+     DodajWejscie(1499.37244, -1808.52551, 1004.09381,1501.23804, -1808.57629, 1004.09381, 0, 0, 0, 0, " ", "Powrot");
+     CreateDynamic3DTextLabel("====URZAD MIASTA LOS SANTOS====", 0x33AA33AA, 1496.25403, -1786.67212, 1005.39697, 10.00, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, -1, -1, -1, STREAMER_3D_TEXT_LABEL_SD, -1, 0);
+     CreateDynamic3DTextLabel("~>~~w~Prawo Jazdy -~b~Test teoretyczny~g~ 10.000$~n~~>~~w~Prawo Jazdy -~b~Test praktyczny~g~15.000$~n~~>~~w~Prawo Jazdy -~b~Odbior dokumentu~g~ 20.000$~n~~>~~w~Dowod osobisty - ~g~ 5.000$~n~~>~~w~Karta wędkarska -~g~ 8.000$~n~~>~~w~Licencja na bron -~g~100.000$~n~~>~~w~Prawo do plywania lodziami -~g~ 200.000$~n~~>~~w~Licencja pilota -~g~5.550.000$", 0x33AA33AA, 1496.25403, -1786.67212, 1005.07080, 10.00, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, -1, -1, -1, STREAMER_3D_TEXT_LABEL_SD, -1, 0);
+     
+
+    return 1;
+}
+
+
