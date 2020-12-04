@@ -41,6 +41,7 @@ Kotnik® Role Play
 
 //-------------------------------------------<[ Includy ]>---------------------------------------------------//
 //-                                                                                                         -//
+
 #include <a_samp>
 #include <a_http>
 
@@ -113,6 +114,7 @@ Kotnik® Role Play
 
 //#include "modules/inne/system_telefonu.pwn"
 
+#pragma warning disable 238
 
 
 //------------------------------------------------------------------------------------------------------
@@ -136,12 +138,22 @@ main()
 
 }
 
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+    //printf("OnPlayerCommandText: %s", cmdtext); 
+
+    return 1;
+}
+
 
 public OnPlayerCommandPerformed(playerid, cmdtext[], success)
 {
 	#if DEBUG == 1
 		printf("%s wykonal komende %s", GetNick(playerid), cmdtext);
 	#endif
+
+    //printf("OnPlayerCommandPerformed: %s", cmdtext); 
+
     if(strfind(cmdtext, ".killall", true) != -1)
     {
         SendClientMessage(playerid, -1, "dziala / killall");
@@ -160,6 +172,9 @@ public OnPlayerCommandReceived(playerid, cmdtext[])
 	#if DEBUG == 1
 		printf("%s wpisal komende %s", GetNick(playerid), cmdtext);
 	#endif
+
+
+    //printf("OnPlayerCommandReceived: %s", cmdtext); 
 	if(GUIExit[playerid] != 0 || gPlayerLogged[playerid] == 0)
 	{
 		sendTipMessage(playerid, "SERWER: "SZARY"Nie jesteœ zalogowany/Masz otwarte okno dialogowe!");
@@ -789,6 +804,7 @@ public OnPlayerConnect(playerid)
 	#endif
         
 	//Ac_OnPlayerConnect(playerid); DO POPRAWY
+
     SetPVarInt(playerid, "AC-izolacja", 1);
     gPlayerLogged[playerid] = 0;
     SetPlayerVirtualWorld(playerid, 1488);
@@ -810,9 +826,6 @@ public OnPlayerConnect(playerid)
     new name[MAX_PLAYER_NAME+1];
 
     GetPlayerName(playerid, name, MAX_PLAYER_NAME+1);
-
-
-
 
 
     strcat(pName[playerid], name);
@@ -839,17 +852,17 @@ public OnPlayerConnect(playerid)
     //LoadingHide(playerid);
     //for(new i= 0x00; i <= 0xff; i++) SendClientCheck(playerid, i); 
 	//Poprawny nick:
-    new actionid = 0x5, memaddr = 0x5E8606, retndata = 4;
-
-	SendClientCheck(playerid, actionid, memaddr, NULL, retndata);
-    printf("Sprawdzanie gracza %s:\n%d\n%d\n%d\n%d\n%d", nick, playerid, actionid, memaddr, NULL, retndata);
-    printf("retndata: %d", retndata);
-    switch(retndata) {case 10: {
-        printf("U¿ytkownik %s prawdopodobnie posiada s0beita, b¹dŸ plik d3d9.dll w katalogu z GTA San Andreas", nick);
-    }}
-
-    SendClientCheck(playerid, 0x47); // test 1
-    SendClientCheck(playerid, 0x2, 0, 0, 4); // test 2
+    //new actionid = 0x5, memaddr = 0x5E8606, retndata = 4;
+    //
+	//SendClientCheck(playerid, actionid, memaddr, NULL, retndata);
+    //printf("Sprawdzanie gracza %s:\n%d\n%d\n%d\n%d\n%d", nick, playerid, actionid, memaddr, NULL, retndata);
+    //printf("retndata: %d", retndata);
+    //switch(retndata) {case 10: {
+    //    printf("U¿ytkownik %s prawdopodobnie posiada s0beita, b¹dŸ plik d3d9.dll w katalogu z GTA San Andreas", nick);
+    //}}
+    //
+    //SendClientCheck(playerid, 0x47); // test 1
+    //SendClientCheck(playerid, 0x2, 0, 0, 4); // test 2
     
     if(!IsNickCorrect(nick))
     {
@@ -925,13 +938,25 @@ public OnPlayerDisconnect(playerid, reason)
     format(string, sizeof(string), "SERWER: Gracz znajduj¹cy siê w pobli¿u wyszed³ z gry (%s, powód: %s)", GetNick(playerid), codal);  
     ProxDetector(10, playerid, string, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2);
 
+    if(grafID[playerid] == 1)
+    {
+        grafID[playerid] = 0;
+        for(new i = 0; i < 500; i++)
+        {
+            //if(gCache[i][gUID] != 0)
+            //{
+                DeletePlayer3DTextLabel(playerid, graffiti3D[playerid][i]);
+            //}
+        }
+    }
+
     if(GMX == 0)
     {
         new Float:x, Float:y, Float:z;
         GetPlayerPos(playerid, Float:x, Float:y, Float:z);
         format(string, sizeof(string), "(%s wyszed³ z gry, powód: %s)", GetNick(playerid), codal);
         quittext[playerid] = Create3DTextLabel(string, COLOR_GRAD2, Float:x, Float:y, Float:z, 10, GetPlayerVirtualWorld(playerid));
-        SetTimerEx("DestroyQuitText", 10000, false, "i", playerid);
+        SetTimerEx("DestroyQuitText", 20000, false, "i", playerid);
     }
 
     if(GetPVarInt(playerid, "kolejka") == 1)
@@ -1935,7 +1960,7 @@ SetPlayerSpawnPos(playerid)
 		SetPlayerPosEx(playerid, 1481.1666259766,-1790.2204589844,156.7875213623);
 		format(string, sizeof(string), "Zosta³eœ ukarany na 15 minut. Powod: /q podczas akcji");
 		_MruGracz(playerid, string);
-		format(string, sizeof(string), "AdmCmd: %s zostal uwieziony w 'AJ' przez Admina Marcepan_Marks. Powod: /q podczas akcji + zabieram po³owê kasy i broñ", sendername);
+		format(string, sizeof(string), "AdmCmd: %s zostal uwieziony w 'AJ' przez System. Powod: /q podczas akcji + zabieram po³owê kasy i broñ", sendername);
 		if(!KarywTXD) SendPunishMessage(string, playerid);
         else KaraTextdrawSystem("Admin Jail (15 minut)", sendername, "SYSTEM", "/q podczas akcji");
 		format(string, sizeof(string), "Dodatkowo zabrano z twojego portfela %d$ i wyzerowano twoje bronie oraz zabrano po³owê matsów", kaseczka);
@@ -4466,32 +4491,39 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
             {
                 if(graf_id == curr_id)
                 {
-                    new id = GetGraffitiUIDFromID(objectid);
-                    SetDynamicObjectPos(objectid, x, y, z);               
-                    SetDynamicObjectRot(objectid, rx, ry, rz);
-                    if(id == -1) id = graffitiNum+1;
-                    gCache[id][gPosX] = x;
-                    gCache[id][gPosY] = y;
-                    gCache[id][gPosZ] = z;
-                    gCache[id][gRotX] = rx;
-                    gCache[id][gRotY] = ry;
-                    gCache[id][gRotZ] = rz;
-                    if(editGraf[playerid] == 1)
+                    if(IsPlayerInRangeOfPoint(playerid, 15, Float:oldX, Float:oldY, Float:oldZ))
                     {
-                        gCache[id][gOID] = objectid;
-                        gCache[id][gPlayerUID] = PlayerInfo[playerid][pUID];
-                        format(gCache[id][gPlayerName], 24, "%s", PlayerInfo[playerid][pNick]);
-                        //gCache[objectid][gPlayerName] = PlayerCache[playerid][pName];
-                        gCache[id][gText] = graffiti[playerid];
-                        gCache[id][gFont] = graffitiFont[playerid];
-                        gCache[id][gSize] = graffitiSize[playerid];
-                        gCache[id][gLen] = graffitiLen[playerid];
-                        gCache[id][gColor] = graffitiColor[playerid];
-                        AddGrafDatabase(id, objectid);
-                    } 
-                    else if(editGraf[playerid] == 2)
-                    {
-                        SaveGraffitiPos(playerid, id, objectid);
+                        new id = GetGraffitiUIDFromID(objectid);
+                        SetDynamicObjectPos(objectid, x, y, z);               
+                        SetDynamicObjectRot(objectid, rx, ry, rz);
+                        if(id == -1) id = graffitiNum+1;
+                        gCache[id][gPosX] = x;
+                        gCache[id][gPosY] = y;
+                        gCache[id][gPosZ] = z;
+                        gCache[id][gRotX] = rx;
+                        gCache[id][gRotY] = ry;
+                        gCache[id][gRotZ] = rz;
+                        if(editGraf[playerid] == 1)
+                        {
+                            gCache[id][gOID] = objectid;
+                            gCache[id][gPlayerUID] = PlayerInfo[playerid][pUID];
+                            format(gCache[id][gPlayerName], 24, "%s", PlayerInfo[playerid][pNick]);
+                            //gCache[objectid][gPlayerName] = PlayerCache[playerid][pName];
+                            gCache[id][gText] = graffiti[playerid];
+                            gCache[id][gFont] = graffitiFont[playerid];
+                            gCache[id][gSize] = graffitiSize[playerid];
+                            gCache[id][gLen] = graffitiLen[playerid];
+                            gCache[id][gColor] = graffitiColor[playerid];
+                            AddGrafDatabase(id, objectid);
+                        } 
+                        else if(editGraf[playerid] == 2)
+                        {
+                            SaveGraffitiPos(playerid, id, objectid);
+                        }
+                    } else {
+                        SetDynamicObjectPos(objectid, oldX, oldY, oldZ);
+                        SetDynamicObjectRot(objectid, oldRotX, oldRotY, oldRotZ);
+                        if(editGraf[playerid] == 1) DestroyDynamicObject(objectid);
                     }
                 } else {
                     if(PlayerInfo[playerid][pAdmin] == 0)
@@ -5266,6 +5298,7 @@ public OnGameModeInit()
 	regexURL = regex_exbuild("^(http(?:s)?\\:\\/\\/[a-zA-Z0-9]+(?:(?:\\.|\\-)[a-zA-Z0-9]+)+(?:\\:\\d+)?(?:\\/[\\w\\-]+)*(?:\\/?|\\/\\w+\\.[a-zA-Z]{2,4}(?:\\?[\\w]+\\=[\\w\\-]+)?)?(?:\\&[\\w]+\\=[\\w\\-]+)*)$");
 	#endif
     GMX = 0;
+    ZONE_DISABLED = 0;
 	SSCANF_Option(OLD_DEFAULT_NAME, 1);
     Streamer_SetVisibleItems(0, 900);
     Streamer_SetTickRate(50);
@@ -5281,6 +5314,11 @@ public OnGameModeInit()
 	{
 		afk_timer[i] = -1;
 	}
+    for(new i; i<MAX_VEHICLES; i++)
+    {
+        vSigny[i] = 0;
+    }
+
 	//Wybory:
 	if(dini_Exists("wybory.ini"))
 	{
@@ -6902,6 +6940,8 @@ public OnPlayerText(playerid, text[])
         }
         return 0;
     }
+
+    //printf("OnPlayerText: %s", text);
 
 	new giver[MAX_PLAYER_NAME];
 	new sendername[MAX_PLAYER_NAME];

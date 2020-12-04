@@ -322,6 +322,23 @@ public OznaczCzitera(playerid)
 		SetPVarInt(playerid, "lastSobMsg", gettime() + 60);
 		format(string, sizeof(string), "%s[%d] jest podejrzany o S0beita", GetNick(playerid, true), playerid);
 		SendAdminMessage(COLOR_PANICRED, string);
+
+		new ilosc_adminow;
+		for(new i=0; i<MAX_PLAYERS; i++)
+		{
+			if(PlayerInfo[i][pAdmin] >= 1) ilosc_adminow++;
+		}
+
+		if(ilosc_adminow <= 0)
+		{
+			if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
+			{
+				MruMySQL_Banuj(playerid, "S0beit");
+				KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", "s0beit");
+				KickEx(playerid);
+			}
+		}
+
 	}
 	return 1;
 }
@@ -805,6 +822,11 @@ public CountDown()
 			if(!used[v])
 			{
 			    SetVehicleToRespawn(v);
+			    if(vSigny[v] == 1) 
+			    {
+			    	Delete3DTextLabel(vSignyText[v]);
+			    	vSigny[v] = 0;
+			    }
 			    if(Car_GetOwnerType(v) == CAR_OWNER_PLAYER)
 			    {
                     Car_Unspawn(v);
@@ -13097,6 +13119,8 @@ OnCheatDetected(playerid, ip_address[], type, code)
     			SendClientMessage(playerid, 0x9ACD32AA, string);
     			SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
     			MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+
+    			KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", "Kod 101");
 				KickEx(playerid);
     		}
     		default: format(code_decoded, sizeof(code_decoded), "Omijanie logowania");
@@ -13116,6 +13140,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
     			 SendAdminMessage(0x9ACD32AA, string);
     			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d - %s.", code, code_decoded);
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
+    			 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
     			 KickEx(playerid);
     		}
     		case 2: // AdmWarning
@@ -13152,6 +13177,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
     			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
     			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+    			 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
 				 KickEx(playerid);
     		}
     	}

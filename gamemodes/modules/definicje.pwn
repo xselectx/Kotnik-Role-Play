@@ -29,7 +29,7 @@ new Float:czitZ;
 #define DC_REPORT_CHANNEL 0
 #define DC_ADMIN_CHANNEL 1
 
-#define DC_SPAM_LIMIT 5
+#define DC_SPAM_LIMIT 1
 
 #define DC_ADMIN MAX_PLAYERS-1
 

@@ -1783,24 +1783,24 @@ CMD:dgps(playerid)
 		{
             if(ZabranyGPS[playerid] == 0)
             {
-			     new string[128], sendername[MAX_PLAYER_NAME];
-			     GetPlayerName(playerid, sendername, sizeof(sendername));
-                    new frac = GetPlayerFraction(playerid);
+                new string[128], sendername[MAX_PLAYER_NAME];
+                GetPlayerName(playerid, sendername, sizeof(sendername));
+                new frac = GetPlayerFraction(playerid);
+            
+                foreach(Player, i)
+                {
+                	if(IsACop(i) || IsAMedyk(i) || GetPlayerFraction(i) == FRAC_NG || GetPlayerFraction(i) == FRAC_LSFD || (PlayerInfo[i][pMember] == 9 && SanDuty[i] == 1) || (PlayerInfo[i][pLider] == 9 && SanDuty[i] == 1))
+                		RemovePlayerMapIcon(i, frac+20); 
+                }
+            
+                format(string, sizeof(string), "=: %s %s %s departamentowy GPS %s :=", FracRang[GetPlayerFraction(playerid)][PlayerInfo[playerid][pRank]], sendername, (FracDGPS[frac] == playerid) ? ("deaktywowa³") : ("aktywowa³"), (FracDGPS[frac] == playerid) ? ("") : ("potrzebne wsparcie!"));
+                FracDGPS[frac] = (FracDGPS[frac] == playerid) ? (-1) : (playerid);
         
-			     foreach(Player, i)
-			     {
-			     	if(IsACop(i) || IsAMedyk(i) || GetPlayerFraction(i) == FRAC_NG || GetPlayerFraction(i) == FRAC_LSFD || (PlayerInfo[i][pMember] == 9 && SanDuty[i] == 1) || (PlayerInfo[i][pLider] == 9 && SanDuty[i] == 1))
-			     		RemovePlayerMapIcon(i, frac+20); 
-			     }
-        
-			     format(string, sizeof(string), "=: %s %s %s departamentowy GPS %s :=", FracRang[GetPlayerFraction(playerid)][PlayerInfo[playerid][pRank]], sendername, (FracDGPS[frac] == playerid) ? ("deaktywowa³") : ("aktywowa³"), (FracDGPS[frac] == playerid) ? ("") : ("potrzebne wsparcie!"));
-			     FracDGPS[frac] = (FracDGPS[frac] == playerid) ? (-1) : (playerid);
-        
-			     SendRadioMessage(1, COLOR_YELLOW2, string);
-			     SendRadioMessage(2, COLOR_YELLOW2, string);
-			     SendRadioMessage(3, COLOR_YELLOW2, string);
-			     SendRadioMessage(4, COLOR_YELLOW2, string);
-			     //SendRadioMessage(9, COLOR_YELLOW2, string);
+                SendRadioMessage(1, COLOR_YELLOW2, string);
+                SendRadioMessage(2, COLOR_YELLOW2, string);
+                SendRadioMessage(3, COLOR_YELLOW2, string);
+                SendRadioMessage(4, COLOR_YELLOW2, string);
+                //SendRadioMessage(9, COLOR_YELLOW2, string);
                 SendRadioMessage(FRAC_LSFD, COLOR_YELLOW2, string);
             } else sendErrorMessage(playerid, "Twój nadajnik GPS zosta³ zabrany!");
 		}
@@ -1826,7 +1826,7 @@ CMD:red(playerid)
             {
                  new string[128], sendername[MAX_PLAYER_NAME];
                  GetPlayerName(playerid, sendername, sizeof(sendername));
-                    new frac = GetPlayerFraction(playerid);
+                 new frac = GetPlayerFraction(playerid);
         
                  foreach(Player, i)
                  {
@@ -2847,14 +2847,14 @@ CMD:apteczka(playerid, params[])
                         if(PlayerInfo[playa][pBW] > 0  || pobity[playa] != 0)
                         {
 					      SetPlayerHealth(playa, 100);
-                           _MruGracz(playa, sprintf("Zosta³eœ uzdrowiony przez lekarza %s", GetNick(playerid, true)));
+                          _MruGracz(playa, sprintf("Zosta³eœ uzdrowiony przez lekarza %s", GetNick(playerid, true)));
 					      format(string, sizeof(string),"* Lekarz %s wyci¹ga apteczkê, banda¿uje rany oraz podaje leki %s.", sendername, giveplayer);
 					      ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
 					      format(string, sizeof(string), "%s czuje siê lepiej dziêki interwencji lekarza.", giveplayer);
 					      ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
 					      pobity[playa] = 0;
 					      obezwladniony[playa] = 0;
-                           PlayerInfo[playa][pBW] = 2;
+                          PlayerInfo[playa][pBW] = 2;
                         }  else return sendErrorMessage(playerid, "Ten gracz nie potrzebuje leczenia!");
                     } else return sendErrorMessage(playerid, "Nie mo¿esz kogoœ uleczyæ gdy sam potrzebujesz pomocy!");
 				}
@@ -12680,18 +12680,7 @@ CMD:kamera_wiezienie(playerid, params[])
 	return 1;
 }
 
-CMD:uniform2(playerid, params[])
-{
-    if(IsPlayerConnected(playerid) && IsAtClothShop(playerid) && PlayerInfo[playerid][pMember] != 0)
-    {
-        ShowPlayerDialogEx(playerid,DIALOGID_UNIFORM,DIALOG_STYLE_PREVMODEL_LIST,"Zmien skin frakcyjny",DialogListaSkinow(PlayerInfo[playerid][pMember]),"Zmien skin","Anuluj"); //zmieñ dialogid
-    }
-    else
-    {
-        SendClientMessage(playerid, COLOR_GRAD2, "  Nie jesteœ w sklepie odzie¿owym!");
-    }
-    return 1;
-}
+
 
 /*CMD:podszyj(playerid, params[]) return cmd_podszyjsie(playerid, params);
 CMD:podszyjsie(playerid, params[])
@@ -14749,6 +14738,7 @@ CMD:kogut(playerid)
 	return 1;
 }
 
+CMD:v(playerid) return cmd_car(playerid);
 CMD:auto(playerid) return cmd_car(playerid);
 CMD:pojazd(playerid) return cmd_car(playerid);
 CMD:samochod(playerid) return cmd_car(playerid);
@@ -16490,6 +16480,44 @@ CMD:do(playerid, params[])
     return 1;
 }
 
+CMD:don(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] >= 1 || Uprawnienia(playerid, ACCESS_PANEL))
+    {
+        if(isnull(params))
+        {
+            sendTipMessage(playerid, "U¿yj /don [opis sytuacji]");
+            return 1;
+        }
+        new string[256];
+        
+        if(strlen(params) < 78)
+        {
+            //format(string, sizeof(string), "* %s %s", GetNick(playerid, true), params);
+            format(string, sizeof(string), "* %s (( Narrator ))", params);
+            ProxDetector(15.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+        }
+        else
+        {
+            new pos = strfind(params, " ", true, strlen(params) / 2);
+            if(pos != -1)
+            {
+                new text[64];
+    
+                strmid(text, params, pos + 1, strlen(params));
+                strdel(params, pos, strlen(params));
+    
+                format(string, sizeof(string), "* %s [.]", params);
+                ProxDetector(15.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+    
+                format(string, sizeof(string), "[.] %s (( Narrator ))", text);
+                ProxDetector(15.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+            }
+        }
+    } else noAccessMessage(playerid);
+    return 1;
+}
+
 CMD:odpal(playerid)
 {
 	new string[128];
@@ -16996,9 +17024,9 @@ CMD:rlow(playerid, params[])
         new member = GetPlayerFraction(playerid);
         if(0 < member <= 4 || member == 11 || member == 7 || member == 17 || member == 14)
         {
-            format(string, sizeof(string), "** %s %s: %s **", FracRang[member][PlayerInfo[playerid][pRank]],GetNick(playerid, true), params);
+            format(string, sizeof(string), "** %s %s (szeptem): %s **", FracRang[member][PlayerInfo[playerid][pRank]],GetNick(playerid, true), params);
             SendRadioMessage(member, TEAM_BLUE_COLOR, string);
-            format(string, sizeof(string), "%s mówi przez radio: %s", sendername, params);
+            format(string, sizeof(string), "%s szepcze przez radio: %s", sendername, params);
             ProxDetector(3.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
             printf("%s", string);
             //format(string, sizeof(string), "Radio: %s", params);
@@ -17007,10 +17035,10 @@ CMD:rlow(playerid, params[])
         else if(GetPlayerOrg(playerid) == FAMILY_SAD) //SAD i BOR po³aczenie
         {
             member = GetPlayerOrg(playerid);
-            format(string, sizeof(string), "** %s %s: %s **", FamRang[member][PlayerInfo[playerid][pRank]],GetNick(playerid, true), params);
+            format(string, sizeof(string), "** %s %s (szeptem): %s **", FamRang[member][PlayerInfo[playerid][pRank]],GetNick(playerid, true), params);
             SendFamilyMessage(FRAC_BOR, TEAM_AZTECAS_COLOR, string);
             SendNewFamilyMessage(FAMILY_SAD, TEAM_BLUE_COLOR, string);
-            format(string, sizeof(string), "%s mówi przez radio: %s", sendername, params);
+            format(string, sizeof(string), "%s szepcze przez radio: %s", sendername, params);
             ProxDetector(3.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
             printf("%s", string);
             //format(string, sizeof(string), "Radio: %s", params);
@@ -17872,28 +17900,32 @@ CMD:fskin(playerid)
 {
     if(IsPlayerConnected(playerid))
     {
-		if (IsAtClothShop(playerid) || (GetPlayerOrg(playerid) == FAMILY_RSC && IsPlayerInRangeOfPoint(playerid, 4.0, 1636.9476,-1813.6195,13.5263)) )
+        
+        new id = GetPlayerFraction(playerid);
+        if(id == 0) id = GetPlayerOrg(playerid);
+        if(id == 0) return noAccessMessage(playerid);
+		if (IsAtClothShop(playerid) 
+            || IsPlayerInRangeOfPoint(playerid, 5, FracInfo[id][frac_Spawn][0],FracInfo[id][frac_Spawn][1],FracInfo[id][frac_Spawn][2])
+            || IsPlayerInRangeOfPoint(playerid, 5, OrgInfo[id][o_Spawn][0], OrgInfo[id][o_Spawn][1], OrgInfo[id][o_Spawn][2]))
 		{
+            if(!IsPlayerInRangeOfPoint(playerid, 50, 0, 0, 0))
+            {
             //W³¹czenie trybu skinów
-            if(GetPVarInt(playerid, "skin-select") != 0) return DestroySkinSelection(playerid);
-            SetPVarInt(playerid, "skin-select", 1);
-            new frac = GetPlayerFraction(playerid);
-            new fam = GetPlayerOrg(playerid);
-            if(frac != 0)
-            {
-                if(!ProceedSkinSelection(playerid,frac, 1)) return SendClientMessage(playerid, COLOR_GRAD2, "Twoja frakcja nie ma w³asnych skinów.");
-            }
-            else if(fam != 0)
-            {
-                if(!ProceedSkinSelection(playerid,fam, 2)) return SendClientMessage(playerid, COLOR_GRAD2, "Twoja rodzina nie ma w³asnych skinów.");
-            }
-            else return SendClientMessage(playerid, COLOR_GRAD2, "Nie mo¿esz tego u¿yæ.");
-		}
-		else
-		{
-			SendClientMessage(playerid, COLOR_GRAD2, "Nie jesteœ w sklepie z ubraniami !");
-			return 1;
-		}
+                if(GetPVarInt(playerid, "skin-select") != 0) return DestroySkinSelection(playerid);
+                SetPVarInt(playerid, "skin-select", 1);
+                new frac = GetPlayerFraction(playerid);
+                new fam = GetPlayerOrg(playerid);
+                if(frac != 0)
+                {
+                    if(!ProceedSkinSelection(playerid,frac, 1)) return SendClientMessage(playerid, COLOR_GRAD2, "Twoja frakcja nie ma w³asnych skinów.");
+                }
+                else if(fam != 0)
+                {
+                    if(!ProceedSkinSelection(playerid,fam, 2)) return SendClientMessage(playerid, COLOR_GRAD2, "Twoja rodzina nie ma w³asnych skinów.");
+                }
+                else return SendClientMessage(playerid, COLOR_GRAD2, "Nie mo¿esz tego u¿yæ.");
+            } else return SendClientMessage(playerid, COLOR_GRAD2, "Nie jesteœ w sklepie z ubraniami lub na miejscu spawnu!");
+		} else return SendClientMessage(playerid, COLOR_GRAD2, "Nie jesteœ w sklepie z ubraniami lub na miejscu spawnu!");
 	}
 	return 1;
 }
@@ -18799,7 +18831,7 @@ CMD:ruleta(playerid, params[])
                     podatek = floatround(wygrana*0.10); // 10% podatku do sejfu
                     
                     DajKase(playerid, wygrana-podatek);
-                     format(str, sizeof(str), "* Wygra³eœ $%d!", wygrana);
+                    format(str, sizeof(str), "* Wygra³eœ $%d!", wygrana);
                     SendClientMessage(playerid, COLOR_GREEN, str);
                     format(str, 128, "[Ruletka] %s wygral %d$", GetNick(playerid), wygrana-podatek);
                     KasynoLog(str);
@@ -18819,7 +18851,7 @@ CMD:ruleta(playerid, params[])
                     podatek = floatround(wygrana*0.10); // 10% podatku do sejfu
                     
                     DajKase(playerid, wygrana-podatek);
-                     format(str, sizeof(str), "* Wygra³eœ $%d!", wygrana);
+                    format(str, sizeof(str), "* Wygra³eœ $%d!", wygrana);
                     SendClientMessage(playerid, COLOR_GREEN, str);
                     format(str, 128, "[Ruletka] %s wygral %d$", GetNick(playerid), wygrana-podatek);
                     KasynoLog(str);
@@ -35492,9 +35524,7 @@ CMD:kradnij(playerid)
             {
                 return sendTipMessageEx(playerid, COLOR_GRAD2, "Tego pojazdu nie da siê ukraœæ!");
             }
-   	        //if(GetPlayerVehicleID(playerid) != 1)
-   	        //{
-   	            if(NieSpamujKradnij[playerid] == 0)
+                if(NieSpamujKradnij[playerid] == 0)
    	            {
 		   	        new skillz;
 		   	        if(PlayerInfo[playerid][pJackSkill] < 50)
@@ -35538,7 +35568,6 @@ CMD:kradnij(playerid)
 				{
 				    sendTipMessageEx(playerid, COLOR_GREY, "Ju¿ próbujesz ukraœæ wóz !");
 				}
-		    //}
 		}
 		else
 		{
@@ -35933,14 +35962,14 @@ CMD:paka(playerid, params[])
 			     		}
 			     		//format(string, sizeof(string), "* Aresztowany %s !", giveplayer);
 			     		//SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-                            new depo2 = floatround(((moneys/100) * 80), floatround_round); // sejf
-                            new depo3 = floatround(((moneys/100) * 20), floatround_round); //pd
-                            DajKase(playerid, depo3);
-                            Sejf_Add(PlayerInfo[playerid][pMember], depo2);
-                            format(string, sizeof(string), "Uwiêzi³eœ %s, nagroda za przestêpcê: %d. Otrzymujesz $%d", giveplayer, moneys, depo3);
-                            _MruGracz(playerid, string);
+                        new depo2 = floatround(((moneys/100) * 80), floatround_round); // sejf
+                        new depo3 = floatround(((moneys/100) * 20), floatround_round); //pd
+                        DajKase(playerid, depo3);
+                        Sejf_Add(PlayerInfo[playerid][pMember], depo2);
+                        format(string, sizeof(string), "Uwiêzi³eœ %s, nagroda za przestêpcê: %d. Otrzymujesz $%d", giveplayer, moneys, depo3);
+                        _MruGracz(playerid, string);
 			     		DajKase(suspect, -moneys);
-                            poscig[suspect] = 0;
+                        poscig[suspect] = 0;
 			     		//DajKase(playerid, moneys);
 			     		format(string, sizeof(string), "Aresztowany przez %s ~n~    grzywna $%d", sendername, moneys);
 			     		GameTextForPlayer(suspect, string, 5000, 5);
@@ -37538,9 +37567,9 @@ CMD:deleteobject(playerid, p[])
 
 CMD:patrol(playerid, params[])
 {
-    new var[32];
+    new var[128], sign[32];
     if(GetPlayerFraction(playerid) != FRAC_LSPD) return 1;
-    if(sscanf(params, "s[32]", var)) return sendTipMessageEx(playerid, COLOR_GRAD2, "Dostêpne parametry: start, stop, mapa, akceptuj, lista");
+    if(sscanf(params, "s[128]S()[32]", var, sign)) return sendTipMessageEx(playerid, COLOR_GRAD2, "Dostêpne parametry: start, stop, vsign, mapa, akceptuj, lista");
     if(strcmp(var, "start", true) == 0)
     {
         if(GetPVarInt(playerid, "patrol") == 1) return sendTipMessageEx(playerid, COLOR_PAPAYAWHIP, "Aktualnie jestes na patrolu.");
@@ -37624,10 +37653,17 @@ CMD:patrol(playerid, params[])
     }
     else if(strcmp(var, "vsign", true) == 0)
     {
-        new var[64];
-        if(sscanf(params, "s[64]", var)) return sendTipMessage(playerid, "U¿yj /patrol vsign [kryptonim]");
-
-        Create3DTextLabel(var, 0xFFFFFFFF, Float:X, Float:Y, Float:Z, 10, 0, testLOS=0)
+        if(strlen(sign) <= 0) return sendTipMessage(playerid, "U¿yj /patrol vsign [kryptonim]");
+        if(IsPlayerInAnyVehicle(playerid))
+        {
+            new carid = GetPlayerVehicleID(playerid);
+            if(vSigny[carid] == 1) Delete3DTextLabel(vSignyText[carid]);
+            new Float:x, Float:y, Float:z;
+            GetVehiclePos(carid, Float:x, Float:y, Float:z);
+            vSignyText[carid] = Create3DTextLabel(sign, 0xFFFFFFFF, x, y, z, 10, 0, 1);
+            vSigny[carid] = 1;
+            Attach3DTextLabelToVehicle(vSignyText[carid], carid, -0.6, -2.9, 0);
+        } else return sendTipMessage(playerid, "Musisz byæ w pojeŸdzie.");
     }
     else if(strcmp(var, "akceptuj", true) == 0)
     {

@@ -1006,7 +1006,7 @@ DialogMenuDotacje(playerid)
 		PremiumInfo[playerid][pMC], kpinfo, ((IsPlayerPremium(playerid)) ? ("Przed³u¿") : ("Kup")), PlayerInfo[playerid][pPnumber], PlayerInfo[playerid][pCarSlots]);
 	
 
-		format(string, sizeof(string), "%s"\
+	format(string, sizeof(string), "%s"\
 		""#HQ_COLOR_TEKST"Postaæ\n"\
 		"    "HQ_COLOR_TEKST2"Dodatkowa zmiana nicku\n"\
 		"    "HQ_COLOR_TEKST2"Skin personalny\n", string);

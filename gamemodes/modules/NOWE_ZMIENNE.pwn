@@ -27,6 +27,9 @@ new shotTime[MAX_PLAYERS];
 new Urzednicy[4];
 new Text3D:UrzednicyName[4];
 
+new vSigny[MAX_VEHICLES];
+new Text3D:vSignyText[MAX_VEHICLES];
+
 new pasy[MAX_PLAYERS];
 new kask[MAX_PLAYERS];
 new oldCarHP[MAX_PLAYERS];
