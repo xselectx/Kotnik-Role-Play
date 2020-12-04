@@ -37240,7 +37240,7 @@ CMD:lock(playerid)
 
 CMD:rapidfly(playerid, p[])
 {
-    if(PlayerInfo[playerid][pAdmin] >= 5 || PlayerInfo[playerid][pNewAP] == 5)
+    if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5)
     {
         new typ;
         sscanf(p, "D(0)", typ);
