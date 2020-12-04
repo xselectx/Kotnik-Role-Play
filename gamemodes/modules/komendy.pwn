@@ -26468,11 +26468,11 @@ CMD:ah(playerid)
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /respawn /carjump /goto /up /getcar /gethere");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /cnn /cc /spec /unblock /unwarn /forum /pogoda /pogodaall");
         SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /usunopis [ID] /czity /respawnplayer /respawncar /unbw /cmdinfo");
-        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly");
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 5)
 	{
-		SendClientMessage(playerid, COLOR_GRAD4,"*5* ADMIN *** /zawodnik /dajkm /zuzel_start /zuzel_stop /rapidfly");
+		SendClientMessage(playerid, COLOR_GRAD4,"*5* ADMIN *** /zawodnik /dajkm /zuzel_start /zuzel_stop");
 		SendClientMessage(playerid, COLOR_GRAD4,"*5* ADMIN *** /getposp /gotopos  /gotols /gotoszpital /gotolv /gotosf /gotoin /gotostad /gotojet");
 		SendClientMessage(playerid, COLOR_GRAD4,"*5* ADMIN *** /cca /ann /nonewbie /tod /gethere /dajdowozu /checkdom NEW: /anulujzp");
 	}
