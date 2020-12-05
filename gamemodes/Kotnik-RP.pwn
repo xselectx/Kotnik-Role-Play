@@ -1360,6 +1360,8 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
     GetPlayerHealth(playerid,health);
     GetPlayerArmour(playerid, ARMOR);
 
+    if(GetPVarInt(playerid, "dutyadmin")) return 0;
+
     if(weaponid == WEAPON_GRENADE || weaponid == 51)
 	{
 		SetPlayerHealth(playerid, (health)-5);
@@ -4727,7 +4729,8 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
         
         SetPVarInt(playerid, "iLastDrive", gettime());
     } */
-    if(oldstate == PLAYER_STATE_ENTER_VEHICLE_DRIVER || oldstate == PLAYER_STATE_ENTER_VEHICLE_PASSENGER) DeletePVar(playerid, "entering_car");
+    if(newstate == PLAYER_STATE_ONFOOT) DeletePVar(playerid, "entering_car");
+    if(oldstate == PLAYER_STATE_ENTER_VEHICLE_DRIVER || oldstate == PLAYER_STATE_ENTER_VEHICLE_PASSENGER || oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER) DeletePVar(playerid, "entering_car");
 
 	if(newstate == PLAYER_STATE_DRIVER || newstate == PLAYER_STATE_PASSENGER)
     {

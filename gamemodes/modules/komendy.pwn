@@ -9558,7 +9558,7 @@ CMD:pblok(playerid, params[])
 	return 1;
 }
 
-CMD:pban_xxx(playerid, params[])
+CMD:pban(playerid, params[])
 {
 	new string[128];
 	new sendername[MAX_PLAYER_NAME];
@@ -9826,6 +9826,24 @@ CMD:setname(playerid, params[])
 		}
 	}
 	return 1;
+}
+
+CMD:dajzn(playerid, params[])
+{
+
+    if(PlayerInfo[playerid][pAdmin] >= 5000)
+    {
+        new id, ile;
+        if(sscanf(params, "dd", id, ile)) return sendTipMessage(playerid, "U¿yj: /dajzn [playerid/CzêœæNicku] [zmiany nicku]");
+
+        PlayerInfo[id][pZmienilNick] += ile;
+
+        new string[128];
+        format(string, sizeof(string), "Admin %s nada³ Ci %d zmian nicku.", GetNick(playerid), ile);
+        _MruAdmin(id, string);
+        _MruAdmin(playerid, "Nadano.");
+    } else return noAccessMessage(playerid);
+    return 1;
 }
 
 CMD:zmiennick(playerid, params[])
@@ -15994,6 +16012,9 @@ CMD:og(playerid, params[])
                 _MruGracz(playerid, string);
                 return 1;
             }
+
+            if(strlen(params) > 78) return sendTipMessage(playerid, "Twoje og³oszenie jest za d³ugie. Max 78 znaków");
+
             DajKase(playerid, - payout);
             //format(string, sizeof(string), "Og³oszenie: %s, Kontakt: %s Tel: %d",  params, GetNick(playerid, true), PlayerInfo[playerid][pPnumber]);
             Ogloszenie(TEAM_GROVE_COLOR, playerid, params);
@@ -17468,6 +17489,7 @@ CMD:sluzba(playerid)
 
     if(IsPlayerConnected(playerid))
     {
+        if(GetPVarInt(playerid, "dutyadmin") == 1) return sendTipMessage(playerid, "ZejdŸ z duty @");
         if(IsACop(playerid) && PoziomPoszukiwania[playerid] > 0)
         {
             sendTipMessage(playerid, "Osoby poszukiwane przez policjê nie mog¹ rozpocz¹æ s³u¿by !");
@@ -20681,9 +20703,9 @@ CMD:wejdz(playerid)
         }*/
         else if (IsPlayerInRangeOfPoint(playerid, 5.0, 1022.7183837891,-1122.4310302734,23.871517181396)) // kasyno
         {
-            if(PlayerInfo[playerid][pLevel] < 3)
+            if(PlayerInfo[playerid][pLevel] < 2)
             {
-                sendTipMessageEx(playerid, COLOR_GRAD1, "Tylko gracze z przynajmniej 3 lvl mog¹ graæ w kasynie!");
+                sendTipMessageEx(playerid, COLOR_GRAD1, "Tylko gracze z przynajmniej 2 lvl mog¹ graæ w kasynie!");
                 return 1;
             }
             SetPlayerPosEx(playerid, 1025.2453613281,-1078.1614990234,-67.785308837891 ); // Kasnyo œrodek
@@ -21209,7 +21231,7 @@ CMD:wyjdz(playerid)
             SetPlayerPosEx(playerid,286.1271, -30.4991, 1001.52);
         }*/
 		//winda FBI
-		/*else if(IsPlayerInRangeOfPoint(playerid,5,618.0215,-1452.7937,90.6158)//przy recepcji
+		else if(IsPlayerInRangeOfPoint(playerid,5,618.0215,-1452.7937,90.6158)//przy recepcji
 		|| IsPlayerInRangeOfPoint(playerid,5,623.6523, -1485.1019, 90.7391)//przy sali przesluchan
 		|| IsPlayerInRangeOfPoint(playerid,5,610.6687, -1454.7335, 73.9460)//biura
 		|| IsPlayerInRangeOfPoint(playerid,5,1906.8574, -1721.6230, 998.8511)//Tory Szkoleniowe oraz szatnie
@@ -21220,7 +21242,32 @@ CMD:wyjdz(playerid)
 		|| IsPlayerInRangeOfPoint(playerid,5,599.7307, -1499.7308, 37.5980))//Sale Konferencyjne
 		{
 			ShowPlayerDialogEx(playerid,19,DIALOG_STYLE_LIST,"Winda FBI","[Poziom -1]Parking podziemny \n[Poziom 0]Parking \n[Poziom 1]Recepcja\n[Poziom 2] Szatnia i Toalety\n[Poziom 3]Centrum szkoleniowe\n[Poziom 4]Sala Konferencyjna\n[Poziom 5]Wiêzienie stanowe\n[Poziom 6]Biura Federalne\n[Poziom 7]Dach FBI","Jedz","Anuluj");
-        }*/
+        }
+        else if(IsPlayerInRangeOfPoint(playerid,5,608.19793701172, -1458.9837646484, 14.387271881104))//fbi wejscie
+        {
+            SetPlayerPosEx(playerid,627.1783, -1470.2279, 90.7054);//fbi srodek
+            //GameTextForPlayer(playerid, "~w~Witamy w~y~ Biurach ~b~FBI~n~~r~by Dywan", 5000, 1);
+            TogglePlayerControllable(playerid, 0);
+            Wchodzenie(playerid);
+            SetPlayerVirtualWorld(playerid,10);
+            PlayerInfo[playerid][pLocal] = 212;
+        }
+        else if(IsPlayerInRangeOfPoint(playerid, 10.0, 156.85940551758, 1829.7415771484, 17.693145751953))//pokoj widzen fbi srodek
+        {
+            SetPlayerPosEx(playerid, 213.57328796387, 1811.1787109375, 21.8671875);//pokoj widzen fbi wejscie
+            GameTextForPlayer(playerid, "~w~Zegnamy", 5000, 1);
+            PlayerInfo[playerid][pLocal] = 255;
+        }
+        else if(IsPlayerInRangeOfPoint(playerid,5,627.1783, -1470.2279, 90.7054))//fbi wyjscie
+        {
+            SetPlayerPosEx(playerid, 608.19793701172, -1458.9837646484, 14.387271881104);
+            //SetPlayerPosEx(playerid,);//fbi srodek
+            //GameTextForPlayer(playerid, "~w~Witamy w~y~ Biurach ~b~FBI~n~~r~by Dywan", 5000, 1);
+            //TogglePlayerControllable(playerid, 0);
+            //Wchodzenie(playerid);
+            SetPlayerVirtualWorld(playerid,0);
+            PlayerInfo[playerid][pLocal] = 255;
+        }
 		/*if(IsPlayerInRangeOfPoint(playerid,4,2455.1021,-1958.0905,120.8159))//WPS klub bonehead
 	    {
 	        SetPlayerVirtualWorld(playerid,0);
@@ -25907,7 +25954,7 @@ CMD:warn(playerid, params[])
 			}
 		}
 
-		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5)
+		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] >= 1)
 		{
             if(AntySpam[playerid] == 1)
 		    {
@@ -26605,7 +26652,7 @@ CMD:ah(playerid)
 	if (PlayerInfo[playerid][pNewAP] >= 1 && PlayerInfo[playerid][pNewAP] <= 3)
 	{
 		SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /slap /aj /wybieralka /check /freeze /unfreeze /ucisz /KickEx");
-        SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /ban /goto /spec /respawn /a(dmin) chat /cmdinfo /unbw /checkbw");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /ban /goto /spec /respawn /a(dmin) chat /cmdinfo /unbw /checkbw /warn");
     }
 	if (PlayerInfo[playerid][pNewAP] == 4)
 	{
@@ -37815,15 +37862,18 @@ CMD:patrol(playerid, params[])
     else if(strcmp(var, "vsign", true) == 0)
     {
         if(strlen(sign) <= 0) return sendTipMessage(playerid, "U¿yj /patrol vsign [kryptonim]");
+
         if(IsPlayerInAnyVehicle(playerid))
         {
             new carid = GetPlayerVehicleID(playerid);
-            if(vSigny[carid] == 1) Delete3DTextLabel(vSignyText[carid]);
+            
+            if(vSigny[carid] == 1) DestroyDynamic3DTextLabel(vSignyText[carid]);
             new Float:x, Float:y, Float:z;
             GetVehiclePos(carid, Float:x, Float:y, Float:z);
-            vSignyText[carid] = Create3DTextLabel(sign, 0xFFFFFFFF, x, y, z, 10, 0, 1);
+            //CreateDynamic3DTextLabel(const text[], color, Float:x, Float:y, Float:z, Float:drawdistance, attachedplayer = INVALID_PLAYER_ID, attachedvehicle = INVALID_VEHICLE_ID, testlos = 0, worldid = -1, interiorid = -1, playerid = -1, Float:streamdistance = STREAMER_3D_TEXT_LABEL_SD, STREAMER_TAG_AREA areaid = STREAMER_TAG_AREA -1, priority = 0)
+            vSignyText[carid] = CreateDynamic3DTextLabel(sign, 0xFFFFFFFF, x, y, z, 10, INVALID_PLAYER_ID, carid, 1);
             vSigny[carid] = 1;
-            Attach3DTextLabelToVehicle(vSignyText[carid], carid, -0.6, -2.9, 0);
+            //Attach3DTextLabelToVehicle(vSignyText[carid], carid, -0.6, -2.9, 0);
         } else return sendTipMessage(playerid, "Musisz byæ w pojeŸdzie.");
     }
     else if(strcmp(var, "akceptuj", true) == 0)
@@ -38108,7 +38158,7 @@ CMD:boombox(playerid, params[])
             if(BoomBoxData[id][BBD_Carried]-1 == playerid)
             {
                 if(GetPVarInt(playerid, "zoneid") == -1) return sendTipMessageEx(playerid, COLOR_GRAD2, "Komenda dostêpna tylko na strefie gangu.");
-                else if(ZoneControl[GetPVarInt(playerid, "zoneid")] != frac || ZoneControl[GetPVarInt(playerid, "zoneid")]-100 != GetPlayerOrg(playerid)) return sendTipMessageEx(playerid, COLOR_GRAD2, "Komenda dostêpna tylko na strefie gangu.");
+                else if(ZoneControl[GetPVarInt(playerid, "zoneid")] != frac && ZoneControl[GetPVarInt(playerid, "zoneid")]-100 != GetPlayerOrg(playerid)) return sendTipMessageEx(playerid, COLOR_GRAD2, "Komenda dostêpna tylko na strefie gangu.");
 
                 BBD_Putdown(playerid, id);
             }

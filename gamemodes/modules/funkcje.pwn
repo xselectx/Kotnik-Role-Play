@@ -821,15 +821,20 @@ public CountDown()
 		{
 			if(!used[v])
 			{
+				new lID = VehicleUID[v][vUID];
 			    SetVehicleToRespawn(v);
 			    if(vSigny[v] == 1) 
 			    {
-			    	Delete3DTextLabel(vSignyText[v]);
+			    	DestroyDynamic3DTextLabel(vSignyText[v]);
 			    	vSigny[v] = 0;
 			    }
 			    if(Car_GetOwnerType(v) == CAR_OWNER_PLAYER)
 			    {
                     Car_Unspawn(v);
+	            } else {
+	            	Gas[v] = 100;
+	            	SetVehicleVirtualWorld(v, CarData[lID][c_VW]);
+	            	LinkVehicleToInterior(v, CarData[lID][c_Int]);
 	            }
 			}
 		}
@@ -5126,7 +5131,12 @@ SetPlayerToTeamColor(playerid)
 {
 	if(IsPlayerConnected(playerid))
 	{
-		
+		if(GetPVarInt(playerid, "dutyadmin") == 1)
+		{
+			SetPlayerColor(playerid, 0xFF0000FF);
+			return 1;
+		}
+
 	    if(PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1)
 		{
 		    if(OnDuty[playerid] && OnDutyCD[playerid] == 0)
@@ -5215,12 +5225,10 @@ SetPlayerToTeamColor(playerid)
 		        SetPlayerColor(playerid,TEAM_HIT_COLOR); // white
 		    }
 		}
-		else if(GetPVarInt(playerid, "dutyadmin") == 1)
-		{
-			SetPlayerColor(playerid, 0xFF0000FF);
-		}
+		
         else SetPlayerColor(playerid,TEAM_HIT_COLOR);
 	}
+	return 1;
 }
 
 LoadBoxer()
@@ -12764,6 +12772,16 @@ LoadScriptableObjects()
 	SetDynamicObjectMaterialText(Telebim[tID], 0 , Telebim[tTekst],  Telebim[tSize], Telebim[tCzcionka], Telebim[tFSize], Telebim[tBold], Telebim[tCzcionkaKolor], Telebim[tBackg], Telebim[tAli]);
     StopDynamicObject(Telebim[tID]);
     
+
+    // --- [ FBI ] --- //
+    Celaki[0] = CreateDynamicObject(19303, 640.95209, -1488.60669, 90.89490,   0.00000, 0.00000, 90.00000,11);
+	Celaki[1] = CreateDynamicObject(19303, 640.95209, -1484.39648, 90.89490,   0.00000, 0.00000, 90.00000,11);
+	Celaki[2] = CreateDynamicObject(19303, 640.95209, -1480.18262, 90.89490,   0.00000, 0.00000, 90.00000,11);
+	FBIdrzwi3 = CreateDynamicObject(1569, 613.93781, -1482.25500, 89.61260,   0.00000, 0.00000, 0.00000,11);
+	FBIdrzwi4 = CreateDynamicObject(1569, 620.36481, -1482.25720, 89.61260,   0.00000, 0.00000, 0.00000,11);
+	FBIdrzwi7 = CreateDynamicObject(1569, 628.00238, -1455.47119, 72.94110,   0.00000, 0.00000, 90.00000,12);
+	BramaWDol = CreateDynamicObject(980, 615.2236328125, -1509.96484375, 16.714672088623, 0, 0, 90, -1, -1, -1, 200.0);
+
 }
 
 LoadBramy()
@@ -12815,7 +12833,48 @@ LoadBramy()
 
 	// cele
 
+	brama = CreateDynamicObject(19302, 1558.226806, -1636.894287, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1636.894287, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1635.202636, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
 
+	brama = CreateDynamicObject(19302, 1558.226806, -1640.124877, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1640.124877, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1638.463378, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1558.226806, -1646.095214, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1646.095214, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1647.545410, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1558.226806, -1649.315673, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1649.315673, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1650.767089, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1649.285644, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1649.285644, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1650.737060, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1646.085449, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1646.085449, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1647.535522, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1640.094970, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1640.094970, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1638.403320, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1636.884277, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1636.884277, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1635.204345, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	// konferencyjne
+
+	brama = CreateDynamicObject(3089, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 90.000000, 6,-1,-1, 300.00, 300.00); 
+	DodajBrame(brama, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 90.000000, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+	
+	brama = CreateDynamicObject(3089, 1558.773193, -1644.506103, 28.658069, 0.000000, 0.000000, 90.000000, 6,-1,-1, 300.00, 300.00); 
+	DodajBrame(brama, 1558.773193, -1644.506103, 28.658069, 0.000000, 0.000000, 90.000000, 1558.773193, -1644.506103, 28.658069, 0.000000, 0.000000, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 180.000000, 6,-1,-1, 300.00, 300.00); 
+	DodajBrame(brama, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 180.000000, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 270.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
 
 	// ------ [ LSMC ] ---- //
 	new drzwilsmc1 = CreateDynamicObject(3089, 1178.585571, -1341.639648, 88.182792, 0.000000, 0.000000, 360.000000, 90, 0, -1, 200.00, 200.00);

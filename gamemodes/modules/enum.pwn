@@ -10,17 +10,17 @@ new PlayerSkins[MAX_PLAYERS][SkinEnum];*/
 new DiscordFractionChannels[][][128] = 
 {
     {"brak","brak", "brak", "brak"}, // id 0 - BRAK
-    {"760578155806982205","776563993892093982","714215412698447882","776791736630116433"}, // Kotnik Role Play - #lspd + LSPD #logi-radio
+    {"771330265078562816","776563993892093982","784537147583234048","784759347723894804"}, // Kotnik Role Play - #lspd + LSPD #logi-radio
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"}, // 5
     {"brak", "brak", "brak", "brak"},
-    {"760578155806982205", "776729457226022922", "brak", "brak"}, // Kotnik Role Play - #bor
+    {"771330265078562816", "776729457226022922", "brak", "brak"}, // Kotnik Role Play - #bor
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"}, // 10
-    {"760578155806982205", "776729456747741215", "brak", "brak"}, // Kotnik Role Play - #rzad
+    {"771330265078562816", "776729456747741215", "brak", "brak"}, // Kotnik Role Play - #rzad
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
@@ -34,20 +34,20 @@ new DiscordFractionChannels[][][128] =
 
 new DiscordFamilyChannels[][][128] = 
 {
-    {"21", "760578155806982205", "776726492385378304"} // Kotnik Role Play - #ammuls
+    {"21", "771330265078562816", "776726492385378304"} // Kotnik Role Play - #ammuls
 };
 
 /*new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, FAMILY_IBIZA = -1,
     FAMILY_FDU = -1;*/
 new DiscordSpecialFamilyChannels[][][128] = 
 {
-    {"760578155806982205","776729586352390165"} // FAMILY_SAD - Kotnik Role Pay - #sad
+    {"771330265078562816","776729586352390165"} // FAMILY_SAD - Kotnik Role Pay - #sad
 };
 
 new DiscordSpecialChannels[][][128] = 
 {
-    {"760578155806982205","776660277588394034"}, // Kotnik Role Play - #reporty
-    {"760578155806982205","776660518274072616"}, // Kotnik Role Play - #admin-chat
+    {"771330265078562816","784810018837889044"}, // Kotnik Role Play - #reporty
+    {"771330265078562816","784809993236643851"}, // Kotnik Role Play - #admin-chat
     {"brak", "brak"},
     {"brak", "brak"},
     {"brak", "brak"},

@@ -866,7 +866,7 @@ new FBIdrzwi7;
 new FBImove2 = 0;
 new FBImove3 = 0;
 new FBImove5 = 0;
-//new Celaki[3];
+new Celaki[3];
 //koniecfbi
 //brama baysie by micha³
 new BramaBaySide;
@@ -1435,7 +1435,7 @@ stock ZerujZmienne(playerid)
     Logged[playerid] = 0;
     ZabranyGPS[playerid] = 0;
     PlayerInfo[playerid][pMuted] = 1;
-    afk_timer[playerid] = -1;
+    //afk_timer[playerid] = -1;
 
     pasy[playerid] = 0;
     kask[playerid] = 0;
@@ -1466,6 +1466,7 @@ stock ZerujZmienne(playerid)
     AdminDutyMinuty[playerid] = 0;
 
     SetPVarInt(playerid, "AC-warn", 0);
+    SetPVarInt(playerid, "dutyadmin", 0);
 
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
 

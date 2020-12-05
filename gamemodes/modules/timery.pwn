@@ -553,8 +553,6 @@ public PlayerAFK(playerid, afktime, breaktime)
 			else
 				format(caption, sizeof(caption), "[AFK] %d min. %d sek (%d)", afktime/60, afktime%60, playerid);
 	
-			if(afktime == 540) SendClientMessage(playerid, 0xAA3333AA, "Zostaniesz skickowany za minutê!");
-	
 			if(afktime > 600 && PlayerInfo[playerid][pAdmin] >= 1 ||afktime > 600 && PlayerInfo[playerid][pNewAP] >= 1)
 			{
 				if(afktime > 1800 && PlayerInfo[playerid][pAdmin] != 5000)
@@ -564,7 +562,7 @@ public PlayerAFK(playerid, afktime, breaktime)
 				}
 				SetPlayerChatBubble(playerid, caption, 0x33AA33AA, 20.0, 1500);
 			}
-			else if(afktime > 600 && PremiumInfo[playerid][pKP] >= 1)
+			else if(afktime > 600 && PlayerInfo[playerid][pDonateRank] >= 1)
 			{
 				if(afktime > 1200)
 				{
@@ -2220,6 +2218,7 @@ public JednaSekundaTimer()
         State = GetPlayerState(i);
         GetPlayerPos(i, x, y, z);
 		GetPlayerArmour(i, pancerzyy);
+
         vehicleid = GetPlayerVehicleID(i);
 		if(State == PLAYER_STATE_DRIVER || State == PLAYER_STATE_PASSENGER && !ToggleSpeedo[i])
 		{
@@ -2284,7 +2283,9 @@ public JednaSekundaTimer()
 				PlayerInfo[i][pJailTime] = 0;
 				if(PlayerInfo[i][pJailed] == 1)
 				{
-					SetPlayerPosEx(i,-1681.1091,917.8300,-52.4141);
+					SetPlayerPosEx(i,1559.64,-1643.16,28.48);
+					SetPlayerInterior(i, 0);
+					SetPlayerVirtualWorld(i, 2);
 				}
 				else if(PlayerInfo[i][pJailed] == 2)
 				{
