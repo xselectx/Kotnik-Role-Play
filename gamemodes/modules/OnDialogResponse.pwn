@@ -16593,12 +16593,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 								{
 									if(zonekontrol-100 == org)
 									{
-										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê", "OK", "Anuluj");
+										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
 									}
 								} else {
 									if(zonekontrol == frac)
 									{
-										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê", "OK", "Anuluj");
+										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
 									} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
 								}
 								return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
@@ -16890,8 +16890,62 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	else if(dialogid == D_SHOWSKINS)
 	{
 		if(!response) return ShowPlayerDialogEx(playerid, 3501, DIALOG_STYLE_LIST, "Gaderoba", "»» Zwyk³e ubrania\n»» Personalne ubrania", "Wybierz", "Anuluj");
+		PlayerInfo[playerid][pModel] = strval(inputtext);
 		SetPlayerSkin(playerid, strval(inputtext));
 	}
+	else if(dialogid == D_SHOWSKINSPERSONAL)
+	{
+		if(!response) return 1;
+		PlayerInfo[playerid][pModel] = strval(inputtext);
+		SetPlayerSkin(playerid, strval(inputtext));
+	}
+	else if(dialogid == 9520)
+	{
+	    new kasa = GetPVarInt(playerid, "Mats-kasa");
+        new giveplayerid = GetPVarInt(playerid, "Mats-id");
+        new moneys = GetPVarInt(playerid, "Mats-mats");
+        new string[128];
+		if(!response)
+		{
+		    SetPVarInt(playerid, "OKupMats", 0);
+			SetPVarInt(giveplayerid, "OSprzedajMats", 0);
+			SetPVarInt(playerid, "Mats-kasa", 0);
+        	SetPVarInt(playerid, "Mats-id", 0);
+        	SetPVarInt(playerid, "Mats-mats", 0);
+        	sendErrorMessage(playerid, "Sprzeda¿ zosta³a anulowana!");
+        	sendErrorMessage(giveplayerid, "Sprzeda¿ zosta³a anulowana!");
+			return 1;
+		}
+		if(kaska[playerid] < kasa) return sendErrorMessage(playerid, "Nie masz tyle kasy!");
+		if(GetPVarInt(playerid, "OKupMats") == 0) return sendErrorMessage(playerid, "Coœ posz³o nie tak! (kupno)");
+        //if(GetPVarInt(playerid, "OSprzedajMats") == 0) return sendErrorMessage(playerid, "Coœ posz³o nie tak! (sprzeda¿)");
+		if(GetPVarInt(giveplayerid, "OSprzedajMats") == 1)
+		{
+			format(string, sizeof(string), "   Dosta³eœ %d materia³ów od gracza %s za %d $.", moneys, GetNick(giveplayerid), kasa);
+			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
+			format(string, sizeof(string), "   Da³eœ %d materia³ów graczowi %s za %d $.", moneys, GetNick(playerid), kasa);
+			SendClientMessage(giveplayerid, COLOR_LIGHTBLUE, string);
+			format(string, sizeof(string),"%s da³ %s torbê z materia³ami.", GetNick(giveplayerid), GetNick(playerid));
+			ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+			PlayerInfo[giveplayerid][pMats] -= moneys;
+			PlayerInfo[playerid][pMats] += moneys;
+			DajKase(giveplayerid, kasa);
+			DajKase(playerid, -kasa);
+			
+			SetPVarInt(playerid, "OKupMats", 0);
+			SetPVarInt(giveplayerid, "OSprzedajMats", 0);
+			SetPVarInt(playerid, "Mats-kasa", 0);
+        	SetPVarInt(playerid, "Mats-id", 0);
+        	SetPVarInt(playerid, "Mats-mats", 0);
+			format(string, sizeof(string), "%s kupil od %s materialy (ilosc %d) za %d$.", GetNick(playerid), GetNick(giveplayerid), moneys, kasa);
+			PayLog(string);
+		}
+		else
+		{
+		    sendErrorMessage(playerid, "Coœ posz³o nie tak! (sprzeda¿)");
+		}
+	}
+
 	return 0;
 }
 //ondialogresponse koniec

@@ -939,6 +939,13 @@ public OnPlayerDisconnect(playerid, reason)
     ProxDetector(10, playerid, string, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2);
 
 
+    if(TymczasowyOpisVar[playerid] == 1)
+    {
+        DestroyDynamic3DTextLabel(TymczasowyOpis[playerid]);
+        TymczasowyOpisVar[playerid] = 0;
+    }
+
+
     if(GetPVarInt(playerid, "dutyadmin") == 1)
     {
         new y1,mi1,d1;//Data
@@ -1796,6 +1803,9 @@ public OnPlayerSpawn(playerid) //Przebudowany
     //Update3DTextLabelText(PlayerInfo[playerid][pDescLabel], 0xBBACCFFF, "");
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	//if(GetPVarInt(playerid, "class-sel")) DeletePVar(playerid, "class-sel");
+
+
+
     if(PlayerInfo[playerid][pGun7] == 41) PlayerInfo[playerid][pGun7] = 0;
     SetTimerEx("AntySB", 5000, 0, "d", playerid); //by nie kickowa³o timer broni
     AntySpawnBroni[playerid] = 5;
@@ -6260,7 +6270,7 @@ OnPlayerLogin(playerid, password[])
 		PlayerInfo[playerid][pReg] = 1;
 		PlayerInfo[playerid][pDowod] = 0;
         PlayerInfo[playerid][pCarSlots] = 4;
-		DajKase(playerid, 50000); // 50k na start serwera
+		DajKase(playerid, 5000);
 	}
 
 
@@ -6983,6 +6993,14 @@ public OnPlayerText(playerid, text[])
 		sendTipMessageEx(playerid, TEAM_CYAN_COLOR, "Nie mo¿esz mówiæ gdy¿ jesteœ uciszony");
 		return 0;
 	}
+
+    if(GetPVarInt(playerid, "dutyadmin") == 1)
+    {
+        format(string, sizeof(string), "@ %s {BFC0C2}[%d] Czat OOC: (( %s ))", GetNick(playerid, true), playerid, text);
+        ProxDetector(30.0, playerid, string, COLOR_LIGHTRED,COLOR_LIGHTRED,COLOR_LIGHTRED,COLOR_LIGHTRED,COLOR_LIGHTRED);
+        return 0;
+    }
+
 	if(MarriageCeremoney[playerid] > 0)
 	{
 	    if (strcmp("tak", text, true) == 0)

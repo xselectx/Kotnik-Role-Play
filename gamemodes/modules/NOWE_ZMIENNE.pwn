@@ -5,6 +5,10 @@ new GMX;
 new DC_AntySpam;
 new LOCALHOST = 0;
 
+new TymczasowyOpisVar[MAX_PLAYERS];
+new TymczasowyOpisString[MAX_PLAYERS][256];
+new Text3D:TymczasowyOpis[MAX_PLAYERS];
+
 
 new  iloscKick[MAX_PLAYERS];
 new  iloscWarn[MAX_PLAYERS];

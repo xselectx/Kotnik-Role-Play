@@ -126,7 +126,7 @@ Zaladuj3DTexty()
 	CreateDynamic3DTextLabel("Praca Dilera Broni", 0xFFA500AA, 1366.4325,-1275.2096,13.5469, 30.0); //ArmsDealer Registration
 	//CreateDynamic3DTextLabel("Praca Dilera Aut", 0xFFA500AA, 531.7930,-1292.4044,17.2422, 30.0); //CarDealer Registration 12
 	CreateDynamic3DTextLabel("Praca Boksera", 0xFFA500AA, 766.0804,14.5133,1000.7004, 30.0); //Boxer Registration
-	CreateDynamic3DTextLabel("Praca Kierowcy Autobusu", 0xFFA500AA, 1154.2208,-1770.8203,16.5992, 10.0); //BusDriver Registration
+	//CreateDynamic3DTextLabel("Praca Kierowcy Autobusu", 0xFFA500AA, 1154.2208,-1770.8203,16.5992, 10.0); //BusDriver Registration
 	//CreateDynamic3DTextLabel("Praca Taksówkarza\nMo¿liwoœc podjêcia tej\npracy zosta³a wy³¹czona\nna czas nieokreœlony.", 0xFFA500AA, 1750.7670,-1944.7601,13.5655, 20.0); //BusDriver Registration
 	//CreateDynamic3DTextLabel("Praca Truckera", 0xFFA500AA, -77.7288,-1136.3896,1.0781, 30.0); //Trucker Registration
 	CreateDynamic3DTextLabel("Melina Dragowa", 0xFFA500AA, 323.0342,1118.5804,1083.8828, 30.0); //Getting Drugs for DrugDealers 17

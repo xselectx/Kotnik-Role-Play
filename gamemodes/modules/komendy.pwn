@@ -662,10 +662,79 @@ CMD:mysql_query(playerid, params[])
     return 1;
 }
 
+CMD:opis_usun(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] > 0)
+    {
+        new id;
+        if(sscanf(params, "k<fix>d", id)) return sendTipMessage(playerid, "/opis_usun [playerid/CzêœæNicku]");
+
+        if(TymczasowyOpisVar[id] == 1)
+        {
+            new str[64];
+            format(str, 64, "(OPIS) - Administrator %s usun¹³ Twój opis.", GetNick(playerid, true));
+            SendClientMessage(id, COLOR_PURPLE, str);
+            format(str, 64, "(OPIS) - Usun¹³eœ opis graczowi %s.", GetNick(id, true));
+            SendClientMessage(playerid, COLOR_PURPLE, str);
+            DestroyDynamic3DTextLabel(TymczasowyOpis[id]);
+            TymczasowyOpisVar[id] = 0;
+            return 1;
+        } else return sendTipMessage(playerid, "Ten gracz nie ma opisu!");
+
+    } else return noAccessMessage(playerid);
+}
+
 CMD:opis(playerid, params[])
 {
-    SendClientMessage(playerid, COLOR_RED, "Komenda wy³¹czona na czas naprawy. Przepraszamy za utrudnienia.");
-    
+    //SendClientMessage(playerid, COLOR_RED, "Komenda wy³¹czona na czas naprawy. Przepraszamy za utrudnienia.");
+    new opis[256];
+
+    if(sscanf(params, "s[256]", opis)) return sendTipMessage(playerid, "/opis [opis/usun/zobacz]");
+
+    if(strlen(opis) == 6 && (strcmp(opis, "zobacz", true) == 0))
+    {
+        new string[300];
+        strcat(string, TymczasowyOpisString[playerid]);
+        strins(string, "{C2A2DA}", 0);
+        if(TymczasowyOpisVar[playerid] == 1) return ShowPlayerDialogEx(playerid, 778, DIALOG_STYLE_MSGBOX, "Twój opis", BreakLines(string, "\n", 32), "OK", "");
+        else return sendTipMessage(playerid, "Nie posiadasz opisu.");
+    }
+    if(strlen(opis) == 4 && (strcmp(opis, "usuñ", true) == 0 || strcmp(opis, "usun", true) == 0))
+    {
+        if(TymczasowyOpisVar[playerid] == 1)
+        {
+            DestroyDynamic3DTextLabel(TymczasowyOpis[playerid]);
+            TymczasowyOpisVar[playerid] = 0;
+            return sendTipMessage(playerid, "(OPIS) - Opis usuniêty.");
+        } else return sendTipMessage(playerid, "Nie posiadasz opisu.");
+    }
+    if(PlayerInfo[playerid][pBP] == 0)
+    {
+        strreplace(opis, "(", "{");
+        strreplace(opis, ")", "}");
+        
+        new newOpis[256];
+        strcat(newOpis, opis);
+        if(TymczasowyOpisVar[playerid] == 0)
+        {
+            format(TymczasowyOpisString[playerid], 256, "%s", opis);
+
+            
+            TymczasowyOpis[playerid] = CreateDynamic3DTextLabel(BreakLines(newOpis, "\n", 32), COLOR_PURPLE, 0,0,-0.7, 10, playerid);
+            
+            //Attach3DTextLabelToPlayer(TymczasowyOpis[playerid], playerid, 0, 0, -0.7);
+            TymczasowyOpisVar[playerid] = 1;
+            SendClientMessage(playerid, COLOR_PURPLE, opis);
+            return 1;
+        } else {
+            format(TymczasowyOpisString[playerid], 256, "%s", opis);
+            UpdateDynamic3DTextLabelText(TymczasowyOpis[playerid], COLOR_PURPLE, BreakLines(newOpis, "\n", 32));
+            TymczasowyOpisVar[playerid] = 1;
+            SendClientMessage(playerid, COLOR_PURPLE, opis);
+            return 1;
+        }
+        
+    } else return SendClientMessage(playerid, COLOR_GRAD1, "Posiadasz blokadê pisania na czatach globalnych, nie mo¿esz utworzyæ opisu.");
     /*if(PlayerInfo[playerid][pConnectTime] < 4) return sendErrorMessage(playerid, "Opis dostêpny od 4 godzin online!");
     new var[8], id=-1;
     sscanf(params, "s[8]K<fix>(-1)", var, id);
@@ -698,7 +767,6 @@ CMD:opis(playerid, params[])
     {
         SendClientMessage(playerid, COLOR_GRAD1, "Posiadasz blokadê pisania na czatach globalnych, nie mo¿esz utworzyæ opisu.");
     }*/
-    return 1;
 } 
 
 CMD:vopis(playerid, params[])
@@ -1076,22 +1144,22 @@ CMD:pomoc(playerid)
     if(GetPlayerOrg(playerid) == FAMILY_IBIZA) SendClientMessage(playerid,COLOR_GRAD5,"*** Klub *** /sprzedajbilet /cennik /polej /ibiza");
     if (IsACop(playerid))
     {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** /przeszukaj /zabierz /mandat (/gov) /stanowe /camera /wywaz /obezwladnij /gps /odznaka ");
+        SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** /przeszukaj /zabierz /mandat (/gov) /stanowe /camera /wywaz /obezwladnij /gps /dgps /red /odznaka ");
         SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** /pacholek /barierka /kolczatka /skuj /rozkuj /mdc /aresztuj /sluzba /poszukiwani /tazer /cywil");
         SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** (/r)adio (/d)epartment (/m)egafon (/su)spect /ro(radiooc) /depo(departamentooc) /pd(wiadomosc)");
         SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** /cela /togcrime /poscig NEW: /pozwolenie");
     }
     if (PlayerInfo[playerid][pMember] == 2 || PlayerInfo[playerid][pLider] == 2)
     {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** FBI *** /zmienskin /namierz /fbi /federalne /cela");
+        SendClientMessage(playerid, COLOR_GRAD5, "*** FBI *** /zmienskin /namierz /fbi /federalne /cela /gps /dgps /red");
     }
     if (PlayerInfo[playerid][pMember] == 17 || PlayerInfo[playerid][pLider] == 17)
     {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Stra¿ *** /straz /megafon /ro /r /duty /czysc");
+        SendClientMessage(playerid, COLOR_GRAD5, "*** Stra¿ *** /straz /megafon /ro /r /duty /czysc /gps /dgps /red");
     }
     if (gTeam[playerid] == 1 || PlayerInfo[playerid][pMember] == 4 || PlayerInfo[playerid][pLider] == 4)
     {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Lekarz *** (/r)adio (/d)epartment /ulecz /sluzba /apteczka /zastrzyk /szpital-info /zmienplec /sprzedajapteczke");
+        SendClientMessage(playerid, COLOR_GRAD5, "*** Lekarz *** (/r)adio (/d)epartment /ulecz /sluzba /apteczka /zastrzyk /szpital-info /zmienplec /sprzedajapteczke /gps /dgps /red");
     }
     if (PlayerInfo[playerid][pAdmin] >= 1)
     {
@@ -1385,7 +1453,81 @@ CMD:konsola(playerid, params[])
     return 1;
 }
 
-CMD:dajmats(playerid, params[]) return cmd_dajmaterialy(playerid, params);
+CMD:sprzedajmats(playerid, params[]) return cmd_sprzedajmaterialy(playerid, params);
+CMD:sprzedajmaterialy(playerid, params[])
+{
+    new giveplayerid, moneys, kasa;
+    if(sscanf(params, "k<fix>dd", giveplayerid, moneys, kasa))
+    {
+        sendTipMessage(playerid, "U¿yj /sprzedajmats [playerid/CzêœæNicku] [iloœæ] [cena]");
+        return 1;
+    }
+
+    if (PlayerInfo[playerid][pMats] > 0)
+    {
+        if(IsPlayerConnected(giveplayerid))
+        {
+            if(giveplayerid != INVALID_PLAYER_ID)
+            {
+                if(PlayerInfo[playerid][pMats] >= moneys)
+                {
+                    if(moneys <= 50000)
+                    {
+                        if(ProxDetectorS(5.0, playerid, giveplayerid))
+                        {
+                            if(moneys > 50000 || moneys < 5000)
+                            {
+                                sendErrorMessage(playerid, "Zakres od 5 000 do 50 000!");
+                                return 1;
+                            }
+                            if(kasa > 1000000 || kasa < 1)
+                            {
+                                sendErrorMessage(playerid, "Zakres od 1 do 1 000 000!");
+                                return 1;
+                            }
+                            if(IsPlayerInAnyVehicle(giveplayerid) || IsPlayerInAnyVehicle(playerid)) return sendErrorMessage(playerid, "Jeden z was znajduje siê w pojeŸdzie!");
+                            if(GetPVarInt(giveplayerid, "OKupMats") == 1) return sendErrorMessage(playerid, "Gracz ma ju¿ ofertê!");
+                            if(GetPVarInt(playerid, "OSprzedajMats") == 1) return sendErrorMessage(playerid, "Oferujesz ju¿ komuœ sprzeda¿!");
+                            if(IsASklepZBronia(playerid) && !IsASklepZBronia(giveplayerid)) return sendErrorMessage(playerid, "Pracownik GunShopu mo¿e oferowaæ sprzeda¿ tylko innemu pracownikowi GunShopu!");
+
+                            new string[128];
+                            format(string, sizeof(string),"%s oferuje %d materia³ów za %d $.", GetNick(playerid), moneys, kasa);
+                            ShowPlayerDialogEx(giveplayerid, 9520, DIALOG_STYLE_MSGBOX, "KUPNO MATERIA£ÓW", string, "Kup", "Odrzuæ");
+                            format(string, sizeof(string), "Zaoferowa³eœ %d materia³ów za %d graczowi %s.", moneys, kasa, GetNick(giveplayerid));
+                            SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
+                            
+                            SetPVarInt(giveplayerid, "OKupMats", 1);
+                            SetPVarInt(playerid, "OSprzedajMats", 1);
+                            SetPVarInt(giveplayerid, "Mats-id", playerid);
+                            SetPVarInt(giveplayerid, "Mats-kasa", kasa);
+                            SetPVarInt(giveplayerid, "Mats-mats", moneys);
+                            SetTimerEx("SprzedajMatsTimer", 20000, false, "ii", playerid, giveplayerid);
+                        }
+                        else
+                        {
+                            sendErrorMessage(playerid, "Gracz jest za daleko!");
+                        }
+                    }
+                    else
+                    {
+                        sendErrorMessage(playerid, "Mo¿esz daæ tylko 50 000 materia³ów na raz!");
+                    }
+                }
+                else
+                {
+                    sendErrorMessage(playerid, "Mo¿esz komuœ przekazaæ minimum 5000 materia³ów!");
+                }
+            }
+        }
+    }
+    else
+    {
+        sendErrorMessage(playerid, "Nie masz tylu materia³ów!");
+    }
+    return 1;
+}
+
+/*CMD:dajmats(playerid, params[]) return cmd_dajmaterialy(playerid, params);
 CMD:dajmaterialy(playerid, params[])
 {
 	new giveplayerid, moneys;
@@ -1445,7 +1587,7 @@ CMD:dajmaterialy(playerid, params[])
 		sendErrorMessage(playerid, "Nie masz tylu materia³ów!");
 	}
 	return 1;
-}
+}*/
 
 CMD:pokazcb(playerid)
 {
@@ -9416,7 +9558,7 @@ CMD:pblok(playerid, params[])
 	return 1;
 }
 
-CMD:pban(playerid, params[])
+CMD:pban_xxx(playerid, params[])
 {
 	new string[128];
 	new sendername[MAX_PLAYER_NAME];
@@ -16894,22 +17036,22 @@ CMD:megafon(playerid, params[])
 		}
 		if(PlayerInfo[playerid][pMember] == 1||PlayerInfo[playerid][pLider] == 1)
 		{
-			format(string, sizeof(string), "[Oficer %s:o< %s]", sendername, params);
+			format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 			ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
 		else if(PlayerInfo[playerid][pMember] == 2||PlayerInfo[playerid][pLider] == 2)
 		{
-			format(string, sizeof(string), "[Agent FBI %s:o< %s]", sendername, params);
+			format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 			ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
 		else if(PlayerInfo[playerid][pMember] == 3||PlayerInfo[playerid][pLider] == 3)
 		{
-		    format(string, sizeof(string), "[Funkcjonariusz %s:o< %s]", sendername, params);
+		    format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 		    ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
 		else if(PlayerInfo[playerid][pMember] == 7||PlayerInfo[playerid][pLider] == 7)
 		{
-		    format(string, sizeof(string), "[Agent BOR %s:o< %s]", sendername, params);
+		    format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 		    ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
 		/*else if(PlayerInfo[playerid][pJob] == 1 && PlayerInfo[playerid][pDetSkill] > 400)
@@ -16919,24 +17061,24 @@ CMD:megafon(playerid, params[])
 		}*/
 		else if(PlayerInfo[playerid][pMember] == 4 || PlayerInfo[playerid][pLider] == 4)
 		{
-		    format(string, sizeof(string), "[Specjalista SAM-ERS %s:o< %s]", sendername, params);
+		    format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 		    ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
 		//PADZIOCH
 		else if(PlayerInfo[playerid][pMember] == FRAC_SN || PlayerInfo[playerid][pLider] == FRAC_SN)
 		{
-			format(string, sizeof(string), "[Reporter %s:o< %s]", sendername, params);
+			format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 			ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
 		else if( (PlayerInfo[playerid][pMember] == FRAC_KT || PlayerInfo[playerid][pLider] == FRAC_KT) && PlayerInfo[playerid][pRank] >= 3)
 		{
-			format(string, sizeof(string), "[Korporacja Transportowa %s:o< %s]", sendername, params);
+			format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 			ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
 		//
 		else if(PlayerInfo[playerid][pMember] == 17||PlayerInfo[playerid][pLider] == 17)
 		{
-			format(string, sizeof(string), "[Stra¿ak %s:o< %s]", sendername, params);
+			format(string, sizeof(string), "[%s:o< %s]", sendername, params);
 			ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
 		}
         else if(GetPlayerOrg(playerid) == FAMILY_SAD && PlayerInfo[playerid][pRank] > 2)
@@ -17583,6 +17725,9 @@ CMD:sluzba(playerid)
                 }
             }
         }
+
+        
+
         else if(PlayerInfo[playerid][pMember] == 10 || PlayerInfo[playerid][pLider] == 10)
         {
             if (PlayerToPoint(4, playerid,2482.7566, -2105.6033, 32.2773))
@@ -19308,7 +19453,7 @@ CMD:dzwon(playerid, params[])
 					if (Mobile[i] == 1255)
 					{
                         PlayerPlaySound(playerid, 3600, 0.0, 0.0, 0.0);
-						format(string, sizeof(string), "Twój telefon dzwoni, (aby odebraæ wyci¹gnij swój telefon (/p tel)) dzwoni¹cy: %s", sendername);
+						format(string, sizeof(string), "Twój telefon dzwoni, (aby odebraæ wyci¹gnij swój telefon (/od)) dzwoni¹cy: %s", sendername);
 						SendClientMessage(i, COLOR_YELLOW, string);
 						GetPlayerName(i, sendername, sizeof(sendername));
 						RingTone[i] = 10;
@@ -24363,7 +24508,7 @@ CMD:gotols(playerid)
 {
     if(IsPlayerConnected(playerid))
     {
-		if(PlayerInfo[playerid][pAdmin] >= 5 || PlayerInfo[playerid][pNewAP] == 5)
+		if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5)
 		{
 			if (GetPlayerState(playerid) == 2)
 			{
@@ -24421,7 +24566,7 @@ CMD:gotolv(playerid)
 {
     if(IsPlayerConnected(playerid))
     {
-		if (PlayerInfo[playerid][pAdmin] >= 5 || PlayerInfo[playerid][pNewAP] == 5)
+		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5)
 		{
 			if (GetPlayerState(playerid) == 2)
 			{
@@ -24450,7 +24595,7 @@ CMD:gotosf(playerid)
 {
     if(IsPlayerConnected(playerid))
     {
-		if (PlayerInfo[playerid][pAdmin] >= 5 || PlayerInfo[playerid][pNewAP] == 5)
+		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5)
 		{
 			if (GetPlayerState(playerid) == 2)
 			{
@@ -26482,8 +26627,8 @@ CMD:ah(playerid)
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /check /pojazdygracza /checkprawko /sb /pokazcb");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /respawn /carjump /goto /up /getcar /gethere");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /cnn /cc /spec /unblock /unwarn /forum /pogoda /pogodaall");
-        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /usunopis [ID] /czity /respawnplayer /respawncar /unbw /cmdinfo");
-        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /czity /respawnplayer /respawncar /unbw /cmdinfo");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly /opis_usun");
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 5)
 	{
@@ -32116,27 +32261,27 @@ CMD:dolacz(playerid)
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Jeœli akceptujesz zasady kontraktu wpisz /akceptuj praca.");
 				    GettingJob[playerid] = 9;
 		  		}
-		  		else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,1154.2208,-1770.8203,16.5992))
-		  		{
-		  		    if(PlayerInfo[playerid][pCarLic] == 1)
-				    {
-					    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
-					    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Kierowc¹ Autobusu, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
-					    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
-	 				    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
-					    SendClientMessage(playerid, COLOR_WHITE, "   Pod¹¿asz wyznaczonymi trasami, zatrzymujesz siê na przystankach i wozisz mieszkañcow Los Santos. Busy jako taksówki? Zapomnij, to tylko dla najepszych.");
-					    SendClientMessage(playerid, COLOR_WHITE, "   Pocz¹tkuj¹cy kierowcy maj¹ ma³y wybór tras a ich jedynym pojazdem jest Moonbeam - czyli mini bus.");
-					    SendClientMessage(playerid, COLOR_WHITE, "   Wy¿szy skill to  g³ównie wy¿sze zarobki, ale doœwiadczeni busiarze dzia³aj¹ tak¿e jako tanie taksówki, organizuj¹ wycieczki lub realizuj¹ kursy miêdzymiastowe.");
-					    SendClientMessage(playerid, COLOR_WHITE, "   Przeciêtny pracowity kierowca zarabia ok. 10k na godzinê. Najlepsi mog¹ zarobiæ nawet kilkaset tysiêcy.");
-					    SendClientMessage(playerid, COLOR_WHITE, "   To praca dla tych którzy lubi¹ komunikacjê publiczn¹. Inaczej stanie siê ona doœæ monotonna. P³acimy po zakoñczneniu trasy lub s³u¿by.");
-					    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Jeœli akceptujesz zasady kontraktu wpisz /akceptuj praca.");
-					    GettingJob[playerid] = 10;
-					}
-					else
-					{
-					    sendTipMessageEx(playerid, COLOR_WHITE, "Do tej pracy wymagane jest prawo jazdy");
-					}
-		  		}
+		  		//else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,1154.2208,-1770.8203,16.5992))
+		  		//{
+		  		//    if(PlayerInfo[playerid][pCarLic] == 1)
+				//    {
+				//	    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
+				//	    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Kierowc¹ Autobusu, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
+				//	    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
+	 			//	    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
+				//	    SendClientMessage(playerid, COLOR_WHITE, "   Pod¹¿asz wyznaczonymi trasami, zatrzymujesz siê na przystankach i wozisz mieszkañcow Los Santos. Busy jako taksówki? Zapomnij, to tylko dla najepszych.");
+				//	    SendClientMessage(playerid, COLOR_WHITE, "   Pocz¹tkuj¹cy kierowcy maj¹ ma³y wybór tras a ich jedynym pojazdem jest Moonbeam - czyli mini bus.");
+				//	    SendClientMessage(playerid, COLOR_WHITE, "   Wy¿szy skill to  g³ównie wy¿sze zarobki, ale doœwiadczeni busiarze dzia³aj¹ tak¿e jako tanie taksówki, organizuj¹ wycieczki lub realizuj¹ kursy miêdzymiastowe.");
+				//	    SendClientMessage(playerid, COLOR_WHITE, "   Przeciêtny pracowity kierowca zarabia ok. 10k na godzinê. Najlepsi mog¹ zarobiæ nawet kilkaset tysiêcy.");
+				//	    SendClientMessage(playerid, COLOR_WHITE, "   To praca dla tych którzy lubi¹ komunikacjê publiczn¹. Inaczej stanie siê ona doœæ monotonna. P³acimy po zakoñczneniu trasy lub s³u¿by.");
+				//	    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Jeœli akceptujesz zasady kontraktu wpisz /akceptuj praca.");
+				//	    GettingJob[playerid] = 10;
+				//	}
+				//	else
+				//	{
+				//	    sendTipMessageEx(playerid, COLOR_WHITE, "Do tej pracy wymagane jest prawo jazdy");
+				//	}
+		  		//}
 		  		else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,766.0804,14.5133,1000.7004))
 		  		{
 		  		    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
@@ -33789,10 +33934,10 @@ CMD:akceptuj(playerid, params[])
                         {
                             Gas[vehicleid] += fuel;
                         }
-                        if(Gas[car] < 110)
-                        {
-                            Gas[car] += fuel;
-                        }
+                        //if(Gas[car] < 110)
+                        //{
+                        //    Gas[car] += fuel;
+                        //}
                         RefillOffer[playerid] = 999;
                         RefillPrice[playerid] = 0;
                         return 1;
@@ -38174,41 +38319,44 @@ CMD:ticketend(playerid)
 
 CMD:addcar(playerid, p[])
 {
-    if(!Uprawnienia(playerid, ACCESS_EDITCAR) || PlayerInfo[playerid][pAdmin] != 5000) return 1;
-    new model, color1, color2;
-    if(sscanf(p, "ddd", model, color1, color2)) return sendTipMessage(playerid, "U¿yj /addcar [Model] [Kolor] [Kolor]");
-    new Float:x, Float:y, Float:z, Float:a;
-    GetPlayerPos(playerid, x ,y ,z);
-    GetPlayerFacingAngle(playerid, a);
-    x+=floatsin(-a, degrees);
-    y+=floatcos(-a, degrees);
-    SetPlayerPosEx(playerid, x, y, z+0.5);
-    new id = Car_Create(model, x,y,z,a, color1, color2);
-    if(id == -1) return SendClientMessage(playerid, COLOR_GRAD2, "Brak wolnego miejsca?");
-    new str[128];
-    format(str, 128, "[CAR] Stworzono pojazd (UID: %d) model: %d przez %s", CarData[id][c_UID], model, GetNick(playerid));
-    ActionLog(str);
+    if(Uprawnienia(playerid, ACCESS_EDITCAR) || PlayerInfo[playerid][pAdmin] >= 5000)
+    {
+        new model, color1, color2;
+        if(sscanf(p, "ddd", model, color1, color2)) return sendTipMessage(playerid, "U¿yj /addcar [Model] [Kolor] [Kolor]");
+        new Float:x, Float:y, Float:z, Float:a;
+        GetPlayerPos(playerid, x ,y ,z);
+        GetPlayerFacingAngle(playerid, a);
+        x+=floatsin(-a, degrees);
+        y+=floatcos(-a, degrees);
+        SetPlayerPosEx(playerid, x, y, z+0.5);
+        new id = Car_Create(model, x,y,z,a, color1, color2);
+        if(id == -1) return SendClientMessage(playerid, COLOR_GRAD2, "Brak wolnego miejsca?");
+        new str[128];
+        format(str, 128, "[CAR] Stworzono pojazd (UID: %d) model: %d przez %s", CarData[id][c_UID], model, GetNick(playerid));
+        ActionLog(str);
+    } 
     return 1;
 }
 
 CMD:removecar(playerid, p[])
 {
-    if(!Uprawnienia(playerid, ACCESS_EDITCAR) || PlayerInfo[playerid][pAdmin] != 5001) return 1;
-    new car;
-    if(sscanf(p, "d", car)) return sendTipMessage(playerid, "U¿yj /removecar [Car UID]");
-
-    new uid = Car_GetIDXFromUID(car);
-    if(uid == -1)
+    if(Uprawnienia(playerid, ACCESS_EDITCAR) || PlayerInfo[playerid][pAdmin] >= 5000)
     {
-        sendTipMessageEx(playerid, COLOR_GRAD2, "Pojazd nie by³ wczytany do systemu, inicjalizacja ...");
-        uid = Car_LoadEx(car);
-        if(uid == -1) return sendTipMessageEx(playerid, COLOR_GRAD2, "... brak pojazdu w bazie.");
-    }
-    new str[128];
-    format(str, 128, "[CAR] Usuniêto pojazd (UID: %d) przez %s", CarData[uid][c_UID], GetNick(playerid));
-    ActionLog(str);
-    Car_Destroy(uid);
-
+        new car;
+        if(sscanf(p, "d", car)) return sendTipMessage(playerid, "U¿yj /removecar [Car UID]");
+    
+        new uid = Car_GetIDXFromUID(car);
+        if(uid == -1)
+        {
+            sendTipMessageEx(playerid, COLOR_GRAD2, "Pojazd nie by³ wczytany do systemu, inicjalizacja ...");
+            uid = Car_LoadEx(car);
+            if(uid == -1) return sendTipMessageEx(playerid, COLOR_GRAD2, "... brak pojazdu w bazie.");
+        }
+        new str[128];
+        format(str, 128, "[CAR] Usuniêto pojazd (UID: %d) przez %s", CarData[uid][c_UID], GetNick(playerid));
+        ActionLog(str);
+        Car_Destroy(uid);
+    }  
     return 1;
 }
 
@@ -39230,6 +39378,19 @@ CMD:garderoba(playerid)
             } else return sendTipMessage(playerid, "Nie posiadasz lub nie wynajmujesz domu!"); 
         }
         //ShowPlayerSkins(playerid);
+    }
+    return 1;
+}
+
+CMD:personale(playerid)
+{
+    if(IsPlayerConnected(playerid))
+    {
+        if(GUIExit[playerid] == 0)
+        {
+            ShowPlayerSkins(playerid, 2);
+            return 1;
+        }
     }
     return 1;
 }
