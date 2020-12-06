@@ -48,7 +48,7 @@ new DiscordSpecialChannels[][][128] =
 {
     {"771330265078562816","784810018837889044"}, // Kotnik Role Play - #reporty
     {"771330265078562816","784809993236643851"}, // Kotnik Role Play - #admin-chat
-    {"brak", "brak"},
+    {"771330265078562816", "784975679673466891"}, // Kotnik Role Play - #logi
     {"brak", "brak"},
     {"brak", "brak"},
     {"brak", "brak"}

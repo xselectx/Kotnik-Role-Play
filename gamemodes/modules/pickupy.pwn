@@ -171,8 +171,8 @@ Zaladuj3DTexty()
     new str2[512];
     str2 = "{FFA500}Dowód osobisty - {9ACD32}5000$ +akt urodz.\n{FFA500}Wydanie Prawa Jazdy - {9ACD32}12 500$ +zal. egz.\n {FFA500}Patent ¯eglarski - {9ACD32}100 000$\n {FFA500}Pozwolenie na Bron - {9ACD32}300 000$\n {FFA500}Licencja Pilota - {9ACD32}5 400 000$\n {FFA500}Karty wêdkarskie - {9ACD32}4000$\n{9ACD32}Egzamin teoretyczny - 5 000${FFA500}\n{9ACD32}Egzamin praktyczny- {9ACD32} 10 000$";
     CreateDynamic3DTextLabel(str2, COLOR_NEWS, 1484.6162,-1802.3754, 136.7680, 12,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 50);//Cennik DMV
-    str2 = "BACZNOŒÆ \n{7CFC00}By nie zostaæ oszukanym:\n {8B0000}1. NIGDY NIE GRAJ gdy ktoœ chce graæ o wiêcej ni¿ ma w {FFFFFF}/sprawdzkase [ID]\n{9ACD32}Je¿eli mimo to zostaniesz oszukany NATYCHMIAST zg³oœ ten fakt na {FFFFFF}/report{9ACD32} - oszust otrzyma od razu blocka\nGdy taka osoba otrzyma blokadê ty masz 10min na napisanie na niego skargi\nW ten sposób mo¿esz odzyskaæ nawet 100 procent wygranej!!";
-	CreateDynamic3DTextLabel(str2, COLOR_PANICRED ,1032.8098,-1091.7827,-66.5729, 20.0);
+   //str2 = "BACZNOŒÆ \n{7CFC00}By nie zostaæ oszukanym:\n {8B0000}1. NIGDY NIE GRAJ gdy ktoœ chce graæ o wiêcej ni¿ ma w {FFFFFF}/sprawdzkase [ID]\n{9ACD32}Je¿eli mimo to zostaniesz oszukany NATYCHMIAST zg³oœ ten fakt na {FFFFFF}/report{9ACD32} - oszust otrzyma od razu blocka\nGdy taka osoba otrzyma blokadê ty masz 10min na napisanie na niego skargi\nW ten sposób mo¿esz odzyskaæ nawet 100 procent wygranej!!";
+	//CreateDynamic3DTextLabel(str2, COLOR_PANICRED ,1032.8098,-1091.7827,-66.5729, 20.0);
     //CreateDynamic3DTextLabel("Los Santos Police Department\n{00FFCC}Zaœwiadczenia o niekaralnoœæi\nKoszt: {9ACD32}18 000${0080FF}", COLOR_BLUE ,252.3918,117.3390,1005.2188, 2.5);//36
     str2 = "{7CFC00}Tutaj mo¿esz zagraæ w ruletkê.\n({FFFFFF}/ruletka{7CFC00})";
 	CreateDynamic3DTextLabel(str2, -1, 1038.2437,-1091.8198,-66.6043, 17.0);

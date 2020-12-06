@@ -2,7 +2,7 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v1.0.1"
+#define VERSION "v1.0.2"
 
 #define DEBUG 2   // 2 - off  /  1 - on
 #define NULL 0
@@ -457,6 +457,8 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define D_SHOWSKINSPERSONAL 3502
 #define DIALOG_LIDER01 3001
 #define DIALOG_LIDER02 3002
+
+#define DIALOG_APL 4550
 
 // sprzedaz apteczek
 

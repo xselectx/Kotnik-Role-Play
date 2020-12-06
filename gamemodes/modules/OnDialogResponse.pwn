@@ -16430,7 +16430,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						PlayerInfo[playerid][pDowod] = 1;
 						DajKase(playerid, -5000);
 						Sejf_Add(FRAC_GOV, 5000);
-						ShowPlayerDialogEx(playerid, D_KUPLICENCJE, DIALOG_STYLE_TABLIST, "Licencje", "Dowód osobisty\t$5.000\nEgzamin teoretyczny\t$5.000\nEgzamin praktyczny\t$10.000\nWydanie Prawa Jazdy\t$12.500\nPatent ¯eglarski\t$100.000\nPozwolenie na broñ\t$500.000\nLicencja Pilota\t$5.400.000\nKarta wêdkarska\t$4.000", "Wybierz", "Anuluj");
+						ShowPlayerDialogEx(playerid, D_KUPLICENCJE, DIALOG_STYLE_TABLIST, "Licencje", "Dowód osobisty\t$5.000\nEgzamin teoretyczny\t$5.000\nEgzamin praktyczny\t$10.000\nWydanie Prawa Jazdy\t$12.500\nPatent ¯eglarski\t$100.000\nPozwolenie na broñ\t$300.000\nLicencja Pilota\t$5.400.000\nKarta wêdkarska\t$4.000", "Wybierz", "Anuluj");
 					} else return sendTipMessage(playerid, "Nie staæ Ciê!");
 				} else return sendTipMessage(playerid, "Masz ju¿ dowód osobisty!");
     		}

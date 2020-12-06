@@ -4721,6 +4721,12 @@ stock NickLog(text[])
     Log(plik, text);
 }
 
+stock WeaponsLog(text[])
+{
+    new plik[32] = "logi/weapons.log";
+    Log(plik, text);
+}
+
 stock AdminDutyLog(text[])
 {
 	new plik[32] = "Admini/wszyscy.log";
@@ -5096,7 +5102,7 @@ ShowStats(playerid,targetid)
 		new costlevel = nxtlevel*levelcost;//10k for testing purposes
 		new housekey = PlayerInfo[targetid][pDom];
 		new Float:shealth = PlayerInfo[targetid][pSHealth];
-		new Float:health;
+		new Float:health = GetPlayerHealth(targetid, health);
 		new name[MAX_PLAYER_NAME];
 		GetPlayerName(targetid, name, sizeof(name));
 		GetPlayerHealth(targetid,health);
@@ -5106,7 +5112,7 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GREEN,"_______________________________________");
 		format(coordsstring, sizeof(coordsstring),"*** %s ({8FCB04}UID: %d{FFFFFF}) ***",name, PlayerInfo[targetid][pUID]);
 		SendClientMessage(playerid, COLOR_WHITE,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,shealth+50, cash, account, pnumber);
+		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,health, cash, account, pnumber);
 		SendClientMessage(playerid, COLOR_GRAD1,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Konto Premium:[%s] Œlub z:[%s] On-Line:[%d] LottoNr:[%d] Praca:[%s] Punkty karne:[%d]", drank,PlayerInfo[targetid][pMarriedTo],ptime,lotto,jtext, PlayerInfo[targetid][pPK]);
 		SendClientMessage(playerid, COLOR_GRAD2,coordsstring);
@@ -13996,6 +14002,20 @@ stock hq_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         }
     }
     return 0;
+}
+
+stock RemoveUnderLine(playerid)
+{
+	new Nick[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, Nick, sizeof Nick);
+	
+    for (new X = 0; X < MAX_PLAYER_NAME; X++)
+    {
+		if (Nick[X] == '_')
+			Nick[X] = ' ';
+    }
+	
+	return Nick;
 }
 
 
