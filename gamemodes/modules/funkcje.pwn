@@ -7704,18 +7704,24 @@ ABroadCast(color,const string[],level)
 	{
 		if(IsPlayerConnected(i))
 		{
-			if (PlayerInfo[i][pAdmin] >= level)
+			if(GetPVarInt(i, "dutyadmin") == 1)
 			{
-				SendClientMessage(i, color, string);
+				if (PlayerInfo[i][pAdmin] >= level)
+				{
+					SendClientMessage(i, color, string);
+				}
+				else if (PlayerInfo[i][pNewAP] >= level)
+				{
+					SendClientMessage(i, color, string);
+				}
+				else if (PlayerInfo[i][pZG] >= level)
+				{
+					SendClientMessage(i, color, string);
+				}
 			}
-			else if (PlayerInfo[i][pNewAP] >= level)
-			{
-				SendClientMessage(i, color, string);
-			}
-			else if (PlayerInfo[i][pZG] >= level)
-			{
-				SendClientMessage(i, color, string);
-			}
+			else
+			//printf("[DEBUG]: admin has not duty, warnings not show");
+			return 1;
 		}
 	}
 	printf("%s", string);
@@ -13223,7 +13229,14 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		default: format(code_decoded, sizeof(code_decoded), "Omijanie logowania");
     	}
     }
-    
+
+    if(code == 40)
+    {
+    	new cmd[128];
+    	format(cmd, 128, "rcon banip %s", plrIP);
+    	SendRconCommand(cmd);
+    }
+
     if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
     {
     	if(GetPlayerVirtualWorld(playerid) != 7777)

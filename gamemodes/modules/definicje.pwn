@@ -56,7 +56,6 @@ new acstr[128];
 #define HOLDING(%0) \
     ((newkeys & (%0)) == (%0))
 
-
 #define EMERGENCY_NUMBERS -900 
 #define POLICE_NUMBER -901 //old 912
 #define SHERIFF_NUMBER -917 //old 928

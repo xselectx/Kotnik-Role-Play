@@ -13593,7 +13593,7 @@ CMD:zapiszdomy(playerid)
 	if(PlayerInfo[playerid][pAdmin] >= 5000)
 	{
 		ZapiszDomy();
-		SendClientMessage(playerid, COLOR_WHITE, "Wszystkie domy zosta³y zapisane");
+		SendClientMessage(playerid, COLOR_LIGHTGREEN, "Wszystkie domy zosta³y zapisane!");
 	}
 	return 1;
 }
@@ -13603,7 +13603,7 @@ CMD:zapiszkonta(playerid)
     if(PlayerInfo[playerid][pAdmin] >= 5000)
 	{
         foreach(Player, i) MruMySQL_SaveAccount(i);
-    	SendClientMessageToAll(COLOR_WHITE, "Wszystkie konta zosta³y zapisane");
+    	SendClientMessage(playerid, COLOR_LIGHTGREEN, "Wszystkie konta zosta³y zapisane!");
 	}
 	return 1;
 }
@@ -16206,6 +16206,8 @@ CMD:sasd(playerid, params[])
 	return 1;
 }
 
+
+
 CMD:owarsztat(playerid)
 {
 	if(IsANoA(playerid))
@@ -16510,9 +16512,10 @@ CMD:togwhisper(playerid) return cmd_zablokujw(playerid);
 CMD:togw(playerid) return cmd_zablokujw(playerid);
 CMD:zablokujw(playerid)
 {
+    new string[256];
     if(IsPlayerConnected(playerid))
     {
-        if(PremiumInfo[playerid][pKP] > 0 || PlayerInfo[playerid][pAdmin] > 1)
+        if(PremiumInfo[playerid][pKP] > 0 || PlayerInfo[playerid][pAdmin] > 1 || PlayerInfo[playerid][pNewAP] > 1)
         {
 			if (!HidePM[playerid])
 			{
@@ -38579,9 +38582,11 @@ CMD:adminduty(playerid)
         AdminDutyTimer[playerid] = SetTimerEx("AdminDutyCzas", 60000, true, "i", playerid);
         format(string, sizeof(string), "Administrator %s wszed³  na s³u¿bê administratora!", GetNick(playerid, true));
         SendAdminMessage(COLOR_RED, string); 
+        sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Jestes teraz na s³u¿bie pomocy nowym graczom (/tickets)");
         MSGBOX_Show(playerid, "Admin Duty ~g~ON", MSGBOX_ICON_TYPE_OK); 
         //format(string, sizeof(string), "%s", AdminName); 
         //SetPlayerName(playerid, string);
+        SetPVarInt(playerid, "support_duty", 1);
         SetPVarInt(playerid, "dutyadmin", 1);
         SetPlayerColor(playerid, 0xFF0000FF);
 
@@ -38589,11 +38594,12 @@ CMD:adminduty(playerid)
     else if(GetPVarInt(playerid, "dutyadmin") == 1)
     {
         SetPVarInt(playerid, "dutyadmin", 0); 
+        SetPVarInt(playerid, "support_duty", 0);
         SetPlayerColor(playerid,TEAM_HIT_COLOR);
         format(string, sizeof(string), "@DUTY: Wykona³eœ ->  %d banów | %d warnów | %d kicków | %d innych akcji!", iloscBan[playerid],iloscWarn[playerid],iloscKick[playerid], iloscInne[playerid]); 
         sendErrorMessage(playerid, string); 
         MSGBOX_Show(playerid, "Admin Duty ~r~OFF", MSGBOX_ICON_TYPE_OK);
-        sendTipMessage(playerid, "Dziêkujemy za sumienn¹ s³u¿bê, administratorze!"); 
+        sendTipMessage(playerid, "Dziêkujemy za sumienn¹ s³u¿bê, tickety nie bêd¹ ju¿ wyœwietlane!"); 
 
 
         getdate(y1, mi1, d1); 
