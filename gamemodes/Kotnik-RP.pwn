@@ -693,8 +693,8 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 		#endif
         return 0;
     }
-    SetPVarInt(playerid, "entering_car", 1);
-    SetTimerEx("EnteringCarFix", 1500, false, "i", playerid);
+    //SetPVarInt(playerid, "entering_car", 1);
+    SetTimerEx("EnteringCarFix", 500, false, "i", playerid);
     new validseat = GetVehicleMaxPassengers(GetVehicleModel(vehicleid));
     if(validseat == 0xF)
     {
@@ -6502,7 +6502,7 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
         ClearAnimations(playerid, 1);
         DeletePVar(playerid, "entering_car");
         TogglePlayerControllable(playerid, 0);
-        SetTimerEx("UnfreezePlayerTimer", 2000, false, "i", playerid);
+        SetTimerEx("UnfreezePlayerTimer", 500, false, "i", playerid);
     }
 
     if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && GetPVarInt(playerid, "obezwladniony") > gettime())
