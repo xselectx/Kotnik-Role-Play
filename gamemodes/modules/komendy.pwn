@@ -10085,7 +10085,7 @@ CMD:zmienskin(playerid)
 {
     if(IsPlayerConnected(playerid))
     {
-		if (IsAHA(playerid) || PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1)
+		if (IsAHA(playerid) || PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1 || PlayerInfo[playerid][pMember] == 2 || PlayerInfo[playerid][pLider] == 2 || PlayerInfo[playerid][pMember] == 3 || PlayerInfo[playerid][pMember] == 3 || PlayerInfo[playerid][pMember] == 7 || PlayerInfo[playerid][pMember] == 7)
 		{
 			if(PlayerInfo[playerid][pRank] >= 2)
 			{
@@ -10099,7 +10099,7 @@ CMD:zmienskin(playerid)
 		}
 		else
 		{
-			sendTipMessage(playerid, "Tylko dla Hitman Agency i LSPD.");
+			sendTipMessage(playerid, "Tylko dla wyznaczonych s³u¿b porz¹dkowych!");
 		}
 	}
 	return 1;
