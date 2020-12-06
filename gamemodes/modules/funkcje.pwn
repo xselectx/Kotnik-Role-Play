@@ -13223,14 +13223,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		default: format(code_decoded, sizeof(code_decoded), "Omijanie logowania");
     	}
     }
-
-    if(code == 40)
-    {
-    	new cmd[128];
-    	format(cmd, 128, "rcon banip %s", plrIP);
-    	SendRconCommand(cmd);
-    }
-
+    
     if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
     {
     	if(GetPlayerVirtualWorld(playerid) != 7777)
