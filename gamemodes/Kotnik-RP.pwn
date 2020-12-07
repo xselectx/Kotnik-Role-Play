@@ -693,8 +693,8 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 		#endif
         return 0;
     }
-    //SetPVarInt(playerid, "entering_car", 1);
-    SetTimerEx("EnteringCarFix", 500, false, "i", playerid);
+    SetPVarInt(playerid, "entering_car", 1);
+    SetTimerEx("EnteringCarFix", 1500, false, "i", playerid);
     new validseat = GetVehicleMaxPassengers(GetVehicleModel(vehicleid));
     if(validseat == 0xF)
     {
@@ -6480,6 +6480,8 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 		}
 	}
 
+
+
     /*if(newkeys & KEY_NO && PhoneUsing[playerid] == 1)
     {
         SelectTextDraw(playerid, COLOR_GREY);
@@ -6502,7 +6504,7 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
         ClearAnimations(playerid, 1);
         DeletePVar(playerid, "entering_car");
         TogglePlayerControllable(playerid, 0);
-        SetTimerEx("UnfreezePlayerTimer", 500, false, "i", playerid);
+        SetTimerEx("UnfreezePlayerTimer", 2000, false, "i", playerid);
     }
 
     if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && GetPVarInt(playerid, "obezwladniony") > gettime())
@@ -6682,7 +6684,27 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
             }
         }
     }
-
+    //dozowane nitro krp;1.0.3
+    new vehid = GetPlayerVehicleID(playerid);
+    if(RELEASED(KEY_FIRE)) {
+            if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
+            if(GetVehicleComponentInSlot(vehid, CARMODTYPE_NITRO) == 1010)
+            {
+                RemoveVehicleComponent(vehid, 1010);
+                AddVehicleComponent(vehid, 1010);
+            }
+            else if(GetVehicleComponentInSlot(vehid, CARMODTYPE_NITRO) == 1009)
+            {
+                RemoveVehicleComponent(vehid, 1009);
+                AddVehicleComponent(vehid, 1009);
+            }
+            else if(GetVehicleComponentInSlot(vehid, CARMODTYPE_NITRO) == 1008)
+            {
+                RemoveVehicleComponent(vehid, 1008);
+                AddVehicleComponent(vehid, 1008);
+            } 
+        }
+    }
     //
 	if ((newkeys==KEY_ACTION)&&(IsPlayerInAnyVehicle(playerid))&&(GetPlayerState(playerid)==PLAYER_STATE_DRIVER))
 	{
@@ -8269,7 +8291,7 @@ WasteDeAMXersTime()
     #emit stor.pri b
 }
 
-new baseurl[] = "https://kotnik-rp.pl/downloads";
+new baseurl[] = "http://146.59.17.224/download/";
  
 public OnPlayerRequestDownload(playerid, type, crc)
 {

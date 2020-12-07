@@ -28874,6 +28874,16 @@ CMD:zabierz(playerid, params[])
     return 1;
 }
 
+CMD:dopalacz(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] == 5000)
+    {
+        Dopalaj(playerid);
+    }
+    else sendTipMessage(playerid, "Brak uprawnieñ!");
+    return 1;
+}
+
 CMD:drink(playerid, params[]) return cmd_wypij(playerid, params);
 CMD:pij(playerid, params[]) return cmd_wypij(playerid, params);
 CMD:wypij(playerid, params[])
@@ -38587,6 +38597,7 @@ CMD:adminduty(playerid)
         //format(string, sizeof(string), "%s", AdminName); 
         //SetPlayerName(playerid, string);
         SetPVarInt(playerid, "support_duty", 1);
+        SetPlayerHealth(playerid, 500000);
         SetPVarInt(playerid, "dutyadmin", 1);
         SetPlayerColor(playerid, 0xFF0000FF);
 
@@ -38598,6 +38609,7 @@ CMD:adminduty(playerid)
         SetPlayerColor(playerid,TEAM_HIT_COLOR);
         format(string, sizeof(string), "@DUTY: Wykona³eœ ->  %d banów | %d warnów | %d kicków | %d innych akcji!", iloscBan[playerid],iloscWarn[playerid],iloscKick[playerid], iloscInne[playerid]); 
         sendErrorMessage(playerid, string); 
+        SetPlayerHealth(playerid, PlayerInfo[playerid][pSHealth]);
         MSGBOX_Show(playerid, "Admin Duty ~r~OFF", MSGBOX_ICON_TYPE_OK);
         sendTipMessage(playerid, "Dziêkujemy za sumienn¹ s³u¿bê, tickety nie bêd¹ ju¿ wyœwietlane!"); 
 
