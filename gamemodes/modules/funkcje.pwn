@@ -7644,6 +7644,14 @@ LadujInteriory()
     IntInfo[47][Kategoria] = 7;
     IntInfo[47][Pokoje] = 10;
     IntInfo[47][Cena] = 50000000;
+
+    IntInfo[48][Int_X] = 1313.93;//remover dom
+    IntInfo[48][Int_Y] = -1160.42;
+    IntInfo[48][Int_Z] = 49.48;
+    IntInfo[48][Int] = 1;
+    IntInfo[48][Kategoria] = 4;
+    IntInfo[48][Pokoje] = 3;
+    IntInfo[48][Cena] = 7500000;
     return 1;
 }
 
@@ -8050,6 +8058,23 @@ SendAdminMessage(color, string[])
 		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
 		    {
 				SendClientMessage(i, color, string);
+			}
+		}
+	}
+}
+
+SendVPNAdminMessage(color, string[])
+{
+	foreach(Player, i)
+	{
+		if(IsPlayerConnected(i))
+		{
+		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
+		    {
+		    	if(AdminVPNInfo[i] == 0)
+		    	{
+					SendClientMessage(i, color, string);
+				}
 			}
 		}
 	}
@@ -14515,7 +14540,8 @@ public VPNCheck(playerid, response_code, data[])
 		if(data[0] == 'Y')
 		{
 			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
-	    	SendAdminMessage( 0xFF0000FF, string);
+			SendRconCommand(sprintf("banip %s", ip));
+	    	SendVPNAdminMessage( 0xFF0000FF, string);
 	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
 	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
 	    	KickEx(playerid);

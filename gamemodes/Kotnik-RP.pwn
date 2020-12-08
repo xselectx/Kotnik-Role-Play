@@ -6189,7 +6189,6 @@ OnPlayerLogin(playerid, password[])
 			return 1;
 		}
 
-        D
 
 		//----------------------------
 		//£adowanie konta i zmiennych:
