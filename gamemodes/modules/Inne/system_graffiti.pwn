@@ -75,12 +75,10 @@ new playerGraffitis[MAX_PLAYERS][5];
 
 ReturnFixedGraffiti(string[])
 {
-	printf("string before: %s", string);
 	for(new i = 0; i<strlen(string);i++)
 	{
 		string[strfind(string, "^", false)] = '\n';
 	}
-	printf("string after: %s", string);
 	return string;
 }
 

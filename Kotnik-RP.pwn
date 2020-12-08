@@ -8291,7 +8291,7 @@ WasteDeAMXersTime()
     #emit stor.pri b
 }
 
-new baseurl[] = "http://146.59.17.224/download/";
+new baseurl[] = "https://kotnik-rp.pl/downloads";
  
 public OnPlayerRequestDownload(playerid, type, crc)
 {

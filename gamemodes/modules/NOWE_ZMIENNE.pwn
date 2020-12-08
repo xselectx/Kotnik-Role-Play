@@ -5,6 +5,25 @@ new GMX;
 new DC_AntySpam;
 new LOCALHOST = 0;
 
+new TymczasowyOpisVar[MAX_PLAYERS];
+new TymczasowyOpisString[MAX_PLAYERS][256];
+new Text3D:TymczasowyOpis[MAX_PLAYERS];
+
+
+new  iloscKick[MAX_PLAYERS];
+new  iloscWarn[MAX_PLAYERS];
+new  iloscBan[MAX_PLAYERS];
+new  iloscInne[MAX_PLAYERS];
+new  iloscAJ[MAX_PLAYERS];
+new  iloscInWiadomosci[MAX_PLAYERS];
+new  iloscOutWiadomosci[MAX_PLAYERS];
+new  iloscZapytaj[MAX_PLAYERS];
+
+new AdminDutyGodziny[MAX_PLAYERS];
+new AdminDutyMinuty[MAX_PLAYERS];
+
+new AdminDutyTimer[MAX_PLAYERS];
+
 new TutorialFix[MAX_PLAYERS];
 
 new Text3D:quittext[MAX_PLAYERS];
@@ -847,7 +866,7 @@ new FBIdrzwi7;
 new FBImove2 = 0;
 new FBImove3 = 0;
 new FBImove5 = 0;
-//new Celaki[3];
+new Celaki[3];
 //koniecfbi
 //brama baysie by micha³
 new BramaBaySide;
@@ -1416,7 +1435,7 @@ stock ZerujZmienne(playerid)
     Logged[playerid] = 0;
     ZabranyGPS[playerid] = 0;
     PlayerInfo[playerid][pMuted] = 1;
-    afk_timer[playerid] = -1;
+    //afk_timer[playerid] = -1;
 
     pasy[playerid] = 0;
     kask[playerid] = 0;
@@ -1434,6 +1453,21 @@ stock ZerujZmienne(playerid)
 
     TutorialFix[playerid] = 0;
     
+    iloscKick[playerid] = 0;
+    iloscWarn[playerid] = 0;
+    iloscBan[playerid] = 0;
+    iloscInne[playerid] = 0;
+    iloscAJ[playerid] = 0;
+    iloscInWiadomosci[playerid] = 0;
+    iloscOutWiadomosci[playerid] = 0;
+    iloscZapytaj[playerid] = 0;
+
+    AdminDutyGodziny[playerid] = 0;
+    AdminDutyMinuty[playerid] = 0;
+
+    SetPVarInt(playerid, "AC-warn", 0);
+    SetPVarInt(playerid, "dutyadmin", 0);
+
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
 
     strdel(PlayerDesc[playerid], 0, 128 char);
