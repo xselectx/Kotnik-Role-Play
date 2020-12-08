@@ -13020,7 +13020,7 @@ CMD:stworzdom(playerid, params[])
 				return 1;
 			}
 
-			if(interior >= 1 && interior <= 46)
+			if(interior >= 1 && interior <= 48)
 			{
 			    if(kesz >= 0 && kesz <= 1000000000)
 			    {
@@ -13036,7 +13036,7 @@ CMD:stworzdom(playerid, params[])
 			}
 			else
 			{
-			    sendTipMessage(playerid, "Interior od 1 do 46");
+			    sendTipMessage(playerid, "Interior od 1 do 48");
 			}
 		}
 	}
@@ -13054,13 +13054,13 @@ CMD:domint(playerid, params[])
 			sendTipMessage(playerid, "U¿yj /domint [dom ID] [interior] ");
 			return 1;
 		}
-		if(interior >= 1 && interior <= 46)
+		if(interior >= 1 && interior <= 48)
 		{
             Dom_ChangeInt(playerid, dld, interior);
 		}
 		else
 		{
-		    sendTipMessage(playerid, "Interior od 1 do 46");
+		    sendTipMessage(playerid, "Interior od 1 do 48");
 		}
 	}
 	return 1;
@@ -21166,6 +21166,7 @@ CMD:wejdz(playerid)
                         PlayerInfo[playerid][pDomT] = h;
                         PlayerInfo[playerid][pDomWKJ] = i;
                         GameTextForPlayer(playerid, "~g~Witamy w domu", 5000, 1);
+                        Wchodzenie(playerid);
                         return 1;
                     }
                     else
@@ -21182,6 +21183,7 @@ CMD:wejdz(playerid)
                             PlayerInfo[playerid][pDomT] = h;
                             PlayerInfo[playerid][pDomWKJ] = i;
                             GameTextForPlayer(playerid, "~g~Witamy w domu", 5000, 1);
+                            Wchodzenie(playerid);
                             return 1;
                         }
                         else
@@ -21198,6 +21200,7 @@ CMD:wejdz(playerid)
                                 PlayerInfo[playerid][pDomT] = h;
                                 PlayerInfo[playerid][pDomWKJ] = i;
                                 GameTextForPlayer(playerid, "~g~Witamy w domu", 5000, 1);
+                                Wchodzenie(playerid);
                                 return 1;
                             }
                             else
@@ -39570,6 +39573,24 @@ CMD:motel(playerid, params[])
     else if(strcmp(var, "wejdz", true) == 0)
     {
         sendTipMessage(playerid, "Motel jest obecnie w trakcie remontu!");
+    }
+    return 1;
+}
+
+CMD:vpn_info(playerid)
+{
+    if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] >= 1)
+    {
+        if(AdminVPNInfo[playerid] == 0)
+        {
+            AdminVPNInfo[playerid] = 1;
+            sendTipMessage(playerid, "Wy³¹czono.");
+        }
+        else
+        {
+            AdminVPNInfo[playerid] = 0;
+            sendTipMessage(playerid, "W³¹czono.");
+        }
     }
     return 1;
 }

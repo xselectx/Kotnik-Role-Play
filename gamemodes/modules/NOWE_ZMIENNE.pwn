@@ -9,6 +9,7 @@ new TymczasowyOpisVar[MAX_PLAYERS];
 new TymczasowyOpisString[MAX_PLAYERS][256];
 new Text3D:TymczasowyOpis[MAX_PLAYERS];
 
+new AdminVPNInfo[MAX_PLAYERS];
 
 new  iloscKick[MAX_PLAYERS];
 new  iloscWarn[MAX_PLAYERS];
@@ -1464,6 +1465,8 @@ stock ZerujZmienne(playerid)
 
     AdminDutyGodziny[playerid] = 0;
     AdminDutyMinuty[playerid] = 0;
+
+    AdminVPNInfo[playerid] = 0;
 
     SetPVarInt(playerid, "AC-warn", 0);
     SetPVarInt(playerid, "dutyadmin", 0);

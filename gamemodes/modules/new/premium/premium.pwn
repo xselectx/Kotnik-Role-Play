@@ -1001,7 +1001,7 @@ DialogMenuDotacje(playerid)
 
 			//"Rynek Kotnik Coins'ów\n"
 		//"Wspomó¿ nasz serwer i otrzymaj Mrucznik Coins'y!", 
-	format(string, sizeof(string), ""#HQ_COLOR_TEKST"Iloœæ Kotnik Coins: \t\t"#PREMIUM_EMBED2"%d MC\n" \
+	format(string, sizeof(string), ""#HQ_COLOR_TEKST"Iloœæ Kotnik Coins: \t\t"#PREMIUM_EMBED2"%d KC\n" \
 		"    "HQ_COLOR_TEKST2"Kup Kotnik Coins\n"\
 		""#HQ_COLOR_TEKST"Konto Premium %s\n"\
 		"    "HQ_COLOR_TEKST2"%s konto premium\n"\
