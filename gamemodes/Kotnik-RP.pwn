@@ -6151,6 +6151,8 @@ OnPlayerLogin(playerid, password[])
 			return 1;
 		}
 
+        D
+
 		//----------------------------
 		//£adowanie konta i zmiennych:
 		//----------------------------
@@ -6237,6 +6239,8 @@ OnPlayerLogin(playerid, password[])
         PlayerInfo[playerid][pCarSlots] = 4;
 		DajKase(playerid, 50000); // 50k na start serwera
 	}
+
+
 
 
 	//Filtry na konto:

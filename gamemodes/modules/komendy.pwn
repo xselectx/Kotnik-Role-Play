@@ -12831,7 +12831,7 @@ CMD:stworzdom(playerid, params[])
 				return 1;
 			}
 
-			if(interior >= 1 && interior <= 46)
+			if(interior >= 1 && interior <= 48)
 			{
 			    if(kesz >= 0 && kesz <= 1000000000)
 			    {
@@ -12847,7 +12847,7 @@ CMD:stworzdom(playerid, params[])
 			}
 			else
 			{
-			    sendTipMessage(playerid, "Interior od 1 do 46");
+			    sendTipMessage(playerid, "Interior od 1 do 48");
 			}
 		}
 	}
@@ -12865,13 +12865,13 @@ CMD:domint(playerid, params[])
 			sendTipMessage(playerid, "U¿yj /domint [dom ID] [interior] ");
 			return 1;
 		}
-		if(interior >= 1 && interior <= 46)
+		if(interior >= 1 && interior <= 48)
 		{
             Dom_ChangeInt(playerid, dld, interior);
 		}
 		else
 		{
-		    sendTipMessage(playerid, "Interior od 1 do 46");
+		    sendTipMessage(playerid, "Interior od 1 do 48");
 		}
 	}
 	return 1;
@@ -20956,6 +20956,7 @@ CMD:wejdz(playerid)
                         SetPlayerTime(playerid, Dom[i][hSwiatlo], 0);
                         PlayerInfo[playerid][pDomT] = h;
                         PlayerInfo[playerid][pDomWKJ] = i;
+                        Wchodzenie(playerid);
                         GameTextForPlayer(playerid, "~g~Witamy w domu", 5000, 1);
                         return 1;
                     }
@@ -20972,6 +20973,7 @@ CMD:wejdz(playerid)
                             SetPlayerTime(playerid, Dom[i][hSwiatlo], 0);
                             PlayerInfo[playerid][pDomT] = h;
                             PlayerInfo[playerid][pDomWKJ] = i;
+                            Wchodzenie(playerid);
                             GameTextForPlayer(playerid, "~g~Witamy w domu", 5000, 1);
                             return 1;
                         }
@@ -20989,6 +20991,7 @@ CMD:wejdz(playerid)
                                 PlayerInfo[playerid][pDomT] = h;
                                 PlayerInfo[playerid][pDomWKJ] = i;
                                 GameTextForPlayer(playerid, "~g~Witamy w domu", 5000, 1);
+                                Wchodzenie(playerid);
                                 return 1;
                             }
                             else
@@ -21764,11 +21767,15 @@ CMD:wyjdz(playerid)
 		}
 		else
 		{
-
+            new Float:x, Float:y, Float:z;
+            GetPlayerPos(playerid, Float:x, Float:y, Float:z);
+            //printf("plr: %f %f %f", x, y, z);
 			for(new i; i<MAX_NrDOM; i++)
 		    {
+                //printf("testing house: %f %f %f", IntInfo[i][Int_X], IntInfo[i][Int_Y], IntInfo[i][Int_Z]);
 				if(IsPlayerInRangeOfPoint(playerid, 5.0, IntInfo[i][Int_X], IntInfo[i][Int_Y], IntInfo[i][Int_Z]))
 				{
+                    //print("found");
                     new deem = PlayerInfo[playerid][pDomWKJ];
 			        SetPlayerPosEx(playerid, Dom[deem][hWej_X], Dom[deem][hWej_Y], Dom[deem][hWej_Z]);
 			        SetPlayerInterior(playerid, 0);
@@ -26444,8 +26451,14 @@ CMD:ah(playerid)
         SendClientMessage(playerid, COLOR_GRAD1, "* WSZYSCY *** /supportduty /tickets");
 	if (PlayerInfo[playerid][pNewAP] >= 1 && PlayerInfo[playerid][pNewAP] <= 3)
 	{
+<<<<<<< Updated upstream
 		SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /slap /aj /wybieralka /check /freeze /unfreeze /ucisz /KickEx");
         SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /ban /goto /spec /respawn /a(dmin) chat /cmdinfo /unbw /checkbw");
+=======
+		SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /slap /aj /wybieralka /check /freeze /unfreeze /ucisz /kick");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /ban /goto /spec /apl /respawn /a(dmin) chat /cmdinfo /unbw /checkbw /warn");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PÓ£ADMIN *** /vpn_info /unbw");
+>>>>>>> Stashed changes
     }
 	if (PlayerInfo[playerid][pNewAP] == 4)
 	{
@@ -26467,8 +26480,13 @@ CMD:ah(playerid)
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /check /pojazdygracza /checkprawko /sb /pokazcb");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /respawn /carjump /goto /up /getcar /gethere");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /cnn /cc /spec /unblock /unwarn /forum /pogoda /pogodaall");
+<<<<<<< Updated upstream
         SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /usunopis [ID] /czity /respawnplayer /respawncar /unbw /cmdinfo");
         SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly");
+=======
+        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /czity /respawnplayer /respawncar /unbw /cmdinfo");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly /opis_usun /vpn_info");
+>>>>>>> Stashed changes
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 5)
 	{
@@ -39154,4 +39172,136 @@ CMD:garderoba(playerid)
         //ShowPlayerSkins(playerid);
     }
     return 1;
+<<<<<<< Updated upstream
+=======
+}
+
+CMD:personale(playerid)
+{
+    if(IsPlayerConnected(playerid))
+    {
+        if(GUIExit[playerid] == 0)
+        {
+            ShowPlayerSkins(playerid, 2);
+            return 1;
+        }
+    }
+    return 1;
+}
+
+CMD:motel(playerid, params[])
+{
+    new var[32];
+    if(sscanf(params, "s[32]", var)) return sendTipMessage(playerid, "U¿yj /motel wynajmij wejdz wyjdz");
+    if(!IsPlayerInRangeOfPoint(playerid, 2, 849.2945, -1336.3616, 13.5690) && !IsPlayerInRangeOfPoint(playerid, 2, 2178.3113, -1770.5784, 13.5451)) return sendTipMessage(playerid, "Nie znajdujesz siê w pobli¿u motelu!");
+    if(strcmp(var, "wynajmij", true) == 0)
+    {
+        sendTipMessage(playerid, "Motel jest obecnie w trakcie remontu!");
+    }
+
+    else if(strcmp(var, "wejdz", true) == 0)
+    {
+        sendTipMessage(playerid, "Motel jest obecnie w trakcie remontu!");
+    }
+    return 1;
+}
+
+/*CMD:mikolaj_start(playerid)
+{
+    if(PlayerInfo[playerid][pAdmin] >= 5000)
+    {
+        if(PrezentyLoaded == 0)
+        {
+            for(new i = 0; i<MAX_PLAYERS; i++)
+            {
+                if(IsPlayerConnected(i))
+                {
+                    StopAudioStreamForPlayer(i);
+                    PlayAudioStreamForPlayer(i, "http://kotnik-rp.pl/muzyka/mikolajki.mp3");
+                }
+            }
+            for(new x = 0; x<10; x++)
+            {
+                SendClientMessageToAll(-1, " ");
+            }
+
+            LoadPrezenty();
+
+            SendClientMessageToAll(COLOR_LIGHTBLUE, "Ho ho ho! Œwiêty Miko³aj zawita³ do San Andreas!");
+            SendClientMessageToAll(COLOR_LIGHTGREEN, "Po ca³ym stanie zosta³y rozrzucone prezenty w których mo¿na znaleŸæ pieni¹dze i Kotnik Coinsy.");
+            SendClientMessageToAll(COLOR_LIGHTGREEN, "Aby rozpakowaæ znaleziony prezent, nale¿y przy nim wpisaæ ({FFFFFF}/prezent{9ACD32}).");
+        }
+    }
+    return 1;
+}*/
+
+/*CMD:prezent(playerid)
+{
+    new string[256];
+    if(PrezentyLoaded == 1)
+    {
+        for(new i = 0; i<100; i++)
+        {
+            if(IsPlayerInRangeOfPoint(playerid, 2, Prezenty[i][prz_x], Prezenty[i][prz_y], Prezenty[i][prz_z]))
+            {
+                if(PrezentZnaleziony[playerid][i] == 0)
+                {
+                    if(Prezenty[i][prz_Typ] == 1)
+                    {
+                        DajKase(playerid, Prezenty[i][prz_Wartosc]);
+                        _MruGracz(playerid, sprintf("Znalaz³eœ prezent! Znajdowa³o siê w nim $%d.", Prezenty[i][prz_Wartosc]));
+    
+                        format(string, sizeof(string), "%s [%d] znalazl prezent i dostal $%d.", GetNick(playerid), PlayerInfo[playerid][pUID], Prezenty[i][prz_Wartosc]);
+                        PayLog(string);
+                        PrezentZnaleziony[playerid][i] = 1;
+                        prezenty_Save(playerid, i);
+                    }
+                    else if (Prezenty[i][prz_Typ] == 2)
+                    {
+                        PremiumInfo[playerid][pMC] += Prezenty[i][prz_Wartosc];
+                        premium_saveMc(playerid);
+                        _MruGracz(playerid, sprintf("Znalaz³eœ prezent! Znajdowa³o siê w %d Kotnik Coins.", Prezenty[i][prz_Wartosc]));
+    
+                        format(string, sizeof(string), "%s [%d] znalazl prezent i dostal %d KC.", GetNick(playerid), PlayerInfo[playerid][pUID], Prezenty[i][prz_Wartosc]);
+                        CKLog(string);
+                        prezenty_Save(playerid, i);
+                        PrezentZnaleziony[playerid][i] = 1;
+                    }
+                    else if (Prezenty[i][prz_Typ] == 3)
+                    {
+                        _MruGracz(playerid, "Znalaz³eœ prezent! Ale... Pusty. :(");
+                        prezenty_Save(playerid, i);
+                        PrezentZnaleziony[playerid][i] = 1;
+                    }
+                    else if (Prezenty[i][prz_Typ] == 4)
+                    {
+                        _MruGracz(playerid, "Znalaz³eœ prezent! A co to? Licencja pilota!");
+                        prezenty_Save(playerid, i);
+                        PrezentZnaleziony[playerid][i] = 1;
+                        PlayerInfo[playerid][pFlyLic] = 1;
+                    }
+                } else return sendTipMessage(playerid, "Znalaz³eœ ju¿ ten prezent!");
+            }
+        }
+        return 1;
+    } else return 0;
+}*/
+
+CMD:vpn_info(playerid)
+{
+    if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] >= 1)
+    {
+        if(AdminVPNInfo[playerid] == 0)
+        {
+            AdminVPNInfo[playerid] = 1;
+            sendTipMessage(playerid, "Wy³¹czono.");
+        }
+        else
+        {
+            AdminVPNInfo[playerid] = 0;
+            sendTipMessage(playerid, "W³¹czono.");
+        }
+    }
+    return 1;
+>>>>>>> Stashed changes
 }

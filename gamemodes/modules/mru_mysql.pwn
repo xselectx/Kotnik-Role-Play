@@ -729,9 +729,34 @@ public MruMySQL_LoadAcocount(playerid)
 
     MruMySQL_LoadAccess(playerid);
     premium_loadForPlayer(playerid);
+    //prezenty_Load(playerid);
     //MruMySQL_WczytajOpis(playerid, PlayerInfo[playerid][pUID], 1);
 	if(id != 4) return false;
 	return true;
+}
+
+stock prezenty_Load(playerid)
+{
+	new query[256], unused, ID;
+	format(query, sizeof(query), "SELECT * FROM `prezent` WHERE `UID` = '%d'", PlayerInfo[playerid][pUID]);
+	mysql_query(query);
+	mysql_store_result();
+	while(mysql_fetch_row_format(query, "|"))
+    {
+    	sscanf(query, "p<|>dd", unused, ID);
+    	PrezentZnaleziony[playerid][ID] = 1;
+    }
+    mysql_free_result();
+    return 1;
+
+}
+
+stock prezenty_Save(playerid, id)
+{
+	new query[256], unused, i = 0;
+
+	format(query, sizeof(query), "INSERT INTO `prezent`(`UID`, `ID`) VALUES ('%d','%d')", PlayerInfo[playerid][pUID], id);
+	mysql_query(query);
 }
 
 stock MruMySQL_WczytajOpis(handle, uid, typ)

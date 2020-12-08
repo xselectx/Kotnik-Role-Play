@@ -7600,6 +7600,7 @@ LadujInteriory()
     IntInfo[45][Kategoria] = 7;
     IntInfo[45][Pokoje] = 4;
     IntInfo[45][Cena] = 5000000;
+    
     IntInfo[46][Int_X] = 2526.3950;//dom 3 ZBUGOWANY PRZESWIT
     IntInfo[46][Int_Y] = -1679.4390;
     IntInfo[46][Int_Z] = 1015.498;
@@ -7615,6 +7616,14 @@ LadujInteriory()
     IntInfo[47][Kategoria] = 7;
     IntInfo[47][Pokoje] = 10;
     IntInfo[47][Cena] = 50000000;
+
+    IntInfo[48][Int_X] = 1313.93;//remover dom
+    IntInfo[48][Int_Y] = -1160.42;
+    IntInfo[48][Int_Z] = 49.48;
+    IntInfo[48][Int] = 1;
+    IntInfo[48][Kategoria] = 4;
+    IntInfo[48][Pokoje] = 3;
+    IntInfo[48][Cena] = 7500000;
     return 1;
 }
 
@@ -8015,6 +8024,23 @@ SendAdminMessage(color, string[])
 		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
 		    {
 				SendClientMessage(i, color, string);
+			}
+		}
+	}
+}
+
+SendVPNAdminMessage(color, string[])
+{
+	foreach(Player, i)
+	{
+		if(IsPlayerConnected(i))
+		{
+		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
+		    {
+		    	if(AdminVPNInfo[i] == 0)
+		    	{
+					SendClientMessage(i, color, string);
+				}
 			}
 		}
 	}
@@ -14369,7 +14395,8 @@ public VPNCheck(playerid, response_code, data[])
 		if(data[0] == 'Y')
 		{
 			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
-	    	SendAdminMessage( 0xFF0000FF, string);
+			SendRconCommand(sprintf("banip %s", ip));
+	    	SendVPNAdminMessage( 0xFF0000FF, string);
 	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
 	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
 	    	KickEx(playerid);
@@ -14386,3 +14413,88 @@ public VPNCheck(playerid, response_code, data[])
 	return 1;
 }
 
+<<<<<<< Updated upstream
+=======
+
+forward AdminDutyCzas(playerid);
+public AdminDutyCzas(playerid)
+{
+	if(GetPVarInt(playerid, "dutyadmin") == 1)
+	{
+		if(!IsPlayerPaused(playerid))
+		{
+			AdminDutyMinuty[playerid]++;
+			if(AdminDutyMinuty[playerid] >= 60)
+			{
+				SetPlayerColor(playerid, 0xFF0000FF);
+				AdminDutyMinuty[playerid] = 0;
+				AdminDutyGodziny[playerid]++;
+			}
+		}
+	}
+}
+
+stock BreakLines(string[], delimiter[], limit)
+{
+	new inserts, tempLimit = limit, pos[50], string2[150], lastEmptyPos;
+	format(string2, 150, string);
+	
+	for(new i; i < strlen(string); i++)
+	{
+		if( string[i] == ' ' ) lastEmptyPos = i;
+		if( string[i] == '~' && string[i+1] == 'n' && string[i+2] == '~' ) tempLimit = i + limit;
+		if( i >= tempLimit )
+		{
+			inserts += 1;
+			tempLimit = i + limit;
+			
+			pos[inserts-1] = lastEmptyPos + ((inserts-1) * strlen(delimiter));
+			if( inserts > 1 ) pos[inserts-1] -= (inserts-1);
+		}
+	}
+	
+	for(new d; d < 50; d++)
+	{
+		if( pos[d] == 0 ) break;
+		strdel(string2, pos[d], pos[d]+1);
+		strins(string2, delimiter, pos[d]);
+	}
+	
+	return _:string2;
+}
+
+forward SprzedajMatsTimer(playerid,giveplayerid);
+public SprzedajMatsTimer(playerid,giveplayerid)
+{
+	if(GetPVarInt(giveplayerid, "OKupMats") == 1)
+	{
+		SetPVarInt(giveplayerid, "OKupMats", 0);
+		SetPVarInt(giveplayerid, "Mats-id", 0);
+  		SetPVarInt(giveplayerid, "Mats-kasa", 0);
+    	SetPVarInt(giveplayerid, "Mats-mats", 0);
+    	sendErrorMessage(giveplayerid, "Sprzeda¿ mats zosta³a anulowana!");
+	}
+	if(GetPVarInt(playerid, "OSprzedajMats") == 1)
+	{
+		SetPVarInt(playerid, "OSprzedajMats", 0);
+		sendErrorMessage(playerid, "Sprzeda¿ mats zosta³a anulowana!");
+	}
+	return 1;
+}
+
+
+//19054 - 19058
+LoadPrezenty()
+{
+	new rand;
+	for(new i = 0; i<100; i++)
+	{
+		rand = random(5);
+		PrezentyID[i] = CreateDynamicObject(19054+rand, Prezenty[i][prz_x], Prezenty[i][prz_y], Prezenty[i][prz_z]-0.35, 0, 0, 0);
+		SetPlayerMapIcon(0, i, Prezenty[i][prz_x], Prezenty[i][prz_y], Prezenty[i][prz_z], 25, -1, MAPICON_GLOBAL);
+	}
+
+	PrezentyLoaded = 1;
+	return 1;
+}
+>>>>>>> Stashed changes
