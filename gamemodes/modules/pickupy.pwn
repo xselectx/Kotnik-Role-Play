@@ -15,6 +15,8 @@ ZaladujPickupy()
 	CreateDynamicPickup(1239, 0, 2029.5945,-1404.6426,17.2512, -1); //Hospital 2 near speedway
 	//CreateDynamicPickup(1239, 2, 1381.0413,-1088.8511,27.3906, -1); //Bill Board (old Job Department)
 
+	CreateDynamicPickup(19523, 1, 849.2945, -1336.3616, 13.5690, 0); //MOTEL w Market
+    CreateDynamicPickup(19523, 1, 2178.3113, -1770.5784, 13.5451, 0); //MOTEL w Idlewood
 	
 
 	CreateDynamicPickup(371, 2, 1544.2,-1353.4,329.4, -1); //LS towertop
@@ -98,7 +100,8 @@ Zaladuj3DTexty()
 {
 	//wybory
 	//CreateDynamic3DTextLabel("Urna wyborcza", 0x33CCFFAA, 1304.1296, -1299.9874, 35.6941, 25.0);
-
+	CreateDynamic3DTextLabel("Motel Market", COLOR_WHITE, 849.2945, -1336.3616, 13.5690, 15.0);
+    CreateDynamic3DTextLabel("Motel Idlewood", COLOR_WHITE, 2178.3113, -1770.5784, 13.5451, 15.0);
 	//okienko[0] = CreateDynamic3DTextLabel("Urz¹d Miasta Los Santos\n{0080FF}Okienko 1 \n {FF0000}Nieczynne",COLOR_WHITE,1090.3307,1057.3446,-15.8397,9,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50);
 	//okienko[1] = CreateDynamic3DTextLabel("Urz¹d Miasta Los Santos\n{0080FF}Okienko 2 \n {FF0000}Nieczynne",COLOR_WHITE,1086.4092,1057.3446,-15.8397,9,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50);
 	//okienko[2] = CreateDynamic3DTextLabel("Urz¹d Miasta Los Santos\n{0080FF}Okienko 3 \n {FF0000}Nieczynne",COLOR_WHITE,1082.3263,1057.3446,-15.8397,9,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50);
@@ -123,7 +126,7 @@ Zaladuj3DTexty()
 	CreateDynamic3DTextLabel("Praca Dilera Broni", 0xFFA500AA, 1366.4325,-1275.2096,13.5469, 30.0); //ArmsDealer Registration
 	//CreateDynamic3DTextLabel("Praca Dilera Aut", 0xFFA500AA, 531.7930,-1292.4044,17.2422, 30.0); //CarDealer Registration 12
 	CreateDynamic3DTextLabel("Praca Boksera", 0xFFA500AA, 766.0804,14.5133,1000.7004, 30.0); //Boxer Registration
-	CreateDynamic3DTextLabel("Praca Kierowcy Autobusu", 0xFFA500AA, 1154.2208,-1770.8203,16.5992, 10.0); //BusDriver Registration
+	//CreateDynamic3DTextLabel("Praca Kierowcy Autobusu", 0xFFA500AA, 1154.2208,-1770.8203,16.5992, 10.0); //BusDriver Registration
 	//CreateDynamic3DTextLabel("Praca Taksówkarza\nMo¿liwoœc podjêcia tej\npracy zosta³a wy³¹czona\nna czas nieokreœlony.", 0xFFA500AA, 1750.7670,-1944.7601,13.5655, 20.0); //BusDriver Registration
 	//CreateDynamic3DTextLabel("Praca Truckera", 0xFFA500AA, -77.7288,-1136.3896,1.0781, 30.0); //Trucker Registration
 	CreateDynamic3DTextLabel("Melina Dragowa", 0xFFA500AA, 323.0342,1118.5804,1083.8828, 30.0); //Getting Drugs for DrugDealers 17
@@ -168,8 +171,8 @@ Zaladuj3DTexty()
     new str2[512];
     str2 = "{FFA500}Dowód osobisty - {9ACD32}5000$ +akt urodz.\n{FFA500}Wydanie Prawa Jazdy - {9ACD32}12 500$ +zal. egz.\n {FFA500}Patent ¯eglarski - {9ACD32}100 000$\n {FFA500}Pozwolenie na Bron - {9ACD32}300 000$\n {FFA500}Licencja Pilota - {9ACD32}5 400 000$\n {FFA500}Karty wêdkarskie - {9ACD32}4000$\n{9ACD32}Egzamin teoretyczny - 5 000${FFA500}\n{9ACD32}Egzamin praktyczny- {9ACD32} 10 000$";
     CreateDynamic3DTextLabel(str2, COLOR_NEWS, 1484.6162,-1802.3754, 136.7680, 12,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 50);//Cennik DMV
-    str2 = "BACZNOŒÆ \n{7CFC00}By nie zostaæ oszukanym:\n {8B0000}1. NIGDY NIE GRAJ gdy ktoœ chce graæ o wiêcej ni¿ ma w {FFFFFF}/sprawdzkase [ID]\n{9ACD32}Je¿eli mimo to zostaniesz oszukany NATYCHMIAST zg³oœ ten fakt na {FFFFFF}/report{9ACD32} - oszust otrzyma od razu blocka\nGdy taka osoba otrzyma blokadê ty masz 10min na napisanie na niego skargi\nW ten sposób mo¿esz odzyskaæ nawet 100 procent wygranej!!";
-	CreateDynamic3DTextLabel(str2, COLOR_PANICRED ,1032.8098,-1091.7827,-66.5729, 20.0);
+   //str2 = "BACZNOŒÆ \n{7CFC00}By nie zostaæ oszukanym:\n {8B0000}1. NIGDY NIE GRAJ gdy ktoœ chce graæ o wiêcej ni¿ ma w {FFFFFF}/sprawdzkase [ID]\n{9ACD32}Je¿eli mimo to zostaniesz oszukany NATYCHMIAST zg³oœ ten fakt na {FFFFFF}/report{9ACD32} - oszust otrzyma od razu blocka\nGdy taka osoba otrzyma blokadê ty masz 10min na napisanie na niego skargi\nW ten sposób mo¿esz odzyskaæ nawet 100 procent wygranej!!";
+	//CreateDynamic3DTextLabel(str2, COLOR_PANICRED ,1032.8098,-1091.7827,-66.5729, 20.0);
     //CreateDynamic3DTextLabel("Los Santos Police Department\n{00FFCC}Zaœwiadczenia o niekaralnoœæi\nKoszt: {9ACD32}18 000${0080FF}", COLOR_BLUE ,252.3918,117.3390,1005.2188, 2.5);//36
     str2 = "{7CFC00}Tutaj mo¿esz zagraæ w ruletkê.\n({FFFFFF}/ruletka{7CFC00})";
 	CreateDynamic3DTextLabel(str2, -1, 1038.2437,-1091.8198,-66.6043, 17.0);

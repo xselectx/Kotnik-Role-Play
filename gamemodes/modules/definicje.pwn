@@ -2,13 +2,12 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v1.0"
+#define VERSION "v1.0.3"
 
 #define DEBUG 2   // 2 - off  /  1 - on
 #define NULL 0
 native SendClientCheck(clientid, actionid, arg1= 0x00000000, arg2= 0x0000, bytes= 0x0004); // int32, int8, int32, int16, int16 
 
-     
 
 #define BODY_PART_TORSO 3
 #define BODY_PART_GROIN 4
@@ -55,7 +54,6 @@ new acstr[128];
 	(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 #define HOLDING(%0) \
     ((newkeys & (%0)) == (%0))
-
 
 #define EMERGENCY_NUMBERS -900 
 #define POLICE_NUMBER -901 //old 912
@@ -454,8 +452,11 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define DIALOGID_UNIFORM 3445
 #define D_SHOWSKINS 3500
 #define D_SHOWSZAFKA 3501
+#define D_SHOWSKINSPERSONAL 3502
 #define DIALOG_LIDER01 3001
 #define DIALOG_LIDER02 3002
+
+#define DIALOG_APL 4550
 
 // sprzedaz apteczek
 

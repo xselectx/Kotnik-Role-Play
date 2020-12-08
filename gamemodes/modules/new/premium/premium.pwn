@@ -37,7 +37,8 @@
 #define MAX_PREMIUM_SKINS 26
 
 //Cennik
-#define MIESIAC_KP_CENA 675
+#define MIESIAC_KP_CENA 500
+#define MIESIAC_KP_PRZEDLUZENIE 350
 
 #define CAR_SLOT_CENA 450
 
@@ -857,7 +858,8 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(response)
 		{
-			KupPojazdPremium(playerid, listitem);
+			//KupPojazdPremium(playerid, listitem);
+			DialogMenuDotacje(playerid);
 		}
 		else
 		{
@@ -915,6 +917,11 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 			_MruAdmin(playerid, sprintf("Gratulujemy dobrego wyboru. Zakupi³eœ mo¿liwoœæ wgrania w³asnego skina na serwer za %d KC.", UNIKATOWY_SKIN_CENA));
 			_MruAdmin(playerid, "Pamiêtaj aby napisaæ prywatn¹ wiadomoœæ na forum do xSeLeCTx");
+
+			new string[128];
+
+			format(string, sizeof(string), "%s [%d] kupi³ skin personalny za %d KC", GetNick(playerid), PlayerInfo[playerid][pUID], UNIKATOWY_SKIN_CENA);
+			PremiumLog(string);
 
 			/*new bool:found=false;
 			new skin = strval(inputtext);

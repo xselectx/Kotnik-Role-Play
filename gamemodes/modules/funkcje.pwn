@@ -821,15 +821,20 @@ public CountDown()
 		{
 			if(!used[v])
 			{
+				new lID = VehicleUID[v][vUID];
 			    SetVehicleToRespawn(v);
 			    if(vSigny[v] == 1) 
 			    {
-			    	Delete3DTextLabel(vSignyText[v]);
+			    	DestroyDynamic3DTextLabel(vSignyText[v]);
 			    	vSigny[v] = 0;
 			    }
 			    if(Car_GetOwnerType(v) == CAR_OWNER_PLAYER)
 			    {
                     Car_Unspawn(v);
+	            } else {
+	            	Gas[v] = 100;
+	            	SetVehicleVirtualWorld(v, CarData[lID][c_VW]);
+	            	LinkVehicleToInterior(v, CarData[lID][c_Int]);
 	            }
 			}
 		}
@@ -1066,6 +1071,7 @@ public AntySpamTimer(playerid){
 AntySpam[playerid] = 0;
 return 1;
 }
+
 
 public AntyBusCzit(playerid){
 BusCzit[playerid] = 0;
@@ -3877,7 +3883,7 @@ CanUseCar(playerid, newcar)
             }
             if(CarData[lcarid][c_Owner] == 11)
             {
-                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
                 if(GetPlayerFraction(playerid) == 11 && PlayerInfo[playerid][pRank] >= CarData[lcarid][c_Rang]) return 1;
                 if(GetPlayerFraction(playerid) == 11 && PlayerInfo[playerid][pRank] < CarData[lcarid][c_Rang])
 	        	{
@@ -3893,7 +3899,7 @@ CanUseCar(playerid, newcar)
             }
 	        if(PlayerInfo[playerid][pRank] < CarData[lcarid][c_Rang])
 	        {
-                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
                 sendTipMessageEx(playerid, COLOR_GREY, sprintf("Nie mo¿esz u¿ywaæ tego pojazdu! Wymagana ranga: [%d] %s!", CarData[lID][c_Rang], FracRang[own][rank]));
                 //format(string, sizeof(string), "Aby kierowaæ tym pojazdem potrzebujesz %d rangi!", CarData[lcarid][c_Rang]);
 		        //sendTipMessageEx(playerid,COLOR_GREY,string);
@@ -3938,7 +3944,7 @@ CanUseCar(playerid, newcar)
                 }
                 if(wywal)
                 {
-                    if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                    if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
                     format(string, sizeof(string), "Aby prowadziæ ten pojazd potrzebujesz %d skilla w zawodzie %s.", CarData[lcarid][c_Rang], JobNames[CarData[lcarid][c_Owner]]);
                     sendTipMessageEx(playerid,COLOR_GREY,string);
                     return 0;
@@ -3950,7 +3956,7 @@ CanUseCar(playerid, newcar)
                 {
                     if(GetPlayerFraction(playerid) == FRAC_KT) return 1;
                 }
-                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
                 format(string, sizeof(string), "Aby prowadziæ ten pojazd musisz byæ w zawodzie %s.", JobNames[CarData[lcarid][c_Owner]]);
                 sendTipMessageEx(playerid,COLOR_GREY,string);
 				return 0;
@@ -3961,7 +3967,7 @@ CanUseCar(playerid, newcar)
 	    {
             if(CarData[lcarid][c_Owner] != GetPlayerOrg(playerid))
             {
-                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
 				//ERROR WUT
                 //format(string, sizeof(string), " Ten pojazd nale¿y do rodziny %s i nie mo¿esz nim kierowaæ.", OrgInfo[orgID(CarData[lcarid][c_Owner])][o_Name]);
                 format(string, sizeof(string), " Ten pojazd nale¿y do rodziny i nie mo¿esz nim kierowaæ.");
@@ -3970,7 +3976,7 @@ CanUseCar(playerid, newcar)
             }
 	        if(PlayerInfo[playerid][pRank] < CarData[lcarid][c_Rang])
 	        {
-                if(PlayerInfo[playerid][pAdmin] >= 5000) return 1;
+                if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
                 
 				sendTipMessageEx(playerid, COLOR_GREY, sprintf("Nie mo¿esz u¿ywaæ tego pojazdu! Wymagana ranga: [%d] %s!", CarData[lID][c_Rang], FamRang[own][rank]));
                 //format(string, sizeof(string), "Aby kierowaæ tym pojazdem potrzebujesz %d rangi!", CarData[lcarid][c_Rang]);
@@ -4005,6 +4011,7 @@ CanUseCar(playerid, newcar)
 	    if(PlayerInfo[playerid][pBoatLic] < 1)
 		{
 		    sendTipMessageEx(playerid, COLOR_GREY, "Nie wiesz w jaki sposób p³ywaæ ³odzi¹, wiêc decydujesz siê j¹ opuœciæ !");
+		    if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
 		    return 0;
 		}
 	}
@@ -4013,6 +4020,7 @@ CanUseCar(playerid, newcar)
 	    if(PlayerInfo[playerid][pFlyLic] < 1)
 		{
 			sendTipMessageEx(playerid, COLOR_GREY, "Nie wiesz w jaki sposób lataæ samolotem, wiêc decydujesz siê go opuœciæ !");
+			if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
 			return 0;
 		}
 	}
@@ -4023,6 +4031,7 @@ CanUseCar(playerid, newcar)
 			if(!IsABike(newcar))
 			{
 				sendTipMessageEx(playerid, COLOR_GREY, "Nie masz prawa jazdy, postanawiasz opuœciæ pojazd!");
+				if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
 				return 0;
 			} else return 1;
 		}
@@ -4713,6 +4722,18 @@ stock NickLog(text[])
     Log(plik, text);
 }
 
+stock WeaponsLog(text[])
+{
+    new plik[32] = "logi/weapons.log";
+    Log(plik, text);
+}
+
+stock AdminDutyLog(text[])
+{
+	new plik[32] = "Admini/wszyscy.log";
+	Log(plik, text);
+}
+
 stock Log(plik[], text[])
 {
 	new File:file = fopen(plik, io_append);
@@ -5082,7 +5103,7 @@ ShowStats(playerid,targetid)
 		new costlevel = nxtlevel*levelcost;//10k for testing purposes
 		new housekey = PlayerInfo[targetid][pDom];
 		new Float:shealth = PlayerInfo[targetid][pSHealth];
-		new Float:health;
+		new Float:health = GetPlayerHealth(targetid, health);
 		new name[MAX_PLAYER_NAME];
 		GetPlayerName(targetid, name, sizeof(name));
 		GetPlayerHealth(targetid,health);
@@ -5092,7 +5113,7 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GREEN,"_______________________________________");
 		format(coordsstring, sizeof(coordsstring),"*** %s ({8FCB04}UID: %d{FFFFFF}) ***",name, PlayerInfo[targetid][pUID]);
 		SendClientMessage(playerid, COLOR_WHITE,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,shealth+50, cash, account, pnumber);
+		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,health, cash, account, pnumber);
 		SendClientMessage(playerid, COLOR_GRAD1,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Konto Premium:[%s] Œlub z:[%s] On-Line:[%d] LottoNr:[%d] Praca:[%s] Punkty karne:[%d]", drank,PlayerInfo[targetid][pMarriedTo],ptime,lotto,jtext, PlayerInfo[targetid][pPK]);
 		SendClientMessage(playerid, COLOR_GRAD2,coordsstring);
@@ -5117,6 +5138,12 @@ SetPlayerToTeamColor(playerid)
 {
 	if(IsPlayerConnected(playerid))
 	{
+		if(GetPVarInt(playerid, "dutyadmin") == 1)
+		{
+			SetPlayerColor(playerid, 0xFF0000FF);
+			return 1;
+		}
+
 	    if(PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1)
 		{
 		    if(OnDuty[playerid] && OnDutyCD[playerid] == 0)
@@ -5205,8 +5232,10 @@ SetPlayerToTeamColor(playerid)
 		        SetPlayerColor(playerid,TEAM_HIT_COLOR); // white
 		    }
 		}
+		
         else SetPlayerColor(playerid,TEAM_HIT_COLOR);
 	}
+	return 1;
 }
 
 LoadBoxer()
@@ -7600,7 +7629,6 @@ LadujInteriory()
     IntInfo[45][Kategoria] = 7;
     IntInfo[45][Pokoje] = 4;
     IntInfo[45][Cena] = 5000000;
-    
     IntInfo[46][Int_X] = 2526.3950;//dom 3 ZBUGOWANY PRZESWIT
     IntInfo[46][Int_Y] = -1679.4390;
     IntInfo[46][Int_Z] = 1015.498;
@@ -7616,14 +7644,6 @@ LadujInteriory()
     IntInfo[47][Kategoria] = 7;
     IntInfo[47][Pokoje] = 10;
     IntInfo[47][Cena] = 50000000;
-
-    IntInfo[48][Int_X] = 1313.93;//remover dom
-    IntInfo[48][Int_Y] = -1160.42;
-    IntInfo[48][Int_Z] = 49.48;
-    IntInfo[48][Int] = 1;
-    IntInfo[48][Kategoria] = 4;
-    IntInfo[48][Pokoje] = 3;
-    IntInfo[48][Cena] = 7500000;
     return 1;
 }
 
@@ -7685,18 +7705,24 @@ ABroadCast(color,const string[],level)
 	{
 		if(IsPlayerConnected(i))
 		{
-			if (PlayerInfo[i][pAdmin] >= level)
+			if(GetPVarInt(i, "dutyadmin") == 1)
 			{
-				SendClientMessage(i, color, string);
+				if (PlayerInfo[i][pAdmin] >= level)
+				{
+					SendClientMessage(i, color, string);
+				}
+				else if (PlayerInfo[i][pNewAP] >= level)
+				{
+					SendClientMessage(i, color, string);
+				}
+				else if (PlayerInfo[i][pZG] >= level)
+				{
+					SendClientMessage(i, color, string);
+				}
 			}
-			else if (PlayerInfo[i][pNewAP] >= level)
-			{
-				SendClientMessage(i, color, string);
-			}
-			else if (PlayerInfo[i][pZG] >= level)
-			{
-				SendClientMessage(i, color, string);
-			}
+			else
+			//printf("[DEBUG]: admin has not duty, warnings not show");
+			return 1;
 		}
 	}
 	printf("%s", string);
@@ -8024,23 +8050,6 @@ SendAdminMessage(color, string[])
 		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
 		    {
 				SendClientMessage(i, color, string);
-			}
-		}
-	}
-}
-
-SendVPNAdminMessage(color, string[])
-{
-	foreach(Player, i)
-	{
-		if(IsPlayerConnected(i))
-		{
-		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
-		    {
-		    	if(AdminVPNInfo[i] == 0)
-		    	{
-					SendClientMessage(i, color, string);
-				}
 			}
 		}
 	}
@@ -12776,21 +12785,41 @@ LoadScriptableObjects()
 	SetDynamicObjectMaterialText(Telebim[tID], 0 , Telebim[tTekst],  Telebim[tSize], Telebim[tCzcionka], Telebim[tFSize], Telebim[tBold], Telebim[tCzcionkaKolor], Telebim[tBackg], Telebim[tAli]);
     StopDynamicObject(Telebim[tID]);
     
+
+    // --- [ FBI ] --- //
+    Celaki[0] = CreateDynamicObject(19303, 640.95209, -1488.60669, 90.89490,   0.00000, 0.00000, 90.00000,11);
+	Celaki[1] = CreateDynamicObject(19303, 640.95209, -1484.39648, 90.89490,   0.00000, 0.00000, 90.00000,11);
+	Celaki[2] = CreateDynamicObject(19303, 640.95209, -1480.18262, 90.89490,   0.00000, 0.00000, 90.00000,11);
+	FBIdrzwi3 = CreateDynamicObject(1569, 613.93781, -1482.25500, 89.61260,   0.00000, 0.00000, 0.00000,11);
+	FBIdrzwi4 = CreateDynamicObject(1569, 620.36481, -1482.25720, 89.61260,   0.00000, 0.00000, 0.00000,11);
+	FBIdrzwi7 = CreateDynamicObject(1569, 628.00238, -1455.47119, 72.94110,   0.00000, 0.00000, 90.00000,12);
+	BramaWDol = CreateDynamicObject(980, 615.2236328125, -1509.96484375, 16.714672088623, 0, 0, 90, -1, -1, -1, 200.0);
+
 }
 
 LoadBramy()
 {
 	new brama, tmpobjid;
 	// ----- [ PARKING LSPD ] ---- //
-	brama = CreateDynamicObject(969, 1544.698779, -1631.405151, 12.542816, 0.000000, 0.000000, 90.00000, -1, -1, -1, 300.00, 300.00);
-	DodajBrame(brama, 1544.698779, -1631.405151, 12.542816, 0.000000, 0.000000, 90.00000, 1544.698779, -1638.90000, 12.542816, 0, 0, 90, 4, 9, BRAMA_UPR_TYPE_FRACTION, 1); // brama wjazdowa
-	
-	brama = CreateDynamicObject(19859, 1544.729003, -1618.680541, 13.614569, 0.000000, 0.000000, -90.00000, -1, -1, -1, 300.00, 300.00);
-	DodajBrame(brama, 1544.729003, -1618.680541, 13.614569, 0.000000, 0.000000, -90.00000, 1544.729003, -1618.680541, 13.614569, 0.00000, 0.000000, 180.00000, 5, 3, BRAMA_UPR_TYPE_FRACTION, 1); // drzwi obok bramy wjazdowej
 
-	brama = CreateDynamicObject(1495, 1567.59000, -1635.481201, 12.482693, 0.000000, 0.000000, -90.00000, -1, -1, -1, 300.00, 300.00);
-	DodajBrame(brama, 1567.59000, -1635.481201, 12.482693, 0.000000, 0.000000, -90.00000, 1567.59000, -1635.481201, 12.482693, 0.000000, 0.000000, 180.00000, 5, 3, BRAMA_UPR_TYPE_FRACTION, 1); // drzwi do szatni
+	brama = CreateDynamicObject(1495, 1566.071655, -1636.9362523, 12.487241, 0.000000, 0.000000, 90.00000, -1, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1566.071655, -1636.9362523, 12.487241, 0.000000, 0.000000, 90.00000, 1566.071655, -1636.9362523, 12.487241, 0.000000, 0.000000, 360.00000, 5, 3, BRAMA_UPR_TYPE_FRACTION, 1); // kantorek
 
+	brama = CreateDynamicObject(1495, 1543.442382, -1635.259033, 12.366870, 0.000000, 0.000000, 90.00000, -1, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1543.442382, -1635.259033, 12.366870, 0.000000, 0.000000, 90.00000, 1543.442382, -1635.259033, 12.366870, 0.000000, 0.000000, 360.00000, 5, 3, BRAMA_UPR_TYPE_FRACTION, 1); // drzwi obok bramy wjazd
+
+	brama = CreateDynamicObject(969, 1544.648581, -1630.425151, 12.522815, 0.000000, 0.000000, 90.00000, -1, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1544.648581, -1630.425151, 12.522815, 0.000000, 0.000000, 90.00000, 1544.648581, -1624.425151, 12.522815, 0.000000, 0.000000, 90.00000, 4, 9, BRAMA_UPR_TYPE_FRACTION, 1); // brama wjazdowa
+
+	//brama = CreateDynamicObject(969, 1544.698779, -1631.405151, 12.542816, 0.000000, 0.000000, 90.00000, -1, -1, -1, 300.00, 300.00);
+	//DodajBrame(brama, 1544.698779, -1631.405151, 12.542816, 0.000000, 0.000000, 90.00000, 1544.698779, -1638.90000, 12.542816, 0, 0, 90, 4, 9, BRAMA_UPR_TYPE_FRACTION, 1); // brama wjazdowa
+	//
+	//brama = CreateDynamicObject(19859, 1544.729003, -1618.680541, 13.614569, 0.000000, 0.000000, -90.00000, -1, -1, -1, 300.00, 300.00);
+	//DodajBrame(brama, 1544.729003, -1618.680541, 13.614569, 0.000000, 0.000000, -90.00000, 1544.729003, -1618.680541, 13.614569, 0.00000, 0.000000, 180.00000, 5, 3, BRAMA_UPR_TYPE_FRACTION, 1); // drzwi obok bramy wjazdowej
+//
+	//brama = CreateDynamicObject(1495, 1567.59000, -1635.481201, 12.482693, 0.000000, 0.000000, -90.00000, -1, -1, -1, 300.00, 300.00);
+	//DodajBrame(brama, 1567.59000, -1635.481201, 12.482693, 0.000000, 0.000000, -90.00000, 1567.59000, -1635.481201, 12.482693, 0.000000, 0.000000, 180.00000, 5, 3, BRAMA_UPR_TYPE_FRACTION, 1); // drzwi do szatni
+//
 	brama = CreateDynamicObject(10558, 1588.636840, -1638.360473, 14.40000, 0.000000, 0.000000, -90.0000, -1, -1, -1, 300.00, 300.00);
 	DodajBrame(brama, 1588.636840, -1638.360473, 14.40000, 0.000000, 0.000000, -90.0000, 1588.636840, -1636.360473, 16.10000, 0.000000, 90.000000, -90.0000, 2.5, 9, BRAMA_UPR_TYPE_FRACTION, 1); // brama do parkingu podz.
 
@@ -12817,7 +12846,48 @@ LoadBramy()
 
 	// cele
 
+	brama = CreateDynamicObject(19302, 1558.226806, -1636.894287, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1636.894287, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1635.202636, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
 
+	brama = CreateDynamicObject(19302, 1558.226806, -1640.124877, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1640.124877, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1638.463378, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1558.226806, -1646.095214, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1646.095214, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1647.545410, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1558.226806, -1649.315673, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1558.226806, -1649.315673, 28.718059, 0.000096, 0.000000, 269.999694, 1558.226806, -1650.767089, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1649.285644, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1649.285644, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1650.737060, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1646.085449, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1646.085449, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1647.535522, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1640.094970, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1640.094970, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1638.403320, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19302, 1561.597167, -1636.884277, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
+	DodajBrame(brama, 1561.597167, -1636.884277, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1635.204345, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	// konferencyjne
+
+	brama = CreateDynamicObject(3089, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 90.000000, 6,-1,-1, 300.00, 300.00); 
+	DodajBrame(brama, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 90.000000, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+	
+	brama = CreateDynamicObject(3089, 1558.773193, -1644.506103, 28.658069, 0.000000, 0.000000, 90.000000, 6,-1,-1, 300.00, 300.00); 
+	DodajBrame(brama, 1558.773193, -1644.506103, 28.658069, 0.000000, 0.000000, 90.000000, 1558.773193, -1644.506103, 28.658069, 0.000000, 0.000000, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 180.000000, 6,-1,-1, 300.00, 300.00); 
+	DodajBrame(brama, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 180.000000, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 270.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
 
 	// ------ [ LSMC ] ---- //
 	new drzwilsmc1 = CreateDynamicObject(3089, 1178.585571, -1341.639648, 88.182792, 0.000000, 0.000000, 360.000000, 90, 0, -1, 200.00, 200.00);
@@ -12922,6 +12992,13 @@ LoadBramy()
 	DodajBrame(CreateDynamicObject(3089, 1151.596923, -1334.564453, 134.785812, 0.000000, 0.000000, 720.000000, 90, 0, -1, 200.00, 200.00),1151.596923, -1334.564453, 134.785812, 0.000000, 0.000000, 720.000000,1151.596923, -1334.564453, 134.785812, 0.000000, 0.000000, 450.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
 	DodajBrame(CreateDynamicObject(3089, 1153.108398, -1330.023193, 134.785812, 0.000000, 0.000000, 540.000000, 90, 0, -1, 300.00, 300.00),1153.108398, -1330.023193, 134.785812, 0.000000, 0.000000, 540.000000,1153.108398, -1330.023193, 134.785812, 0.000000, 0.000000, 270.000000,2, 2, BRAMA_UPR_TYPE_FRACTION, 4);
 
+
+	// bramy wjazdowe 
+
+	brama = CreateDynamicObject(975, 1114.682006, -1291.378784, 14.225424, 0.000000, 0.000007, 1.000000, -1, -1, -1, 300.00, 300.00); 
+	DodajBrame(brama, 1114.682006, -1291.378784, 14.225424, 0.000000, 0.000007, 1.000000, 1124.682006, -1291.378784, 14.225424, 0.000000, 0.000007, 1.000000, 4, 15, BRAMA_UPR_TYPE_FRACTION, 4);
+	brama = CreateDynamicObject(975, 1143.470947, -1347.417968, 14.405426, 0.000000, 0.000007, 0.000000, -1, -1, -1, 300.00, 300.00); 
+	DodajBrame(brama, 1143.470947, -1347.417968, 14.405426, 0.000000, 0.000007, 0.000000, 1153.470947, -1347.417968, 14.405426, 0.000000, 0.000007, 0.000000, 4, 15, BRAMA_UPR_TYPE_FRACTION, 4);
 }
 
 
@@ -13144,67 +13221,80 @@ OnCheatDetected(playerid, ip_address[], type, code)
     			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
     			SendClientMessage(playerid, 0x9ACD32AA, string);
     			SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
-    			MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+    			//MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
 
-    			KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", "Kod 101");
+    			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod 101");
+    			SetPlayerVirtualWorld(playerid, 7777);
 				KickEx(playerid);
     		}
     		default: format(code_decoded, sizeof(code_decoded), "Omijanie logowania");
     	}
     }
 
-    
+    if(code == 40)
+    {
+    	new cmd[128];
+    	format(cmd, 128, "rcon banip %s", plrIP);
+    	SendRconCommand(cmd);
+    }
 
     if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
     {
-    	switch(KodyAC[code])
+    	if(GetPlayerVirtualWorld(playerid) != 7777)
     	{
-    		// 0 = off
-    		case 1: // w³aczony, kick
+    		switch(KodyAC[code])
     		{
-    			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    			 SendAdminMessage(0x9ACD32AA, string);
-    			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d - %s.", code, code_decoded);
-    			 SendClientMessage(playerid, 0x9ACD32AA, string);
-    			 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
-    			 KickEx(playerid);
-    		}
-    		case 2: // AdmWarning
-    		{
-    			format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
-    			SendAdminMessage(COLOR3, string);
-    		}
-    		case 3: // Ostrze¿enie (/cziterzy)
-    		{
-	
-    		}
-    		case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
-    		{
-    			format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
-    			SendAdminMessage(COLOR3, string);
-    		}
-    		case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
-    		{
-    			if(KodyACDelay[playerid][code] == 0)
+    			// 0 = off
+    			case 1: // w³aczony, kick
+    			{
+    				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    				 SendAdminMessage(0x9ACD32AA, string);
+    				 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
+    				 SendClientMessage(playerid, 0x9ACD32AA, string);
+    				 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
+    				 SetPlayerVirtualWorld(playerid, 7777);
+    				 KickEx(playerid);
+    			}
+    			case 2: // AdmWarning
     			{
     				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
     				SendAdminMessage(COLOR3, string);
-	
-    				KodyACDelay[playerid][code] = 1;
-    				SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
     			}
-    		}
-    		case 6: // ban
-    		{
-    			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    			 SendAdminMessage(0x9ACD32AA, string);
-    			 BanLog(string);
-    			 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
-    			 SendClientMessage(playerid, 0x9ACD32AA, string);
-    			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
-    			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-    			 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d - %s", code, code_decoded));
-				 KickEx(playerid);
+    			case 3: // Ostrze¿enie (/cziterzy)
+    			{
+    				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+	
+    			}
+    			case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
+    			{
+    				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
+    				SendAdminMessage(COLOR3, string);
+    				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    			}
+    			case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
+    			{
+    				if(KodyACDelay[playerid][code] == 0)
+    				{
+    					format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
+    					SendAdminMessage(COLOR3, string);
+						SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    					KodyACDelay[playerid][code] = 1;
+    					SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
+    				}
+    			}
+    			case 6: // ban
+    			{
+    				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    				 SendAdminMessage(0x9ACD32AA, string);
+    				 BanLog(string);
+    				 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
+    				 SendClientMessage(playerid, 0x9ACD32AA, string);
+    				 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    				 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+    				 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
+					 SetPlayerVirtualWorld(playerid, 7777);
+					 KickEx(playerid);
+    			}
     		}
     	}
 	}
@@ -13921,6 +14011,20 @@ stock hq_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     return 0;
 }
 
+stock RemoveUnderLine(playerid)
+{
+	new Nick[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, Nick, sizeof Nick);
+	
+    for (new X = 0; X < MAX_PLAYER_NAME; X++)
+    {
+		if (Nick[X] == '_')
+			Nick[X] = ' ';
+    }
+	
+	return Nick;
+}
+
 
 stock ShowHeadquarters(playerid, page=HQ_MAIN)
 {
@@ -14364,6 +14468,7 @@ ShowPlayerSkins(id, type)
 			}
 		}
 		if(ilosc <= 0 ) return sendTipMessage(id, "Brak ubrañ! Mo¿esz je zakupiæ w sklepie z ubraniami!");
+		return ShowPlayerDialogEx(id, D_SHOWSKINS, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
 	}
 	else if(type == 1)
 	{
@@ -14377,9 +14482,24 @@ ShowPlayerSkins(id, type)
 			}
 		}
 		if(ilosc <= 0 ) return sendTipMessage(id, "Brak ubrañ personalnych! Mo¿esz je zakupiæ pod komend¹ /premium!");
+		return ShowPlayerDialogEx(id, D_SHOWSKINS, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+	}
+	else if(type == 2)
+	{
+		for(new i=0;i<MAX_SKIN_SELECT;i++)
+		{
+			if(PERSONAL_SKINS[id][i] >= 23001)
+			{
+				format(string, sizeof(string), "%s\n%d\n",string, PERSONAL_SKINS[id][i], PERSONAL_SKINS[id][i]);
+				strcat(string, skins_p);
+				ilosc++;
+			}
+		}
+		if(ilosc <= 0 ) return sendTipMessage(id, "Brak ubrañ personalnych! Mo¿esz je zakupiæ pod komend¹ /premium!");
+		return ShowPlayerDialogEx(id, D_SHOWSKINSPERSONAL, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
 	}
 	
-	return ShowPlayerDialogEx(id, D_SHOWSKINS, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+	return 1;
 }
 
 forward VPNCheck(playerid, response_code, data[]);
@@ -14395,8 +14515,7 @@ public VPNCheck(playerid, response_code, data[])
 		if(data[0] == 'Y')
 		{
 			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
-			SendRconCommand(sprintf("banip %s", ip));
-	    	SendVPNAdminMessage( 0xFF0000FF, string);
+	    	SendAdminMessage( 0xFF0000FF, string);
 	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
 	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
 	    	KickEx(playerid);
@@ -14413,8 +14532,6 @@ public VPNCheck(playerid, response_code, data[])
 	return 1;
 }
 
-<<<<<<< Updated upstream
-=======
 
 forward AdminDutyCzas(playerid);
 public AdminDutyCzas(playerid)
@@ -14481,20 +14598,3 @@ public SprzedajMatsTimer(playerid,giveplayerid)
 	}
 	return 1;
 }
-
-
-//19054 - 19058
-LoadPrezenty()
-{
-	new rand;
-	for(new i = 0; i<100; i++)
-	{
-		rand = random(5);
-		PrezentyID[i] = CreateDynamicObject(19054+rand, Prezenty[i][prz_x], Prezenty[i][prz_y], Prezenty[i][prz_z]-0.35, 0, 0, 0);
-		SetPlayerMapIcon(0, i, Prezenty[i][prz_x], Prezenty[i][prz_y], Prezenty[i][prz_z], 25, -1, MAPICON_GLOBAL);
-	}
-
-	PrezentyLoaded = 1;
-	return 1;
-}
->>>>>>> Stashed changes

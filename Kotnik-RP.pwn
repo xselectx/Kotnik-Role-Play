@@ -6189,8 +6189,6 @@ OnPlayerLogin(playerid, password[])
 			return 1;
 		}
 
-        D
-
 		//----------------------------
 		//£adowanie konta i zmiennych:
 		//----------------------------
@@ -6277,8 +6275,6 @@ OnPlayerLogin(playerid, password[])
         PlayerInfo[playerid][pCarSlots] = 4;
 		DajKase(playerid, 5000);
 	}
-
-
 
 
 	//Filtry na konto:
@@ -8295,7 +8291,7 @@ WasteDeAMXersTime()
     #emit stor.pri b
 }
 
-new baseurl[] = "http://146.59.17.224/download/";
+new baseurl[] = "https://kotnik-rp.pl/downloads";
  
 public OnPlayerRequestDownload(playerid, type, crc)
 {
