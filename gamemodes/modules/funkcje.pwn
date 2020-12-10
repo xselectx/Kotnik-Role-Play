@@ -7712,21 +7712,18 @@ ABroadCast(color,const string[],level)
 	foreach(Player, i)
 	{
 		if(IsPlayerConnected(i))
-		{
-			if(GetPVarInt(i, "dutyadmin") == 1)
+		{	
+			if (PlayerInfo[i][pAdmin] >= level)
 			{
-				if (PlayerInfo[i][pAdmin] >= level)
-				{
-					SendClientMessage(i, color, string);
-				}
-				else if (PlayerInfo[i][pNewAP] >= level)
-				{
-					SendClientMessage(i, color, string);
-				}
-				else if (PlayerInfo[i][pZG] >= level)
-				{
-					SendClientMessage(i, color, string);
-				}
+				SendClientMessage(i, color, string);
+			}
+			else if (PlayerInfo[i][pNewAP] >= level)
+			{
+				SendClientMessage(i, color, string);
+			}
+			else if (PlayerInfo[i][pZG] >= level)
+			{
+				SendClientMessage(i, color, string);
 			}
 			else
 			//printf("[DEBUG]: admin has not duty, warnings not show");

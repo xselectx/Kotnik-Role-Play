@@ -1947,7 +1947,7 @@ SetPlayerSpawnPos(playerid)
         PlayerInfo[playerid][pMuted] = 1;
         SetTimerEx("TutorialFirstStep", 20, 0, "i", playerid);
 
-        _MruGracz(playerid, "Witaj na Kotnik Role Play!");
+
         _MruGracz(playerid, "Aby zacz¹æ grê musisz przejœæ procedury rejestracji.");
         TogglePlayerSpectating(playerid, true);
         

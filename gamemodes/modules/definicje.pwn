@@ -2,7 +2,7 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v1.0.3"
+#define VERSION "v1.0.4"
 
 #define DEBUG 2   // 2 - off  /  1 - on
 #define NULL 0

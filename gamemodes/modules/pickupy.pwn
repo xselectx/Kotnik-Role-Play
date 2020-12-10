@@ -131,7 +131,7 @@ Zaladuj3DTexty()
 	//CreateDynamic3DTextLabel("Praca Truckera", 0xFFA500AA, -77.7288,-1136.3896,1.0781, 30.0); //Trucker Registration
 	CreateDynamic3DTextLabel("Melina Dragowa", 0xFFA500AA, 323.0342,1118.5804,1083.8828, 30.0); //Getting Drugs for DrugDealers 17
     CreateDynamic3DTextLabel("Paczka z zio³em\n/get drugs", 0xFFA500AA, -1022.34930420,-2158.46484375,33.91813278, 30.0);
-	CreateDynamic3DTextLabel("Helvetica Cargo Ltd.", 0xAA3333AA, 597.1277,-1248.6479,18.2734, 50.0);
+	CreateDynamic3DTextLabel("Hosford Cargo AG.", 0xAA3333AA, 597.1277,-1248.6479,18.2734, 50.0);
 	CreateDynamic3DTextLabel("Fabryka Broni", 0xAA3333AA, -2119.5469,-178.5679,35.3203, 50.0); //Factory SF
 	CreateDynamic3DTextLabel("Baza HA", 0xAA3333AA, -50,-269,6.599999, 30.0); //Hitman Agency entrance
 	CreateDynamic3DTextLabel("Koœció³", COLOR_NEWS, 2254.8652,-1334.2078,23.9922, 30.0); //Koœció³

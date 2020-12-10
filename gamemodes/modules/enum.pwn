@@ -1420,6 +1420,7 @@ enum pSpec
     sPvw,
 	sLocal,
 	sCam,
+    sSkinID
 };
 
 new Unspec[MAX_PLAYERS][pSpec];

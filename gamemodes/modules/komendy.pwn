@@ -2428,6 +2428,7 @@ CMD:kajdanki(playerid, params[])
                                                 ClearAnimations(giveplayerid);
                                                 SetPlayerSpecialAction(giveplayerid, SPECIAL_ACTION_CUFFED);
                                                 SetPlayerAttachedObject(giveplayerid, 0, 19418, 6, -0.011000, 0.028000, -0.022000, -15.600012, -33.699977,-81.700035, 0.891999, 1.000000, 1.168000);
+                                                SetTimerEx("UzyteKajdany",5000,0,"d",giveplayerid);
                                             } else {
                                                 format(string, sizeof(string), "* %s wyci¹ga kajdanki i próbuje je za³o¿yæ %s.", sendername ,giveplayer);
                                                 ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
@@ -8355,7 +8356,7 @@ CMD:zmienwl(playerid, params[])
 			sendTipMessage(playerid, "U¿yj /setwl [playerid/CzêœæNicku] [iloœæ wl]");
 			return 1;
 		}
-		if (PlayerInfo[playerid][pAdmin] >= 100)
+		if (PlayerInfo[playerid][pAdmin] >= 1)
 		{
 		    if(IsPlayerConnected(para1))
 		    {
@@ -9988,7 +9989,7 @@ CMD:spec(playerid, params[])
 			new cash =  GetPlayerMoney(pid);
 			SetPlayerInterior(playerid, GetPlayerInterior(pid));
 			SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(pid));
-			format(string, sizeof(string), "Podglad: %s [%d] $%d | Lvl: %d | Prawko - %s",giveplayer,pid,cash,PlayerInfo[pid][pLevel],(PlayerInfo[pid][pCarLic]==1) ? ("Tak") : ("Nie"));
+			format(string, sizeof(string), "Podglad gracza: %s [%d] $%d | Lvl: %d | Prawko - %s | ",giveplayer,pid,cash,PlayerInfo[pid][pLevel],(PlayerInfo[pid][pCarLic]==1) ? ("Tak") : ("Nie"));
 			SendClientMessage(playerid, COLOR_LIGHTGREEN, string);
 			PhoneOnline[playerid] = 1;
             TogglePlayerSpectating(playerid, 1);
@@ -10085,6 +10086,7 @@ CMD:zmienskin(playerid)
 {
     if(IsPlayerConnected(playerid))
     {
+        if(IsPlayerInAnyVehicle(playerid)) return sendTipMessage(playerid, "Nie mo¿esz u¿yæ tej komendy w pojeŸdzie!");
 		if (IsAHA(playerid) || PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1 || PlayerInfo[playerid][pMember] == 2 || PlayerInfo[playerid][pLider] == 2 || PlayerInfo[playerid][pMember] == 3 || PlayerInfo[playerid][pMember] == 3 || PlayerInfo[playerid][pMember] == 7 || PlayerInfo[playerid][pMember] == 7)
 		{
 			if(PlayerInfo[playerid][pRank] >= 2)
@@ -16234,6 +16236,37 @@ CMD:owarsztat(playerid)
 	return 1;
 }
 
+CMD:gs(playerid, params[])
+{
+    new string[256];
+    new sendername[MAX_PLAYER_NAME];
+
+    if(IsPlayerConnected(playerid) || PlayerInfo[playerid][pMember] == 21 || PlayerInfo[playerid][pMember] == 22 || PlayerInfo[playerid][pMember] == 23 || PlayerInfo[playerid][pLider] == 21 || PlayerInfo[playerid][pLider] == 22 || PlayerInfo[playerid][pLider] == 23)
+    {
+        if(isnull(params))
+        {
+            sendTipMessage(playerid, "U¿yj /gs [tekst]");
+            return 1;
+        }
+
+        if(PlayerInfo[playerid][pBP] >= 1)
+        {
+            format(string, sizeof(string), "Nie mo¿esz napisaæ na tym czacie, gdy¿ masz zakaz pisania na globalnych czatach! Minie on za %d godzin.", PlayerInfo[playerid][pBP]);
+            sendTipMessage(playerid, string, TEAM_CYAN_COLOR);
+            return 1;
+        }
+        GetPlayerName(playerid, sendername, sizeof(sendername));
+        SendClientMessageToAll(COLOR_GREEN, "|___________ Gunshop ___________|");
+        format(string, sizeof(string), " %s: {FFFFFF}%s", sendername, params);
+        SendClientMessageToAll(COLOR_WHITE, string);
+    }
+    else
+    {
+        sendErrorMessage(playerid, "Nie jesteœ z Gunshopu!");
+    }
+    return 1;
+}
+
 CMD:cwarsztat(playerid)
 {
 	if(IsANoA(playerid))
@@ -16515,7 +16548,7 @@ CMD:zablokujw(playerid)
     new string[256];
     if(IsPlayerConnected(playerid))
     {
-        if(PremiumInfo[playerid][pKP] > 0 || PlayerInfo[playerid][pAdmin] > 1 || PlayerInfo[playerid][pNewAP] > 1)
+        if(PremiumInfo[playerid][pKP] > 0 || PlayerInfo[playerid][pAdmin] < 1 || PlayerInfo[playerid][pNewAP] < 1)
         {
 			if (!HidePM[playerid])
 			{
@@ -22444,7 +22477,8 @@ CMD:a(playerid, params[])
 			format(string, sizeof(string), "*%d Admin %s: %s", PlayerInfo[playerid][pAdmin], sendername, params);
 			if (PlayerInfo[playerid][pAdmin] >= 1)
 			{
-				SendAdminMessage(0xFFC0CB, string);
+				//SendAdminMessage(0xFFC0CB, string);
+                SendAdminMessage(0x7AA1C9FF, string);
 			}
 			printf("Admin %s: %s", sendername, params);
 		}
@@ -23189,6 +23223,7 @@ CMD:adminajail(playerid, params[])
 	}
 	return 1;
 }
+
 
 CMD:jail(playerid, params[])
 {
@@ -24594,6 +24629,66 @@ CMD:gotopos(playerid, params[])
 	}
 	return 1;
 }
+
+CMD:gotobank(playerid) //krp:1.0.4
+{
+    if(IsPlayerConnected(playerid))
+    {
+        if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5)
+        {
+            if (GetPlayerState(playerid) == 2)
+            {
+                new tmpcar = GetPlayerVehicleID(playerid);
+                SetVehiclePos(tmpcar, 1465.3341,-1020.9360,24.1470);
+            }
+            else
+            {
+                SetPlayerPosEx(playerid, 1465.3341,-1020.9360,24.1470);
+            }
+            SetPlayerVirtualWorld(playerid, 0);
+            SetPlayerInterior(playerid, 0);
+            _MruAdmin(playerid, "Zosta³eœ teleportowany !");
+            SetPlayerInterior(playerid,0);
+            PlayerInfo[playerid][pInt] = 0;
+        }
+        else
+        {
+            noAccessMessage(playerid);
+        }
+    }
+    return 1;
+}
+
+CMD:gotosalon(playerid) //krp:1.0.4
+{
+    if(IsPlayerConnected(playerid))
+    {
+        if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5)
+        {
+            if (GetPlayerState(playerid) == 2)
+            {
+                new tmpcar = GetPlayerVehicleID(playerid);
+                SetVehiclePos(tmpcar, 2131.5107,-1144.4286,24.7985);
+            }
+            else
+            {
+                SetPlayerPosEx(playerid, 2131.5107,-1144.4286,24.79850);
+            }
+            SetPlayerVirtualWorld(playerid, 0);
+            SetPlayerInterior(playerid, 0);
+            _MruAdmin(playerid, "Zosta³eœ teleportowany !");
+            SetPlayerInterior(playerid,0);
+            PlayerInfo[playerid][pInt] = 0;
+        }
+        else
+        {
+            noAccessMessage(playerid);
+        }
+    }
+    return 1;
+}
+
+
 
 CMD:gotols(playerid)
 {
@@ -26714,7 +26809,7 @@ CMD:ah(playerid)
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /slap /kick /aj /bp /warn /block /ban /pblock /pban /pwarn /paj");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /freeze /unfreeze /mute /kill /dpa /mark /gotomark");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /setint /getint /setvw /getvw /wybieralka");
-		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /mordinfo /gotomechy /podglad /gotocar /ip");
+		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /mordinfo /gotosalon /gotobank /gotomechy /podglad /gotocar /ip");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /check /pojazdygracza /checkprawko /sb /pokazcb");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /respawn /carjump /apl /goto /up /getcar /gethere");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /cnn /cc /spec /unblock /unwarn /forum /pogoda /pogodaall");
@@ -31540,7 +31635,7 @@ CMD:materialy(playerid, params[])
 		    }
 		    else
 		    {
-		        sendTipMessageEx(playerid, COLOR_GREY, "Nie jesteœ przy handlarzu materia³ami!");
+		        sendTipMessageEx(playerid, COLOR_GREY, "Nie jesteœ przy punkcie materia³ów!");
 		        return 1;
 		    }
 		}
@@ -32297,12 +32392,6 @@ CMD:dolacz(playerid)
 		{
 		    if(PlayerInfo[playerid][pJob] == 0 )
 			{
-                //if(!IsADilerBroni(playerid))
-			    if(PlayerInfo[playerid][pMember] >= 1 && PlayerInfo[playerid][pMember] <= 4 || PlayerInfo[playerid][pMember] == 9 || PlayerInfo[playerid][pMember] == 10 || PlayerInfo[playerid][pMember] == 11 /*|| PlayerInfo[playerid][pMember] == 14*/ || PlayerInfo[playerid][pLider] >= 1)
-			    {
-			        sendTipMessageEx(playerid, COLOR_GREY, "Musisz byæ cywilem albo cz³onkiem rodziny aby wzi¹æ t¹ pracê !");
-			        return 1;
-			    }
 			    if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,322.3034,317.0233,999.1484))
 				{
 				    if(PlayerInfo[playerid][pGunLic] == 1)
