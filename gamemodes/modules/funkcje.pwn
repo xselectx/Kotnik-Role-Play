@@ -7710,7 +7710,7 @@ DeWu(const string[], level)
 
 ABroadCast(color,const string[],level)
 {
-	foreach(Player, i)
+	for(new i = 0; i<MAX_PLAYERS;i++)
 	{
 		if(IsPlayerConnected(i))
 		{
@@ -7734,7 +7734,7 @@ ABroadCast(color,const string[],level)
 
 ABroadCast2(color,const string[],level)
 {
-	foreach(Player, i)
+	for(new i = 0; i<MAX_PLAYERS;i++)
 	{
 		if(IsPlayerConnected(i))
 		{
