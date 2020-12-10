@@ -8,6 +8,7 @@
 #define NULL 0
 native SendClientCheck(clientid, actionid, arg1= 0x00000000, arg2= 0x0000, bytes= 0x0004); // int32, int8, int32, int16, int16 
 
+#define MAX_AFK_TIME 3000
 
 #define BODY_PART_TORSO 3
 #define BODY_PART_GROIN 4

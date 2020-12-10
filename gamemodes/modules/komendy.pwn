@@ -2416,7 +2416,7 @@ CMD:kajdanki(playerid, params[])
                                                 
 
                                                 format(string, sizeof(string), "Sku³eœ %s.", giveplayer);
-                                                SendClientMessage(PDkuje[playerid], COLOR_LIGHTBLUE, string);
+                                                SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
                                                 TogglePlayerControllable(giveplayerid, 0);
                                                 
                                                 zakuty[giveplayerid] = 1;
@@ -9987,6 +9987,7 @@ CMD:spec(playerid, params[])
 			GetPlayerHealth(pid, health);
 			GetPlayerName(pid, giveplayer, sizeof(giveplayer));
 			new cash =  GetPlayerMoney(pid);
+            Unspec[playerid][sSkinID] = GetPlayerSkin(playerid);
 			SetPlayerInterior(playerid, GetPlayerInterior(pid));
 			SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(pid));
 			format(string, sizeof(string), "Podglad gracza: %s [%d] $%d | Lvl: %d | Prawko - %s | ",giveplayer,pid,cash,PlayerInfo[pid][pLevel],(PlayerInfo[pid][pCarLic]==1) ? ("Tak") : ("Nie"));
@@ -16545,7 +16546,7 @@ CMD:togwhisper(playerid) return cmd_zablokujw(playerid);
 CMD:togw(playerid) return cmd_zablokujw(playerid);
 CMD:zablokujw(playerid)
 {
-    new string[256];
+    //new string[256];
     if(IsPlayerConnected(playerid))
     {
         if(PremiumInfo[playerid][pKP] > 0 || PlayerInfo[playerid][pAdmin] < 1 || PlayerInfo[playerid][pNewAP] < 1)
@@ -22487,7 +22488,8 @@ CMD:a(playerid, params[])
 			format(string, sizeof(string), "*%d Pó³Admin %s: %s", PlayerInfo[playerid][pNewAP], sendername, params);
 			if (PlayerInfo[playerid][pNewAP] >= 1)
 			{
-				SendAdminMessage(0xFFC0CB, string);
+				//SendAdminMessage(0xFFC0CB, string);
+                SendAdminMessage(0x7AA1C9FF, string);
 			}
 			printf("PolAdmin %s: %s", sendername, params);
 		}
@@ -22496,7 +22498,8 @@ CMD:a(playerid, params[])
             format(string, sizeof(string), "* Skrypter %s: %s", sendername, params);
             if (PlayerInfo[playerid][pNewAP] >= 1)
             {
-                SendAdminMessage(0xFFC0CB, string);
+                //SendAdminMessage(0xFFC0CB, string);
+                SendAdminMessage(0x7AA1C9FF, string);
             }
             printf("Skrypter %s: %s", sendername, params);
         }
@@ -34137,7 +34140,7 @@ CMD:akceptuj(playerid, params[])
                     {
                         GetPlayerName(RefillOffer[playerid], giveplayer, sizeof(giveplayer));
                         GetPlayerName(playerid, sendername, sizeof(sendername));
-                        new car = gLastCar[playerid];
+                        //new car = gLastCar[playerid];
                         new fuel;
                         new vehicleid = GetPlayerVehicleID(playerid);
                         if(RefillOffer[playerid] != playerid)
@@ -35929,51 +35932,51 @@ CMD:kradnij(playerid)
             if(Car_IsValid(GetPlayerVehicleID(playerid)))
             {
                 return sendTipMessageEx(playerid, COLOR_GRAD2, "Tego pojazdu nie da siê ukraœæ!");
-            }
-                if(NieSpamujKradnij[playerid] == 0)
-   	            {
-		   	        new skillz;
-		   	        if(PlayerInfo[playerid][pJackSkill] < 50)
-		   			{
-	   					skillz = 1;
-				    }
-				    else if(PlayerInfo[playerid][pJackSkill] >= 50 && PlayerInfo[playerid][pJackSkill] <= 99)
-				    {
-				    	skillz = 2;
-				    }
-				    else if(PlayerInfo[playerid][pJackSkill] >= 100 && PlayerInfo[playerid][pJackSkill] <= 199)
-				    {
-		       			skillz = 3;
-				    }
-				    else if(PlayerInfo[playerid][pJackSkill] >= 200 && PlayerInfo[playerid][pJackSkill] <= 399)
-				    {
-		        		skillz = 4;
-				    }
-				    else if(PlayerInfo[playerid][pJackSkill] >= 400)
-				    {
-		        		skillz = 5;
-				    }
-			        new kradnij = random(100);
-			        new mnoznik = skillz*19;
-			        GetPlayerName(playerid, sendername, sizeof(sendername));
-					format(string, sizeof(string),"* %s wyci¹ga m³otek i rozwala os³onkê po czym wyjmuje 2 kabelki.", sendername);
-					ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-					NieSpamujKradnij[playerid] = 1;
-			        if(kradnij <= mnoznik)
-			        {
-            			SetTimerEx("udalo1",6000,0,"d",playerid);
-			            KradniecieWozu[playerid] = 1;
-			        }
-			        else
-			  		{
-			        	SetTimerEx("nieudalo1",6000,0,"d",playerid);
-			        	KradniecieWozu[playerid] = 1;
-			        }
-				}
-				else
-				{
-				    sendTipMessageEx(playerid, COLOR_GREY, "Ju¿ próbujesz ukraœæ wóz !");
-				}
+            }   
+            if(NieSpamujKradnij[playerid] == 0)
+   	        {
+		   	    new skillz;
+		   	    if(PlayerInfo[playerid][pJackSkill] < 50)
+		   		{
+	   				skillz = 1;
+			    }
+			    else if(PlayerInfo[playerid][pJackSkill] >= 50 && PlayerInfo[playerid][pJackSkill] <= 99)
+			    {
+			    	skillz = 2;
+			    }
+			    else if(PlayerInfo[playerid][pJackSkill] >= 100 && PlayerInfo[playerid][pJackSkill] <= 199)
+			    {
+		       		skillz = 3;
+			    }
+			    else if(PlayerInfo[playerid][pJackSkill] >= 200 && PlayerInfo[playerid][pJackSkill] <= 399)
+			    {
+		      		skillz = 4;
+			    }
+			    else if(PlayerInfo[playerid][pJackSkill] >= 400)
+			    {
+		      		skillz = 5;
+			    }
+			    new kradnij = random(100);
+			    new mnoznik = skillz*19;
+			    GetPlayerName(playerid, sendername, sizeof(sendername));
+				format(string, sizeof(string),"* %s wyci¹ga m³otek i rozwala os³onkê po czym wyjmuje 2 kabelki.", sendername);
+				ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+				NieSpamujKradnij[playerid] = 1;
+			    if(kradnij <= mnoznik)
+			    {
+               	    SetTimerEx("udalo1",6000,0,"d",playerid);
+			        KradniecieWozu[playerid] = 1;
+			    }
+			    else
+			  	{
+			     	SetTimerEx("nieudalo1",6000,0,"d",playerid);
+			     	KradniecieWozu[playerid] = 1;
+			    }
+			}
+			else
+			{
+			    sendTipMessageEx(playerid, COLOR_GREY, "Ju¿ próbujesz ukraœæ wóz !");
+			}
 		}
 		else
 		{
@@ -36402,7 +36405,7 @@ CMD:paka(playerid, params[])
 			     		if(bail == 1)
 			     		{
 			     			JailPrice[suspect] = bailprice;
-                                SetPVarInt(suspect, "kaucja-dlaKogo", PlayerInfo[playerid][pMember]);
+                            SetPVarInt(suspect, "kaucja-dlaKogo", PlayerInfo[playerid][pMember]);
 			     			format(string, sizeof(string), "Zosta³eœ uwiêziony na %d sekund.   Kaucja: $%d", PlayerInfo[suspect][pJailTime], JailPrice[suspect]);
 			     			_MruGracz(suspect, string);
 			     		}

@@ -2036,7 +2036,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    else if(dialogid == 112)
 	    {
            if(!response) return 1;
-            switch(listitem)
+           switch(listitem)
             {
                 case 0:
                 {
@@ -15425,7 +15425,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         }
         return 1;
     }
-     else if(dialogid == D_EDIT_ORG_SKINS)
+    else if(dialogid == D_EDIT_ORG_SKINS)
     {
     	if(!response) return cmd_edytuj(playerid);
     	new id = GetPVarInt(playerid, "edit_org");
@@ -15444,7 +15444,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         		ShowPlayerDialogEx(playerid, D_EDIT_ORG_SKINS_ADD, DIALOG_STYLE_INPUT, "Skiny organizacji (dodawanie)", "Wpisz poni¿ej id skina, który chcesz dodaæ", "Ok", "Wróæ");
         	}
         }
-
     }
     else if(dialogid == D_EDIT_ORG_SKINS_SHOW)
     {
@@ -15499,39 +15498,35 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     {
     	if(!response) return ShowPlayerDialogEx(playerid, D_EDIT_ORG_SKINS, DIALOG_STYLE_LIST, "Edycja skinów", "Poka¿ skiny\nUsuñ skiny\nDodaj Skin\n", "Wybierz", "Wróæ");
     	new id = GetPVarInt(playerid, "edit_org");
-    	//new skin = strval(inputtext);
-    	//if(skin != 0)
-    	//{
-    		new query[256], skiny[256];
-    		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '0' AND `id` = '%d'", id);
-   			mysql_query(query);
-   			mysql_store_result();
-	
-   			if(mysql_fetch_row_format(query, "|"))
-   			{
-   				mysql_free_result();
-   			    sscanf(query, "p<|>s[128]", skiny);
+		new query[256], skiny[256];
+		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '0' AND `id` = '%d'", id);
+		mysql_query(query);
+		mysql_store_result();
 
-   			    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
-   			    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '0' AND `id` = '%d'", skiny, id);
-   		   		mysql_query(query);
-	
-   		   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
-   		   		{
-   		   			FAM_SKINS[id][i] = 0;
-   		   		}
-   		   		WczytajSkiny();
+		if(mysql_fetch_row_format(query, "|"))
+		{
+			mysql_free_result();
+		    sscanf(query, "p<|>s[128]", skiny);
 
-   		   		_MruGracz(playerid, "Skin dodano!");
-   		   		return 1;
-   			} else {
-   				mysql_free_result();
-   				format(query, sizeof(query), "INSERT INTO `mru_skins`(`typ`, `ID`, `skins`) VALUES ('0','%d','%s')", id, inputtext);
-   				mysql_query(query);
-   				_MruGracz(playerid, "Skin dodano!");
-   				return 1;
-   			}
-    	//} else return sendErrorMessage(playerid, "Skin nie mo¿e wynosiæ 0");
+		    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
+		    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '0' AND `id` = '%d'", skiny, id);
+	   		mysql_query(query);
+
+	   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
+	   		{
+	   			FAM_SKINS[id][i] = 0;
+	   		}
+	   		WczytajSkiny();
+
+	   		_MruGracz(playerid, "Skin dodano!");
+	   		return 1;
+		} else {
+			mysql_free_result();
+			format(query, sizeof(query), "INSERT INTO `mru_skins`(`typ`, `ID`, `skins`) VALUES ('0','%d','%s')", id, inputtext);
+			mysql_query(query);
+			_MruGracz(playerid, "Skin dodano!");
+			return 1;
+		}
     }
     else if(dialogid == D_EDIT_ORG_TYP)
     {
@@ -15722,39 +15717,34 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     {
     	if(!response) return ShowPlayerDialogEx(playerid, D_EDIT_FRAC_SKINS, DIALOG_STYLE_LIST, "Edycja skinów", "Poka¿ skiny\nUsuñ skiny\nDodaj Skin\n", "Wybierz", "Wróæ");
     	new id = GetPVarInt(playerid, "edit_frac");
-    	//new skin = strval(inputtext);
-    	//if(skin != 0)
-    	//{
-    		new query[256], skiny[256];
-    		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '1' AND `id` = '%d'", id);
-   			mysql_query(query);
-   			mysql_store_result();
-	
-   			if(mysql_fetch_row_format(query, "|"))
-   			{
-   				mysql_free_result();
-   			    sscanf(query, "p<|>s[128]", skiny);
+		new query[256], skiny[256];
+		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '1' AND `id` = '%d'", id);
+		mysql_query(query);
+		mysql_store_result();
+		if(mysql_fetch_row_format(query, "|"))
+		{
+			mysql_free_result();
+		    sscanf(query, "p<|>s[128]", skiny);
 
-   			    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
-   			    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '1' AND `id` = '%d'", skiny, id);
-   		   		mysql_query(query);
-	
-   		   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
-   		   		{
-   		   			FRAC_SKINS[id][i] = 0;
-   		   		}
-   		   		WczytajSkiny();
+		    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
+		    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '1' AND `id` = '%d'", skiny, id);
+	   		mysql_query(query);
 
-   		   		_MruGracz(playerid, "Skin dodano!");
-   		   		return 1;
-   			} else {
-   				mysql_free_result();
-   				format(query, sizeof(query), "INSERT INTO `mru_skins` (`typ`, `ID`, `skins`) VALUES ('1','%d','%s')", id, inputtext);
-   				mysql_query(query);
-   				_MruGracz(playerid, "Skin dodano!");
-   				return 1;
-   			}
-    	//} else return sendErrorMessage(playerid, "Skin nie mo¿e wynosiæ 0");
+	   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
+	   		{
+	   			FRAC_SKINS[id][i] = 0;
+	   		}
+	   		WczytajSkiny();
+
+	   		_MruGracz(playerid, "Skin dodano!");
+	   		return 1;
+		} else {
+			mysql_free_result();
+			format(query, sizeof(query), "INSERT INTO `mru_skins` (`typ`, `ID`, `skins`) VALUES ('1','%d','%s')", id, inputtext);
+			mysql_query(query);
+			_MruGracz(playerid, "Skin dodano!");
+			return 1;
+		}
     }
     else if(dialogid == D_EDIT_FRAC_NAME)
     {

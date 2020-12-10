@@ -152,7 +152,8 @@ public DCC_OnMessageCreate(DCC_Message:message)
 				{					
 					ReturnPolish(text);
 					format(string, sizeof(string), "*%s: %s", nickname, text);
-					SendAdminMessage(0xFFC0CB, string);
+					//SendAdminMessage(0xFFC0CB, string);
+					SendAdminMessage(0x7AA1C9FF, string);
 					printf("@DC: %s", string);
 				}
 			}

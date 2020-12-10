@@ -74,7 +74,7 @@ MruMySQL_CreateAccount(playerid, pass[])
 	if(!MYSQL_ON) return 0;
 	
 	new query[256];
-    new password[64];
+    //new password[64];
     new salt_seed[63] = "abcdefghijklmnopqrstuwvxyzABCDEFGHIJKLMNOPQRSTUWVXYZ0123456789";
 	new salt[PASS_SALT_SIZE+1];
     new hash[256];

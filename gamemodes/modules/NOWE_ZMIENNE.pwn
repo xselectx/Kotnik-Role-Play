@@ -27,6 +27,11 @@ new AdminDutyTimer[MAX_PLAYERS];
 
 new TutorialFix[MAX_PLAYERS];
 
+new gLastUpdate[MAX_PLAYERS], e_STATE:gState[MAX_PLAYERS] = {e_STATE_NONE, ...};
+new AFKTimer[MAX_PLAYERS];
+new AFKTime[MAX_PLAYERS][2];
+new BreakTime[MAX_PLAYERS];
+
 new Text3D:quittext[MAX_PLAYERS];
 new kaska[MAX_PLAYERS];
 
@@ -1467,6 +1472,10 @@ stock ZerujZmienne(playerid)
     AdminDutyMinuty[playerid] = 0;
 
     AdminVPNInfo[playerid] = 0;
+
+    AFKTime[playerid][0] = 0;
+    AFKTime[playerid][1] = 0;
+    BreakTime[playerid] = 0;
 
     SetPVarInt(playerid, "AC-warn", 0);
     SetPVarInt(playerid, "dutyadmin", 0);

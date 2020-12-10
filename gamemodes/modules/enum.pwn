@@ -1666,6 +1666,13 @@ enum pHaul
 
 new PlayerHaul[150][pHaul];
 
+enum e_STATE
+{
+    e_STATE_UPDATING,
+    e_STATE_NONE,
+    e_STATE_CONNECTED
+};
+
 enum Wyscigi
 {
     wStworzony,
@@ -2811,7 +2818,3 @@ new VehicleColoursTableRGBA[256] = {
 0x561A28FF, 0x4E0E27FF, 0x706C67FF, 0x3B3E42FF, 0x2E2D33FF, 0x7B7E7DFF, 0x4A4442FF, 0x28344EFF
 };
 //EOF
-
-new AllowedDriveBy[] = {
-    22, 28, 29, 30, 32
-};

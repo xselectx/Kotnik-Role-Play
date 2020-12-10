@@ -798,7 +798,7 @@ public CountDown()
 {
 	if (Count > 0)
 	{
-		GameTextForAll( CountText[Count-1], 2500, 1);
+		GameTextForAll( CountText[Count-1], 1000, 1);
 		Count--;
 		SoundForAll(1056);
 		SetTimer("CountDown", 1000, 0);
@@ -5113,7 +5113,7 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GREEN,"_______________________________________");
 		format(coordsstring, sizeof(coordsstring),"*** %s ({8FCB04}UID: %d{FFFFFF}) ***",name, PlayerInfo[targetid][pUID]);
 		SendClientMessage(playerid, COLOR_WHITE,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,health, cash, account, pnumber);
+		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Zdrowie Startowe:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,health, 50+shealth, cash, account, pnumber);
 		SendClientMessage(playerid, COLOR_GRAD1,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Konto Premium:[%s] Œlub z:[%s] On-Line:[%d] LottoNr:[%d] Praca:[%s] Punkty karne:[%d]", drank,PlayerInfo[targetid][pMarriedTo],ptime,lotto,jtext, PlayerInfo[targetid][pPK]);
 		SendClientMessage(playerid, COLOR_GRAD2,coordsstring);
@@ -5123,11 +5123,11 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GRAD4,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Drugs:[%d] Mats:[%d] Frakcja:[%s] Ranga:[%s] Warny:[%d] Dostêpnych zmian nicków:[%d]",drugs,mats,ftext,rtext,PlayerInfo[targetid][pWarns],znick);
 		SendClientMessage(playerid, COLOR_GRAD5,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Skin:[%d] Uniform:[%d] Apteczki:[%d] Zestawy:[%d]",PlayerInfo[targetid][pModel], PlayerInfo[targetid][pSkin], PlayerInfo[targetid][pApteczki]);
+		format(coordsstring, sizeof(coordsstring), "Skin:[%d] Uniform:[%d] Apteczki:[%d] KotnikCoins:[%d]",PlayerInfo[targetid][pModel], PlayerInfo[targetid][pSkin], PlayerInfo[targetid][pApteczki],PremiumInfo[targetid][pMC]);
 		SendClientMessage(playerid, COLOR_GRAD5,coordsstring);
 		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5 || PlayerInfo[playerid][pNewAP] == 1)
 		{
-			format(coordsstring, sizeof(coordsstring), "Dom:[%d] Klucz Wozu:[%d] KotnikCoins:[%d]", housekey,PlayerInfo[targetid][pKluczeAuta],PremiumInfo[targetid][pMC]);
+			format(coordsstring, sizeof(coordsstring), "Dom:[%d] Klucz Wozu:[%d] ", housekey,PlayerInfo[targetid][pKluczeAuta]);
 			SendClientMessage(playerid, COLOR_GRAD6,coordsstring);
 		}
 		SendClientMessage(playerid, COLOR_GREEN,"_______________________________________");
@@ -7823,7 +7823,7 @@ Ogloszenie(color,playerid,string[])
 		    if(!gNews[i])
 		    {
 		    	new str[128];
-		    	if(PlayerInfo[i][pAdmin] > 0 || PlayerInfo[i][pNewAP] > 0) format(str, sizeof(str), "Og³oszenie: %s, Kontakt: %d [%s]", string, PlayerInfo[playerid][pPnumber], GetNick(playerid, true));
+		    	if(GetPVarInt(playerid, "dutyadmin") == 1) format(str, sizeof(str), "Og³oszenie: %s, Kontakt: %d [%s]", string, PlayerInfo[playerid][pPnumber], GetNick(playerid, true));
 				else format(str, sizeof(str), "Og³oszenie: %s, Kontakt: %d", string, PlayerInfo[playerid][pPnumber]);
 				SendClientMessage(i, color, str);
 			}
@@ -13777,8 +13777,7 @@ GetXYInFrontOfPlayer(playerid, &Float:x, &Float:y, Float:distance)
 	y += (distance * floatcos(-a, degrees));
 }
 
-forward Float:GetDistanceBetweenGraffiti(playerid,objectid);
-public Float:GetDistanceBetweenGraffiti(playerid,objectid)
+Float:GetDistanceBetweenGraffiti(playerid,objectid)
 {
     new Float:x1,Float:y1,Float:z1,Float:x2,Float:y2,Float:z2;
     if(!IsPlayerConnected(playerid)) {
@@ -14620,4 +14619,96 @@ public SprzedajMatsTimer(playerid,giveplayerid)
 		sendErrorMessage(playerid, "Sprzeda¿ mats zosta³a anulowana!");
 	}
 	return 1;
+}
+
+forward PAUSE_CheckPlayer(playerid);
+forward OnPlayerPause(playerid);
+
+
+public PAUSE_CheckPlayer(playerid)
+{
+    if(IsPlayerPaused(playerid))
+    {
+         CallLocalFunction("OnPlayerPause", "d", playerid);
+    }
+    else 
+    {
+    	if(BreakTime[playerid] != -1)
+    	{
+    		new afktime;
+	
+    		if(AFKTime[playerid][1] == 0) afktime = AFKTime[playerid][0];
+    		else afktime = AFKTime[playerid][1];
+
+			BreakTime[playerid]++;
+
+    		if(BreakTime[playerid] > afktime || BreakTime[playerid] > 180)
+			{
+				//new name[MAX_PLAYER_NAME];
+				//GetPlayerName(playerid, name, sizeof(name));
+				//printf("%s byl afk przez %d", name, afktime);
+				AFKTime[playerid][1] = 0;
+				AFKTime[playerid][0] = 0;
+				BreakTime[playerid] = -1;
+			}
+		}
+    }
+    return 1;
+}
+
+
+
+public OnPlayerPause(playerid)
+{
+    //print("OnPlayerPause");
+    new text[26];
+    AFKTime[playerid][0]++;
+    if(AFKTime[playerid][0] >= 60)
+    {
+        AFKTime[playerid][1]++;
+        AFKTime[playerid][0] = 0;
+    }
+    BreakTime[playerid] = 0;
+    format(text, sizeof(text), "[AFK] %d min %d sek (%d)",AFKTime[playerid][1], AFKTime[playerid][0], playerid);
+    //printf("%s", text);
+    SetPlayerChatBubble(playerid, text, COLOR_GREEN, 10, 1200);
+
+
+	if(AFKTime[playerid][1] >= 10 && PlayerInfo[playerid][pAdmin] >= 1 || AFKTime[playerid][1] >= 10 && PlayerInfo[playerid][pNewAP] >= 1)
+	{
+		if(AFKTime[playerid][1] >= 30 && PlayerInfo[playerid][pAdmin] != 5000)
+		{
+			SendClientMessage(playerid, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugie AFK (30 minut).");
+			SetTimerEx("KickEx", 500, false, "i", playerid);
+		}
+	}
+	else if(AFKTime[playerid][1] > 10 && PlayerInfo[playerid][pDonateRank] >= 1)
+	{
+		if(AFKTime[playerid][1] >= 20)
+		{
+			SendClientMessage(playerid, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugie AFK (20 minut).");
+			SetTimerEx("KickEx", 500, false, "i", playerid);
+		}
+	}
+	else if(AFKTime[playerid][1] >= 10)
+	{
+		SendClientMessage(playerid, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugie AFK (10 minut).");
+		SetTimerEx("KickEx", 500, false, "i", playerid);
+	}
+	else
+	{
+		//SetPlayerChatBubble(playerid, text, 0x33AA33AA, 15.0, 1500);
+	}
+
+    return 1;
+
+}
+
+IsPlayerPaused(playerid)
+{
+	if((gState[playerid] == e_STATE_UPDATING) && ((GetTickCount() - MAX_AFK_TIME) >= gLastUpdate[playerid]))
+    {
+        return 1;
+    }
+    return 0;
 }
