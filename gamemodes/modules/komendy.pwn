@@ -28424,7 +28424,7 @@ CMD:innyspawn(playerid)
 }
 
 
-CMD:report(playerid, params[]) return cmd_raport(playerid, params);
+/*CMD:report(playerid, params[]) return cmd_raport(playerid, params);
 CMD:raport(playerid, params[])
 {
 	new string[128];
@@ -28458,6 +28458,44 @@ CMD:raport(playerid, params[])
 			//SetTimerEx("AntySpamTimer",15000,0,"d",playerid);
             SetPVarInt(playerid, "wyreportowany", 15);
 		}
+    }
+    return 1;
+}*/
+
+CMD:report(playerid, params[]) return cmd_raport(playerid, params);
+CMD:raport(playerid, params[])
+{
+    new string[128];
+    new sendername[MAX_PLAYER_NAME];
+
+    if(IsPlayerConnected(playerid))
+    {
+        if(gPlayerLogged[playerid] == 1)
+        {
+            if(GetPVarInt(playerid, "wyreportowany") > 1)
+            {
+                sendTipMessageFormat(playerid, "Odczekaj %d sekund", GetPVarInt(playerid, "wyreportowany"));
+                return 1;
+            }
+            GetPlayerName(playerid, sendername, sizeof(sendername));
+            if(isnull(params))
+            {
+                SendClientMessage(playerid, 0x008000AA,"** Komenda {ADFF2F}/report{FFFFFF} s³u¿y tylko i wy³¹cznie do zg³aszania spraw dla Administracji... **");
+                SendClientMessage(playerid, 0x008000AA,"** ...korzystamy z niego wtedy gdy dany gracz ³amie regulamin serwera (LKiZ) **");
+                SendClientMessage(playerid, 0x008000AA,"** Forma poprawnego zg³oszenia: {ADFF2F}/report 0 DM LUB /report 0 Cheater{FFFFFF} **");
+                return 1;
+            }
+            format(string, sizeof(string), "» Report od %s [%d]: {FFFFFF}%s", sendername, playerid, params);
+            ABroadCast(COLOR_YELLOW,string,1);
+            format(string, sizeof(string), ">> Report od %s [%d]: %s", sendername, playerid, params);
+            SendDiscordMessage(DiscordSpecialChannels[DC_REPORT_CHANNEL][1], string);
+            SendClientMessage(playerid, 0x008000AA, "Twój report zosta³ wys³any do administracji, oczekuj na reakcjê zanim napiszesz kolejny!");//By: Dawid
+            SendClientMessage(playerid, COLOR_GRAD2, "Je¿eli Administracja nie reaguje na Twój report, oznacza to, ¿e...");//By: Dawid
+            SendClientMessage(playerid, COLOR_GRAD2, "...jest on Ÿle sformu³owany i Administracja nie rozpatrzy tego zg³oszenia.");//By: Dawid
+            //AntySpam[playerid] = 1;
+            //SetTimerEx("AntySpamTimer",15000,0,"d",playerid);
+            SetPVarInt(playerid, "wyreportowany", 15);
+        }
     }
     return 1;
 }

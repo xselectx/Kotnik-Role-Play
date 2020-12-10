@@ -7707,12 +7707,13 @@ DeWu(const string[], level)
 	return 1;
 }
 
+
 ABroadCast(color,const string[],level)
 {
 	foreach(Player, i)
 	{
 		if(IsPlayerConnected(i))
-		{	
+		{
 			if (PlayerInfo[i][pAdmin] >= level)
 			{
 				SendClientMessage(i, color, string);
@@ -7725,9 +7726,6 @@ ABroadCast(color,const string[],level)
 			{
 				SendClientMessage(i, color, string);
 			}
-			else
-			//printf("[DEBUG]: admin has not duty, warnings not show");
-			return 1;
 		}
 	}
 	printf("%s", string);
