@@ -7812,7 +7812,7 @@ OOCNews(color,const string[])
 	}
 }
 
-Ogloszenie(color,playerid,string[])
+Ogloszenie(color,pid,string[])
 {
 	foreach(Player, i)
 	{
@@ -7821,8 +7821,8 @@ Ogloszenie(color,playerid,string[])
 		    if(!gNews[i])
 		    {
 		    	new str[128];
-		    	if(GetPVarInt(playerid, "dutyadmin") == 1) format(str, sizeof(str), "Og這szenie: %s, Kontakt: %d [%s]", string, PlayerInfo[playerid][pPnumber], GetNick(playerid, true));
-				else format(str, sizeof(str), "Og這szenie: %s, Kontakt: %d", string, PlayerInfo[playerid][pPnumber]);
+		    	if(GetPVarInt(i, "dutyadmin") == 1) format(str, sizeof(str), "Og這szenie: %s, Kontakt: %d [%s]", string, PlayerInfo[pid][pPnumber], GetNick(pid, true));
+				else format(str, sizeof(str), "Og這szenie: %s, Kontakt: %d", string, PlayerInfo[pid][pPnumber]);
 				SendClientMessage(i, color, str);
 			}
 		}
