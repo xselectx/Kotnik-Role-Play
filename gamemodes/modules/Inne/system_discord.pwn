@@ -91,7 +91,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 					}
 				}
 
-				if(!strcmp(command, ">kotnik", true) || !strcmp(command, ">samp") || !strcmp(command, "kotnik", true) || !strcmp(command, "samp"))
+				if(!strcmp(command, ">kotnik", true) || !strcmp(command, ">samp") || !strcmp(command, "kotnik", true) || !strcmp(command, "samp")  || !strcmp(command, "players", true) || !strcmp(command, "gracze"))
 				{
 					new ilosc = 0;
 					for(new i = 0; i<MAX_PLAYERS; i++)

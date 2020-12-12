@@ -16549,7 +16549,7 @@ CMD:zablokujw(playerid)
     //new string[256];
     if(IsPlayerConnected(playerid))
     {
-        if(PremiumInfo[playerid][pKP] > 0 || PlayerInfo[playerid][pAdmin] < 1 || PlayerInfo[playerid][pNewAP] < 1)
+        if(PremiumInfo[playerid][pKP] > 0 || PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] > 0)
         {
 			if (!HidePM[playerid])
 			{
@@ -39636,15 +39636,18 @@ CMD:dopasuj(playerid, params[])
 CMD:discord(playerid, params[])
 {
     new string[128], id;
-    if(sscanf(params, "ds[128]", id, string)) return sendTipMessage(playerid, "U¿yj: /discord [id] [wiadomoœæ]");
-
-    format(string, sizeof(string), "%s: %s", GetNick(playerid), string);
-
-    printf("sending message to [%d] %d: %s", id, DiscordFractionChannels[id][1], string);
-
-    SendDiscordMessage(DiscordFractionChannels[id][1], string);
-
-    print("sent");
+    if(PlayerInfo[playerid][pAdmin] >= 5000)
+    {
+        if(sscanf(params, "ds[128]", id, string)) return sendTipMessage(playerid, "U¿yj: /discord [id] [wiadomoœæ]");
+    
+        format(string, sizeof(string), "%s: %s", GetNick(playerid), string);
+    
+        printf("sending message to [%d] %d: %s", id, DiscordFractionChannels[id][1], string);
+    
+        SendDiscordMessage(DiscordFractionChannels[id][1], string);
+    
+        print("sent");
+    }
 
     return 1;
 }
