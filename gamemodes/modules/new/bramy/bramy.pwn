@@ -206,6 +206,34 @@ stock GetClosestBrama(playerid)
 	return -1;
 }
 
+stock RefreshBramy()
+{
+	for(new i; i<iloscbram; i++)
+	{
+		DestroyDynamicObject(bramy[i][b_obiekt]);
+		bramy[i][b_x1] = 0;
+		bramy[i][b_y1] = 0;
+		bramy[i][b_z1] = 0;
+		bramy[i][b_rx1] = 0;
+		bramy[i][b_ry1] = 0;
+		bramy[i][b_rz1] = 0;
+		bramy[i][b_x2] = 0;
+		bramy[i][b_y2] = 0;
+		bramy[i][b_z2] = 0;
+		bramy[i][b_rx2] = 0;
+		bramy[i][b_ry2] = 0;
+		bramy[i][b_rz2] = 0;
+		bramy[i][b_speed] = 0;
+		bramy[i][b_range] = 0;
+		bramy[i][b_uprtyp] = 0;
+		bramy[i][b_uprval] = 0;
+		bramy[i][b_UID] = 0;
+	}
+	iloscbram = 0;
+	LoadBramy();
+
+}
+
 //------------------<[ MySQL: ]>--------------------
 
 stock StworzBrame_MySQL(playerid)
@@ -298,6 +326,16 @@ stock LoadBramy_MySQL()
 }
 
 //-----------------<[ Komendy: ]>-------------------
+
+CMD:odswiezbramy(playerid)
+{
+	if(PlayerInfo[playerid][pAdmin] >= 5000 || PlayerInfo[playerid][pNewAP] == 5)
+	{
+		RefreshBramy();
+		sendTipMessage(playerid, "Odœwie¿ono!");
+	} else return noAccessMessage(playerid);
+	return 1;
+}
 
 CMD:stworzbrame(playerid, params[])
 {

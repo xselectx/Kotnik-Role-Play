@@ -966,7 +966,7 @@ public OnPlayerDisconnect(playerid, reason)
 
     format(string, sizeof(string), "SERWER: Gracz znajduj¹cy siê w pobli¿u wyszed³ z gry (%s, powód: %s)", GetNick(playerid), codal);  
     ProxDetector(10, playerid, string, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2, COLOR_FADE2);
-
+    printf("%s", string);
 
     if(TymczasowyOpisVar[playerid] == 1)
     {
@@ -5533,7 +5533,7 @@ public OnGameModeInit()
 
     LoadScriptableObjects();
     LoadBramy();
-    
+
     ConvertAnimations();
     LoadAnimations();
     Pizzaboy_OnGameModeInit();
