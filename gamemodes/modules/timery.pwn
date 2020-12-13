@@ -2142,18 +2142,15 @@ public IdleKick()
 	{
 		if(gPlayerLogged[i] == 1)
 		{
-			if(PlayerInfo[i][pAdmin] < 1 && PlayerInfo[i][pNewAP] < 1)
+			GetPlayerPos(i, PlayerPos[i][0], PlayerPos[i][1], PlayerPos[i][2]);
+			if(PlayerPos[i][0] == PlayerPos[i][3] && PlayerPos[i][1] == PlayerPos[i][4] && PlayerPos[i][2] == PlayerPos[i][5])
 			{
-				GetPlayerPos(i, PlayerPos[i][0], PlayerPos[i][1], PlayerPos[i][2]);
-				if(PlayerPos[i][0] == PlayerPos[i][3] && PlayerPos[i][1] == PlayerPos[i][4] && PlayerPos[i][2] == PlayerPos[i][5])
-				{
-					SendClientMessage(i, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugi bezruch!");
-					KickEx(i);
-				}
-				PlayerPos[i][3] = PlayerPos[i][0];
-				PlayerPos[i][4] = PlayerPos[i][1];
-				PlayerPos[i][5] = PlayerPos[i][2];
+				SendClientMessage(i, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugi bezruch!");
+				KickEx(i);
 			}
+			PlayerPos[i][3] = PlayerPos[i][0];
+			PlayerPos[i][4] = PlayerPos[i][1];
+			PlayerPos[i][5] = PlayerPos[i][2];
 		}
 	}
 	return 1;
