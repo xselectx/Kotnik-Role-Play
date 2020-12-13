@@ -1481,6 +1481,7 @@ stock ZerujZmienne(playerid)
     SetPVarInt(playerid, "dutyadmin", 0);
 
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
+    for(new i=0;i<MAX_SKIN_SELECT+120;i++) PERSONAL_SKINS[playerid][i] = 0;
 
     strdel(PlayerDesc[playerid], 0, 128 char);
     strpack(PlayerDesc[playerid], "BRAK");
