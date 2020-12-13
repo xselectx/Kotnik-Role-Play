@@ -46,6 +46,7 @@ new VehicleIDChangeTime[MAX_PLAYERS];
 new acstr[128];
 
 //Makra:
+#define GetDynamicObjectModel(%0) Streamer_GetIntData(STREAMER_TYPE_OBJECT, %0, E_STREAMER_MODEL_ID)
 #define GetPlayerWeather(%1) GetPVarInt(%1, "Weather")
 #define Distance3D(%1,%2,%3,%4,%5,%6) (VectorSize(%1-%4,%2-%5,%3-%6))/100)
 #define Distance3D2(%1,%2,%3,%4,%5,%6) (VectorSize(%1-%4,%2-%5,%3-%6))*1000.0)
@@ -367,6 +368,13 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define D_EDIT_FRAC_SKINS_SHOW 1326
 #define D_EDIT_FRAC_SKINS_DELETE 1327
 #define D_EDIT_FRAC_SKINS_ADD 1328
+
+#define D_CREATE_BRAMA 1360
+#define D_CREATE_BRAMA_ID 1361
+#define D_CREATE_BRAMA_TYP 1662
+#define D_CREATE_BRAMA_SPEED 1663
+#define D_CREATE_BRAMA_RANGE 1664
+
 
 #define D_F_PANEL			5000+1
 

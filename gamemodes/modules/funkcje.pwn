@@ -12819,6 +12819,7 @@ LoadScriptableObjects()
 
 LoadBramy()
 {
+	LoadBramy_MySQL();
 	new brama, tmpobjid;
 	// ----- [ PARKING LSPD ] ---- //
 

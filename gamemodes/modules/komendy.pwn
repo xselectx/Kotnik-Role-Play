@@ -13301,9 +13301,9 @@ CMD:kupowaniedomu(playerid)
 								//
 								mnoznik = Mnoznik(pZone);
 								new cenadomu = ((interior*mnoznik)/10)+doplata;//cena domu*/
-			        	        if(PlayerInfo[playerid][pLevel] < 3)
+			        	        if(PlayerInfo[playerid][pLevel] < 2)
 			        	        {
-			        	            sendTipMessage(playerid, "Aby kupiæ dom musisz mieæ powy¿ej 3 lvl");
+			        	            sendTipMessage(playerid, "Aby kupiæ dom musisz mieæ powy¿ej 2 lvl");
 			        	            return 1;
 	    						}
 								new cenadomu = Dom[i][hCena];

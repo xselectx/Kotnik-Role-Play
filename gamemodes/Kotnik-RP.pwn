@@ -4545,6 +4545,46 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 	#endif
     if(IsValidDynamicObject(objectid))
 	{
+        if(brama_editing[playerid] == 1 || brama_editing[playerid] == 2)
+        {
+            new Float:oldX, Float:oldY, Float:oldZ, Float:oldRotX, Float:oldRotY, Float:oldRotZ;
+            GetDynamicObjectPos(objectid, oldX, oldY, oldZ);
+            GetDynamicObjectRot(objectid, oldRotX, oldRotY, oldRotZ);
+            if(response == EDIT_RESPONSE_FINAL)
+            {
+                SetDynamicObjectPos(objectid, x, y, z);               
+                SetDynamicObjectRot(objectid, rx, ry, rz);
+
+                if(brama_editing[playerid] == 1)
+                {
+                    GetDynamicObjectPos(objectid, brama_pos1[playerid][0], brama_pos1[playerid][1], brama_pos1[playerid][2]);
+                    GetDynamicObjectRot(objectid, brama_pos1[playerid][3], brama_pos1[playerid][4], brama_pos1[playerid][5]);
+    
+                    _MruGracz(playerid, "Zapisano zamkniêt¹ pozycjê. Wybierz teraz pozycjê otwart¹.");
+                    brama_editing[playerid] = 2;
+                    EditDynamicObject(playerid, objectid);
+                }
+                else if(brama_editing[playerid] == 2)
+                {
+                    GetDynamicObjectPos(objectid, brama_pos2[playerid][0], brama_pos2[playerid][1], brama_pos2[playerid][2]);
+                    GetDynamicObjectRot(objectid, brama_pos2[playerid][3], brama_pos2[playerid][4], brama_pos2[playerid][5]);
+    
+                    _MruGracz(playerid, "Zapisano otwart¹ pozycjê.");
+                    brama_editing[playerid] = 3;
+
+                    ShowBramaEdit(playerid);
+                }
+            }
+            if(response == EDIT_RESPONSE_CANCEL)
+            {
+                sendErrorMessage(playerid, "Anulowano stawianie bramy!");
+                SetDynamicObjectPos(objectid, oldX, oldY, oldZ);
+                SetDynamicObjectRot(objectid, oldRotX, oldRotY, oldRotZ);
+                if(brama_editing[playerid] == 1 || brama_editing[playerid] == 2) DestroyDynamicObject(objectid);
+                brama_editing[playerid] = 3;
+            }
+        }
+
 
         if(editGraf[playerid] == 1 || editGraf[playerid] == 2)
         {
@@ -5493,6 +5533,7 @@ public OnGameModeInit()
 
     LoadScriptableObjects();
     LoadBramy();
+    
     ConvertAnimations();
     LoadAnimations();
     Pizzaboy_OnGameModeInit();

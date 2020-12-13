@@ -16935,7 +16935,135 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		    sendErrorMessage(playerid, "Coœ posz³o nie tak! (sprzeda¿)");
 		}
 	}
+	else if(dialogid == D_CREATE_BRAMA)
+	{
+		if(!response) 
+		{
+			if(brama_editing[playerid] == 3) DestroyDynamicObject(brama_create[playerid]);
+			else {
+				SetDynamicObjectPos(bramy[brama_id[playerid]][b_obiekt], bramy[brama_id[playerid]][b_x1], bramy[brama_id[playerid]][b_y1], bramy[brama_id[playerid]][b_z1]);
+				SetDynamicObjectRot(bramy[brama_id[playerid]][b_obiekt], bramy[brama_id[playerid]][b_rx1], bramy[brama_id[playerid]][b_ry1], bramy[brama_id[playerid]][b_rz1]);
+			}
+			return sendErrorMessage(playerid, "Anulowano edycjê bramy!");
+		}
 
+		switch(listitem)
+		{
+			case 0:
+			{
+				sendTipMessage(playerid, "W budowie");
+				return ShowBramaEdit(playerid);
+			}
+			case 1:
+			{
+				return ShowPlayerDialogEx(playerid, D_CREATE_BRAMA_TYP, DIALOG_STYLE_INPUT, "Edycja typu", 
+					   "BRAMA_UPR_TYPE_NONE 0\n\
+                        BRAMA_UPR_TYPE_FRACTION 1\n\
+                        BRAMA_UPR_TYPE_FAMILY 2\n\
+                        BRAMA_UPR_TYPE_HOUSE 3", "Ok", "Anuluj");
+			}
+			case 2:
+			{
+				new string[256];
+				if(brama_typ[playerid] == 0)
+				{
+					sendTipMessage(playerid, "Brama bez typu nie mo¿e mieæ przypisanego ID");
+					return ShowBramaEdit(playerid);
+				}
+				else if(brama_typ[playerid] == 1) format(string, sizeof(string), "Wpisz ID frakcji");
+				else if(brama_typ[playerid] == 2) format(string, sizeof(string), "Wpisz ID organizacji");
+				else if(brama_typ[playerid] == 3) format(string, sizeof(string), "Wpisz ID domu");
+
+				return ShowPlayerDialogEx(playerid, D_CREATE_BRAMA_ID, DIALOG_STYLE_INPUT, "Edycja ID", string, "Ok", "Anuluj");
+			}
+			case 3:
+			{
+				return ShowPlayerDialogEx(playerid, D_CREATE_BRAMA_SPEED, DIALOG_STYLE_INPUT, "Edycja prêdkoœci", "Wpisz poni¿ej prêdkoœæ bramy","Ok", "Anuluj");
+			}
+			case 4:
+			{
+				return ShowPlayerDialogEx(playerid, D_CREATE_BRAMA_RANGE, DIALOG_STYLE_INPUT, "Edycja tolerancji", "Wpisz poni¿ej tolerancjê bramy","Ok", "Anuluj");
+			}
+			case 5:
+			{
+				sendTipMessage(playerid, "W budowie");
+				return ShowBramaEdit(playerid);
+			}
+			case 6:
+			{
+
+				if(brama_editing[playerid] == 3)
+				{
+					SetDynamicObjectPos(brama_create[playerid], brama_pos1[playerid][0], brama_pos1[playerid][1], brama_pos1[playerid][2]);
+					SetDynamicObjectRot(brama_create[playerid], brama_pos1[playerid][3], brama_pos1[playerid][4], brama_pos1[playerid][5]);
+					StworzBrame_MySQL(playerid);
+					DodajBrame(brama_create[playerid], brama_pos1[playerid][0], brama_pos1[playerid][1], brama_pos1[playerid][2], brama_pos1[playerid][3], brama_pos1[playerid][4], brama_pos1[playerid][5], brama_pos2[playerid][0], brama_pos2[playerid][1], brama_pos2[playerid][2], brama_pos2[playerid][3], brama_pos2[playerid][4], brama_pos2[playerid][5], brama_speed[playerid], brama_range[playerid], brama_typ[playerid], brama_val[playerid], false, mysql_insert_id());
+					brama_editing[playerid] = 0;
+				}
+				else
+				{
+					bramy[brama_id[playerid]][b_x1] =  brama_pos1[playerid][0];
+					bramy[brama_id[playerid]][b_y1] =  brama_pos1[playerid][1];
+					bramy[brama_id[playerid]][b_z1] =  brama_pos1[playerid][2];
+					bramy[brama_id[playerid]][b_rx1] = brama_pos1[playerid][3];
+					bramy[brama_id[playerid]][b_ry1] = brama_pos1[playerid][4];
+					bramy[brama_id[playerid]][b_rz1] = brama_pos1[playerid][5];
+					bramy[brama_id[playerid]][b_x2] =  brama_pos2[playerid][0];
+					bramy[brama_id[playerid]][b_y2] =  brama_pos2[playerid][1];
+					bramy[brama_id[playerid]][b_z2] =  brama_pos2[playerid][2];
+					bramy[brama_id[playerid]][b_rx2] = brama_pos2[playerid][3];
+					bramy[brama_id[playerid]][b_ry2] = brama_pos2[playerid][4];
+					bramy[brama_id[playerid]][b_rz2] = brama_pos2[playerid][5];
+					bramy[brama_id[playerid]][b_speed] = brama_speed[playerid];
+					bramy[brama_id[playerid]][b_range] = brama_range[playerid];
+					bramy[brama_id[playerid]][b_uprtyp] = brama_typ[playerid];
+					bramy[brama_id[playerid]][b_uprval] = brama_val[playerid];
+
+					SetDynamicObjectPos(brama_create[playerid], brama_pos1[playerid][0], brama_pos1[playerid][1], brama_pos1[playerid][2]);
+					SetDynamicObjectRot(brama_create[playerid], brama_pos1[playerid][3], brama_pos1[playerid][4], brama_pos1[playerid][5]);
+
+					UpdateBrame_MySQL(brama_id[playerid]);
+				}
+			}
+		}
+	}
+	else if(dialogid == D_CREATE_BRAMA_TYP)
+	{
+		if(!response) return ShowBramaEdit(playerid);
+
+		brama_typ[playerid] = strval(inputtext);
+		if(brama_typ[playerid] < 0 && brama_typ[playerid] > 3)
+		{
+			sendTipMessage(playerid, "Typ od 0 do 3");
+			return ShowPlayerDialogEx(playerid, D_CREATE_BRAMA_TYP, DIALOG_STYLE_INPUT, "Edycja typu", 
+					"BRAMA_UPR_TYPE_NONE 0\n\
+                    BRAMA_UPR_TYPE_FRACTION 1\n\
+                    BRAMA_UPR_TYPE_FAMILY 2\n\
+                    BRAMA_UPR_TYPE_HOUSE 3", "Ok", "Anuluj");
+		}
+		return ShowBramaEdit(playerid);
+	}
+	else if(dialogid == D_CREATE_BRAMA_ID)
+	{
+		if(!response) return ShowBramaEdit(playerid);
+
+		brama_val[playerid] = strval(inputtext);
+		return ShowBramaEdit(playerid);
+	}
+	else if(dialogid == D_CREATE_BRAMA_SPEED)
+	{
+		if(!response) return ShowBramaEdit(playerid);
+
+		brama_speed[playerid] = strval(inputtext);
+		return ShowBramaEdit(playerid);
+	}
+	else if(dialogid == D_CREATE_BRAMA_RANGE)
+	{
+		if(!response) return ShowBramaEdit(playerid);
+
+		brama_range[playerid] = strval(inputtext);
+		return ShowBramaEdit(playerid);
+	}
 	return 0;
 }
 //ondialogresponse koniec
