@@ -14,8 +14,8 @@ forward AktywujPozar();
 public AktywujPozar()
 {
     SetTimer("UsunPozar", 3600000, false);
-    new losowy = random(10);
-    if(losowy == 5) losowy = 1;
+    new losowy = random(14);
+    //if(losowy == 5) losowy = 1;
 	if(losowy == 1)
 	{
     	SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
@@ -162,7 +162,7 @@ public AktywujPozar()
 		AddFire(1010.778,-938.445,40.229, 400);
 		AddFire(1009.228,-938.445,40.229, 400);
     }*/
-	else if(losowy == 6)
+	else if(losowy == 5)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -198,7 +198,7 @@ public AktywujPozar()
 		AddFire(2064.492,-2202.516,11.466, 400);
 		AddFire(2064.492,-2202.516,13.776, 400);
     }
-	else if(losowy == 7)
+	else if(losowy == 6)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -229,7 +229,7 @@ public AktywujPozar()
 		AddFire(1042.915,-1347.697,14.656, 400);
 		AddFire(1042.154,-1339.937,11.956, 400);
     }
-	else if(losowy == 8)
+	else if(losowy == 7)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -270,7 +270,7 @@ public AktywujPozar()
 		AddFire(687.184,-472.008,14.697, 400);
 		AddFire(684.235,-473.468,15.467, 400);
     }
-	else if(losowy == 9)
+	else if(losowy == 8)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -301,7 +301,7 @@ public AktywujPozar()
 		AddFire(2262.263,-76.155,24.344, 400);
 		AddFire(2263.484,-76.155,24.344, 400);
     }
-	else if(losowy == 10)
+	else if(losowy == 9)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -332,7 +332,7 @@ public AktywujPozar()
 		AddFire(1833.719,-1836.774,11.348, 400);
 		AddFire(1833.719,-1835.814,11.348, 400);
 	}
-	else if(losowy == 11)
+	else if(losowy == 10)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -374,7 +374,7 @@ public AktywujPozar()
 		AddFire(2208.118,-1181.046,25.019, 400);
 
 	}
-	else if(losowy == 12)
+	else if(losowy == 11)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -410,7 +410,7 @@ public AktywujPozar()
     	AddFire(2136.401,-1154.978,23.691, 400);
     	AddFire(2135.991,-1154.978,22.661, 400);
 	}
-	else if(losowy == 13)
+	else if(losowy == 12)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -446,7 +446,7 @@ public AktywujPozar()
     	AddFire(1800.627,-1166.558,22.225, 400);
     	AddFire(1799.576,-1166.558,22.225, 400);
 	}
-	else if(losowy == 14)
+	else if(losowy == 13)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
@@ -482,7 +482,7 @@ public AktywujPozar()
     	AddFire(650.267,-1479.746,18.107, 400);
     	AddFire(650.267,-1483.306,18.107, 400);
 	}
-	else if(losowy == 15)
+	else if(losowy == 14)
 	{
 		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");

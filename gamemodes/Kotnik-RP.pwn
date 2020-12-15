@@ -5616,7 +5616,7 @@ public OnGameModeInit()
 		ServerTime = tmphour;
 	}
 	//timery
-	SetTimer("AktywujPozar", 10800000, true);//System Po¿arów v0.1
+	SetTimer("AktywujPozar", 7200000, true);//System Po¿arów v0.1
     SetTimer("MainTimer", 1000, true);
     //SetTimer("MySQL_Refresh", 15000, true);
 	//SetTimer("JednaSekundaTimer", 1000, true);//1 sekunda timer
