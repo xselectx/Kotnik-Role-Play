@@ -20970,7 +20970,7 @@ CMD:wejdz(playerid)
             SetPlayerFacingAngle(playerid, 180);
             SetPlayerVirtualWorld(playerid, 90) ;
         }*/
-        else if(IsPlayerInRangeOfPoint(playerid,2.0, 1144.4740, -1333.2556, 13.8348) ||
+        else if(IsPlayerInRangeOfPoint(playerid,2.0, 1144.4740, -1329.2556, 13.8348) ||
         IsPlayerInRangeOfPoint(playerid,2.0, -2805.0967,2596.0566,-98.0829) ||
         IsPlayerInRangeOfPoint(playerid,2.0,1134.0449,-1320.7128,68.3750)||
         IsPlayerInRangeOfPoint(playerid,2.0,1183.3129,-1333.5684,88.1627)||
