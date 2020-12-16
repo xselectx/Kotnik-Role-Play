@@ -8280,6 +8280,20 @@ CMD:setskin(playerid, params[])
 				}
 			}
 		}
+        else if (PlayerInfo[playerid][pNewAP] == 6)
+        {
+            if(para1 != INVALID_PLAYER_ID)
+            {
+                if(GetPlayerState(para1) != PLAYER_STATE_ONFOOT) return sendTipMessage(playerid, "Aby nadaæ skina gracz musi byæ pieszo!");
+                SetPlayerSkin(para1, level);
+                //PlayerInfo[para1][pModel] = level;
+                
+                printf("AdmCmd: %s zmieni³ skin gracza %s na %d.", GetNick(playerid), GetNick(para1), level);
+                _MruAdmin(playerid, sprintf("Zmieni³eœ skin graczowi %s na %d", GetNick(para1, true), level));
+                if(para1 != playerid)
+                    _MruAdmin(para1, sprintf("Twój skin zosta³ zmieniony na %d przez %s", level, GetNick(playerid, true)));
+            }
+        }
 		else if (PlayerInfo[playerid][pAdmin] >= 3 && para1 == playerid)
 		{
 		    if(IsPlayerConnected(para1))
