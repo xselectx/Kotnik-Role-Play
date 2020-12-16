@@ -36046,27 +36046,34 @@ CMD:ukradnij(playerid)
     {
         if(IsAPrzestepca(playerid))
         {
-            if(PlayerOnMission[playerid] > 0)
+            if(IsPlayerInAnyVehicle(playerid))
             {
-                sendTipMessageEx(playerid, COLOR_GREY, "Jesteœ na misji, nie mo¿esz tego u¿yæ!");
-                return 1;
-            }
-            new id;
-            id = GetPlayerFraction(playerid);
-            if(id == 0) id = GetPlayerOrg(playerid)+100;
-            if(id == 0) return sendErrorMessage(playerid, "Wyst¹pi³ krytyczny b³¹d!");
-
-
-            if(UkradzionyPojazd[id] == 0)
-            {
-                GameTextForPlayer(playerid, "~w~Ukradles woz ~n~~r~Dostarcz go do zurawia", 5000, 1);
-                CP[playerid] = 1;
-                SetPlayerCheckpoint(playerid, -1548.3618,123.6438,3.2966,8.0);
-            }
-            else
-            {
-                sendTipMessageEx(playerid, COLOR_GREY, "Twoja organizacja ukrad³a ju¿ dzisiaj wóz, poczekaj a¿ policja siê uspokoi!");
-            }
+                if(UkradzioneAuto[playerid] != GetPlayerVehicleID(playerid))
+                {
+                    if(GetPlayerVehicleID(playerid) <= CAR_End) return sendTipMessage(playerid, "Musisz najpierw ukraœæ ten pojazd!");
+                } 
+                if(PlayerOnMission[playerid] > 0)
+                {
+                    sendTipMessageEx(playerid, COLOR_GREY, "Jesteœ na misji, nie mo¿esz tego u¿yæ!");
+                    return 1;
+                }
+                new id;
+                id = GetPlayerFraction(playerid);
+                if(id == 0) id = GetPlayerOrg(playerid)+100;
+                if(id == 0) return sendErrorMessage(playerid, "Wyst¹pi³ krytyczny b³¹d!");
+    
+    
+                if(UkradzionyPojazd[id] == 0)
+                {
+                    GameTextForPlayer(playerid, "~w~Ukradles woz ~n~~r~Dostarcz go do zurawia", 5000, 1);
+                    CP[playerid] = 1;
+                    SetPlayerCheckpoint(playerid, -1548.3618,123.6438,3.2966,8.0);
+                }
+                else
+                {
+                    sendTipMessageEx(playerid, COLOR_GREY, "Twoja organizacja ukrad³a ju¿ dzisiaj wóz, poczekaj a¿ policja siê uspokoi!");
+                }
+            } else return sendTipMessage(playerid, "Musisz byæ w pojeŸdzie.");
         }
         else
         {
@@ -36089,6 +36096,7 @@ CMD:kradnij(playerid)
             {
                 return sendTipMessageEx(playerid, COLOR_GRAD2, "Tego pojazdu nie da siê ukraœæ!");
             }   
+            if(UkradzioneAuto[playerid] == GetPlayerVehicleID(playerid)) return sendTipMessage(playerid, "Ukrad³eœ ju¿ ten pojazd!");
             if(NieSpamujKradnij[playerid] == 0)
    	        {
 		   	    new skillz;

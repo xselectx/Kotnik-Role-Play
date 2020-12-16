@@ -5211,8 +5211,13 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
         {
             if(KradniecieWozu[playerid] != newcar)
 		    {
-				sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Mo¿esz ukraœæ ten wóz, wpisz /kradnij spróbowaæ to zrobiæ lub /wyjdz aby wyjœæ.");
-                KradniecieWozu[playerid] = newcar;
+                new engine, unused;
+                GetVehicleParamsEx(newcar, engine, unused, unused, unused, unused, unused, unused);
+                if(!engine)
+                {
+				    sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Mo¿esz ukraœæ ten wóz, wpisz /kradnij spróbowaæ to zrobiæ lub /wyjdz aby wyjœæ.");
+                    KradniecieWozu[playerid] = newcar;
+                }
                 //if(PlayerInfo[playerid][pCarLic] == 1) TogglePlayerControllable(playerid, 0);
 			}
         }

@@ -4028,7 +4028,7 @@ CanUseCar(playerid, newcar)
 	{
 		if(PlayerInfo[playerid][pCarLic] != 1)
 		{
-			if(!IsABike(newcar))
+			if(!IsARower(newcar))
 			{
 				sendTipMessageEx(playerid, COLOR_GREY, "Nie masz prawa jazdy, postanawiasz opuœciæ pojazd!");
 				if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
