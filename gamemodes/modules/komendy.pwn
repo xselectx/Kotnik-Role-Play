@@ -26900,7 +26900,7 @@ CMD:ah(playerid)
     }
     if (PlayerInfo[playerid][pNewAP] == 6)
     {
-        SendClientMessage(playerid, COLOR_GRAD1, "*6* GAMEMASTER *** /gmduty /ado");
+        SendClientMessage(playerid, COLOR_GRAD1, "*6* GAMEMASTER *** /gmduty /ado /setskin (tymczasowe)");
     }
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
