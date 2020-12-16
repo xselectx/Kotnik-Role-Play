@@ -36006,7 +36006,7 @@ CMD:szukani(playerid)
 
 
 
-CMD:dropcar(playerid) return cmd_ukradnij(playerid);
+/*CMD:dropcar(playerid) return cmd_ukradnij(playerid);
 CMD:kradnijauto(playerid) return cmd_ukradnij(playerid);
 CMD:ukradnij(playerid)
 {
@@ -36036,6 +36036,44 @@ CMD:ukradnij(playerid)
 		}
 	}//not connected
 	return 1;
+}*/
+
+CMD:dropcar(playerid) return cmd_ukradnij(playerid);
+CMD:kradnijauto(playerid) return cmd_ukradnij(playerid);
+CMD:ukradnij(playerid)
+{
+    if(IsPlayerConnected(playerid))
+    {
+        if(IsAPrzestepca(playerid))
+        {
+            if(PlayerOnMission[playerid] > 0)
+            {
+                sendTipMessageEx(playerid, COLOR_GREY, "Jesteœ na misji, nie mo¿esz tego u¿yæ!");
+                return 1;
+            }
+            new id;
+            id = GetPlayerFraction(playerid);
+            if(id == 0) id = GetPlayerOrg(playerid)+100;
+            if(id == 0) return sendErrorMessage(playerid, "Wyst¹pi³ krytyczny b³¹d!");
+
+
+            if(UkradzionyPojazd[id] == 0)
+            {
+                GameTextForPlayer(playerid, "~w~Ukradles woz ~n~~r~Dostarcz go do zurawia", 5000, 1);
+                CP[playerid] = 1;
+                SetPlayerCheckpoint(playerid, -1548.3618,123.6438,3.2966,8.0);
+            }
+            else
+            {
+                sendTipMessageEx(playerid, COLOR_GREY, "Twoja organizacja ukrad³a ju¿ dzisiaj wóz, poczekaj a¿ policja siê uspokoi!");
+            }
+        }
+        else
+        {
+            sendTipMessageEx(playerid, COLOR_GREY, "Nie jesteœ z³odziejem aut!");
+        }
+    }//not connected
+    return 1;
 }
 
 CMD:kradnij(playerid)

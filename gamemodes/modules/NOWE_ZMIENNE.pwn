@@ -9,6 +9,8 @@ new TymczasowyOpisVar[MAX_PLAYERS];
 new TymczasowyOpisString[MAX_PLAYERS][256];
 new Text3D:TymczasowyOpis[MAX_PLAYERS];
 
+new UkradzionyPojazd[200];
+
 new AdminVPNInfo[MAX_PLAYERS];
 
 new  iloscKick[MAX_PLAYERS];
@@ -1083,6 +1085,7 @@ new SELLCAR1[] = { 1000, 1124, 1245, 1349, 1475, 1574, 1636, 1762, 1895, 1946, 2
 new SELLCAR2[] = { 2099, 2135, 2255, 2378, 2457, 2563, 2614, 2721, 2878, 2988, 3000 };
 new SELLCAR3[] = { 3058, 3175, 3212, 3377, 3454, 3555, 3678, 3751, 3865, 3964, 4000 };
 new SELLCAR4[] = { 4077, 4123, 4275, 4378, 4422, 4565, 4613, 4752, 4897, 4911, 5000 };
+new SELLCAR5[] = { 4077, 4123, 4275, 4378, 4422, 4565, 4613, 4752, 4897, 4911, 5000 };
 //new Float:ChangePos[MAX_PLAYERS][3];
 new ChangePos2[MAX_PLAYERS][2];
 new Float:PlayerPos[MAX_PLAYERS][6];

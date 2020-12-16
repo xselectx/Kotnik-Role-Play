@@ -4021,6 +4021,7 @@ public OnPlayerEnterCheckpoint(playerid)
 	{
 	    if(IsPlayerInAnyVehicle(playerid))
 	    {
+            if(!IsPlayerInRangeOfPoint(playerid, 50, -1548.3618,123.6438,3.2966)) return SetPlayerCheckpoint(playerid, -1548.3618,123.6438,3.2966,8.0);
 		    PlayerInfo[playerid][pJackSkill] ++;
 			if(PlayerInfo[playerid][pJackSkill] == 50)
 			{ _MruGracz(playerid, "* Twój skill z³odzieja samochodów wynosi teraz 2, bêdziesz wiêcej zarabiaæ oraz szybciej ukraœæ nowe auto."); }
@@ -4034,7 +4035,7 @@ public OnPlayerEnterCheckpoint(playerid)
 			if(level >= 0 && level <= 50)
 			{
 			    new rand = random(sizeof(SELLCAR1));
-			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, nastêpny pojazd mo¿esz ukraœæ za 20 minut.", SELLCAR1[rand]);
+			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, Twoja organizacja mo¿e ukraœæ nastepny pojazd dopiero jutro.", SELLCAR1[rand]);
 				_MruGracz(playerid, string);
 	  			DajKase(playerid, SELLCAR1[rand]);//moneycheat
 			    PlayerInfo[playerid][pCarTime] = 600;
@@ -4042,7 +4043,7 @@ public OnPlayerEnterCheckpoint(playerid)
 			else if(level >= 51 && level <= 100)
 			{
 			    new rand = random(sizeof(SELLCAR2));
-			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, nastêpny pojazd mo¿esz ukraœæ za 18 minut.", SELLCAR2[rand]);
+			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, Twoja organizacja mo¿e ukraœæ nastepny pojazd dopiero jutro.", SELLCAR2[rand]);
 				_MruGracz(playerid, string);
 	  			DajKase(playerid, SELLCAR2[rand]);//moneycheat
 			    PlayerInfo[playerid][pCarTime] = 540;
@@ -4050,7 +4051,7 @@ public OnPlayerEnterCheckpoint(playerid)
 			else if(level >= 101 && level <= 200)
 			{
 			    new rand = random(sizeof(SELLCAR3));
-			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, nastêpny pojazd mo¿esz ukraœæ za 16 minut.", SELLCAR3[rand]);
+			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, Twoja organizacja mo¿e ukraœæ nastepny pojazd dopiero jutro.", SELLCAR3[rand]);
 				_MruGracz(playerid, string);
 	  			DajKase(playerid, SELLCAR3[rand]);//moneycheat
 			    PlayerInfo[playerid][pCarTime] = 480;
@@ -4058,20 +4059,25 @@ public OnPlayerEnterCheckpoint(playerid)
 			else if(level >= 201 && level <= 400)
 			{
 			    new rand = random(sizeof(SELLCAR4));
-			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, nastêpny pojazd mo¿esz ukraœæ za 14 minut.", SELLCAR4[rand]);
+			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, Twoja organizacja mo¿e ukraœæ nastepny pojazd dopiero jutro.", SELLCAR4[rand]);
 				_MruGracz(playerid, string);
 	  			DajKase(playerid, SELLCAR4[rand]);//moneycheat
 			    PlayerInfo[playerid][pCarTime] = 420;
 			}
 			else if(level >= 401)
 			{
-			    new money = 6000;
-			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, nastêpny pojazd mo¿esz ukraœæ za 12 minut.", money);
+			    new rand = random(sizeof(SELLCAR5));
+			    format(string, sizeof(string), "Sprzeda³eœ pojazd za $%d, Twoja organizacja mo¿e ukraœæ nastepny pojazd dopiero jutro.", SELLCAR5[rand]);
 				_MruGracz(playerid, string);
-	  			DajKase(playerid, money);//moneycheat
+	  			DajKase(playerid, SELLCAR5[rand]);//moneycheat
 			    PlayerInfo[playerid][pCarTime] = 360;
 			}
 			GameTextForPlayer(playerid, "~y~Sprzedales pojazd", 2500, 1);
+            new id;
+            id = GetPlayerFraction(playerid);
+            if(id == 0) id = GetPlayerOrg(playerid)+100;
+            if(id == 0) return sendErrorMessage(playerid, "Wyst¹pi³ krytyczny b³¹d!");
+            UkradzionyPojazd[id] = 1;
 			CP[playerid] = 0;
 		    DisablePlayerCheckpoint(playerid);
 		    SetVehicleToRespawn(GetPlayerVehicleID(playerid));
