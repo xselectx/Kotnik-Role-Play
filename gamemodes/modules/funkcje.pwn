@@ -5144,6 +5144,13 @@ SetPlayerToTeamColor(playerid)
 			return 1;
 		}
 
+		if(GetPVarInt(playerid, "gmduty") == 1)
+		{
+			SetPlayerColor(playerid, COLOR_PURPLE);
+			return 1;
+		}
+
+
 	    if(PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1)
 		{
 		    if(OnDuty[playerid] && OnDutyCD[playerid] == 0)

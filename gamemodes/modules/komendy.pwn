@@ -16684,6 +16684,44 @@ CMD:ame(playerid, args[]) {
     return 1;
 }
 
+CMD:ado(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] >= 100 || PlayerInfo[playerid][pNewAP] == 6 || Uprawnienia(playerid, ACCESS_PANEL))
+    {
+        if(isnull(params))
+        {
+            sendTipMessage(playerid, "U¿yj /ado [opis globalnej sytuacji]");
+            return 1;
+        }
+        new string[256];
+        
+        if(strlen(params) < 78)
+        {
+            //format(string, sizeof(string), "* %s %s", GetNick(playerid, true), params);
+            format(string, sizeof(string), "* %s (( %s ))", params, GetNick(playerid, true));
+            SendClientMessageToAll(COLOR_PURPLE, string);
+        }
+        else
+        {
+            new pos = strfind(params, " ", true, strlen(params) / 2);
+            if(pos != -1)
+            {
+                new text[64];
+    
+                strmid(text, params, pos + 1, strlen(params));
+                strdel(params, pos, strlen(params));
+    
+                format(string, sizeof(string), "* %s [.]", params);
+                SendClientMessageToAll(COLOR_PURPLE, string);
+    
+                format(string, sizeof(string), "[.] %s (( %s ))", text, GetNick(playerid, true));
+                SendClientMessageToAll(COLOR_PURPLE, string);
+            }
+        }
+    } else return noAccessMessage(playerid);
+    return 1;
+}
+
 CMD:do(playerid, params[])
 {
     if(isnull(params))
@@ -17391,6 +17429,7 @@ CMD:dutymoto(playerid)
 
     if(IsPlayerConnected(playerid))
     {
+         if(GetPVarInt(playerid, "dutyadmin") == 1 || GetPVarInt(playerid, "gmduty") == 1) return sendTipMessage(playerid, "ZejdŸ z duty @");
         if(IsACop(playerid) && PoziomPoszukiwania[playerid] > 0)
         {
             sendTipMessage(playerid, "Osoby poszukiwane przez policjê nie mog¹ rozpocz¹æ s³u¿by !");
@@ -17454,6 +17493,7 @@ CMD:dutycd(playerid)
 
     if(IsPlayerConnected(playerid))
     {
+         if(GetPVarInt(playerid, "dutyadmin") == 1 || GetPVarInt(playerid, "gmduty") == 1) return sendTipMessage(playerid, "ZejdŸ z duty @");
 		if(IsACop(playerid) && PoziomPoszukiwania[playerid] > 0)
 		{
 			sendTipMessage(playerid, "Osoby poszukiwane przez policjê nie mog¹ rozpocz¹æ s³u¿by !");
@@ -17562,7 +17602,7 @@ CMD:sluzba(playerid)
 
     if(IsPlayerConnected(playerid))
     {
-        if(GetPVarInt(playerid, "dutyadmin") == 1) return sendTipMessage(playerid, "ZejdŸ z duty @");
+        if(GetPVarInt(playerid, "dutyadmin") == 1 || GetPVarInt(playerid, "gmduty") == 1) return sendTipMessage(playerid, "ZejdŸ z duty @");
         if(IsACop(playerid) && PoziomPoszukiwania[playerid] > 0)
         {
             sendTipMessage(playerid, "Osoby poszukiwane przez policjê nie mog¹ rozpocz¹æ s³u¿by !");
@@ -23963,6 +24003,37 @@ CMD:dajskryptera(playerid, params[])
     }
     return 1;
 }
+CMD:dajgma(playerid, params[])
+{
+    new string[128];
+    new giveplayer[MAX_PLAYER_NAME];
+    new sendername[MAX_PLAYER_NAME];
+
+    new para1;
+    if( sscanf(params, "k<fix>d", para1))
+    {
+        sendTipMessage(playerid, "U¿yj /dajgma [playerid/CzêœæNicku]");
+        return 1;
+    }
+
+    GetPlayerName(para1, giveplayer, sizeof(giveplayer));
+    GetPlayerName(playerid, sendername, sizeof(sendername));
+    if(!Uprawnienia(playerid, ACCESS_OWNER)) return noAccessMessage(playerid);
+    if(IsPlayerConnected(para1))
+    {
+        if(para1 != INVALID_PLAYER_ID)
+        {
+            PlayerInfo[para1][pNewAP] = 6;
+            format(string, sizeof(string), "AdmCmd: %s mianowal %s na gamemastera.", sendername, giveplayer);
+            CKLog(string);
+            format(string, sizeof(string), "Zosta³eœ mianowany na gamemastera przez %s", sendername);
+            _MruAdmin(para1, string);
+            format(string, sizeof(string), "Da³eœ %s gamemastera.", giveplayer);
+            _MruAdmin(playerid, string);
+        }
+    }
+    return 1;
+}
 CMD:dajzaufanego(playerid, params[])
 {
     if(Uprawnienia(playerid, ACCESS_ZG))
@@ -26569,6 +26640,11 @@ CMD:admini(playerid)
                 format(string, sizeof(string), "{FF6347}Admin:{FFFFFF} %s (ID: %d) @LVL: %d", GetNick(i), i, PlayerInfo[i][pAdmin]);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
             }
+            else if(PlayerInfo[i][pNewAP] == 6 && GetPVarInt(i, "gmduty") == 1)
+            {
+                format(string, sizeof(string), "{C2A2DA}Gamemaster:{FFFFFF} %s (ID: %d) ", GetNick(i), i);
+                SendClientMessage(playerid, COLOR_GRAD1, string);
+            }
             else if(PlayerInfo[i][pNewAP] == 5 && GetPVarInt(i, "dutyadmin") == 1)
             {
                 format(string, sizeof(string), "{FF6347}Skrypter:{FFFFFF} %s (ID: %d)", GetNick(i), i);
@@ -26806,6 +26882,10 @@ CMD:ah(playerid)
         SendClientMessage(playerid, COLOR_GRAD1, "*5* SKRYPTER *** /goto /gotopos /gethere /respawnplayer");
         SendClientMessage(playerid, COLOR_GRAD1, "*5* SKRYPTER *** /mark /gotomark /gotomechy /gotocar /getcar /getposp");
         SendClientMessage(playerid, COLOR_GRAD1, "*5* SKRYPTER *** /gotols /gotoszpital /gotolv /gotosf /gotoin /gotostad /gotojet");
+    }
+    if (PlayerInfo[playerid][pNewAP] == 6)
+    {
+        SendClientMessage(playerid, COLOR_GRAD1, "*6* GAMEMASTER *** /gmduty /ado");
     }
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
@@ -38716,14 +38796,14 @@ CMD:adminduty(playerid)
 
     if(GetPVarInt(playerid, "dutyadmin") == 0)
     {
-        if(OnDuty[playerid] == 1 || JobDuty[playerid] == 1 || SanDuty[playerid] == 1)//Zabezpieczenie przed duty - odkryte w doœæ ciekawy sposób, dlatego traktujemy jako easter egg
-        {
+        if(OnDuty[playerid] == 1 || JobDuty[playerid] == 1 || SanDuty[playerid] == 1 || GetPVarInt(playerid, "gmduty") == 1)//Zabezpieczenie przed duty - odkryte w doœæ ciekawy sposób, dlatego traktujemy jako easter egg
+        { 
             sendTipMessage(playerid, "Najpierw zejdŸ z duty!");
             return 1;
         }
 
         AdminDutyTimer[playerid] = SetTimerEx("AdminDutyCzas", 60000, true, "i", playerid);
-        format(string, sizeof(string), "Administrator %s wszed³  na s³u¿bê administratora!", GetNick(playerid, true));
+        format(string, sizeof(string), "Administrator %s wszed³ na s³u¿bê administratora!", GetNick(playerid, true));
         SendAdminMessage(COLOR_RED, string); 
         sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Jestes teraz na s³u¿bie pomocy nowym graczom (/tickets)");
         MSGBOX_Show(playerid, "Admin Duty ~g~ON", MSGBOX_ICON_TYPE_OK); 
@@ -38764,6 +38844,35 @@ CMD:adminduty(playerid)
         AdminDutyGodziny[playerid] = 0;
         AdminDutyMinuty[playerid] = 0;
 
+    }
+    return 1;
+}
+
+
+CMD:gmduty(playerid)
+{
+    if(PlayerInfo[playerid][pNewAP] != 6) return noAccessMessage(playerid);
+    
+    new string[256];
+    new stringlog[325];//String do logu
+    new y1,mi1,d1;//Data
+
+    if(GetPVarInt(playerid, "gmduty") == 0)
+    {
+        if(OnDuty[playerid] == 1 || JobDuty[playerid] == 1 || SanDuty[playerid] == 1 || GetPVarInt(playerid, "dutyadmin") == 1)//Zabezpieczenie przed duty - odkryte w doœæ ciekawy sposób, dlatego traktujemy jako easter egg
+        {
+            sendTipMessage(playerid, "Najpierw zejdŸ z duty!");
+            return 1;
+        }
+        MSGBOX_Show(playerid, "Game Master Duty ~g~ON", MSGBOX_ICON_TYPE_OK);
+        SetPVarInt(playerid, "gmduty", 1);
+        SetPlayerColor(playerid, COLOR_PURPLE);
+    }
+    else if(GetPVarInt(playerid, "gmduty") == 1)
+    {
+        SetPVarInt(playerid, "gmduty", 0); 
+        SetPlayerColor(playerid,TEAM_HIT_COLOR);
+        MSGBOX_Show(playerid, "Game Master Duty ~r~OFF", MSGBOX_ICON_TYPE_OK);
     }
     return 1;
 }

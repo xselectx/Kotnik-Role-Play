@@ -112,6 +112,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 					{
 						if(IsPlayerConnected(i))
 						{
+							
 							if(PlayerInfo[i][pAdmin] >= 5000 && PlayerInfo[i][pAdmin] != 5555)
 							{
 								ilosc++;
@@ -122,6 +123,11 @@ public DCC_OnMessageCreate(DCC_Message:message)
 								ilosc++;
 								format(admin_list, sizeof(admin_list), "%s\n%d. Admin %s [%d] %d@LVL", admin_list, ilosc, GetNick(i), i, PlayerInfo[i][pAdmin]);
 							}
+							else if(PlayerInfo[i][pNewAP] == 6)
+            				{
+            					ilosc++;
+            				    format(admin_list, sizeof(admin_list), "%s\n%d. Gamemaster %s [%d]", admin_list, ilosc, GetNick(i), i);
+            				}
 							else if(PlayerInfo[i][pNewAP] == 5)
 							{
 								ilosc++;
