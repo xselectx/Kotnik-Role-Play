@@ -16698,7 +16698,7 @@ CMD:ado(playerid, params[])
         if(strlen(params) < 78)
         {
             //format(string, sizeof(string), "* %s %s", GetNick(playerid, true), params);
-            format(string, sizeof(string), "* %s (( %s ))", params, GetNick(playerid, true));
+            format(string, sizeof(string), "* %s (( Narrator ))", params);
             SendClientMessageToAll(COLOR_PURPLE, string);
         }
         else
@@ -16714,7 +16714,7 @@ CMD:ado(playerid, params[])
                 format(string, sizeof(string), "* %s [.]", params);
                 SendClientMessageToAll(COLOR_PURPLE, string);
     
-                format(string, sizeof(string), "[.] %s (( %s ))", text, GetNick(playerid, true));
+                format(string, sizeof(string), "[.] %s (( Narrator ))", text);
                 SendClientMessageToAll(COLOR_PURPLE, string);
             }
         }
@@ -39879,6 +39879,34 @@ CMD:vpn_info(playerid)
             AdminVPNInfo[playerid] = 0;
             sendTipMessage(playerid, "W³¹czono.");
         }
+    }
+    return 1;
+}
+
+CMD:checknumer(playerid, params[]) return cmd_czyjtonumer(playerid, params);
+CMD:czyjtonumer(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP])
+    {
+        new number, ilosc;
+        if(sscanf(params, "d", number)) return sendTipMessage(playerid, "U¿yj /czyjtonumer [numer telefonu]");
+        if(number <= 0) return sendTipMessage(playerid, "Numer musi byæ wiêkszy ni¿ 0");
+
+        SendClientMessage(playerid, -1, sprintf("Gracze z numerem %d:", number));
+        for(new i = 0; i<MAX_PLAYERS; i++)
+        {
+            if(IsPlayerConnected(i))
+            {
+                if(PlayerInfo[i][pPnumber] == number)
+                {
+                    SendClientMessage(playerid, -1, GetNick(i));
+                    ilosc++;
+                }
+            }
+        }
+
+        if(ilosc == 0) SendClientMessage(playerid, -1, "Brak");
+
     }
     return 1;
 }
