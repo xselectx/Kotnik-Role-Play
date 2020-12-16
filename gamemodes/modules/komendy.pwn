@@ -22557,6 +22557,16 @@ CMD:a(playerid, params[])
             }
             printf("Skrypter %s: %s", sendername, params);
         }
+        if(PlayerInfo[playerid][pNewAP] == 6 && PlayerInfo[playerid][pAdmin] == 0)
+        {
+            format(string, sizeof(string), "* Gamemaster %s: %s", sendername, params);
+            if (PlayerInfo[playerid][pNewAP] >= 1)
+            {
+                //SendAdminMessage(0xFFC0CB, string);
+                SendAdminMessage(0x7AA1C9FF, string);
+            }
+            printf("Gamemaster %s: %s", sendername, params);
+        }
 
         SendDiscordMessage(DiscordSpecialChannels[DC_ADMIN_CHANNEL][1], string);
 	}
@@ -39923,5 +39933,22 @@ CMD:czyjtonumer(playerid, params[])
         if(ilosc == 0) SendClientMessage(playerid, -1, "Brak");
 
     }
+    return 1;
+}
+
+CMD:restart(playerid)
+{
+    if(IsPlayerAdmin(playerid))
+    {
+        SendClientMessageToAll(COLOR_LIGHTRED, "-------------------------------------");
+        SendClientMessageToAll(COLOR_LIGHTRED, "");
+        SendClientMessageToAll(COLOR_LIGHTRED, "Za 10 sekund nast¹pi restart serwera!");
+        SendClientMessageToAll(COLOR_LIGHTRED, "");
+        SendClientMessageToAll(COLOR_LIGHTRED, "-------------------------------------");
+
+        GMX = 1;
+        SetTimer("MySQL_DoForceGMX", 10000, false);
+
+    } else return noAccessMessage(playerid);
     return 1;
 }
