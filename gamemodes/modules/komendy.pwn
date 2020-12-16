@@ -32574,19 +32574,19 @@ CMD:dolacz(playerid)
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Jeœli akceptujesz zasady kontraktu wpisz /akceptuj praca.");
 				    GettingJob[playerid] = 4;
 				}
-				else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,1109.3318,-1796.3042,16.5938))
-				{
-				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Z³odziejem Aut, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
-				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
-				    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
-				    SendClientMessage(playerid, COLOR_WHITE, "   Twoje zadanie jest bardzo proste. Ukraœæ wóz i przewieœæ go w stanie nienaruszonym na statek przemytników w San Fierro.");
-				    SendClientMessage(playerid, COLOR_WHITE, "   Tylko niektóre pojazdy w Los Santos mo¿na ukraœæ. Dodatkowo przemytnicy przyjmuj¹ twoje ³upy co 20 minut.");
-				    SendClientMessage(playerid, COLOR_WHITE, "   Im wy¿szy skill tym wiêcej dostaniesz od przemytników za pojazd oraz ³atwiej bêdzie ci coœ zwêdziæ.");
-				    SendClientMessage(playerid, COLOR_WHITE, "   Warto równie¿ zaparkowaæ swój w³asny pojazd pod statkiem przemytników ¿eby mieæ czym wróciæ do Los Santos.");
-				    SendClientMessage(playerid, COLOR_WHITE, "   Zarobki to ok. 20k za godzinê, tak ma³o g³ównie dlatego ¿e to ³atwe zajêcie. To co zarobisz wyp³acamy co godzinê (w Pay Day)");
-				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Jeœli akceptujesz zasady kontraktu wpisz /akceptuj praca.");
-				    GettingJob[playerid] = 5;
-				}
+				//else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,1109.3318,-1796.3042,16.5938))
+				//{
+				//    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Z³odziejem Aut, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
+				//    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
+				//    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
+				//    SendClientMessage(playerid, COLOR_WHITE, "   Twoje zadanie jest bardzo proste. Ukraœæ wóz i przewieœæ go w stanie nienaruszonym na statek przemytników w San Fierro.");
+				//    SendClientMessage(playerid, COLOR_WHITE, "   Tylko niektóre pojazdy w Los Santos mo¿na ukraœæ. Dodatkowo przemytnicy przyjmuj¹ twoje ³upy co 20 minut.");
+				//    SendClientMessage(playerid, COLOR_WHITE, "   Im wy¿szy skill tym wiêcej dostaniesz od przemytników za pojazd oraz ³atwiej bêdzie ci coœ zwêdziæ.");
+				//    SendClientMessage(playerid, COLOR_WHITE, "   Warto równie¿ zaparkowaæ swój w³asny pojazd pod statkiem przemytników ¿eby mieæ czym wróciæ do Los Santos.");
+				//    SendClientMessage(playerid, COLOR_WHITE, "   Zarobki to ok. 20k za godzinê, tak ma³o g³ównie dlatego ¿e to ³atwe zajêcie. To co zarobisz wyp³acamy co godzinê (w Pay Day)");
+				//    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Jeœli akceptujesz zasady kontraktu wpisz /akceptuj praca.");
+				//    GettingJob[playerid] = 5;
+				//}
 				else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,-1932.3859,276.2117,41.0391) || PlayerToPoint(5.0, playerid,2769.8376,-1610.7819,10.9219))
 				{
 				    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ wzi¹c tej pracy!"); return 1; }
