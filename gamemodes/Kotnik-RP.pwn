@@ -837,6 +837,8 @@ public OnPlayerConnect(playerid)
     gPlayerLogged[playerid] = 0;
     SetPlayerVirtualWorld(playerid, 1488);
 
+    if(quittext_time[playerid] == 1) DestroyQuitText(playerid);
+
 	ZerujZmienne(playerid);    
 
     ClearChat(playerid);	
@@ -1017,6 +1019,7 @@ public OnPlayerDisconnect(playerid, reason)
         GetPlayerPos(playerid, Float:x, Float:y, Float:z);
         format(string, sizeof(string), "(%s wyszed³ z gry, powód: %s)", GetNick(playerid), codal);
         quittext[playerid] = Create3DTextLabel(string, COLOR_GRAD2, Float:x, Float:y, Float:z, 10, GetPlayerVirtualWorld(playerid));
+        quittext_time[playerid] = 1;
         SetTimerEx("DestroyQuitText", 20000, false, "i", playerid);
     }
 

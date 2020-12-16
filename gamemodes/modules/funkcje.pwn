@@ -13117,7 +13117,11 @@ DoAnimation(playerid, text[])
 forward DestroyQuitText(playerid);
 public DestroyQuitText(playerid)
 {
-	Delete3DTextLabel(quittext[playerid]);
+	if(quittext_time[playerid] == 1)
+	{
+		Delete3DTextLabel(quittext[playerid]);
+		quittext_time[playerid] = 0;
+	}
 }
 
 forward Wybieralka_Delay(playerid);
