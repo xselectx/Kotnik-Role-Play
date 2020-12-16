@@ -26871,6 +26871,7 @@ CMD:ah(playerid)
 	{
 		SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PӣADMIN *** /slap /aj /wybieralka /check /freeze /unfreeze /ucisz /KickEx");
         SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PӣADMIN *** /ban /goto /spec /apl /respawn /a(dmin) chat /cmdinfo /unbw /checkbw /warn");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1-2-3* PӣADMIN *** /czyjtonumer");
     }
 	if (PlayerInfo[playerid][pNewAP] == 4)
 	{
@@ -26897,7 +26898,7 @@ CMD:ah(playerid)
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /respawn /carjump /apl /goto /up /getcar /gethere");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /cnn /cc /spec /unblock /unwarn /forum /pogoda /pogodaall");
         SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /czity /respawnplayer /respawncar /unbw /cmdinfo");
-        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly /opis_usun");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly /opis_usun /czyjtonumer");
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 5)
 	{
