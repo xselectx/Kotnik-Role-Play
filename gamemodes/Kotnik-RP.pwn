@@ -917,6 +917,7 @@ public OnPlayerConnect(playerid)
 	//Pocz¹tkowe ustawienia:
     
 
+
     pNameRp[playerid][strfind(pNameRp[playerid], "_", false)] = ' ';
 	//system barierek by Kubi
 	gHeaderTextDrawId[playerid] = PlayerText:INVALID_TEXT_DRAW;
@@ -1545,12 +1546,10 @@ public OnPlayerDeath(playerid, killerid, reason)
                 //{6A5ACD}
                 format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s z obra¿eniami od: %s", pZone, GunNames[reason]);
                 SendRannyMessage(4, COLOR_DBLUE, string);
-                format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s z obra¿eniami od: %s", pZone, GunNames[reason]);
                 SendRannyMessage(17, COLOR_DBLUE, string);
             } else {
                 format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s", pZone);
                 SendRannyMessage(4, COLOR_DBLUE, string);
-                format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s z obra¿eniami od: %s", pZone, GunNames[reason]);
                 SendRannyMessage(17, COLOR_DBLUE, string);
             }
 
@@ -5231,7 +5230,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 		    {
                 new engine, unused;
                 GetVehicleParamsEx(newcar, engine, unused, unused, unused, unused, unused, unused);
-                if(!engine)
+                if(engine == 0)
                 {
 				    sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Mo¿esz ukraœæ ten wóz, wpisz /kradnij spróbowaæ to zrobiæ lub /wyjdz aby wyjœæ.");
                     KradniecieWozu[playerid] = newcar;

@@ -1450,6 +1450,12 @@ CMD:konsola(playerid, params[])
         if(PlayerInfo[playerid][pRank] < 1) return sendErrorMessage(playerid, "Potrzebujesz rangi wiêkszej od 1!");
         ShowPlayerDialogEx(playerid, DIALOG_KONSOLA_VINYL, DIALOG_STYLE_INPUT, "Konsola DJ'a", "Tutaj mo¿esz zmieniæ muzykê graj¹c¹ w klubie.\nWprowadŸ poni¿ej adres URL.", "Ustaw", "WyjdŸ");
     }
+    else if(GetPlayerOrg(playerid) == FAMILY_IBIZA)
+    {
+        if(!IsPlayerConnected(i) || !GetPVarInt(i, "IbizaWejdz") ) return sendTipMessage(playerid, "Musisz byæ w ibizie!");
+        if(PlayerInfo[playerid][pRank] < 4) return sendErrorMessage(playerid, "Potrzebujesz rangi wiêkszej od 4!");
+        MikserDialog(playerid);
+    }
     return 1;
 }
 
@@ -9814,7 +9820,7 @@ CMD:aname(playerid, params[])
     new newname[MAX_PLAYER_NAME];
     new sendername[MAX_PLAYER_NAME];
     GetPlayerName(playerid, globalname, sizeof(globalname));
-    if (PlayerInfo[playerid][pAdmin] == 5000 || PlayerInfo[playerid][pNewAP] == 6)//(Uprawnienia(playerid, ACCESS_OWNER))
+    if (PlayerInfo[playerid][pAdmin] >= 5000 || PlayerInfo[playerid][pNewAP] == 6)//(Uprawnienia(playerid, ACCESS_OWNER))
     {
         if(sscanf(params, "s[128]", newname))
         {
@@ -32561,7 +32567,7 @@ CMD:dolacz2(playerid, params[])
     {
         print("true");
          format(string, sizeof(string), "£owca nagród\nPrawnik\nMechanik\nOchroniarz\nPizzaboy\nTrener boksu\nKurier");
-         ShowPlayerDialog(playerid, JOB_CENTER_DIALOG, DIALOG_STYLE_LIST, "Kotnik-RP | Rynek pracy", string, "Wybierz", "Anuluj");
+         ShowPlayerDialog(playerid, D_JOB_CENTER_DIALOG, DIALOG_STYLE_LIST, "Kotnik-RP | Rynek pracy", string, "Wybierz", "Anuluj");
     }
     return 1;
 }
