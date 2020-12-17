@@ -1168,9 +1168,15 @@ public udalo3(playerid){
     {
     	new komunikat[128];
     	new nick[MAX_PLAYER_NAME];
+    	new pZone[MAX_ZONE_NAME];
+    	new pojazd = GetPlayerVehicleID(playerid);
+    	new pdinfo[256];
     	GetPlayerName(playerid, nick, sizeof(nick));
     	format(komunikat, sizeof(komunikat),"* %s ³¹czy odpowiednie kabelki i wy³¹czy³ alarm.", nick);
     	ProxDetector(20.0, playerid, komunikat, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+    	GetPlayer2DZone(playerid, pZone, MAX_ZONE_NAME);
+    	format(pdinfo, sizeof(pdinfo), "[911]: Poszukiwany pojazd: %s ostatnio widziany w okolicy: %s ",VehicleNames[GetVehicleModel(pojazd)-400], pZone);
+		SendFamilyMessage(1, COLOR_YELLOW, pdinfo);
     	TogglePlayerControllable(playerid, 1);
     	NieSpamujKradnij[playerid] = 0;
     	SendClientMessage(playerid, COLOR_GRAD2, "Skill z³odzieja aut +1");
@@ -1235,17 +1241,23 @@ public nieudalo3(playerid){
 //alarm siê w³¹cza
     if (GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
     {
+    	new pZone[MAX_ZONE_NAME];
+    	new pojazd = GetPlayerVehicleID(playerid);
+    	new pdinfo[256];
     	new komunikat[128];
     	new nick[MAX_PLAYER_NAME];
     	new vehi = GetPlayerVehicleID(playerid);
     	new engine, lights, alarm, doors, bonnet, boot, objective;
     	GetPlayerName(playerid, nick, sizeof(nick));
+		GetPlayer2DZone(playerid, pZone, MAX_ZONE_NAME);
     	format(komunikat, sizeof(komunikat),"* %s Ÿle ³¹czy kabelki po czym w³¹cza siê alarm.", nick);
     	ProxDetector(20.0, playerid, komunikat, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
         GetVehicleParamsEx(vehi, engine, lights, alarm, doors, bonnet, boot, objective);
         SetVehicleParamsEx(vehi, engine, lights, true, doors, bonnet, boot, objective);
     	SetTimerEx("WylaczAlarm", 90000, false, "d", vehi);
     	SendClientMessage(playerid, COLOR_PANICRED, "Uciekaj! Zaraz tu bêd¹ gliny!");
+    	format(pdinfo, sizeof(pdinfo), "[911]: Zg³oszono próbê kradzie¿y pojazdu %s w okolicy %s ",VehicleNames[GetVehicleModel(pojazd)-400], pZone);
+		SendFamilyMessage(1, COLOR_LIGHTRED, pdinfo);
     	TogglePlayerControllable(playerid, 1);
     	RemovePlayerFromVehicleEx(playerid);
     	KradniecieWozu[playerid] = 0;
@@ -13648,7 +13660,7 @@ LoadActors()
 {
 	// DMV
 	Urzednicy[0] = CreateDynamicActor(59, 1478.8176,-1813.0219,135.4223,45.4494, 1, 10, 50, 0); //facet
-	UrzednicyName[0] = CreateDynamic3DTextLabel("Bruce_Langley\n({e0a73d}/kuplicencje{FFFFFF})", COLOR_WHITE, 1478.8176,-1813.0219,135.4223+1.1, 15, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50, 0);
+	UrzednicyName[0] = CreateDynamic3DTextLabel("Wesley_Iglesias\n(kierownik)\n({e0a73d}/kuplicencje{FFFFFF})", COLOR_WHITE, 1478.8176,-1813.0219,135.4223+1.1, 15, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50, 0); //ku czci serinho by³ego kierownika KO [*]
 	Urzednicy[1] = CreateDynamicActor(141, 1481.5709,-1813.7225,135.4271,291.1050, 1, 10, 50, 0); //kobieta
 	UrzednicyName[1] = CreateDynamic3DTextLabel("Kristin_Dinkins\n({e0a73d}/kuplicencje{FFFFFF})", COLOR_WHITE, 1481.5709,-1813.7225,135.4271+1.1, 15, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50, 0);
 	Urzednicy[2] = CreateDynamicActor(60, 1479.6134,-1815.8400,135.4237,162.2274, 1, 10, 50, 0); //facet 2
