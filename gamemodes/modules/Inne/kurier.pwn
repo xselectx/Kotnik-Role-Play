@@ -2,8 +2,8 @@
 
 enum courier
 {
-	ammount, 
-	price
+	c_ammount, 
+	c_price
 }
 new pCourier[MAX_PLAYERS][courier];
 

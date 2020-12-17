@@ -1452,7 +1452,7 @@ CMD:konsola(playerid, params[])
     }
     else if(GetPlayerOrg(playerid) == FAMILY_IBIZA)
     {
-        if(!IsPlayerConnected(i) || !GetPVarInt(i, "IbizaWejdz") ) return sendTipMessage(playerid, "Musisz byæ w ibizie!");
+        if(!IsPlayerConnected(playerid) || !GetPVarInt(playerid, "IbizaWejdz") ) return sendTipMessage(playerid, "Musisz byæ w ibizie!");
         if(PlayerInfo[playerid][pRank] < 4) return sendErrorMessage(playerid, "Potrzebujesz rangi wiêkszej od 4!");
         MikserDialog(playerid);
     }
@@ -32561,13 +32561,13 @@ CMD:wez(playerid, params[])
 CMD:dolacz2(playerid, params[])
 {
     new string[256];
-    if(!PlayerInfo[playerid][pJob] == 1) return sendTipMessage(playerid, "Posiadasz ju¿ pracê!");
+    if(PlayerInfo[playerid][pJob] != 0) return sendTipMessage(playerid, "Posiadasz ju¿ pracê!");
     print("chuj");
     if(IsPlayerInRangeOfPoint(playerid, 3.0, 1765.4259,-2049.0200,14.0167))
     {
         print("true");
-         format(string, sizeof(string), "£owca nagród\nPrawnik\nMechanik\nOchroniarz\nPizzaboy\nTrener boksu\nKurier");
-         ShowPlayerDialog(playerid, D_JOB_CENTER_DIALOG, DIALOG_STYLE_LIST, "Kotnik-RP | Rynek pracy", string, "Wybierz", "Anuluj");
+        format(string, sizeof(string), "£owca nagród\nPrawnik\nMechanik\nOchroniarz\nPizzaboy\nTrener boksu\nKurier");
+        ShowPlayerDialog(playerid, D_JOB_CENTER_DIALOG, DIALOG_STYLE_LIST, "Kotnik-RP | Rynek pracy", string, "Wybierz", "Anuluj");
     }
     return 1;
 }

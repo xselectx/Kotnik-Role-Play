@@ -4933,19 +4933,22 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 
     if((newstate != PLAYER_STATE_DRIVER && newstate != PLAYER_STATE_PASSENGER) && (oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER))
     {
-        if(pasy[playerid] == 1) 
+        if(Spectate[playerid] == INVALID_PLAYER_ID)
         {
-            pasy[playerid] = 0;
-            format(string, sizeof(string), "* %s odpina pasy.", GetNick(playerid, true));
-            ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-            cmd_op(playerid);
-        }
-        if(kask[playerid] == 1)
-        {
-            kask[playerid] = 0;
-            format(string, sizeof(string), "* %s œci¹ga kask z g³owy.", GetNick(playerid, true));
-            ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-            RemovePlayerAttachedObject(playerid, 2);
+            if(pasy[playerid] == 1) 
+            {
+                pasy[playerid] = 0;
+                format(string, sizeof(string), "* %s odpina pasy.", GetNick(playerid, true));
+                ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                cmd_op(playerid);
+            }
+            if(kask[playerid] == 1)
+            {
+                kask[playerid] = 0;
+                format(string, sizeof(string), "* %s œci¹ga kask z g³owy.", GetNick(playerid, true));
+                ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                RemovePlayerAttachedObject(playerid, 2);
+            }
         }
     }
 
@@ -6656,6 +6659,21 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
         Spectate[playerid] = INVALID_PLAYER_ID;
         TogglePlayerSpectating(playerid, 0);
         SetPlayerSkin(playerid, Unspec[playerid][sSkinID]);
+        new string[128];
+        if(pasy[playerid] == 1) 
+        {
+            pasy[playerid] = 0;
+            format(string, sizeof(string), "* %s odpina pasy.", GetNick(playerid, true));
+            ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+            cmd_op(playerid);
+        }
+        if(kask[playerid] == 1)
+        {
+            kask[playerid] = 0;
+            format(string, sizeof(string), "* %s œci¹ga kask z g³owy.", GetNick(playerid, true));
+            ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+            RemovePlayerAttachedObject(playerid, 2);
+        }
         return 0;
     }
     //30.10
