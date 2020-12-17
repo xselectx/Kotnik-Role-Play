@@ -3448,7 +3448,7 @@ CMD:respawn(playerid)
 		{
 			SendClientMessage(playerid,COLOR_YELLOW, "Odliczanie rozpoczête");
 			BroadCast(COLOR_PANICRED, "Uwaga! Za 20 sekund nast¹pi respawn nieu¿ywanych pojazdów !");
-			format(string, sizeof(string), "AdmCmd: %s [ID: %d] rozpocz¹³ odliczanie do Respawnu Aut !", GetNick(playerid, true), playerid);
+			format(string, sizeof(string), "Administrator %s [ID: %d] rozpocz¹³ odliczanie do Respawnu Aut !", GetNick(playerid, true), playerid);
 			ABroadCast(COLOR_PANICRED,string,1);
 			CountDown();
 		}
@@ -3510,7 +3510,7 @@ CMD:respawncar(playerid, params[])
 
 CMD:maska(playerid)
 {
-	if(IsAPrzestepca(playerid) || IsATajniak(playerid))
+	if(IsAPrzestepca(playerid) || IsATajniak(playerid) || IsACop(playerid))
 	{
 		new string[64];
 		new sendername[MAX_PLAYER_NAME];
@@ -9805,6 +9805,29 @@ CMD:sblok(playerid, params[])
 		}
 	}
 	return 1;
+}
+
+CMD:aname(playerid, params[])
+{
+    new string[256];
+    new globalname[MAX_PLAYER_NAME];
+    new newname[MAX_PLAYER_NAME];
+    new sendername[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, globalname, sizeof(globalname));
+    if (PlayerInfo[playerid][pAdmin] == 5000 || PlayerInfo[playerid][pNewAP] == 6)//(Uprawnienia(playerid, ACCESS_OWNER))
+    {
+        if(sscanf(params, "s[128]", newname))
+        {
+            sendTipMessage(playerid, "U¿yj /aname [Imie_Nazwisko]");
+            return 1;
+        }
+
+        format(string, sizeof(string), "Administrator %s [ID: %d UID: %d] @@ Tymczasowy nick: -> %s @@", globalname, playerid, PlayerInfo[playerid][pUID], newname);
+        ABroadCast(COLOR_LIGHTRED,string,1);
+        SetPlayerName(playerid, newname);
+        sendTipMessage(playerid, "Ustawiono tymczasowy nick -> Aby przywróciæ swój domyœlny nick przeloguj siê");
+    }
+    return 1;
 }
 
 CMD:setname(playerid, params[])
@@ -32529,6 +32552,20 @@ CMD:wez(playerid, params[])
 	return 1;
 }
 
+CMD:dolacz2(playerid, params[])
+{
+    new string[256];
+    if(!PlayerInfo[playerid][pJob] == 1) return sendTipMessage(playerid, "Posiadasz ju¿ pracê!");
+    print("chuj");
+    if(IsPlayerInRangeOfPoint(playerid, 3.0, 1765.4259,-2049.0200,14.0167))
+    {
+        print("true");
+         format(string, sizeof(string), "£owca nagród\nPrawnik\nMechanik\nOchroniarz\nPizzaboy\nTrener boksu\nKurier");
+         ShowPlayerDialog(playerid, JOB_CENTER_DIALOG, DIALOG_STYLE_LIST, "Kotnik-RP | Rynek pracy", string, "Wybierz", "Anuluj");
+    }
+    return 1;
+}
+
 CMD:join(playerid) return cmd_dolacz(playerid);
 CMD:dolacz(playerid)
 {
@@ -32540,7 +32577,7 @@ CMD:dolacz(playerid)
 			{
 			    if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,322.3034,317.0233,999.1484))
 				{
-				    if(PlayerInfo[playerid][pGunLic] == 1)
+				 if(PlayerInfo[playerid][pGunLic] == 1)
 				    {
 					    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
 					    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ £owc¹ Nagród, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
@@ -38389,7 +38426,7 @@ CMD:c(playerid, params[])
 
 CMD:scena(playerid, params[])
 {
-    if(GetPlayerFraction(playerid) == FRAC_SN && PlayerInfo[playerid][pAdmin] < 200)
+    if(GetPlayerFraction(playerid) == FRAC_SN && PlayerInfo[playerid][pAdmin] < 200 && PlayerInfo[playerid][pNewAP] == 6)
     {
         if(GetPVarInt(playerid, "scena-allow") != 1)
         {
