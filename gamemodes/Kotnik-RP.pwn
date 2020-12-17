@@ -102,6 +102,7 @@ KotnikÆ Role Play
 #include "modules/timery.pwn"
 
 #include "modules/inne/pizzaboy.pwn"
+#include "modules/inne/kurier.pwn"
 
 #include "modules/Inne/system_discord.pwn"
 /*#include "modules/obiekty/stare_obiekty.pwn"
@@ -1536,7 +1537,7 @@ public OnPlayerDeath(playerid, killerid, reason)
             SetPVarInt(playerid, "bw-vw", GetPlayerVirtualWorld(playerid));
             SetPVarInt(playerid, "bw-int", GetPlayerInterior(playerid));
             SetPVarInt(playerid, "bw-sync", 0);
-            SetPlayerChatBubble(playerid, "**Ranny**", 0xFF0000FF, 5, 5000);
+            SetPlayerChatBubble(playerid, "(( ranny, nieprzytomny ))", 0xFF0000FF, 5, 5000);
 
             GetPlayer2DZone(playerid, pZone, MAX_ZONE_NAME);
             if(reason > 0 && reason <= 46)
@@ -1544,9 +1545,13 @@ public OnPlayerDeath(playerid, killerid, reason)
                 //{6A5ACD}
                 format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s z obraøeniami od: %s", pZone, GunNames[reason]);
                 SendRannyMessage(4, COLOR_DBLUE, string);
+                format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s z obraøeniami od: %s", pZone, GunNames[reason]);
+                SendRannyMessage(17, COLOR_DBLUE, string);
             } else {
                 format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s", pZone);
                 SendRannyMessage(4, COLOR_DBLUE, string);
+                format(string, sizeof(string), "Centrala: {f35234}Ranny{FFFFFF} w okolicy %s z obraøeniami od: %s", pZone, GunNames[reason]);
+                SendRannyMessage(17, COLOR_DBLUE, string);
             }
 
             format(string, sizeof(string), "{f35234}Jesteú ranny!\n{FFFFFF}Moøesz wezwaÊ pomoc (/wezwij medyk, /dzwon 911) lub poczekaÊ %d sekund.\nGracze z apteczkπ mogπ udzieliÊ Ci pomocy medycznej za pomocπ (/apteczka).\nZalecamy odgrywaÊ odniesione obraøenia.", PlayerInfo[playerid][pBW]);
@@ -1579,7 +1584,7 @@ public OnPlayerDeath(playerid, killerid, reason)
                 SetPVarInt(playerid, "bw-vw", 90);
                 SetPVarInt(playerid, "bw-int", 0);
                 SetPVarInt(playerid, "bw-sync", 0);
-                SetPlayerChatBubble(playerid, "**Ranny**", 0xFF0000FF, 5, 5000);
+                SetPlayerChatBubble(playerid, "(( ranny, nieprzytomny ))", 0xFF0000FF, 5, 5000);
 
                 if(reason > 0 && reason <= 46)
                 {
@@ -1601,7 +1606,7 @@ public OnPlayerDeath(playerid, killerid, reason)
                 SetPVarInt(playerid, "bw-vw", GetPlayerVirtualWorld(playerid));
                 SetPVarInt(playerid, "bw-int", GetPlayerInterior(playerid));
                 SetPVarInt(playerid, "bw-sync", 0);
-                SetPlayerChatBubble(playerid, "**Ranny**", 0xFF0000FF, 5, 5000);
+                SetPlayerChatBubble(playerid, "(( Ten gracz nie øyje ))", 0xFF0000FF, 5, 5000);
             }
 
                                 
@@ -1637,7 +1642,17 @@ public OnPlayerDeath(playerid, killerid, reason)
 		StopAudioStreamForPlayer(playerid);
 		gPlayerSpawned[playerid] = 0;
 		PlayerInfo[playerid][pLocal] = 255;
+
+        //------<[     LSPD       ]>--------
+
+        new komunikat[128];
+        new nick[MAX_PLAYER_NAME];
+        new pZone[MAX_ZONE_NAME];
+        new pdinfo[256];
 		
+        GetPlayer2DZone(playerid, pZone, MAX_ZONE_NAME);
+        format(pdinfo, sizeof(pdinfo), "[911]: Prawdopodobna strzelanina bπdü przemoc w okolicy %s", pZone);
+        SendFamilyMessage(1, COLOR_YELLOW, pdinfo);
 
 		//-------<[  Antyczity  ]>---------
 		if(reason <= 54 && reason > 0)
