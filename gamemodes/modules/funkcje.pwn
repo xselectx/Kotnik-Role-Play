@@ -5772,7 +5772,6 @@ ZapiszTrase(trasa)
 	return 1;
 }
 
-
 public MRP_ShopPurchaseCar(playerid, model, cena)
 {
     if(IsPlayerInAnyVehicle(playerid))

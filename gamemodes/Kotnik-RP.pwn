@@ -1643,9 +1643,6 @@ public OnPlayerDeath(playerid, killerid, reason)
 		PlayerInfo[playerid][pLocal] = 255;
 
         //------<[     LSPD       ]>--------
-
-        new komunikat[128];
-        new nick[MAX_PLAYER_NAME];
         new pZone[MAX_ZONE_NAME];
         new pdinfo[256];
 		
@@ -7153,6 +7150,84 @@ public OnPlayerText(playerid, text[])
         }
         return 0;
     }
+
+    //---
+
+    if (!strcmp(text, ":D", true))
+    {
+        cmd_ame(playerid, "œmieje siê.");
+        return 0;
+    }
+
+    if (!strcmp(text, ":P", true))
+    {
+        cmd_ame(playerid, "wystawia jêzyk.");
+        return 0;
+    }
+
+    if (!strcmp(text, "XD", true))
+    {
+        cmd_ame(playerid, "wybucha œmiechem.");
+        return 0;
+    }
+
+    if (!strcmp(text, "xD", true))
+    {
+        cmd_ame(playerid, "wybucha œmiechem.");
+        return 0;
+    }
+
+    if (!strcmp(text, "Xd", true))
+    {
+        cmd_ame(playerid, "wybucha œmiechem.");
+        return 0;
+    }
+
+    if (!strcmp(text, ":)", true))
+    {
+        cmd_ame(playerid, "uœmiecha siê.");
+        return 0;
+    }
+
+    if (!strcmp(text, ";)", true))
+    {
+        cmd_ame(playerid, "puszcza oczko.");
+        return 0;
+    }
+
+    //---
+
+
+    if (strfind(text, ":D", true) != -1)
+    {
+        new posa = strfind(text, ":D", true);
+        strdel(text, posa, posa + 2);
+        cmd_ame(playerid, "œmieje siê.");
+    }
+
+    if (strfind(text, ":P", true) != -1)
+    {
+        new posa = strfind(text, ":P", true);
+        strdel(text, posa, posa + 2);
+        cmd_ame(playerid, "wystawia jêzyk.");
+    }
+
+    if (strfind(text, ":)", true) != -1)
+    {
+        new posa = strfind(text, ":)", true);
+        strdel(text, posa, posa + 2);
+        cmd_ame(playerid, "uœmiecha siê.");
+    }
+
+    if (strfind(text, ";)", true) != -1)
+    {
+        new posa = strfind(text, ";)", true);
+        strdel(text, posa, posa + 2);
+        cmd_ame(playerid, "puszcza oczko.");
+    }
+
+    //---
+
 
     //printf("OnPlayerText: %s", text);
 
