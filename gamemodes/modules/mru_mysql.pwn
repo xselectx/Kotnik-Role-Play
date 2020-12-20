@@ -1262,7 +1262,7 @@ bool:MruMySQL_SprawdzBany(playerid)
         mysql_free_result();
 		sscanf(query, "p<|>s[128]s[32]ds[64]s[32]",GPCI, admin, id, powod, czas);
 
-		SendClientMessage(playerid, COLOR_NEWS, "Twoje GPCI jest zbanowane.");
+		SendClientMessage(playerid, COLOR_NEWS, "Twoje konto jest zbanowane.");
 		format(string, sizeof(string), "{FFA500}Nadaj¹cy: %s ({FF8C00}%d{FFA500}) | Powód: {FF8C00}%s{FFA500} | Data: %s", admin,id, powod,czas);
 		SendClientMessage(playerid, COLOR_NEWS, string);
 		return true;
