@@ -8,6 +8,12 @@
 #define NULL 0
 native SendClientCheck(clientid, actionid, arg1= 0x00000000, arg2= 0x0000, bytes= 0x0004); // int32, int8, int32, int16, int16 
 
+native gpci(playerid, serial[], len);
+
+// globalny string
+new C_STRING[2048];
+//
+
 #define MAX_AFK_TIME 3000
 
 #define BODY_PART_TORSO 3
@@ -476,6 +482,7 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define DIALOG_LIDER02 3002
 
 #define DIALOG_APL 4550
+#define DIALOG_ID_NO_RESPONSE 4600
 
 // sprzedaz apteczek
 

@@ -1165,7 +1165,7 @@ CMD:pomoc(playerid)
     {
         SendClientMessage(playerid, COLOR_GRAD6, "*** ADMIN *** (/a)dmin (/ah)elp");
     }
-    SendClientMessage(playerid, COLOR_GRAD6,"*** INNE *** /telefonpomoc /dompomoc /wynajempomoc /bizpomoc /liderpomoc /rybypomoc /gotowaniepomoc /ircpomoc /anim");
+    SendClientMessage(playerid, COLOR_GRAD6,"*** INNE *** /telefonpomoc /dompomoc /wynajempomoc /liderpomoc /rybypomoc /ircpomoc /anim");
     SendClientMessage(playerid, COLOR_GRAD6,"*** INNE *** Pomoc od supportu: {FFFFFF}/zapytaj");
     return 1;
 }
@@ -1601,11 +1601,13 @@ CMD:pokazcb(playerid)
 	{
 		if(adminpodgladcb[playerid] == 0)
 		{
+            sendTipMessage(playerid, "INFO: W³¹czy³eœ podgl¹d CB-radia!");
 			adminpodgladcb[playerid] = 1;
 			return 1;
 		}
 		else
 		{
+            sendTipMessage(playerid, "INFO: Wy³¹czy³eœ podgl¹d CB-radia!");
 			adminpodgladcb[playerid] = 0;
 			return 1;
 		}
@@ -9820,6 +9822,7 @@ CMD:aname(playerid, params[])
     new newname[MAX_PLAYER_NAME];
     new sendername[MAX_PLAYER_NAME];
     GetPlayerName(playerid, globalname, sizeof(globalname));
+    if(GetPVarInt(playerid, "admintempname") == 1) return sendTipMessage(playerid, "B£¥D: Przeloguj siê aby ponownie zmieniæ nick");
     if (PlayerInfo[playerid][pAdmin] >= 5000 || PlayerInfo[playerid][pNewAP] == 6)//(Uprawnienia(playerid, ACCESS_OWNER))
     {
         if(sscanf(params, "s[128]", newname))
@@ -9831,6 +9834,7 @@ CMD:aname(playerid, params[])
         format(string, sizeof(string), "Administrator %s [ID: %d UID: %d] @@ Tymczasowy nick: -> %s @@", globalname, playerid, PlayerInfo[playerid][pUID], newname);
         ABroadCast(COLOR_LIGHTRED,string,1);
         SetPlayerName(playerid, newname);
+        SetPVarInt(playerid, "admintempname", 1);
         sendTipMessage(playerid, "Ustawiono tymczasowy nick -> Aby przywróciæ swój domyœlny nick przeloguj siê");
     }
     return 1;
@@ -15334,6 +15338,53 @@ CMD:datek(playerid, params[])
 	return 1;
 }*/
 
+/*CMD:stats2(playerid, params[])
+{
+    new realname[MAX_PLAYER_NAME];
+    new gpci_string[186];
+    new atext[20];
+    new otext[20];
+    new btext[40];
+    new age = PlayerInfo[playerid][pAge];
+    new ptime = PlayerInfo[playerid][pConnectTime];
+    new znick = PlayerInfo[playerid][pZmienilNick];
+    new lotto = PlayerInfo[playerid][pLottoNr];
+    new deaths = PlayerInfo[playerid][pDeaths];
+    new fishes = PlayerInfo[playerid][pFishes];
+    new bigfish = PlayerInfo[playerid][pBiggestFish];
+    new crimes = PlayerInfo[playerid][pCrimes];
+    new arrests = PlayerInfo[playerid][pArrested];
+    new warrests = PlayerInfo[playerid][pWantedDeaths];
+    new drugs = PlayerInfo[playerid][pDrugs];
+    new mats = PlayerInfo[playerid][pMats];
+    new wanted = PoziomPoszukiwania[playerid];
+    new level = PlayerInfo[playerid][pLevel];
+    new exp = PlayerInfo[playerid][pExp];
+    new kills = PlayerInfo[playerid][pKills];
+    new pnumber = PlayerInfo[playerid][pPnumber];
+    new account = PlayerInfo[playerid][pAccount];
+    new nxtlevel = PlayerInfo[playerid][pLevel]+1;
+    new expamount = nxtlevel*levelexp;
+    new costlevel = nxtlevel*levelcost;//10k for testing purposes
+    new housekey = PlayerInfo[playerid][pDom];
+
+    GetPlayerName(playerid, realname, sizeof(realname));
+    gpci(playerid, gpci_string, sizeof(gpci_string));
+    if(PlayerInfo[playerid][pSex] == 1) { atext = "Mê¿czyzna"; }
+    else if(PlayerInfo[playerid][pSex] == 2) { atext = "Kobieta"; }
+    if(PlayerInfo[playerid][pOrigin] == 1) { otext = "USA"; }
+    else if(PlayerInfo[playerid][pOrigin] == 2) { otext = "Europa"; }
+    else if(PlayerInfo[playerid][pOrigin] == 3) { otext = "Azja"; }
+    if(PlayerInfo[playerid][pAdmin] >= 1) { btext = "{FF0000}Administrator"; }
+    else if(PlayerInfo[playerid][pAdmin] == 0) { btext = "{FFFFFF}Gracz"; }
+
+
+
+    format(C_STRING, sizeof C_STRING, "{4286F4}%s (UID: %d)\n{FFFFFF}Status konta: %s", realname, PlayerInfo[playerid][pUID], btext );
+    ShowPlayerDialog(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_LIST, " Kotnik-RP - statystyki postaci", C_STRING, "WyjdŸ", "");
+    return 1;
+}*/
+
 CMD:stats(playerid) return cmd_staty(playerid);
 CMD:statystyki(playerid) return cmd_staty(playerid);
 CMD:staty(playerid)
@@ -19709,6 +19760,8 @@ CMD:otworzlinie(playerid, p[])
     return 1;
 }
 
+
+
 CMD:txt(playerid, params[]) return cmd_sms(playerid, params);
 CMD:t(playerid, params[]) return cmd_sms(playerid, params);
 CMD:sms(playerid, params[])
@@ -22596,6 +22649,16 @@ CMD:a(playerid, params[])
             }
             printf("Gamemaster %s: %s", sendername, params);
         }
+        if(PlayerInfo[playerid][pZG] >= 1 && PlayerInfo[playerid][pAdmin] == 0)
+        {
+            format(string, sizeof(string), "* Supporter %s: %s", sendername, params);
+            if (PlayerInfo[playerid][pZG] >= 1)
+            {
+                //SendAdminMessage(0xFFC0CB, string);
+                SendAdminMessage(0x7AA1C9FF, string);
+            }
+            printf("Supporter %s: %s", sendername, params);
+        }
 
         SendDiscordMessage(DiscordSpecialChannels[DC_ADMIN_CHANNEL][1], string);
 	}
@@ -24087,7 +24150,7 @@ CMD:dajgma(playerid, params[])
     }
     return 1;
 }
-CMD:dajzaufanego(playerid, params[])
+CMD:dajsupportera(playerid, params[])
 {
     if(Uprawnienia(playerid, ACCESS_ZG))
     {
@@ -24097,27 +24160,30 @@ CMD:dajzaufanego(playerid, params[])
     	new sendername[MAX_PLAYER_NAME];
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /dajzaufanego [playerid/CzêœæNicku] [1- 10]");
+			sendTipMessage(playerid, "U¿yj /dajsupportera [playerid/CzêœæNicku] [1- 5]");
 			return 1;
 		}
+
+        
+
 	    if(IsPlayerConnected(para1))
 	    {
-            if(level >= 0 && level <= 10)
+            if(level >= 0 && level <= 5)
             {
                 GetPlayerName(para1, giveplayer, sizeof(giveplayer));
 				GetPlayerName(playerid, sendername, sizeof(sendername));
-				format(string, sizeof(string), "AdmCmd: %s mianowa³ %s na %d level zaufanego.", sendername, giveplayer, level);
+				format(string, sizeof(string), "Administrator: %s mianowa³ %s na %d poziom supportera.", sendername, giveplayer, level);
 				CKLog(string);
-				format(string, sizeof(string), "Zosta³eœ mianowany na %d level zaufanego gracza przez %s", level, sendername);
+				format(string, sizeof(string), "Zosta³eœ mianowany na %d poziom supportera przez %s", level, sendername);
 				_MruAdmin(para1, string);
-				format(string, sizeof(string), "Da³eœ %s zaufanego o levelu %d.", giveplayer,level);
+				format(string, sizeof(string), "Da³eœ %s supportera poziomu %d.", giveplayer,level);
 				_MruAdmin(playerid, string);
 
                 PlayerInfo[para1][pZG] = level;
             }
 			else
 			{
-				sendTipMessageEx(playerid, COLOR_NEWS, "Level od 1 do 10!");
+				sendTipMessageEx(playerid, COLOR_NEWS, "Level od 1 do 5!");
 			}
 		}
 	}
@@ -26696,6 +26762,11 @@ CMD:admini(playerid)
             else if(PlayerInfo[i][pNewAP] == 6 && GetPVarInt(i, "gmduty") == 1)
             {
                 format(string, sizeof(string), "{C2A2DA}Gamemaster:{FFFFFF} %s (ID: %d) ", GetNick(i), i);
+                SendClientMessage(playerid, COLOR_GRAD1, string);
+            }
+            else if(PlayerInfo[i][pZG] > 0 && PlayerInfo[i][pZG] < 5 && GetPVarInt(i, "supportduty") == 1)
+            {
+                format(string, sizeof(string), "{2396FF}Supporter:{FFFFFF} %s (ID: %d) ", GetNick(i), i);
                 SendClientMessage(playerid, COLOR_GRAD1, string);
             }
             else if(PlayerInfo[i][pNewAP] == 5 && GetPVarInt(i, "dutyadmin") == 1)
@@ -31127,9 +31198,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 1 && Fishes[playerid][pWeight1] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 1!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish1], Fishes[playerid][pWeight1], Fishes[playerid][pWeight1]*20);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish1], Fishes[playerid][pWeight1], Fishes[playerid][pWeight1]*30);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight1]*25);
+			DajKase(playerid, Fishes[playerid][pWeight1]*35);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31138,9 +31209,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 2 && Fishes[playerid][pWeight2] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 2!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish2], Fishes[playerid][pWeight2], Fishes[playerid][pWeight2]*20);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish2], Fishes[playerid][pWeight2], Fishes[playerid][pWeight2]*50);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight2]*25);
+			DajKase(playerid, Fishes[playerid][pWeight2]*55);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31149,9 +31220,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 3 && Fishes[playerid][pWeight3] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 3!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish3], Fishes[playerid][pWeight3], Fishes[playerid][pWeight3]*20);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish3], Fishes[playerid][pWeight3], Fishes[playerid][pWeight3]*50);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight3]*25);
+			DajKase(playerid, Fishes[playerid][pWeight3]*55);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31160,9 +31231,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 4 && Fishes[playerid][pWeight4] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 4!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish4], Fishes[playerid][pWeight4], Fishes[playerid][pWeight4]*20);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish4], Fishes[playerid][pWeight4], Fishes[playerid][pWeight4]*50);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight4]*25);
+			DajKase(playerid, Fishes[playerid][pWeight4]*55);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31171,9 +31242,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 5 && Fishes[playerid][pWeight5] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 5!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish5], Fishes[playerid][pWeight5], Fishes[playerid][pWeight5]*20);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish5], Fishes[playerid][pWeight5], Fishes[playerid][pWeight5]*50);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight5]*25);
+			DajKase(playerid, Fishes[playerid][pWeight5]*55);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31637,8 +31708,13 @@ CMD:sb(playerid, params[])
 						}
                         if(giveplayerid != playerid)
                         {
-					        format(string, sizeof(string), "* %s przeszuka³ %s w poszukiwaniu broni.", sendername ,giveplayer);
-						    ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                            if(PlayerInfo[playerid][pAdmin] >= 1) {
+                                sendTipMessage(playerid, "INFO: Przeszuka³eœ gracza bez komunikatu /me");
+                                return 1;
+                            } else {
+                                format(string, sizeof(string), "* %s przeszuka³ %s w poszukiwaniu broni.", sendername ,giveplayer);
+                                ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                            } 
                         }
 					}
 					else
@@ -32657,7 +32733,7 @@ CMD:dolacz(playerid)
 				//}
 				else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,-1932.3859,276.2117,41.0391) || PlayerToPoint(5.0, playerid,2769.8376,-1610.7819,10.9219))
 				{
-				    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ wzi¹c tej pracy!"); return 1; }
+				   // if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ wzi¹c tej pracy!"); return 1; }
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Mechanikiem, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
 				    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
@@ -32672,7 +32748,7 @@ CMD:dolacz(playerid)
 		  		}
 				else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,2226.1716,-1718.1792,13.5165))
 				{
-				    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
+				    //if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Ochroniarzem, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
 				    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
@@ -32719,7 +32795,7 @@ CMD:dolacz(playerid)
 		  		//}
 		  		else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,766.0804,14.5133,1000.7004))
 		  		{
-		  		    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
+		  		   // if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ braæ tej pracy !"); return 1; }
 		  		    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Bokserem, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
 				    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
@@ -37463,6 +37539,39 @@ CMD:wyprowadz(playerid, params[])
 	}
 	return 1;
 }
+
+CMD:ibizainfo(playerid, params[])
+{
+    new string[256];
+    new sendername[MAX_PLAYER_NAME];
+
+    if(IsPlayerConnected(playerid) || PlayerInfo[playerid][pMember] == FAMILY_IBIZA || PlayerInfo[playerid][pLider] == FAMILY_IBIZA)
+    {
+        if(isnull(params))
+        {
+            sendTipMessage(playerid, "U¿yj /ibizainfo [tekst]");
+            return 1;
+        }
+
+        if(PlayerInfo[playerid][pBP] >= 1)
+        {
+            format(string, sizeof(string), "Nie mo¿esz napisaæ na tym czacie, gdy¿ masz zakaz pisania na globalnych czatach! Minie on za %d godzin.", PlayerInfo[playerid][pBP]);
+            sendTipMessage(playerid, string, TEAM_CYAN_COLOR);
+            return 1;
+        }
+        GetPlayerName(playerid, sendername, sizeof(sendername));
+        SendClientMessageToAll(COLOR_LIGHTGREEN, "|___________ Ibiza Club ___________|");
+        format(string, sizeof(string), " %s: {FFFFFF}%s", sendername, params);
+        SendClientMessageToAll(COLOR_WHITE, string);
+    }
+    else
+    {
+        sendErrorMessage(playerid, "Nie jesteœ z Ibiza Club");
+    }
+    return 1;
+}
+
+
 CMD:ibiza(playerid)
 {
 	if(gPlayerOrgLeader[playerid] && GetPlayerOrg(playerid) == FAMILY_IBIZA) //RANGA
@@ -38759,7 +38868,7 @@ CMD:zapytaj(playerid, p[])
     return 1;
 }
 
-CMD:supportduty(playerid)
+/*CMD:supportduty(playerid)
 {
     if(PlayerInfo[playerid][pZG] == 0 && PlayerInfo[playerid][pNewAP] == 0 && PlayerInfo[playerid][pAdmin] == 0) return 1;
     if(GetPVarInt(playerid, "support_duty") == 0)
@@ -38773,7 +38882,7 @@ CMD:supportduty(playerid)
         sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Schodzisz ze s³u¿bie pomocy nowym graczom.");
     }
     return 1;
-}
+}*/
 
 CMD:tickets(playerid)
 {
@@ -38910,7 +39019,7 @@ CMD:adminduty(playerid)
 
     if(GetPVarInt(playerid, "dutyadmin") == 0)
     {
-        if(OnDuty[playerid] == 1 || JobDuty[playerid] == 1 || SanDuty[playerid] == 1 || GetPVarInt(playerid, "gmduty") == 1)//Zabezpieczenie przed duty - odkryte w doœæ ciekawy sposób, dlatego traktujemy jako easter egg
+        if(OnDuty[playerid] == 1 || JobDuty[playerid] == 1 || SanDuty[playerid] == 1 || GetPVarInt(playerid, "gmduty") == 1 || GetPVarInt(playerid, "supportduty") == 1)//Zabezpieczenie przed duty - odkryte w doœæ ciekawy sposób, dlatego traktujemy jako easter egg
         { 
             sendTipMessage(playerid, "Najpierw zejdŸ z duty!");
             return 1;
@@ -38958,6 +39067,41 @@ CMD:adminduty(playerid)
         AdminDutyGodziny[playerid] = 0;
         AdminDutyMinuty[playerid] = 0;
 
+    }
+    return 1;
+}
+
+CMD:supportduty(playerid)
+{
+     if(PlayerInfo[playerid][pZG] == 0 && PlayerInfo[playerid][pNewAP] == 0 && PlayerInfo[playerid][pAdmin] == 0) return 1;
+    
+    //new string[256];
+    new stringlog[325];//String do logu
+    new y1,mi1,d1;//Data
+
+    if(GetPVarInt(playerid, "supportduty") == 0)
+    {
+        if(OnDuty[playerid] == 1 || JobDuty[playerid] == 1 || SanDuty[playerid] == 1 || GetPVarInt(playerid, "dutyadmin") == 1)//Zabezpieczenie przed duty - odkryte w doœæ ciekawy sposób, dlatego traktujemy jako easter egg
+        {
+            sendTipMessage(playerid, "Najpierw zejdŸ z duty!");
+            return 1;
+        }
+        MSGBOX_Show(playerid, "Support ~g~ON", MSGBOX_ICON_TYPE_OK);
+        format(C_STRING, sizeof(C_STRING), "@[INFO]: Supporter %s wszed³ na s³u¿bê supportera!", GetNick(playerid, true));
+        SendAdminMessage(COLOR_LIGHTBLUE, C_STRING); 
+        SetPVarInt(playerid, "supportduty", 1);
+        SetPVarInt(playerid, "support_duty", 1);
+        SetPlayerColor(playerid, COLOR_BLUE);
+    }
+    else if(GetPVarInt(playerid, "supportduty") == 1)
+    {
+        MSGBOX_Show(playerid, "Support ~r~OFF", MSGBOX_ICON_TYPE_OK);
+        format(C_STRING, sizeof(C_STRING), "@[INFO]: Supporter %s zszed³ ze s³u¿by supportera!", GetNick(playerid, true));
+        SendAdminMessage(COLOR_LIGHTBLUE, C_STRING); 
+        SetPVarInt(playerid, "supportduty", 0); 
+        SetPVarInt(playerid, "support_duty", 0);
+        SetPlayerColor(playerid,TEAM_HIT_COLOR);
+        MSGBOX_Show(playerid, "Support ~r~OFF", MSGBOX_ICON_TYPE_OK);
     }
     return 1;
 }
