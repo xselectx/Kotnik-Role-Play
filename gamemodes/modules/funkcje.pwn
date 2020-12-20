@@ -5125,7 +5125,7 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GREEN,"_______________________________________");
 		format(coordsstring, sizeof(coordsstring),"*** %s ({8FCB04}UID: %d{FFFFFF}) ***",name, PlayerInfo[targetid][pUID]);
 		SendClientMessage(playerid, COLOR_WHITE,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Zdrowie Startowe:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,health, 50+shealth, cash, account, pnumber);
+		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,50+shealth, cash, account, pnumber);
 		SendClientMessage(playerid, COLOR_GRAD1,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Konto Premium:[%s] Œlub z:[%s] On-Line:[%d] LottoNr:[%d] Praca:[%s] Punkty karne:[%d]", drank,PlayerInfo[targetid][pMarriedTo],ptime,lotto,jtext, PlayerInfo[targetid][pPK]);
 		SendClientMessage(playerid, COLOR_GRAD2,coordsstring);
@@ -14735,3 +14735,73 @@ IsPlayerPaused(playerid)
     return 0;
 }
 
+ReturnGPCI(iPlayerID)
+{
+    new 
+        szSerial[41]; // 40 + \0
+ 
+    gpci(iPlayerID, szSerial, sizeof(szSerial));
+    return szSerial;
+}
+
+
+
+
+ShowPowiazania(playerid, id, typ)
+{
+	new string[2048], query[128], ilosc;
+	new plrIP[16];
+    GetPlayerIp(id, plrIP, sizeof(plrIP));
+
+	if(typ == 1) format(query, sizeof(query), "SELECT `UID`, `Nick` FROM `mru_konta` WHERE `GPCI` = '%s'", ReturnGPCI(id));
+	else if(typ == 0) format(query, sizeof(query), "SELECT `UID`, `Nick` FROM `mru_konta` WHERE `IP` = '%s'", plrIP);
+
+
+	mysql_query(query);
+	mysql_store_result();
+	new uid, nick[24];
+
+	while(mysql_fetch_row_format(query, "|"))
+    {
+        sscanf(query, "p<|>ds[24]", uid, nick);
+        //printf("%s", query);
+
+		//new ban_reason[128];
+		//format(ban_reason, sizeof(ban_reason), "%s", MruMySQL_SprawdzBany2(nick));
+		//strcat(ban_reason, MruMySQL_SprawdzBany2(nick));
+		if(uid != PlayerInfo[playerid][pUID])
+		{
+			if(ilosc < 15)
+			{
+				//if(strcmp(ban_reason, "mysql_off") != 0 && strcmp(ban_reason, "brak") != 0)
+				//{
+				//	format(string, sizeof(string), "%s»» %s [%d] {FF0000}%s{FFFFFF}\n", string, nick, uid, ban_reason);
+				//}
+				//else
+				//{
+					format(string, sizeof(string), "%s»» %s [%d]\n", string, nick, uid);
+				//}
+			}
+			ilosc++;
+		}
+	}
+	mysql_free_result();
+	if(ilosc > 0) 
+	{
+		if(typ == 1) return ShowPlayerDialogEx(playerid, D_POWIAZANIA_GPCI, DIALOG_STYLE_LIST, sprintf("%s | %d powi¹zañ GPCI", GetNick(playerid), ilosc), string, "OK", "");
+		else if(typ == 0) return ShowPlayerDialogEx(playerid, D_POWIAZANIA_GPCI, DIALOG_STYLE_LIST, sprintf("%s | %d powi¹zañ IP", GetNick(playerid), ilosc), string, "OK", "");
+	}
+	else return sendTipMessage(playerid, "Brak powi¹zañ.");
+	
+	return 1;
+}
+
+SaveIPGPCI(playerid)
+{
+	new query[128];
+	new plrIP[16];
+    GetPlayerIp(playerid, plrIP, sizeof(plrIP));
+
+	format(query, sizeof(query), "UPDATE `mru_konta` SET `IP` = '%s', `GPCI`='%s' WHERE `Nick` = '%s'", plrIP, ReturnGPCI(playerid), GetNick(playerid));
+	mysql_query(query);
+}

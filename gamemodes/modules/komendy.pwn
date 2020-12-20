@@ -12568,7 +12568,7 @@ CMD:poddajsie(playerid, params[])
 									//ShowPlayerDialogEx(playerid, 113, DIALOG_STYLE_MSGBOX, "Stój w imieniu prawa!", "Lorem ipsum", "Poddaj siê", "Uciekaj");
 							        GetPlayerName(playerid, sendername, sizeof(sendername));
 				        			GetPlayerName(playa, giveplayer, sizeof(giveplayer));
-							        format(string, sizeof(string), "* £owca Nagród %s proponuje ci poddanie siê i trafienie do wiêzienia z ma³¹ kar¹, aby siê zgodziæ wpisz /poddaje-sie",sendername);
+							        format(string, sizeof(string), "* £owca Nagród %s proponuje ci poddanie siê i trafienie do wiêzienia z ma³¹ kar¹, aby siê zgodziæ wpisz /poddajesie",sendername);
 							        SendClientMessage(playa, COLOR_LIGHTBLUE, string);
 							        format(string, sizeof(string), "* Zaproponowa³eœ %s poddanie siê, jeœli zostanie ono akceptowane zarobisz %d$",giveplayer, PoziomPoszukiwania[playa]*2500);
 							        SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
@@ -26951,7 +26951,7 @@ CMD:ah(playerid)
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /respawn /carjump /apl /goto /up /getcar /gethere");
 		SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /cnn /cc /spec /unblock /unwarn /forum /pogoda /pogodaall");
         SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /czity /respawnplayer /respawncar /unbw /cmdinfo");
-        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** NEW: /setcarint /checkbw /rapidfly /opis_usun /czyjtonumer");
+        SendClientMessage(playerid, COLOR_GRAD1, "*1* ADMIN *** /setcarint /checkbw /rapidfly /opis_usun /czyjtonumer /gpci");
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 5)
 	{
@@ -26965,7 +26965,7 @@ CMD:ah(playerid)
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 10)
 	{
-		SendClientMessage(playerid, COLOR_GRAD4,"*10* ADMIN *** /fdaj /ksam /rozwiedz /setteam /entercar /sethp /fixveh /fuelcar");
+		SendClientMessage(playerid, COLOR_GRAD4,"*10* ADMIN *** /fdaj /ksam /rozwiedz /setteam /entercar /sethp /fixveh /fuelcar /powiazania");
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 15)
 	{
@@ -39993,5 +39993,50 @@ CMD:restart(playerid)
         SetTimer("MySQL_DoForceGMX", 10000, false);
 
     } else return noAccessMessage(playerid);
+    return 1;
+}
+
+CMD:gpci(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] >= 1)
+    {
+        new id;
+        if(sscanf(params, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj: /gpci [playerid/CzêœæNicku]");
+
+        new string[256];
+        format(string, sizeof(string), "GPCI %s", GetNick(id));
+        _MruAdmin(playerid, string);
+        _MruAdmin(playerid, ReturnGPCI(id));
+    } else return noAccessMessage(playerid);
+    return 1;
+}
+
+CMD:unbangpci(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] >= 1)
+    {
+        new _gpci[128];
+        if(sscanf(params, "s[128]", _gpci)) return sendTipMessage(playerid, "U¿yj: /unbangpci [GPCI]");
+
+
+    } else return noAccessMessage(playerid);
+    return 1;
+}
+
+CMD:powiazania(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] >= 10)
+    {
+        new id;
+        if(sscanf(params, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj: /powiazania [playerid/CzêœæNicku]");
+        SetPVarInt(playerid, "powiazania_id", id);
+        ShowPlayerDialogEx(playerid, D_POWIAZANIA, DIALOG_STYLE_LIST, "Kotnik RP | GPCI", "»» Powi¹zania IP\n»» Powi¹zania GPCI", "OK", "Anuluj");
+    } else return noAccessMessage(playerid);
+    return 1;
+}
+
+CMD:ppowiazania(playerid, params[])
+{
+    
     return 1;
 }

@@ -6362,6 +6362,10 @@ OnPlayerLogin(playerid, password[])
 			//_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
             sendTipMessage(playerid, "Jesteœ posiadaczem {E2BA1B}Konta Premium.");
 		}
+
+        
+        SaveIPGPCI(playerid);
+
 	}
 	else
 	{//z³e has³o

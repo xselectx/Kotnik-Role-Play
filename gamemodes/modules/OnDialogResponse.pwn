@@ -17064,6 +17064,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		brama_range[playerid] = strval(inputtext);
 		return ShowBramaEdit(playerid);
 	}
+	else if(dialogid == D_POWIAZANIA)
+	{
+		if(!response) return 1;
+		ShowPowiazania(playerid, GetPVarInt(playerid, "powiazania_id"), listitem);
+	}
 	return 0;
 }
 //ondialogresponse koniec

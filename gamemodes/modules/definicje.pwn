@@ -45,6 +45,10 @@ new VehicleIDChangeTime[MAX_PLAYERS];
 
 new acstr[128];
 
+#if !defined gpci
+    native gpci(playerid, serial[], len);
+#endif
+
 //Makra:
 #define GetDynamicObjectModel(%0) Streamer_GetIntData(STREAMER_TYPE_OBJECT, %0, E_STREAMER_MODEL_ID)
 #define GetPlayerWeather(%1) GetPVarInt(%1, "Weather")
@@ -377,6 +381,10 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 
 #define D_JOB_CENTER_DIALOG 1665
 
+#define D_POWIAZANIA 1700
+#define D_POWIAZANIA_GPCI 1701
+
+#define D_PUSTY 3333
 
 #define D_F_PANEL			5000+1
 

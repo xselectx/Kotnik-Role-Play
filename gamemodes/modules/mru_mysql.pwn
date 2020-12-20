@@ -1138,12 +1138,60 @@ MruMySQL_Banuj(playerid, powod[]="Brak", admin=-1)
     {
         new admnick[32];
         GetPlayerName(admin, admnick, 32);
-        format(query, sizeof(query), "INSERT INTO `mru_bany` (`dostal_uid`, `dostal`, `IP`, `powod`, `nadal_uid`, `nadal`, `typ`) VALUES ('%d', '%s', '%s', '%s', '%d', '%s', '%d')", uid, GetNick(playerid), ip, validpowod, PlayerInfo[admin][pUID], admnick,WARN_BAN);
+        format(query, sizeof(query), "INSERT INTO `mru_bany` (`dostal_uid`, `dostal`, `IP`, `GPCI`, `powod`, `nadal_uid`, `nadal`, `typ`) VALUES ('%d', '%s', '%s', '%s', '%s', '%d', '%s', '%d')", uid, GetNick(playerid), ip, ReturnGPCI(playerid), validpowod, PlayerInfo[admin][pUID], admnick,WARN_BAN);
     }
-    else format(query, sizeof(query), "INSERT INTO `mru_bany` (`dostal_uid`, `dostal`, `IP`, `powod`, `typ`, `nadal`) VALUES ('%d', '%s', '%s', '%s', '%d', 'SYSTEM')", uid, GetNick(playerid), ip, validpowod,WARN_BAN);
+    else format(query, sizeof(query), "INSERT INTO `mru_bany` (`dostal_uid`, `dostal`, `IP`, `GPCI`, `powod`, `typ`, `nadal`) VALUES ('%d', '%s', '%s', '%s', '%s', '%d', 'SYSTEM')", uid, GetNick(playerid), ip, ReturnGPCI(playerid), validpowod,WARN_BAN);
 	mysql_query(query);
 	return 1;
 }
+
+MruMySQL_SprawdzBany2(nick[])
+{
+	new query[256];
+	new str[128];
+	
+	if(!MYSQL_ON) 
+	{
+		strcat(str, "mysql_off");
+		return str;
+	}
+	print("1");
+	format(query, sizeof(query), "SELECT `typ`, `nadal_uid`, `nadal`, `powod`, `czas`, `dostal`, `dostal_uid`, `IP` FROM `mru_bany` WHERE `dostal`='%s' ORDER BY `czas` DESC LIMIT 1", nick);
+	mysql_query(query);
+	mysql_store_result();
+	print("2");
+	if (mysql_num_rows())
+	{
+		print("3");
+        mysql_fetch_row_format(query, "|");
+        print("4");
+        mysql_free_result();
+        print("5");
+		new powod[64], admin[32], id, typ, czas[32], nickn[32], mip[16], pid;
+		print("6");
+		sscanf(query, "p<|>dds[32]s[64]s[32]s[32]ds[16]", typ, id, admin, powod, czas,nickn, pid, mip);
+		print("7");
+        if(typ == WARN_BAN)
+        {
+        	print("8");
+        	format(str, sizeof(str), "BAN, %s", powod);
+        	print("9");
+        	return str;
+        }
+        else if(typ == WARN_BLOCK)
+        {
+        	print("10");
+        	format(str, sizeof(str), "BLOCK, %s", powod);
+        	print("11");
+        	return str;
+        }
+    }
+    print("12");
+    strcat(str, "brak");
+    print("13");
+	return str;
+}
+
 
 bool:MruMySQL_SprawdzBany(playerid)
 {
@@ -1187,6 +1235,41 @@ bool:MruMySQL_SprawdzBany(playerid)
             return false;
         }
 	}
+
+	format(query, sizeof(query), "SELECT `typ`, `nadal_uid`, `nadal`, `powod`, `czas`, `dostal`, `dostal_uid`, `IP` FROM `mru_bany` WHERE `GPCI` = '%s' ORDER BY `czas` DESC LIMIT 1", ReturnGPCI(playerid));
+	mysql_query(query);
+	mysql_store_result();
+
+	if (mysql_num_rows())
+	{
+        mysql_fetch_row_format(query, "|");
+        mysql_free_result();
+		new string[256], powod[64], admin[32], id, typ, czas[32], nick[32], mip[16], pid;
+		sscanf(query, "p<|>dds[32]s[64]s[32]s[32]ds[16]", typ, id, admin, powod, czas,nick, pid, mip);
+		if(typ > 20)
+        {
+            return false;
+        }
+	}
+
+	format(query, sizeof(query), "SELECT `GPCI`, `nadal`, `nadal_uid`, `powod`, `czas` FROM `mru_bany` WHERE `GPCI` = '%s' AND `typ`='%d'", ReturnGPCI(playerid), WARN_BAN);
+	mysql_query(query);
+	mysql_store_result();
+	if(mysql_num_rows() >= 3)
+	{
+		new string[256], powod[64], admin[32], id, czas[32], GPCI[128];
+		mysql_fetch_row_format(query, "|");
+        mysql_free_result();
+		sscanf(query, "p<|>s[128]s[32]ds[64]s[32]",GPCI, admin, id, powod, czas);
+
+		SendClientMessage(playerid, COLOR_NEWS, "Twoje GPCI jest zbanowane.");
+		format(string, sizeof(string), "{FFA500}Nadaj¹cy: %s ({FF8C00}%d{FFA500}) | Powód: {FF8C00}%s{FFA500} | Data: %s", admin,id, powod,czas);
+		SendClientMessage(playerid, COLOR_NEWS, string);
+		return true;
+	}
+
+	mysql_free_result();
+
 	return false;
 }
 
