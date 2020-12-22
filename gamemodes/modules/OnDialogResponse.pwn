@@ -16567,7 +16567,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			case 0:
 			{
-				if(IsAPrzestepca(playerid))
+				if(IsAPrzestepca(playerid) || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
 				{
 					if(GetPlayerWeapon(playerid) == WEAPON_SPRAYCAN)
 					{
@@ -16579,14 +16579,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 								new org = GetPlayerOrg(playerid);
 								new zonekontrol = ZoneControl[GetPVarInt(playerid, "zoneid")];
 								SetPVarInt(playerid, "graffiti_zoneid", GetPVarInt(playerid, "zoneid"));
-								if(zonekontrol > 100)
+								if(zonekontrol > 100 || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
 								{
-									if(zonekontrol-100 == org)
+									if(zonekontrol-100 == org || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
 									{
 										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
 									}
 								} else {
-									if(zonekontrol == frac)
+									if(zonekontrol == frac || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
 									{
 										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
 									} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");

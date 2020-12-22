@@ -4622,7 +4622,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
             }*/
             if(response == EDIT_RESPONSE_FINAL)
             {
-                if(graf_id == curr_id)
+                if(graf_id == curr_id || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
                 {
                     if(IsPlayerInRangeOfPoint(playerid, 15, Float:oldX, Float:oldY, Float:oldZ))
                     {
