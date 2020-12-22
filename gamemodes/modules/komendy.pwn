@@ -20591,9 +20591,10 @@ CMD:wejdz(playerid)
         else if (PlayerToPoint(5.0, playerid,725.4005,-1450.4960,17.695)) //restauracja taras
         {
             if(!DoorInfo[FRAC_LCN][d_State]) return SendClientMessage(playerid, COLOR_GRAD1, "Te drzwi s¹ zamkniête.");
-            SetPlayerPosEx(playerid,-794.97491455078, 489.89901733398, 1376.195312); //int restauracji
+            SetPlayerPosEx(playerid, 722.01, -1451.40, 26.04); //int restauracji
             GameTextForPlayer(playerid, "~g~Witamy w ~w~Jetty Lounge.", 5000, 1);
-            SetPlayerInterior(playerid, 1);
+            SetPlayerInterior(playerid, 0);
+            SetPlayerVirtualWorld(playerid, 255);
             Wchodzenie(playerid);
             return 1;
         }
@@ -20601,21 +20602,28 @@ CMD:wejdz(playerid)
         {
             if(!DoorInfo[FRAC_LCN][d_State]) return SendClientMessage(playerid, COLOR_GRAD1, "Te drzwi s¹ zamkniête.");
             //SetPlayerPosEx(playerid,-794.97491455078, 489.89901733398, 1376.1953125); //restauracja LCN na dole
-            SetPlayerPosEx(playerid,-779.6347,506.1770,1371.7422);
+            SetPlayerPosEx(playerid, 733.6347,-1452.00, 22.59);
             GameTextForPlayer(playerid, "~g~Witamy w ~w~Jetty Lounge.", 5000, 1);
-            SetPlayerInterior(playerid, 1);
+            SetPlayerInterior(playerid, 0);
+            SetPlayerVirtualWorld(playerid, 255);
             Wchodzenie(playerid);
             return 1;
         }
-        /*else if (PlayerToPoint(4.0, playerid,-778.3271484375,496.4326171875,1368.5303955078)) //wejœcie do gabinetu LCN
+        else if (PlayerToPoint(4.0, playerid,738.89, -1430.01, 13.52)) //wejœcie do biur LCN
         {
-            SetPlayerPosEx(playerid,726.34814453125,-1454.4940185547,22.237335205078); //gabinet LCN
+            SetPlayerPosEx(playerid,738.55, -1426.39, 23.60); //biura LCN
             GameTextForPlayer(playerid, "~g~ Boungiorno Donie!", 5000, 1);
-            SetPlayerVirtualWorld(playerid, 74);
+            SetPlayerVirtualWorld(playerid, 2);
             SetPlayerInterior(playerid, 0);
             Wchodzenie(playerid);
             return 1;
-        }*/
+        }
+
+        else if (PlayerToPoint(1.0, playerid,735.08, -1472.89, 23.59)) //wyjœcie z kuchni
+        {
+            SetPlayerPosEx(playerid,736.71, -1472.89, 23.59); //na zewnatrz
+            return 1;
+        }
 
         else if (PlayerToPoint(5.0, playerid,1631.7883300781,-1171.4095458984,24.078125)) //wejœcie do zakladu bukmaherskiego
         {
@@ -21606,6 +21614,48 @@ CMD:wyjdz(playerid)
 			return 1;
 		}
         /* JETTY LOUNGE */
+        
+        
+        else if (PlayerToPoint(5.0, playerid,722.01, -1451.40, 26.04)) //restauracja, góra
+        {
+            if(!DoorInfo[FRAC_LCN][d_State]) return SendClientMessage(playerid, COLOR_GRAD1, "Te drzwi s¹ zamkniête.");
+            SetPlayerPosEx(playerid, 725.4005,-1450.4960,17.695); //taras
+            GameTextForPlayer(playerid, "~w~Witamy na tarasie.", 5000, 1);
+            SetPlayerInterior(playerid, 0);
+            SetPlayerVirtualWorld(playerid, 0);
+            //Wchodzenie(playerid);
+            return 1;
+        }
+
+        else if (PlayerToPoint(5.0, playerid,733.6347,-1452.00, 22.59)) //wyjœcie z restauracji LCN na dole
+        {
+            if(!DoorInfo[FRAC_LCN][d_State]) return SendClientMessage(playerid, COLOR_GRAD1, "Te drzwi s¹ zamkniête.");
+            //SetPlayerPosEx(playerid,-794.97491455078, 489.89901733398, 1376.1953125); //restauracja LCN na dole
+            SetPlayerPosEx(playerid, 725.7198,-1439.3527,13.5391);
+            GameTextForPlayer(playerid, "~g~Goraco ~w~Zapraszamy ~r~Ponownie.", 5000, 1);
+            SetPlayerInterior(playerid, 0);
+            SetPlayerVirtualWorld(playerid, 0);
+            //Wchodzenie(playerid);
+            return 1;
+        }
+
+        else if (PlayerToPoint(4.0, playerid,738.55, -1426.39, 23.60)) //wyjœcie z biur LCN
+        {
+            SetPlayerPosEx(playerid,738.89, -1430.01, 13.52); //na zewnatrz
+            //GameTextForPlayer(playerid, "~g~ Boungiorno Donie!", 5000, 1);
+            SetPlayerVirtualWorld(playerid, 0);
+            SetPlayerInterior(playerid, 0);
+            //Wchodzenie(playerid);
+            return 1;
+        }
+
+        else if (PlayerToPoint(1.0, playerid,736.71, -1472.89, 23.59)) //wyjœcie z kuchni
+        {
+            SetPlayerPosEx(playerid,735.08, -1472.89, 23.59); //na zewnatrz
+            return 1;
+        }
+
+
 
         /*else if (IsPlayerInRangeOfPoint(playerid,3.0,734.0619, -1451.6720, 22.5920))
         {
@@ -21626,20 +21676,20 @@ CMD:wyjdz(playerid)
             GameTextForPlayer(playerid,  "~w~Witamy na tarasie", 5000, 1);
         }*/
 
-        else if (PlayerToPoint(5.0, playerid,-794.97491455078, 489.89901733398, 1376.1953125)) //restauracja na gorze
-        {
-            SetPlayerPosEx(playerid,725.4005,-1450.4960,17.6953); //taras restauracji
-            GameTextForPlayer(playerid, "~g~Witamy~w~ na ~r~tarasie.", 5000, 1);
-            SetPlayerInterior(playerid, 0);
-            return 1;
-        }
-        else if (PlayerToPoint(5.0, playerid,-778.74987792969, 506.79095458984, 1371.7421875)) //restauracja na dole
-        {
-            SetPlayerPosEx(playerid,725.7198,-1439.3527,13.5391); //restauracja na zewnatrz na dole
-            GameTextForPlayer(playerid, "~g~Goraco ~w~Zapraszamy ~r~Ponownie.", 5000, 1);
-            SetPlayerInterior(playerid, 0);
-            return 1;
-        }
+        //else if (PlayerToPoint(5.0, playerid,-794.97491455078, 489.89901733398, 1376.1953125)) //restauracja na gorze
+        //{
+        //    SetPlayerPosEx(playerid,725.4005,-1450.4960,17.6953); //taras restauracji
+        //    GameTextForPlayer(playerid, "~g~Witamy~w~ na ~r~tarasie.", 5000, 1);
+        //    SetPlayerInterior(playerid, 0);
+        //    return 1;
+        //}
+        //else if (PlayerToPoint(5.0, playerid,-778.74987792969, 506.79095458984, 1371.7421875)) //restauracja na dole
+        //{
+        //    SetPlayerPosEx(playerid,725.7198,-1439.3527,13.5391); //restauracja na zewnatrz na dole
+        //    GameTextForPlayer(playerid, "~g~Goraco ~w~Zapraszamy ~r~Ponownie.", 5000, 1);
+        //    SetPlayerInterior(playerid, 0);
+        //    return 1;
+        //}
 
 		else if (IsPlayerInRangeOfPoint(playerid, 5.0, 2787.9572753906,-1085.6119384766,94.187072753906)) // dach YKZ
 		{
@@ -34354,14 +34404,14 @@ CMD:akceptuj(playerid, params[])
             {
                 if(PlayerInfo[playerid][pMember] > 0 || PlayerInfo[playerid][pLider] > 0 || PlayerInfo[playerid][pOrg] != 0)
                 {
-                    if(GettingJob[playerid] == 4 || GettingJob[playerid] == 5 || GettingJob[playerid] == 9)
-                    {//Allow the 3 jobs for Family Members
-                    }
-                    else
-                    {
-                        SendClientMessage(playerid, COLOR_GREY, "   Nie mo¿esz wzi¹æ pracy, jesteœ we frakcji !");
-                        return 1;
-                    }
+                    //if(GettingJob[playerid] == 4 || GettingJob[playerid] == 5 || GettingJob[playerid] == 9)
+                    //{//Allow the 3 jobs for Family Members
+                    //}
+                    //else
+                    //{
+                    //    SendClientMessage(playerid, COLOR_GREY, "   Nie mo¿esz wzi¹æ pracy, jesteœ we frakcji !");
+                    //    return 1;
+                    //}
                 }
                 _MruGracz(playerid, "* Podpisa³eœ umowe na 2,5 godziny, zaczynasz now¹ pracê.");
                 _MruGracz(playerid, "* Gratulujemy nowej pracy, wpisz /pomoc aby zobaczyæ nowe komendy.");
