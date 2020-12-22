@@ -2432,6 +2432,21 @@ IsAKO(playerid)
 	return 0;
 }
 
+IsAChlor(playerid)
+{
+	if(IsPlayerConnected(playerid))
+	{
+	    new nick[MAX_PLAYER_NAME];
+		GetPlayerName(playerid, nick, sizeof(nick));
+		if(strcmp(nick,"Henry_Foxworthy", false) == 0)
+		{
+		    return 1;
+		}
+	}
+	return 0;
+}
+
+
 stock MozePobic(playerid)
 {
 	if(IsPlayerConnected(playerid))

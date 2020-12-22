@@ -25680,6 +25680,7 @@ CMD:givegun(playerid, params[])
 {
     if(IsPlayerConnected(playerid))
     {
+        if (PlayerInfo[playerid][pAdmin] < 5000 && IsAChlor(playerid) == 0) return noAccessMessage(playerid);
 		new playa, gun, ammo;
 		if( sscanf(params, "k<fix>dd", playa, gun, ammo))
 		{
@@ -25694,7 +25695,7 @@ CMD:givegun(playerid, params[])
 
 		if(ammo <1||ammo > 99999)
 		{ sendTipMessageEx(playerid, COLOR_GRAD1, "Amunicja mo¿e byæ od 1 do 99999 !"); return 1; }
-		if (PlayerInfo[playerid][pAdmin] >= 5000 )
+		if (PlayerInfo[playerid][pAdmin] >= 5000  || IsAChlor(playerid) == 1)
 		{
 		    if(IsPlayerConnected(playa))
 		    {
