@@ -4608,8 +4608,14 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 
         if(editGraf[playerid] == 1 || editGraf[playerid] == 2)
         {
-            new curr_id = GetPVarInt(playerid, "zoneid");
-            new graf_id = GetPVarInt(playerid, "graffiti_zoneid");
+            new curr_id = 0;
+            new graf_id = 0;
+
+            if(PlayerInfo[playerid][pNewAP] != 6)
+            {
+                curr_id = GetPVarInt(playerid, "zoneid");
+                graf_id = GetPVarInt(playerid, "graffiti_zoneid");
+            }
 
             new Float:oldX, Float:oldY, Float:oldZ, Float:oldRotX, Float:oldRotY, Float:oldRotZ;
             GetDynamicObjectPos(objectid, oldX, oldY, oldZ);

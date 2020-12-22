@@ -16571,7 +16571,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 					if(GetPlayerWeapon(playerid) == WEAPON_SPRAYCAN)
 					{
-						if(GetPlayerGraffitis(playerid) < 5)
+						if(GetPlayerGraffitis(playerid) < 5 || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
 						{
 							if(graffitiNum < 490)
 							{
