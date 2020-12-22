@@ -10,7 +10,7 @@ new PlayerSkins[MAX_PLAYERS][SkinEnum];*/
 new DiscordFractionChannels[][][128] = 
 {
     {"brak","brak", "brak", "brak"}, // id 0 - BRAK
-    {"771330265078562816","776563993892093982","784537147583234048","784759347723894804"}, // Kotnik Role Play - #lspd + LSPD #logi-radio
+    {"771330265078562816","776563993892093982","789056463368618044","790736977389158430"}, // Kotnik Role Play - #lspd + LSPD #kanal-frakcyjny-ooc
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
@@ -21,6 +21,31 @@ new DiscordFractionChannels[][][128] =
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"}, // 10
     {"771330265078562816", "776729456747741215", "brak", "brak"}, // Kotnik Role Play - #rzad
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // 15
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}  // 20
+};
+
+new DiscordFractionICChannels[][][128] = 
+{
+    {"brak","brak", "brak", "brak"}, // id 0 - BRAK
+    {"771330265078562816","776563993892093982","789056463368618044","790737002077224990"}, // Kotnik Role Play - #lspd + LSPD #kanal-frakcyjny-ic
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // 5
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // Kotnik Role Play - #bor
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // 10
+    {"brak", "brak", "brak", "brak"}, // Kotnik Role Play - #rzad
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},

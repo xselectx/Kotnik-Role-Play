@@ -17354,6 +17354,9 @@ CMD:r(playerid, params[])
             format(string, sizeof(string), "%s mówi przez radio: %s", sendername, params);
 			ProxDetector(10.0, playerid, string,COLOR_FADE1,COLOR_FADE2,COLOR_FADE3,COLOR_FADE4,COLOR_FADE5);
             printf("%s", string);
+            //SendDiscordMessage(DiscordFractionChannels[member][1], string); // global
+            //printf("%s", string);
+            SendDiscordMessage(DiscordFractionICChannels[member][3], string); // priv
 			format(string, sizeof(string), "Radio: %s", params);
 			SetPlayerChatBubble(playerid,string,COLOR_YELLOW,10.0,8000);
         }
