@@ -21105,13 +21105,13 @@ CMD:wejdz(playerid)
             SetPlayerInterior(playerid, 17);
             return 1;
         }
-        else if (IsPlayerInRangeOfPoint(playerid, 5.0, 2292.3088,-1723.3538,13.5469)) //  studio tatuaz new wejscie
-        {
-            SetPlayerPosEx(playerid, -204.0638885498,-9.17,1002.2734); //  tatuaz new srdek
-            SetPlayerInterior(playerid, 17);
-            GameTextForPlayer(playerid, "Witamy", 5000, 1);
-            return 1;
-        }
+        //else if (IsPlayerInRangeOfPoint(playerid, 5.0, 2292.3088,-1723.3538,13.5469)) //  studio tatuaz new wejscie
+        //{
+        //    SetPlayerPosEx(playerid, -204.0638885498,-9.17,1002.2734); //  tatuaz new srdek
+        //    SetPlayerInterior(playerid, 17);
+        //    GameTextForPlayer(playerid, "Witamy", 5000, 1);
+        //    return 1;
+        //}
         /*else if(IsPlayerInRangeOfPoint(playerid,2.0, 1144.4740, -1333.2556, 13.8348) || // parking
         IsPlayerInRangeOfPoint(playerid,2.0,1144.1832,-1309.0560,31.8078) || // izba
         IsPlayerInRangeOfPoint(playerid,2.0,1229.2778,-1414.2733,47.2912) || // sale operacyjne
@@ -22039,13 +22039,13 @@ CMD:wyjdz(playerid)
 		    SetPlayerInterior(playerid, 0);
 		    return 1;
 		}
-		else if (IsPlayerInRangeOfPoint(playerid, 5.0, -204.0638885498,-9.17,1002.2734)) //  tatuaz new sro
-		{
-		    SetPlayerPosEx(playerid,2292.3088,-1723.3538,13.5469); //  tatuaz new wej
-		    SetPlayerInterior(playerid, 0);
-		    GameTextForPlayer(playerid, "Zapraszamy ponownie", 5000, 1);
-		    return 1;
-		}
+		//else if (IsPlayerInRangeOfPoint(playerid, 5.0, -204.0638885498,-9.17,1002.2734)) //  tatuaz new sro
+		//{
+		//    SetPlayerPosEx(playerid,2292.3088,-1723.3538,13.5469); //  tatuaz new wej
+		//    SetPlayerInterior(playerid, 0);
+		//    GameTextForPlayer(playerid, "Zapraszamy ponownie", 5000, 1);
+		//    return 1;
+		//}
 	
 		/*else if(IsPlayerInRangeOfPoint(playerid, 5, 819.4210, -1382.6415, 26.1157))
 		{
