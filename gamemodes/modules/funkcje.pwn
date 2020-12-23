@@ -11597,8 +11597,8 @@ stock Oil_Destroy(lID)
         ApplyAnimation(i, "BOMBER", "BOM_Plant_Crouch_Out", 4.0, 0, 0, 0, 0, -1);
         SendClientMessage(i, COLOR_WHITE, "[LSFD] Usun¹³eœ plamê oleju! Otrzymujesz 15 000$! [LSFD]");
         DajKase(i, 15000);
-        SendFamilyMessage(17, COLOR_GREEN, "[LSFD] Stra¿ak usun¹³ plamê oleju! Na konto frakcji wp³ywa 15 000$! [LSFD]");
-        Sejf_Add(17, 15000);
+        SendFamilyMessage(4, COLOR_GREEN, "[LSFD] Stra¿ak usun¹³ plamê oleju! Na konto frakcji wp³ywa 15 000$! [LSFD]");
+        Sejf_Add(4, 15000);
     }
 }
 
