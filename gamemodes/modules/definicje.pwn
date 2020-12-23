@@ -2,7 +2,7 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v1.0.4"
+#define VERSION "v1.0.5"
 
 #define DEBUG 2   // 2 - off  /  1 - on
 #define NULL 0
@@ -385,10 +385,17 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define D_CREATE_BRAMA_SPEED 1663
 #define D_CREATE_BRAMA_RANGE 1664
 
-#define D_JOB_CENTER_DIALOG 1665
-
 #define D_POWIAZANIA 1700
 #define D_POWIAZANIA_GPCI 1701
+
+#define D_JOB_CENTER_DIALOG 1702
+#define D_JOBTYPE_LOWCA 1703
+#define D_JOBTYPE_PRAWNIK 1704
+#define D_JOBTYPE_MECHANIK 1705
+#define D_JOBTYPE_OCHRONIARZ 1706
+#define D_JOBTYPE_PIZZABOY 1707
+#define D_JOBTYPE_BOX 1708
+#define D_JOBTYPE_KURIER 1709
 
 #define D_PUSTY 3333
 
