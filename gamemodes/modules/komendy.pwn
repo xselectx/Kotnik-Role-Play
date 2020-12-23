@@ -31778,7 +31778,7 @@ CMD:sb(playerid, params[])
 						}
                         if(giveplayerid != playerid)
                         {
-                            if(PlayerInfo[playerid][pAdmin] >= 1) {
+                            if(PlayerInfo[playerid][pAdmin] >= 1 && !ProxDetectorS(8.0, playerid, giveplayerid)) {
                                 sendTipMessage(playerid, "INFO: Przeszuka³eœ gracza bez komunikatu /me");
                                 return 1;
                             } else {
