@@ -6356,10 +6356,17 @@ OnPlayerLogin(playerid, password[])
         Car_LoadForPlayer(playerid); //System aut
         LoadPlayerInventory(playerid); // system przedmiotow
 		//Powitanie:
-		format(string, sizeof(string), "Witaj, %s!",nick);
+		format(string, sizeof(string), "Witaj, %s [UID %d | PID: %d]",nick, PlayerInfo[playerid][pUID], playerid);
         sendTipMessage(playerid, string);
+        //SendClientMessage(playerid, COLOR_LIGHTRED, "»» Administracja ¿yczy wszystkim graczom weso³ych œwi¹t! (/czapka)");
+        MSGBOX_Show(playerid, "Wesolych Swiat!", MSGBOX_ICON_TYPE_WARNING);
 		//_MruGracz(playerid,string);
 		printf("%s has logged in.",nick);
+        if (PlayerInfo[playerid][pAdmin] > 0)
+        {
+            //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
+            sendTipMessage(playerid, sprintf("Posiadasz uprawnienia: {FF0000}Administrator [%d]", PlayerInfo[playerid][pAdmin]));
+        }
 		if (PremiumInfo[playerid][pKP] > 0)
 		{
 			//_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
