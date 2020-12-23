@@ -14901,7 +14901,7 @@ CMD:dr(playerid)
     			}
             }
             //sizemax: komunikat = 112char
-            format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio SAN2\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
+            format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio LSRS\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
             //sizefinel: komunikat = 148char limit (256) OK.
 			ShowPlayerDialogEx(playerid, 666, DIALOG_STYLE_LIST, "Deska rozdzielcza", komunikat, "Wybierz", "Anuluj");
 		}
@@ -21122,13 +21122,13 @@ CMD:wejdz(playerid)
             SetPlayerInterior(playerid, 17);
             return 1;
         }
-        else if (IsPlayerInRangeOfPoint(playerid, 5.0, 2292.3088,-1723.3538,13.5469)) //  studio tatuaz new wejscie
-        {
-            SetPlayerPosEx(playerid, -204.0638885498,-9.17,1002.2734); //  tatuaz new srdek
-            SetPlayerInterior(playerid, 17);
-            GameTextForPlayer(playerid, "Witamy", 5000, 1);
-            return 1;
-        }
+        //else if (IsPlayerInRangeOfPoint(playerid, 5.0, 2292.3088,-1723.3538,13.5469)) //  studio tatuaz new wejscie
+        //{
+        //    SetPlayerPosEx(playerid, -204.0638885498,-9.17,1002.2734); //  tatuaz new srdek
+        //    SetPlayerInterior(playerid, 17);
+        //    GameTextForPlayer(playerid, "Witamy", 5000, 1);
+        //    return 1;
+        //}
         /*else if(IsPlayerInRangeOfPoint(playerid,2.0, 1144.4740, -1333.2556, 13.8348) || // parking
         IsPlayerInRangeOfPoint(playerid,2.0,1144.1832,-1309.0560,31.8078) || // izba
         IsPlayerInRangeOfPoint(playerid,2.0,1229.2778,-1414.2733,47.2912) || // sale operacyjne
@@ -22056,13 +22056,13 @@ CMD:wyjdz(playerid)
 		    SetPlayerInterior(playerid, 0);
 		    return 1;
 		}
-		else if (IsPlayerInRangeOfPoint(playerid, 5.0, -204.0638885498,-9.17,1002.2734)) //  tatuaz new sro
-		{
-		    SetPlayerPosEx(playerid,2292.3088,-1723.3538,13.5469); //  tatuaz new wej
-		    SetPlayerInterior(playerid, 0);
-		    GameTextForPlayer(playerid, "Zapraszamy ponownie", 5000, 1);
-		    return 1;
-		}
+		//else if (IsPlayerInRangeOfPoint(playerid, 5.0, -204.0638885498,-9.17,1002.2734)) //  tatuaz new sro
+		//{
+		//    SetPlayerPosEx(playerid,2292.3088,-1723.3538,13.5469); //  tatuaz new wej
+		//    SetPlayerInterior(playerid, 0);
+		//    GameTextForPlayer(playerid, "Zapraszamy ponownie", 5000, 1);
+		//    return 1;
+		//}
 	
 		/*else if(IsPlayerInRangeOfPoint(playerid, 5, 819.4210, -1382.6415, 26.1157))
 		{
@@ -29739,7 +29739,7 @@ CMD:mp3(playerid, params[])
     {
         if(PlayerInfo[playerid][pCDPlayer])
         {
-			ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA, DIALOG_STYLE_LIST, "Odtwarzacz MP3.","SAN1\n""SAN2\n""Radio ZET\n""RMF FM\n""RMF MAXXX\n""Radio ESKA\n""ENERGY 2000\n""W³asny stream\n""MP3 OFF","Start",""); //zmieñ dialogid
+			ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA, DIALOG_STYLE_LIST, "Odtwarzacz MP3.","SAN1\n""LSRS\n""Radio ZET\n""RMF FM\n""RMF MAXXX\n""Radio ESKA\n""ENERGY 2000\n""W³asny stream\n""MP3 OFF","Start",""); //zmieñ dialogid
 		}
 		else
 		{
@@ -29807,7 +29807,7 @@ CMD:radiostacja(playerid)
 	    {
             if(PlayerInfo[playerid][pRank] < 3) return sendTipMessageEx(playerid, COLOR_GREY, "Od 3 rangi!");
             sendTipMessage(playerid, "Od teraz mo¿esz ustawiaæ radiostacjê w dowolnym miejscu!");
-            ShowPlayerDialogEx(playerid, 667, DIALOG_STYLE_LIST, "Wybierz nag³oœniê", "R SAN 01\nR SAN 02", "Wybierz", "Anuluj");
+            ShowPlayerDialogEx(playerid, 667, DIALOG_STYLE_LIST, "Wybierz nag³oœniê", "R SAN 01\nR LSRS", "Wybierz", "Anuluj");
         }
         else return sendErrorMessage(playerid, "Nie nale¿ysz do SN!");
 	/*}

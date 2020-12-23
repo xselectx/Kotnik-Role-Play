@@ -154,7 +154,7 @@ Zaladuj3DTexty()
     //CreateDynamic3DTextLabel("Sala posiedzeñ", COLOR_BLUE, -778.3271484375,496.4326171875,1368.5303955078, 5.0);
     CreateDynamic3DTextLabel("Zaklad Bukmaherski", COLOR_BLUE, 1631.7883300781,-1171.4095458984,24.078125, 15.0);
     //CreateDynamic3DTextLabel("Gabinet Oyabuna", COLOR_BLUE, 368.3667,193.8689,1008.3828, 5.0);
-    CreateDynamic3DTextLabel("Studio tatua¿u", COLOR_BLUE, 2292.3088,-1723.3538,13.5469, 10.0);
+    CreateDynamic3DTextLabel("Los Santos Radio Station", COLOR_BLUE, 2292.3088,-1723.3538,13.5469, 10.0);
     //CreateDynamic3DTextLabel("Stare studio tatua¿u", COLOR_BLUE, 1975.9598388672,-2036.7775878906,13.546875, 5.0);
     CreateDynamic3DTextLabel("Bank\n Oddzia³ Los Santos", COLOR_BLUE, 1462.395751,-1012.391174,26.843799, 10.0);
     CreateDynamic3DTextLabel("Bank\n Oddzia³ Palomino Creek", COLOR_BLUE, 2302.7798,-15.9637,26.4844, 10.0);
