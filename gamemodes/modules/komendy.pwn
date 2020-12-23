@@ -14901,7 +14901,7 @@ CMD:dr(playerid)
     			}
             }
             //sizemax: komunikat = 112char
-            format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio SAN2\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
+            format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio LSRS\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
             //sizefinel: komunikat = 148char limit (256) OK.
 			ShowPlayerDialogEx(playerid, 666, DIALOG_STYLE_LIST, "Deska rozdzielcza", komunikat, "Wybierz", "Anuluj");
 		}
@@ -29694,7 +29694,7 @@ CMD:mp3(playerid, params[])
     {
         if(PlayerInfo[playerid][pCDPlayer])
         {
-			ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA, DIALOG_STYLE_LIST, "Odtwarzacz MP3.","SAN1\n""SAN2\n""Radio ZET\n""RMF FM\n""RMF MAXXX\n""Radio ESKA\n""W³asny stream\n""MP3 OFF","Start",""); //zmieñ dialogid
+			ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA, DIALOG_STYLE_LIST, "Odtwarzacz MP3.","SAN1\n""Radio LSRS\n""Radio ZET\n""RMF FM\n""RMF MAXXX\n""Radio ESKA\n""W³asny stream\n""MP3 OFF","Start",""); //zmieñ dialogid
 		}
 		else
 		{
@@ -29762,7 +29762,7 @@ CMD:radiostacja(playerid)
 	    {
             if(PlayerInfo[playerid][pRank] < 3) return sendTipMessageEx(playerid, COLOR_GREY, "Od 3 rangi!");
             sendTipMessage(playerid, "Od teraz mo¿esz ustawiaæ radiostacjê w dowolnym miejscu!");
-            ShowPlayerDialogEx(playerid, 667, DIALOG_STYLE_LIST, "Wybierz nag³oœniê", "R SAN 01\nR SAN 02", "Wybierz", "Anuluj");
+            ShowPlayerDialogEx(playerid, 667, DIALOG_STYLE_LIST, "Wybierz nag³oœniê", "R SAN 01\nR LSRS", "Wybierz", "Anuluj");
         }
         else return sendErrorMessage(playerid, "Nie nale¿ysz do SN!");
 	/*}

@@ -12782,7 +12782,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                         }
                     }
                 }
-                else if(strfind(inputtext, "Radio SAN2") != -1)
+                else if(strfind(inputtext, "Radio LSRS") != -1)
                 {
                     if(RadioSANDos[0] != EOF)
                     {
@@ -12850,7 +12850,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     format(komunikat, sizeof(komunikat), "%s\nNeony (%s)", komunikat, taknieNeo);
 				}
                 //
-                format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio SAN2\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
+                format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio LSRS\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
                 //
                 if(!dont_override) ShowPlayerDialogEx(playerid, 666, DIALOG_STYLE_LIST, "Deska rozdzielcza", komunikat, "Wybierz", "Anuluj");
 		    }
