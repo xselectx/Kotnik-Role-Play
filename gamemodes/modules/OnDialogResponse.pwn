@@ -129,10 +129,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			case 6:
 			{
 				if(!response) return 1;
-				ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA_URL, DIALOG_STYLE_INPUT, "W³asne MP3", "Wprowadz adres URL do radia/piosenki.", "Start", "Anuluj");
+				StopAudioStreamForPlayer(playerid);
+				PlayAudioStreamForPlayer(playerid, "http://energy2000.radioparty.pl:8005/");
 				return 1;
 			}
 			case 7:
+			{
+				if(!response) return 1;
+				ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA_URL, DIALOG_STYLE_INPUT, "W³asne MP3", "Wprowadz adres URL do radia/piosenki.", "Start", "Anuluj");
+				return 1;
+			}
+			case 8:
 			{
 			    if(!response) return 1;
 				GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~r~MP3 Off", 5000, 5);
@@ -1189,6 +1196,83 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         }
         format(VINYL_Stream, 128, "%s",inputtext);
     }
+    // ----------------------------------------------------------------------------------------------------
+    else if(dialogid == D_JOB_CENTER_DIALOG)
+    {
+		if(!response) return 1;
+	    switch(listitem)
+	    {
+	    	case 0: ShowPlayerDialogEx(playerid, D_JOBTYPE_LOWCA, DIALOG_STYLE_MSGBOX, "Kotnik-RP » £owca nagród", "Twoje zadanie polega na œciganiu przestêpców i oferowania im poddania siê\nW przypadku odmowy stosuje siê bardziej radykalne metody\nWynagrodzenie zale¿y od wysokoœci WL oraz sposobu zatrzymania (za ¿ywego dostaje siê wiêcej)\nWy¿szy skill pozwala na d³u¿sze namierzanie, dostêp do bardziej niebezpiecznych przestêpców i lepszych pojazdów.\nDobry ³owca nagród mo¿e zarobiæ ponad 50k w godzinê. Pocz¹tkuj¹cy jakieœ 6k-10k. Minus koszty broni. Pieni¹dze wyp³acamy od razu.\nJe¿eli masz trochê kasy na broñ, masz nerwy ze stali, mnóstwo sprytu i cierpliwoœci to ta wymagaj¹ca praca jest dla Ciebie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³acz", "Anuluj");
+	    	case 1: ShowPlayerDialogEx(playerid, D_JOBTYPE_PRAWNIK, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Prawnik", "Do twoich zadañ nale¿y wyci¹ganie ludzi z wiêzienia (za kaucj¹ lub bez)\nCzyszczenia im kartotek i obni¿ania poziomów poszukiwania\nPraca jest legalna jednak w LS dobry prawnik to taki który zna sporo skorumpowanych gliniarzy lub ma znajomego w policji\nJako pocz¹tkuj¹cy prawnik w g³ownej mierze bêdziesz zajmowa³ siê drobnymi z³odziejaszkami, zarobki równie¿ nie sa wysokie a o klienta trudno.\ny¿szy skill umo¿liwia zbijanie wy¿szych poziomów WL, uwlanianie groŸniejszych przestêpców oraz zmniejsza koszty ³apówek.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 2: ShowPlayerDialogEx(playerid, D_JOBTYPE_MECHANIK, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Mechanik", "Naprawiaj, tankuj, tunninguj, odbieraj zlecenia z terenu\nTo przede wszytkim robi mechanik.\nZarobki nie s¹ na pocz¹tku osza³amiaj¹ce, jakieœ 3k-7k co godzinê\nJednak zdobywa siê je doœæ ³atwo i przyjemnie. Pracy dla mechaników nigdy nie brakuje.\nWy¿szy skill pozwala siê poruszaæ specjalnymi pojazdami.\n Oraz umo¿liwia tunningowanie pojazdów, ktore jest bardziej dochodowe ni¿ ich serwisowanie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 3: ShowPlayerDialogEx(playerid, D_JOBTYPE_OCHRONIARZ, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Ochroniarz", "Mo¿esz ochraniaæ ludzi, jednak jest to tylko przykrywka dla sprzedawania pancerzy\nPraca jest doœæ monotonna gdy¿ praktycznie polega na wciskaniu wszytkim kamizelki kuloodpornej.\nPodobno niektórzy przy du¿ym szczêœciu potrafia zarobiæ nawet 90k-130k. Jednak norm¹ jest 10k a przy du¿ym pechu 2k.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 4: ShowPlayerDialogEx(playerid, D_JOBTYPE_PIZZABOY, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Pizzaboy", "Praca polega na rozwo¿eniu pizzy do g³odnych klientów.\nW tej pracy zarabiasz miêdzy innymi na napiwkach.\nNapiwki zale¿ne s¹ od tego jak szybko dostarczysz pizzê.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 5: ShowPlayerDialogEx(playerid, D_JOBTYPE_BOX, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Trener boksu", "Jako bokser bierzesz udzia³ w galach boksu, toczysz za pieni¹dze sparingi z innymi i uczysz nowych technik walki.\nJednak prawda jest taka, ¿e gale s¹ bardzo rzadko, za sparingi ma³o kto chce p³aciæ i tak naprawdê pe³nisz rolê nauczyciela.\nZarobki s¹ bardzo zró¿nicowane i zale¿¹ od skilla. Zazwyczaj jest to ok. 30k ale nie jest to zarobek regularny.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	   		case 6: sendTipMessage(playerid, "Ta praca jest wy³¹czona!");
+	    }   
+	}
+	else if (dialogid == D_JOBTYPE_LOWCA)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+		if(PlayerInfo[playerid][pGunLic] > 0) return sendTipMessage(playerid, "B£AD: Do tej pracy potrzebujesz licencji na broñ!");
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ³owcy nagród! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 1;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_PRAWNIK)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response)
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy prawnika! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 2;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_MECHANIK)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy mechanika! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 7;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_OCHRONIARZ)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ochroniarza! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 8;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_PIZZABOY)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy pizzaboya! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 17;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_BOX)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy trenera boksu! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 12;
+			}
+			else return 1;
+	}
+	// ----------------------------------------------------------------------------------------------------------
 	else if(dialogid == 7420)
 	{
 	    if(response)
@@ -12782,7 +12866,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                         }
                     }
                 }
-                else if(strfind(inputtext, "Radio LSRS") != -1)
+                else if(strfind(inputtext, "Radio SAN2") != -1)
                 {
                     if(RadioSANDos[0] != EOF)
                     {
@@ -12850,7 +12934,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     format(komunikat, sizeof(komunikat), "%s\nNeony (%s)", komunikat, taknieNeo);
 				}
                 //
-                format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio LSRS\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
+                format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio SAN2\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
                 //
                 if(!dont_override) ShowPlayerDialogEx(playerid, 666, DIALOG_STYLE_LIST, "Deska rozdzielcza", komunikat, "Wybierz", "Anuluj");
 		    }
