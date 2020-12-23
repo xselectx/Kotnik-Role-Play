@@ -504,7 +504,7 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define MAX_RANG_LEN    25
 
 //13.07
-#define MAX_SKIN_SELECT     22
+#define MAX_SKIN_SELECT     50
 #define JOB_SKIN_HOVERCOLOR 0x07B5EBFF    //Kolor zaznaczenia skinów
 //22.07
 

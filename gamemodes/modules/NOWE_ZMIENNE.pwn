@@ -11,6 +11,9 @@ new Text3D:TymczasowyOpis[MAX_PLAYERS];
 
 new UkradzionyPojazd[200];
 
+new BranyPortfelFrac[MAX_FRAC];
+new BranyPortfelOrg[50];
+
 new AdminVPNInfo[MAX_PLAYERS];
 
 new  iloscKick[MAX_PLAYERS];

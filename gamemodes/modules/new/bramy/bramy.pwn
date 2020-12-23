@@ -198,7 +198,7 @@ stock GetClosestBrama(playerid)
 {
 	for(new i; i<iloscbram; i++)
 	{
-		if(IsPlayerInRangeOfPoint(playerid, 15, bramy[i][b_x1],  bramy[i][b_y1], bramy[i][b_z1]) || IsPlayerInRangeOfPoint(playerid, 15, bramy[i][b_x2],  bramy[i][b_y2], bramy[i][b_z2]))
+		if(IsPlayerInRangeOfPoint(playerid, 7, bramy[i][b_x1],  bramy[i][b_y1], bramy[i][b_z1]) || IsPlayerInRangeOfPoint(playerid, 7, bramy[i][b_x2],  bramy[i][b_y2], bramy[i][b_z2]))
 		{
 			return i;
 		}

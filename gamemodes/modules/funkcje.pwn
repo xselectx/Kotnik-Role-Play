@@ -9122,14 +9122,14 @@ stock WczytajRangi()
 
 stock WczytajSkiny()
 {
-    new query[256], id, typ, skiny[256],skin[MAX_SKIN_SELECT];
+    new query[1024], id, typ, skiny[512],skin[MAX_SKIN_SELECT];
     mysql_query("SELECT * FROM `mru_skins`");
     mysql_store_result();
 
     while(mysql_fetch_row_format(query, "|"))
     {
-        sscanf(query, "p<|>dds[128]", typ, id, skiny);
-        sscanf(skiny, "p<,>A<d>(0)[22]", skin);
+        sscanf(query, "p<|>dds[512]", typ, id, skiny);
+        sscanf(skiny, "p<,>A<d>(0)[50]", skin);
 
         if(typ == 1)
         {
@@ -9676,6 +9676,7 @@ stock ProceedSkinSelection(playerid, index, typ)
 
     new ilosc = SkinSelection_GetNumber(typ, index), Float:calibrate;
     if(ilosc == 0) return 0;
+    if(ilosc >= 22) ilosc = 22;
     TogglePlayerControllable(playerid, 0);
     if(ilosc <= 11)
     {
@@ -9750,7 +9751,7 @@ stock ProceedSkinSelection(playerid, index, typ)
         x=xstart+margin;
         y=ystart+margin+h+margin;
 
-        for(new i=11;i<MAX_SKIN_SELECT;i++)
+        for(new i=11;i<22;i++)
         {
             switch(typ)
             {
@@ -14830,4 +14831,11 @@ SaveIPGPCI(playerid)
 
 	format(query, sizeof(query), "UPDATE `mru_konta` SET `IP` = '%s', `GPCI`='%s' WHERE `Nick` = '%s'", plrIP, ReturnGPCI(playerid), GetNick(playerid));
 	mysql_query(query);
+}
+
+forward BranyPortfelTimer(typ, org);
+public BranyPortfelTimer(typ, org)
+{
+	if(typ == 0) BranyPortfelFrac[org] = 0;
+	if(typ == 1) BranyPortfelOrg[org] = 0;
 }

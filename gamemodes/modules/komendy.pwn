@@ -1778,6 +1778,22 @@ CMD:wezportfel(playerid, params[])
 						{
 							if(PlayerInfo[giveplayerid][pConnectTime] >= 2)
 							{
+                                new org = GetPlayerOrg(playerid);
+                                new frac = GetPlayerFraction(playerid);
+
+                                if(frac > 0) 
+                                {
+                                    if(BranyPortfelFrac[frac] == 1) return sendTipMessage(playerid, "Twoja organizacja zabra³a ju¿ portfel przez ostatnie dwie godziny.");
+                                    BranyPortfelFrac[frac] = 1;
+                                    SetTimerEx("BranyPortfelTimer", 7200000, false, "dd", 0, frac);
+                                }
+                                if(org > 0) 
+                                {
+                                    if(BranyPortfelOrg[org] == 1) return sendTipMessage(playerid, "Twoja organizacja zabra³a ju¿ portfel przez ostatnie dwie godziny.");
+                                    BranyPortfelFrac[org] = 1;
+                                    SetTimerEx("BranyPortfelTimer", 7200000, false, "dd", 1, org);
+                                }
+
 								new string[128], giveplayer[MAX_PLAYER_NAME], sendername[MAX_PLAYER_NAME];
 								GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
 								GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -20619,7 +20635,7 @@ CMD:wejdz(playerid)
             return 1;
         }
 
-        else if (PlayerToPoint(1.0, playerid,735.08, -1472.89, 23.59)) //wyjœcie z kuchni
+        else if (PlayerToPoint(2.0, playerid,735.08, -1472.89, 23.59)) //wyjœcie z kuchni
         {
             SetPlayerPosEx(playerid,736.71, -1472.89, 23.59); //na zewnatrz
             return 1;
@@ -21649,7 +21665,7 @@ CMD:wyjdz(playerid)
             return 1;
         }
 
-        else if (PlayerToPoint(1.0, playerid,736.71, -1472.89, 23.59)) //wyjœcie z kuchni
+        else if (PlayerToPoint(2.0, playerid,736.71, -1472.89, 23.59)) //wyjœcie z kuchni
         {
             SetPlayerPosEx(playerid,735.08, -1472.89, 23.59); //na zewnatrz
             return 1;
@@ -32787,7 +32803,7 @@ CMD:dolacz(playerid)
 				//}
 				else if (GetPlayerState(playerid) == 1 && PlayerToPoint(3.0, playerid,-1932.3859,276.2117,41.0391) || PlayerToPoint(5.0, playerid,2769.8376,-1610.7819,10.9219))
 				{
-				   // if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ wzi¹c tej pracy!"); return 1; }
+				    if(PlayerInfo[playerid][pMember] > 0 || GetPlayerOrg(playerid) != 0) { sendTipMessageEx(playerid, COLOR_GREY, "Frakcje nie mog¹ wzi¹c tej pracy!"); return 1; }
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Chcesz zostaæ Mechanikiem, lecz najpierw musisz podpisaæ kontrakt na 5 godzin.");
 				    SendClientMessage(playerid, COLOR_LIGHTBLUE, "* Aby zrezygnowaæ z tej pracy musi min¹æ czas kontraktu, dopiero wtedy bêdziesz móg³ siê zwolniæ.");
 				    SendClientMessage(playerid, COLOR_P@, "   -----Informacje o pracy i warunki kontraktu-----");
@@ -34403,17 +34419,17 @@ CMD:akceptuj(playerid, params[])
         {
             if(GettingJob[playerid] > 0)
             {
-                if(PlayerInfo[playerid][pMember] > 0 || PlayerInfo[playerid][pLider] > 0 || PlayerInfo[playerid][pOrg] != 0)
-                {
-                    //if(GettingJob[playerid] == 4 || GettingJob[playerid] == 5 || GettingJob[playerid] == 9)
-                    //{//Allow the 3 jobs for Family Members
-                    //}
-                    //else
-                    //{
-                    //    SendClientMessage(playerid, COLOR_GREY, "   Nie mo¿esz wzi¹æ pracy, jesteœ we frakcji !");
-                    //    return 1;
-                    //}
-                }
+                //if(PlayerInfo[playerid][pMember] > 0 || PlayerInfo[playerid][pLider] > 0)
+                //{
+                //    if(GettingJob[playerid] == 4 || GettingJob[playerid] == 5 || GettingJob[playerid] == 9)
+                //    {//Allow the 3 jobs for Family Members
+                //    }
+                //    else
+                //    {
+                //        SendClientMessage(playerid, COLOR_GREY, "   Nie mo¿esz wzi¹æ tej pracy, jesteœ we frakcji !");
+                //        return 1;
+                //    }
+                //}
                 _MruGracz(playerid, "* Podpisa³eœ umowe na 2,5 godziny, zaczynasz now¹ pracê.");
                 _MruGracz(playerid, "* Gratulujemy nowej pracy, wpisz /pomoc aby zobaczyæ nowe komendy.");
                 PlayerInfo[playerid][pJob] = GettingJob[playerid];

@@ -16575,23 +16575,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						{
 							if(graffitiNum < 490)
 							{
-								new frac = GetPlayerFraction(playerid);
-								new org = GetPlayerOrg(playerid);
-								new zonekontrol = ZoneControl[GetPVarInt(playerid, "zoneid")];
-								SetPVarInt(playerid, "graffiti_zoneid", GetPVarInt(playerid, "zoneid"));
-								if(zonekontrol > 100 || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
+								if(PlayerInfo[playerid][pNewAP] != 6 && PlayerInfo[playerid][pAdmin] < 5000)
 								{
-									if(zonekontrol-100 == org || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
+									new frac = GetPlayerFraction(playerid);
+									new org = GetPlayerOrg(playerid);
+									new zonekontrol = ZoneControl[GetPVarInt(playerid, "zoneid")];
+									SetPVarInt(playerid, "graffiti_zoneid", GetPVarInt(playerid, "zoneid"));
+								
+									if(zonekontrol > 100)
 									{
-										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
+										if(zonekontrol-100 == org)
+										{
+											return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
+										} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
+									} else {
+										if(zonekontrol == frac)
+										{
+											return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
+										} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
 									}
-								} else {
-									if(zonekontrol == frac || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
-									{
-										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
-									} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
-								}
-								return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
+								} else return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
 							} else return SendClientMessage(playerid, 0xE9E9E9E9, "W mieœcie jest ju¿ za du¿o graffiti!");
 						} else return SendClientMessage(playerid, 0xE9E9E9E9, "Stworzy³eœ ju¿ za du¿o graffiti!");
 					} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz trzymaæ puszkê spreju!");
