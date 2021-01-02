@@ -1632,6 +1632,7 @@ enum pInfo
   	pSpawn,
  	pBW,
     pBWType,
+    pWEBCode,
  	pNatrasiejest,
 	pDrzwibusazamkniete,
 	pPrawojazdypytania[3],

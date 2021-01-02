@@ -8193,6 +8193,19 @@ SendZGMessage(color, string[])
 	}
 }
 
+//token
+
+forward GenerujToken(playerid);
+public GenerujToken(playerid)
+{
+	new tokenid;
+	tokenid = PlayerInfo[playerid][pUID]+PlayerInfo[playerid][pSex]+PlayerInfo[playerid][pPnumber]+PlayerInfo[playerid][pAge]+PlayerInfo[playerid][pConnectTime];
+	printf("[TOKEN] GID: %d | result: %d", PlayerInfo[playerid][pUID], tokenid);
+	PlayerInfo[playerid][pWEBCode] = tokenid;
+	printf("TOKEN: %d", PlayerInfo[playerid][pWEBCode]);
+	return tokenid;
+}
+
 //-----------------------[koniec chaty]------------------------------
 
 stock AddCar(car)

@@ -662,6 +662,20 @@ CMD:mysql_query(playerid, params[])
     return 1;
 }
 
+CMD:panel_weryfikacja(playerid, params[])
+{
+    if(IsPlayerConnected(playerid)) {
+        if (gPlayerLogged[playerid] == 0)
+        {
+            SendClientMessage(playerid, COLOR_GRAD1, "Nie jesteœ zalogowany!");
+            return 1;
+        }
+        sendTipMessage(playerid, sprintf("[PANEL SA:MP]: Wygenerowano token konta dla konta: GID: %d [TOKEN: %d]", PlayerInfo[playerid][pUID], GenerujToken(playerid)));
+        sendTipMessage(playerid, "U¿yj tego kodu na stronie kotnik-rp.pl/panel aby powi¹zaæ twoje konto z panelem gracza");
+    }
+    return 1;
+}
+
 CMD:opis_usun(playerid, params[])
 {
     if(PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] > 0)
@@ -9659,6 +9673,8 @@ CMD:pblok(playerid, params[])
 	}
 	return 1;
 }
+
+
 
 CMD:pban(playerid, params[])
 {
