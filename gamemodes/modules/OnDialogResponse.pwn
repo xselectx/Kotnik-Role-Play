@@ -1214,7 +1214,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	else if (dialogid == D_JOBTYPE_LOWCA)
 	{
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
-		if(PlayerInfo[playerid][pGunLic] > 0) return sendTipMessage(playerid, "B£AD: Do tej pracy potrzebujesz licencji na broñ!");
+		if(PlayerInfo[playerid][pGunLic] == 0) return sendTipMessage(playerid, "B£AD: Do tej pracy potrzebujesz licencji na broñ!");
 			if(response) 
 			{
 				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ³owcy nagród! Pod /pomoc znajdziesz potrzebne komendy");
@@ -1267,8 +1267,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
 			if(response) 
 			{
-				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy trenera boksu! Pod /pomoc znajdziesz potrzebne komendy");
-				PlayerInfo[playerid][pJob] = 12;
+				sendTipMessage(playerid, "Zmieni³y siê przepisy, aby zostaæ nauczycielem boksu musisz aplikowaæ przez stronê rz¹du (forum)");
+				//sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy trenera boksu! Pod /pomoc znajdziesz potrzebne komendy");
+				//PlayerInfo[playerid][pJob] = 12;
 			}
 			else return 1;
 	}
