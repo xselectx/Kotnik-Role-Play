@@ -103,6 +103,7 @@ Kotnik® Role Play
 
 #include "modules/inne/pizzaboy.pwn"
 #include "modules/inne/kurier.pwn"
+//#include "modules/inne/napady.pwn"
 
 #include "modules/Inne/system_discord.pwn"
 /*#include "modules/obiekty/stare_obiekty.pwn"
@@ -1400,7 +1401,15 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
     GetPlayerHealth(playerid,health);
     GetPlayerArmour(playerid, ARMOR);
 
+    format(C_STRING, sizeof(C_STRING), "Gracz %s [%d] otrzyma³ obra¿enia od gracza %s [%d] z broni %d", GetNick(playerid), playerid, GetNick(issuerid), issuerid, weaponid);
+    DMLog(C_STRING);
+
     if(GetPVarInt(playerid, "dutyadmin") == 1)
+    {
+        SetPlayerHealth(playerid, Float:health);
+    }
+
+    if(GetPVarInt(playerid, "supportduty") == 1)
     {
         SetPlayerHealth(playerid, Float:health);
     }
@@ -1657,10 +1666,12 @@ public OnPlayerDeath(playerid, killerid, reason)
             {
                 if(reason == 38 && GetVehicleModel(GetPlayerVehicleID(killerid)) == 425) format(string, sizeof(string), "{FF66CC}DeathWarning: {FFFFFF}%s [%d] zabi³ %s [%d] z Huntera", killername, killerid, playername, playerid);
 				else format(string, sizeof(string), "{FF66CC}DeathWarning: {FFFFFF}%s [%d] zabi³ %s [%d] z %s", killername, killerid, playername, playerid, (reason <= 46) ? GunNames[reason] : NiggaNames[reason-46]);
+                DeathLog(string);
             }
             else
 				format(string, sizeof(string), "{FF66CC}DeathWarning: %s [%d] umar³ (%s)", playername, playerid, (reason <= 46) ? GunNames[reason] : NiggaNames[reason-46]);
 			DeWu(string, 1);
+            DeathLog(string);
 		}
 		if(IsPlayerConnected(killerid) && killerid != INVALID_PLAYER_ID)
 		{
@@ -1752,6 +1763,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 							     PayLog(string);
 							     format(string,128,"NR Marcepan_Marks: Szok! Zamach na ¿ycie %s . Zosta³ on ciê¿ko ranny i przewieziony do szpitala.",playername);
 							     SendClientMessageToAll(COLOR_NEWS, string);
+                                 DeathLog(string);
 							     PlayerInfo[playerid][pHeadValue] = 0;
 							     GotHit[playerid] = 0;
 							     GetChased[playerid] = 999;
@@ -5577,6 +5589,8 @@ public OnGameModeInit()
 
     ZaladujAC();
 
+    //LoadActorsToRob();
+
     //noYsi
     // LoadPrzewinienia();   DO POPRAWY
 
@@ -5650,7 +5664,7 @@ public OnGameModeInit()
 		ServerTime = tmphour;
 	}
 	//timery
-	SetTimer("AktywujPozar", 7200000, true);//System Po¿arów v0.1
+	SetTimer("AktywujPozar", 2200000, true);//System Po¿arów v0.1
     SetTimer("MainTimer", 1000, true);
     //SetTimer("MySQL_Refresh", 15000, true);
 	//SetTimer("JednaSekundaTimer", 1000, true);//1 sekunda timer
@@ -5853,13 +5867,13 @@ PayDay()
 				    }
 				    else if (PlayerInfo[i][pZG] >= 1)
 				    {
-				        format(string, sizeof(string), "Zaufani/%s.ini", playername2);
+				        format(string, sizeof(string), "Supporterzy/%s.ini", playername2);
 				        dini_IntSet(string, "Godziny_Online", dini_Int(string, "Godziny_Online")+1 );
 				    }
 				    Tax += TaxValue;//Should work for every player online
 				    PlayerInfo[i][pAccount] -= TaxValue;
 					checks = PlayerInfo[i][pPayCheck];
-				    ebill = (PlayerInfo[i][pAccount]/10000)*(PlayerInfo[i][pLevel]);
+				    ebill = (PlayerInfo[i][pAccount]/20000)*(PlayerInfo[i][pLevel]);
 				    ConsumingMoney[i] = 1;
 				    DajKase(i, checks);
 				    if(PlayerInfo[i][pAccount] > 0)
@@ -6358,14 +6372,17 @@ OnPlayerLogin(playerid, password[])
 		//Powitanie:
 		format(string, sizeof(string), "Witaj, %s [UID %d | PID: %d]",nick, PlayerInfo[playerid][pUID], playerid);
         sendTipMessage(playerid, string);
-        //SendClientMessage(playerid, COLOR_LIGHTRED, "»» Administracja ¿yczy wszystkim graczom weso³ych œwi¹t! (/czapka)");
-        MSGBOX_Show(playerid, "Wesolych Swiat!", MSGBOX_ICON_TYPE_WARNING);
 		//_MruGracz(playerid,string);
 		printf("%s has logged in.",nick);
         if (PlayerInfo[playerid][pAdmin] > 0)
         {
             //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
             sendTipMessage(playerid, sprintf("Posiadasz uprawnienia: {FF0000}Administrator [%d]", PlayerInfo[playerid][pAdmin]));
+        }
+        if (PlayerInfo[playerid][pZG] > 0)
+        {
+            //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
+            sendTipMessage(playerid, sprintf("Posiadasz uprawnienia: {2396FF}Supporter [%d]", PlayerInfo[playerid][pZG]));
         }
 		if (PremiumInfo[playerid][pKP] > 0)
 		{
@@ -6560,7 +6577,7 @@ OnPlayerLogin(playerid, password[])
             if(PlayerInfo[playerid][pZG] > 0 || PlayerInfo[playerid][pNewAP] > 0)
             {
                 SetPVarInt(playerid, "support_duty", 1);
-                _MruGracz(playerid, "SUPPORT: {FFFFFF}Stawiasz siê na s³u¿bie nowym graczom. Aby sprawdziæ zg³oszenia wpisz {00FF00}/tickets");
+                _MruGracz(playerid, "SUPPORT: {FFFFFF}U¿yj /tickets aby wyœwietliæ aktywne proœby o pomoc!");
             }
             ShowPlayerDialogEx(playerid, 235, DIALOG_STYLE_INPUT, "Weryfikacja", "Logujesz siê jako cz³onek administracji. Zostajesz poproszony o wpisanie w\nponi¿sze pole has³a weryfikacyjnego. Pamiêtaj, aby nie podawaæ go nikomu!", "Weryfikuj", "WyjdŸ");
         }
@@ -7267,6 +7284,13 @@ public OnPlayerText(playerid, text[])
         return 0;
     }
 
+    if(GetPVarInt(playerid, "supportduty") == 1)
+    {
+        format(string, sizeof(string), "Supporter %s {BFC0C2}[%d] Czat OOC: (( %s ))", GetNick(playerid, true), playerid, text);
+        ProxDetector(30.0, playerid, string, COLOR_BLUE,COLOR_BLUE,COLOR_BLUE,COLOR_BLUE,COLOR_BLUE);
+        return 0;
+    }
+
 	if(MarriageCeremoney[playerid] > 0)
 	{
 	    if (strcmp("tak", text, true) == 0)
@@ -7918,6 +7942,7 @@ public OnPlayerText(playerid, text[])
             {
                 format(string, sizeof(string), "Reporter %s: %s", sendername, text);
                 OOCNews(COLOR_LIGHTGREEN, string);
+                SMSLog(string);
             } else {
                 new pos = strfind(text, " ", true, strlen(text) / 2);
                 if(pos != -1)
@@ -7929,9 +7954,11 @@ public OnPlayerText(playerid, text[])
 
                     format(string, sizeof(string), "Reporter %s: %s [.]", sendername, text);
                     OOCNews(COLOR_LIGHTGREEN, string);
+                    SMSLog(string);
                 
                     format(string, sizeof(string), "[.] %s", text2);
-                    OOCNews(COLOR_LIGHTGREEN, string);                    
+                    OOCNews(COLOR_LIGHTGREEN, string);  
+                    SMSLog(string);                  
                     
                 }
             }
@@ -7942,6 +7969,7 @@ public OnPlayerText(playerid, text[])
             {
                 format(string, sizeof(string), "Goœæ wywiadu %s: %s", sendername, text);
                 OOCNews(COLOR_LIGHTGREEN, string);
+                SMSLog(string);
             } else {
                 new pos = strfind(text, " ", true, strlen(text) / 2);
                 if(pos != -1)
@@ -7953,9 +7981,11 @@ public OnPlayerText(playerid, text[])
 
                     format(string, sizeof(string), "Goœæ wywiadu %s: %s [.]", sendername, text);
                     OOCNews(COLOR_LIGHTGREEN, string);
+                    SMSLog(string);
                 
                     format(string, sizeof(string), "[.] %s", text2);
-                    OOCNews(COLOR_LIGHTGREEN, string);                    
+                    OOCNews(COLOR_LIGHTGREEN, string); 
+                    SMSLog(string);                   
                     
                 }
             }
