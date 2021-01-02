@@ -2446,6 +2446,20 @@ IsAChlor(playerid)
 	return 0;
 }
 
+IsARoad(playerid)
+{
+	if(IsPlayerConnected(playerid))
+	{
+	    new nick[MAX_PLAYER_NAME];
+		GetPlayerName(playerid, nick, sizeof(nick));
+		if(strcmp(nick,"Andre_Schavione", false) == 0)
+		{
+		    return 1;
+		}
+	}
+	return 0;
+}
+
 
 stock MozePobic(playerid)
 {
@@ -4760,6 +4774,25 @@ stock AdminDutyLog(text[])
 	new plik[32] = "Admini/wszyscy.log";
 	Log(plik, text);
 }
+
+stock DeathLog(text[])
+{
+	new plik[32] = "logi/death.log";
+	Log(plik, text);
+}
+
+stock DMLog(text[])
+{
+	new plik[32] = "logi/dm2.log";
+	Log(plik, text);
+}
+
+stock SMSLog(text[])
+{
+	new plik[32] = "logi/sms-call.log";
+	Log(plik, text);
+}
+
 
 stock Log(plik[], text[])
 {
@@ -8083,7 +8116,7 @@ SendAdminMessage(color, string[])
 	{
 		if(IsPlayerConnected(i))
 		{
-		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
+		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1 || PlayerInfo[i][pZG] >= 1)
 		    {
 				SendClientMessage(i, color, string);
 			}
