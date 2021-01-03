@@ -1274,6 +1274,130 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			else return 1;
 	}
 	// ----------------------------------------------------------------------------------------------------------
+	else if(dialogid == DIALOG_POMOC_NEW)
+	{
+		new string[556];
+		if(!response) return sendTipMessage(playerid, "Wiêcej informacji odnoœnie komend i zasad panuj¹cych na serwerze znajdziesz na naszej stronie: https://kotnik-rp.pl");
+		switch(listitem)
+		{
+			case 0: {
+				format(string, sizeof(string), "/zasady /stats /nextlevel /ulepszenia\n/plac /datek /czas /kup /wyrzucbronie /dajklucz \
+				\n/zmienklucz /id /pij /muzyka /pokazlicencje /ubranie\n/resetulepszen(100k) /skill \
+				\n/laptop /licencje /lotto /zmienspawn /stopani /pobij /wyscigi\n/report /anuluj /akceptuj \
+				\n/wezdragi /kontrakt /tankuj /oczysc /wezwij /rodziny /wepchnij");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Podstawowe komendy", string, "Zamknij", "");
+			}
+			case 1: {
+				format(string, sizeof(string), "(/w)iadomosc (/o)oc (/k)rzyk (/s)zept (/l)ocal (/b) (/og)loszenie (/f)amily /me (/n)ewbie /sprobuj");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Czaty", string, "Zamknij", "");
+			}
+			case 2: {
+				format(string, sizeof(string), "/togooc /tognews /togdepo /togfam /togw /togtel /toglicznik /tognewbie /togadmin");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Blokada czatów", string, "Zamknij", "");
+			}
+			case 3: {
+				format(string, sizeof(string), "/dr /zp /wywal /lock /kanister /kogut");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy pojazdu", string, "Zamknij", "");
+			}
+			case 4: {
+				format(string, sizeof(string), "/dom /dominfo");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy domu", string, "Zamknij", "");
+			}
+			case 5: {
+				format(string, sizeof(string), "/przelew /teczka /pay /plac");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy bankowe", string, "Zamknij", "");
+			}
+			case 6: {
+				if(PlayerInfo[playerid][pJob] == 1) {
+					format(string, sizeof(string), "/namierz /wanted /poddajsie /zlecenie (/m)egafon");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» £owca nagród", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 2) {
+					format(string, sizeof(string), "/uwolnij /oczyscmdc /zbijwl /kamera-wiezienna /wanted");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Prawnik", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 3) {
+					format(string, sizeof(string), "/sex");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Prostytutka", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 4) {
+					format(string, sizeof(string), "/sprzedajdragi /get drugs /wywaldragi");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Diler dragów", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 5) {
+					format(string, sizeof(string), "/ukradnij");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Z³odziej aut", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 7) {
+					format(string, sizeof(string), "/napraw /tankowanie /sluzba /sprawdzneon");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Mechanik", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 8) {
+					format(string, sizeof(string), "/ochrona");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Ochroniarz", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 9) {
+					format(string, sizeof(string), "/materialy /wywalmaterialy /sprzedajbron");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Diler broni", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 12) {
+					format(string, sizeof(string), "/walka /boxstats /naucz");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Bokser", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 12) {
+					format(string, sizeof(string), "/walka /boxstats /naucz");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Bokser", string, "Zamknij", "");
+				}
+				else sendTipMessage(playerid, "Nie posiadasz ¿adnej pracy!");
+			}
+			case 7: {
+				if(IsACop(playerid)) {
+					format(string, sizeof(string), "przeszukaj /zabierz /mandat (/gov) /stanowe /camera /wywaz /obezwladnij \
+					\n/gps /dgps /red /odznaka /pacholek /barierka /kolczatka /skuj /rozkuj /mdc /aresztuj \
+					\n /sluzba /poszukiwani /tazer /cywil (/r)adio (/d)epartment (/m)egafon (/su)spect \
+					\n /ro(radiooc) /depo(departamentooc) /pd(wiadomosc) /cela /togcrime /poscig NEW: /pozwolenie \n\n{FFFFFF}# Federalne \
+					\n/zmienskin /namierz /fbi /federalne /cela /gps /dgps /red");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» S³u¿by mundurowe", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pMember] == 4 || PlayerInfo[playerid][pLider] == 4 || PlayerInfo[playerid][pMember] == 17 || PlayerInfo[playerid][pLider] == 17) {
+					format(string, sizeof(string), "(/r)adio (/d)epartment /ulecz /sluzba /apteczka /zastrzyk /szpital-info /zmienplec \
+					\n/sprzedajapteczke /gps /dgps /red /straz /megafon /ro /r /duty /czysc /gps /dgps /red");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» S³u¿by ratunkowe", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pMember] == 9 || PlayerInfo[playerid][pLider] == 9) {
+					format(string, sizeof(string), "/napisz /gazety /wywiad /news [text] /reflektor /studia /glosnik /calllive /radiostacja \
+					\nP³atny numer SMS - /sms [od 100 do 150], dostajesz tyle stówek ile jest po 1 (nr. 125 - 25 * 100 = 2500$) \
+					\n/zamknijlinie /otworzlinie /linie");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» San News", string, "Zamknij", "");
+				}	
+				else if(PlayerInfo[playerid][pMember] == 15||PlayerInfo[playerid][pLider] == 15) {
+					format(string, sizeof(string), "/sprzedajneon /napraw /tankowanie /nitro /hydraulika /maluj /felga /zderzak \
+					\n/kolory /malunki /felgi /sluzba /stworzwyscig /wyscigi /wyscig /wyscig-start /wyscig-stop /cp /cp-usun /meta \
+					\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Szajka zmotoryzowana", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pMember] == 8 || PlayerInfo[playerid][pLider] == 8) {
+					format(string, sizeof(string), "/laptop /zmienskin /reklama /namierz \
+					\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Hitman Agency", string, "Zamknij", "");
+				} else sendTipMessage(playerid, "Nie jesteœ w ¿adnej organizacji b¹dŸ twoja organizacja nie ma dedykowanych komend!");
+			}
+			case 8:
+			{
+				if(IsAPrzestepca(playerid)) {
+					format(string, sizeof(string), "/laptop /zmienskin /reklama /namierz \
+						\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
+						ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Przestêpcze", string, "Zamknij", "");
+				} else sendTipMessage(playerid, "Nie jesteœ w organizacji przestêpczej!");
+			}
+			case 9:
+			{
+				format(string, sizeof(string), "/animhelp /zapytaj");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Inne", string, "Zamknij", "");
+			}
+		}
+	}
+	// ----------------------------------------------------------------------------------------------------------
 	else if(dialogid == 7420)
 	{
 	    if(response)
@@ -9408,15 +9532,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					}
 					case 1://Zbrojownia
 					{
-					    ShowPlayerDialogEx(playerid, 1231, DIALOG_STYLE_MSGBOX, "Zablokowane", "Ta opcja jest na razie w fazie produkcji", "Wróæ", "Wróæ");
-					    /*if(Dom[dom][hZbrojownia] == 0)
+					    //ShowPlayerDialogEx(playerid, 1231, DIALOG_STYLE_MSGBOX, "Zablokowane", "Ta opcja jest na razie w fazie produkcji", "Wróæ", "Wróæ");
+					    if(Dom[dom][hZbrojownia] == 0)
 					    {
 					    	ShowPlayerDialogEx(playerid, 8281, DIALOG_STYLE_MSGBOX, "Kupowanie Zbrojowni", "Zbrojownia - pozwala przechowywaæ broñ w domu.\nNa pocz¹tku kupujesz pomnieszczenie zbrojowni, potem mo¿esz przystosowaæ j¹ do przechowywania ró¿nych rodzajów broni, na co bêdziesz musia³ wydaæ dodakowe pieni¹dze.\nKoszt pomieszczenia zbrojowni to 1 000 000$, wymagane jest posiadanie licencji na broñ. Po kupieniu bêdziesz móg³ przystosowywaæ j¹ do swoich potrzeb.", "KUP!", "Cofnij");
 						}
 						else if(Dom[dom][hZbrojownia] == 1)
 						{
 						    DialogZbrojowni(playerid);
-						}*/
+						}
 					}
 					case 2://Gara¿
 					{
