@@ -93,6 +93,7 @@ Kotnik® Role Play
 #include "modules/Inne/external.pwn"
 
 #include "modules/inne/system_przedmiotow.pwn"
+#include "modules/inne/napady.pwn"
 
 #include "modules/forward.pwn"
 #include "modules/funkcje.pwn"
@@ -103,7 +104,6 @@ Kotnik® Role Play
 
 #include "modules/inne/pizzaboy.pwn"
 #include "modules/inne/kurier.pwn"
-//#include "modules/inne/napady.pwn"
 
 #include "modules/Inne/system_discord.pwn"
 /*#include "modules/obiekty/stare_obiekty.pwn"
@@ -164,7 +164,7 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success)
     {
         SendClientMessage(playerid, -1, "dziala / fk");
     }
-    if(!success) sendTipMessage(playerid, "SERWER: "SZARY"Nie ma takiej komendy!");
+    if(!success) sendTipDialogMessage(playerid, "Nie znaleziono takiej komendy!");
 
 	return 1;
 }
@@ -1884,6 +1884,13 @@ public OnPlayerSpawn(playerid) //Przebudowany
         SetTimerEx("SpectatingPlayerSpawnFix", 4000, 0, "d", playerid);
     }
     
+    //resetowanie boksera
+    if(PlayerInfo[playerid][pJob] == JOB_BOXER) {
+        sendTipDialogMessage(playerid, "Twoja praca (bokser) zosta³a zresetowana z powodu przeniesienia pracy na skrypt grupy!");
+        PlayerInfo[playerid][pJob] = 0;
+    }
+    //end
+
     //Minusowe pieniadze (-10kk) = ban
     if(kaska[playerid] <= -10000000)
     {
@@ -1920,7 +1927,7 @@ public OnPlayerSpawn(playerid) //Przebudowany
         MruMySQL_SetAccInt("Rank", GetNick(playerid), 0);
         MruMySQL_SetAccInt("Member", GetNick(playerid), 0);
         UsunBron(playerid);
-        sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Zosta³eœ wyrzucony z pracy przez lidera, gdy by³eœ offline!");   
+        sendTipDialogMessage(playerid, "Zosta³eœ wyrzucony z pracy przez lidera, gdy by³eœ offline!");   
     }
         // zabieranie prawka //
     new string[128];
@@ -5007,7 +5014,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
                         if(PlayerInfo[playerid][pLevel] < 3)
                         {
                             ZabierzKase(playerid, floatround(TransportValue[i]/2));//moneycheat
-                            sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Jesteœ nowym graczem, obowi¹zuje Cie rabat 50 procent na taksówkê.");
+                            sendTipDialogMessage(playerid, "Jesteœ nowym graczem, obowi¹zuje Cie rabat 50 procent na taksówkê.");
                         }
                         else
                         {
@@ -5250,7 +5257,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
                 GetVehicleParamsEx(newcar, engine, unused, unused, unused, unused, unused, unused);
                 if(engine == 0)
                 {
-				    sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Mo¿esz ukraœæ ten wóz, wpisz /kradnij spróbowaæ to zrobiæ lub /wyjdz aby wyjœæ.");
+				    sendTipDialogMessage(playerid, "Mo¿esz ukraœæ ten wóz, wpisz /kradnij spróbowaæ to zrobiæ lub /wyjdz aby wyjœæ.");
                     KradniecieWozu[playerid] = newcar;
                 }
                 //if(PlayerInfo[playerid][pCarLic] == 1) TogglePlayerControllable(playerid, 0);
@@ -7273,7 +7280,7 @@ public OnPlayerText(playerid, text[])
 	new giveplayerid;
 	if(PlayerInfo[playerid][pMuted] == 1)
 	{
-		sendTipMessageEx(playerid, TEAM_CYAN_COLOR, "Nie mo¿esz mówiæ gdy¿ jesteœ uciszony");
+		sendTipDialogMessage(playerid, "Nie mo¿esz mówiæ gdy¿ jesteœ uciszony");
 		return 0;
 	}
 
