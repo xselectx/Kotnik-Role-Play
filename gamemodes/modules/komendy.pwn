@@ -41,8 +41,8 @@ CMD:marcepan(playerid, params[])
     if(PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] == 5)
     {
         new id;
-        if(sscanf(params, "k<fix>", id)) return SendClientMessage(playerid, -1, "(MARCEPAN) - Podaj Nick lub ID gracza.");
-        if(!IsPlayerConnected(id)) return sendErrorMessage(playerid, "Nie ma takiego gracza");
+        if(sscanf(params, "k<fix>", id)) return sendTipDialogMessage(playerid, "(MARCEPAN) - Podaj Nick lub ID gracza.");
+        if(!IsPlayerConnected(id)) return sendErrorDialogMessage(playerid, "Nie ma takiego gracza");
         new string[128];
         SendClientMessage(playerid, COLOR_PAPAYAWHIP, "========================================");
         format(string, 128, "Symulacja Marcepan_Marks dla %s", GetNick(id, true));
@@ -182,7 +182,7 @@ CMD:setcarint(playerid, params[])
         new plo;
         if( sscanf(params, "d", plo))
         {
-            sendTipMessage(playerid, "U¿yj /setcarint [carid]");
+            sendTipDialogMessage(playerid, "U¿yj /setcarint [carid]");
             return 1;
         }
         if (PlayerInfo[playerid][pAdmin] >= 1 || Uprawnienia(playerid, ACCESS_PANEL) || IsAKO(playerid) || PlayerInfo[playerid][pNewAP] == 5)
@@ -226,17 +226,17 @@ CMD:panel(playerid, params[])
         {
             if(!Uprawnienia(playerid, ACCESS_KARY_UNBAN))
             {
-                sendErrorMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
+                sendErrorDialogMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
                 return 1;
             }
             if(strlen(var) < 1 || strlen(var) > MAX_PLAYER_NAME)
             {
-                sendErrorMessage(playerid, "Niepoprawna d³ugosc!");
+                sendErrorDialogMessage(playerid, "Niepoprawna d³ugosc!");
                 return 1;
             }
             if(!MruMySQL_Odbanuj(var, "nieznane", playerid))
             {
-                sendErrorMessage(playerid, "Nie mo¿na by³o wykonaæ zapytania do bazy!");
+                sendErrorDialogMessage(playerid, "Nie mo¿na by³o wykonaæ zapytania do bazy!");
                 return 1;
             }
 
@@ -249,12 +249,12 @@ CMD:panel(playerid, params[])
         {
             if(!Uprawnienia(playerid, ACCESS_KARY_UNBAN))
             {
-                sendErrorMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
+                sendErrorDialogMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
                 return 1;
             }
             if(strlen(var) < 7 || strlen(var) > 16)
             {
-                sendErrorMessage(playerid, "Niepoprawna d³ugosc IP!");
+                sendErrorDialogMessage(playerid, "Niepoprawna d³ugosc IP!");
                 return 1;
             }
             new count, cpos=0;
@@ -265,12 +265,12 @@ CMD:panel(playerid, params[])
             }
             if(count != 3)
             {
-                sendErrorMessage(playerid, "Niepoprawny adres IP (dots)!");
+                sendErrorDialogMessage(playerid, "Niepoprawny adres IP (dots)!");
                 return 1;
             }
             if(!MruMySQL_Odbanuj("Brak", var, playerid))
             {
-                sendErrorMessage(playerid, "Nie mo¿na by³o wykonaæ zapytania do bazy!");
+                sendErrorDialogMessage(playerid, "Nie mo¿na by³o wykonaæ zapytania do bazy!");
                 return 1;
             }
 
@@ -283,17 +283,17 @@ CMD:panel(playerid, params[])
         {
             if(!Uprawnienia(playerid, ACCESS_KARY_BAN))
             {
-                sendErrorMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
+                sendErrorDialogMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
                 return 1;
             }
             if(strlen(var) < 1 || strlen(var) > MAX_PLAYER_NAME)
             {
-                sendErrorMessage(playerid, "Niepoprawna d³ugosc!");
+                sendErrorDialogMessage(playerid, "Niepoprawna d³ugosc!");
                 return 1;
             }
             if(strlen(powod) < 1)
             {
-                sendErrorMessage(playerid, "Podaj powód.");
+                sendErrorDialogMessage(playerid, "Podaj powód.");
                 return 1;
             }
             MruMySQL_BanujOffline(var, powod, playerid);
@@ -307,12 +307,12 @@ CMD:panel(playerid, params[])
         {
             if(!Uprawnienia(playerid, ACCESS_KARY_BAN))
             {
-                sendErrorMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
+                sendErrorDialogMessage(playerid, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
                 return 1;
             }
             if(strlen(var) < 7 || strlen(var) > 16)
             {
-                sendErrorMessage(playerid, "Niepoprawna d³ugosc IP!");
+                sendErrorDialogMessage(playerid, "Niepoprawna d³ugosc IP!");
                 return 1;
             }
             new count, cpos;
@@ -323,7 +323,7 @@ CMD:panel(playerid, params[])
             }
             if(count != 3)
             {
-                sendErrorMessage(playerid, "Niepoprawny adres IP (dots)!");
+                sendErrorDialogMessage(playerid, "Niepoprawny adres IP (dots)!");
                 return 1;
             }
             MruMySQL_BanujOffline("Brak", powod, playerid, var);
@@ -602,7 +602,7 @@ CMD:rodzinaskrypt(playerid, params[])
 {
     if(!Uprawnienia(playerid, ACCESS_MAKEFAMILY)) return 1;
     new id, nazwa[32];
-    if(sscanf(params, "s[32]d", nazwa, id)) return sendTipMessage(playerid, "/rodzinaskrypt [nazwa ! nie ruszaj jak nie wiesz.. !] [slot]");
+    if(sscanf(params, "s[32]d", nazwa, id)) return sendTipDialogMessage(playerid, "/rodzinaskrypt [nazwa ! nie ruszaj jak nie wiesz.. !] [slot]");
     if(strcmp(nazwa, "FAMILY_SAD") == 0)
     {
         FAMILY_SAD = id;
@@ -626,6 +626,10 @@ CMD:rodzinaskrypt(playerid, params[])
     else if(strcmp(nazwa, "FAMILY_FDU") == 0)
     {
         FAMILY_FDU = id;
+    }
+    else if(strcmp(nazwa, "FAMILY_GYM") == 0)
+    {
+        FAMILY_GYM = id;
     }
     new query[75];
     format(query, 75, "UPDATE `mru_rodziny` SET `id`=%d WHERE `name`='%s'", id, nazwa);
@@ -662,7 +666,7 @@ CMD:mysql_query(playerid, params[])
     return 1;
 }
 
-CMD:panel_weryfikacja(playerid, params[])
+/*CMD:panel_weryfikacja(playerid, params[])
 {
     if(IsPlayerConnected(playerid)) {
         if (gPlayerLogged[playerid] == 0)
@@ -671,17 +675,17 @@ CMD:panel_weryfikacja(playerid, params[])
             return 1;
         }
         sendTipMessage(playerid, sprintf("[PANEL SA:MP]: Wygenerowano token konta dla konta: GID: %d [TOKEN: %d]", PlayerInfo[playerid][pUID], GenerujToken(playerid)));
-        sendTipMessage(playerid, "U¿yj tego kodu na stronie kotnik-rp.pl/panel aby powi¹zaæ twoje konto z panelem gracza");
+        sendTipDialogMessage(playerid, "U¿yj tego kodu na stronie kotnik-rp.pl/panel aby powi¹zaæ twoje konto z panelem gracza");
     }
     return 1;
-}
+}*/
 
 CMD:opis_usun(playerid, params[])
 {
     if(PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] > 0)
     {
         new id;
-        if(sscanf(params, "k<fix>d", id)) return sendTipMessage(playerid, "/opis_usun [playerid/CzêœæNicku]");
+        if(sscanf(params, "k<fix>d", id)) return sendTipDialogMessage(playerid, "/opis_usun [playerid/CzêœæNicku]");
 
         if(TymczasowyOpisVar[id] == 1)
         {
@@ -703,7 +707,7 @@ CMD:opis(playerid, params[])
     //SendClientMessage(playerid, COLOR_RED, "Komenda wy³¹czona na czas naprawy. Przepraszamy za utrudnienia.");
     new opis[256];
 
-    if(sscanf(params, "s[256]", opis)) return sendTipMessage(playerid, "/opis [opis/usun/zobacz]");
+    if(sscanf(params, "s[256]", opis)) return sendTipDialogMessage(playerid, "/opis [opis/usun/zobacz]");
 
     if(strlen(opis) == 6 && (strcmp(opis, "zobacz", true) == 0))
     {
@@ -749,7 +753,7 @@ CMD:opis(playerid, params[])
         }
         
     } else return SendClientMessage(playerid, COLOR_GRAD1, "Posiadasz blokadê pisania na czatach globalnych, nie mo¿esz utworzyæ opisu.");
-    /*if(PlayerInfo[playerid][pConnectTime] < 4) return sendErrorMessage(playerid, "Opis dostêpny od 4 godzin online!");
+    /*if(PlayerInfo[playerid][pConnectTime] < 4) return sendErrorDialogMessage(playerid, "Opis dostêpny od 4 godzin online!");
     new var[8], id=-1;
     sscanf(params, "s[8]K<fix>(-1)", var, id);
     if(strlen(var) == 4 && (strcmp(var, "usuñ", true) == 0 || strcmp(var, "usun", true) == 0))
@@ -786,7 +790,7 @@ CMD:opis(playerid, params[])
 CMD:vopis(playerid, params[])
 {
     //SendClientMessage(playerid, COLOR_RED, "Komenda wy³¹czona na czas naprawy. Przepraszamy za utrudnienia.");
-    if(PlayerInfo[playerid][pConnectTime] < 4) return sendErrorMessage(playerid, "Opis dostêpny od 4 godzin online!");
+    if(PlayerInfo[playerid][pConnectTime] < 4) return sendTipDialogMessage(playerid, "Opis dostêpny od 4 godzin online!");
 
     new var[8], id=-1;
     sscanf(params, "s[8]D(-1)", var, id);
@@ -878,7 +882,7 @@ CMD:pracownicy(playerid)
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie jesteœ liderem lub osob¹ z 1 rang¹!");
+	    sendErrorDialogMessage(playerid, "Nie jesteœ liderem lub osob¹ z 1 rang¹!");
 	}
 	return 1;
 }
@@ -1102,85 +1106,13 @@ CMD:pomoc2(playerid, params[])
     return true;
 }
 */
+
 CMD:help(playerid) return cmd_pomoc(playerid);
 CMD:pomoc(playerid)
 {
-    SendClientMessage(playerid, COLOR_GRAD1,"*** KONTO *** /zasady /stats /nextlevel /ulepszenia");
-    SendClientMessage(playerid, COLOR_GRAD2,"*** CMD *** /plac /datek /czas /kup /wyrzucbronie /dajklucz /zmienklucz /id /pij /muzyka /pokazlicencje /ubranie");
-    SendClientMessage(playerid, COLOR_GRAD2,"*** CMD *** /resetulepszen(100k) /zamknij /skill /laptop /licencje /lotto /zmienspawn /stopani /pobij /wyscigi");
-    SendClientMessage(playerid, COLOR_GRAD2,"*** CMD *** /report /anuluj /akceptuj /wywal /wezdragi /kontrakt /tankuj /kanister /oczysc /wezwij /rodziny /wepchnij");
-    SendClientMessage(playerid, COLOR_GRAD3,"*** CHAT *** (/w)iadomosc (/o)oc (/k)rzyk (/s)zept (/l)ocal (/b) (/og)loszenie (/f)amily /me (/n)ewbie /sprobuj");
-    SendClientMessage(playerid, COLOR_GRAD3,"*** BLOKADY *** /togooc /tognews /togdepo /togfam /togw /togtel /toglicznik /tognewbie /togadmin");
-    SendClientMessage(playerid, COLOR_GRAD4,"*** BANK *** /stan /wyplac /bank /przelew");
-    if(PlayerInfo[playerid][pJob] == 1) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /namierz /wanted /poddajsie /zlecenie (/m)egafon"); }
-    else if(PlayerInfo[playerid][pJob] == 2) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /uwolnij /oczyscmdc /zbijwl /kamera-wiezienna /wanted"); }
-    else if(PlayerInfo[playerid][pJob] == 3) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /sex"); }
-    else if(PlayerInfo[playerid][pJob] == 4) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /sprzedajdragi /get drugs /wywaldragi"); }
-    else if(PlayerInfo[playerid][pJob] == 5) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /ukradnij"); }
-    else if(PlayerInfo[playerid][pMember] == 9) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** SAN NEWS *** /napisz /gazety /wywiad /news [text] /reflektor /studia /glosnik /calllive /radiostacja");
-    SendClientMessage(playerid,COLOR_GRAD5,"*** SAN NEWS *** P³atny numer SMS - /sms [od 100 do 150], dostajesz tyle stówek ile jest po 1 (nr. 125 - 25 * 100 = 2500$)");
-    SendClientMessage(playerid,COLOR_GRAD5,"*** SAN NEWS *** /zamknijlinie /otworzlinie /linie"); }
-    else if(PlayerInfo[playerid][pJob] == 7) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /napraw /tankowanie /sluzba /sprawdzneon"); }// /nitro /hydraulika /maluj /felga /zderzak");
-    //SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /kolory /malunki /felgi /sluzba"); }
-    else if(PlayerInfo[playerid][pJob] == 8) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /ochrona"); }
-    else if(PlayerInfo[playerid][pJob] == 9) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /materialy /wywalmaterialy /sprzedajbron"); }
-    else if(PlayerInfo[playerid][pJob] == 12) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /walka /boxstats /naucz"); }
-    else if(PlayerInfo[playerid][pJob] == JOB_TRUCKER) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /zlecenie - nowe zlecenia s¹ od wy¿szego skilla!"); }
-    else if(PlayerInfo[playerid][pMember] == 10 || PlayerInfo[playerid][pLider] == 10 || PlayerInfo[playerid][pJob] == 10) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /fare /businfo"); }
-    else if(PlayerInfo[playerid][pJob] == 15) {
-    SendClientMessage(playerid,COLOR_GRAD5,"*** PRACA *** /gazety /wezgazete /gazeta"); }
-    if(PlayerInfo[playerid][pMember] == 11||PlayerInfo[playerid][pLider] == 11){
-    SendClientMessage(playerid,COLOR_GRAD5,"*** DMV *** /startlekcja /stoplekcja /zaliczegz /pjtest /dajlicencje /wydaj /odmv /cdmv"); }
-    if(PlayerInfo[playerid][pMember] == 8||PlayerInfo[playerid][pLider] == 8){
-    SendClientMessage(playerid,COLOR_GRAD5,"*** Hitman Agency *** /laptop /zmienskin /reklama /namierz"); }
-    if(PlayerInfo[playerid][pMember] == 7||PlayerInfo[playerid][pLider] == 7){
-    SendClientMessage(playerid,COLOR_GRAD5,"*** BOR *** /tazer /ob /wywalzdmv /radio /family"); }
-    if(PlayerInfo[playerid][pMember] == 15||PlayerInfo[playerid][pLider] == 15){
-    SendClientMessage(playerid,COLOR_GRAD5,"*** FDU *** /sprzedajneon /napraw /tankowanie /nitro /hydraulika /maluj /felga /zderzak");
-    SendClientMessage(playerid,COLOR_GRAD5,"*** FDU *** /kolory /malunki /felgi /sluzba");
-    SendClientMessage(playerid,COLOR_GRAD5,"*** WYSCIGI *** /stworzwyscig /wyscigi /wyscig /wyscig-start /wyscig-stop /cp /cp-usun /meta");         }
-    if(IsAPrzestepca(playerid)){
-    SendClientMessage(playerid,COLOR_GRAD5,"*** Przestêpcze *** /pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
-    SendClientMessage(playerid, COLOR_GRAD2, "*** Boombox *** /(boombox) off | /boombox on | /boombox url [URL] | /boombox znajdz");}
-    if(GetPlayerOrg(playerid) == FAMILY_VINYL || GetPlayerOrg(playerid) == FAMILY_ALHAMBRA) SendClientMessage(playerid,COLOR_GRAD5,"*** Klub *** /dajbilet");
-    if(GetPlayerOrg(playerid) == FAMILY_IBIZA) SendClientMessage(playerid,COLOR_GRAD5,"*** Klub *** /sprzedajbilet /cennik /polej /ibiza");
-    if (IsACop(playerid))
-    {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** /przeszukaj /zabierz /mandat (/gov) /stanowe /camera /wywaz /obezwladnij /gps /dgps /red /odznaka ");
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** /pacholek /barierka /kolczatka /skuj /rozkuj /mdc /aresztuj /sluzba /poszukiwani /tazer /cywil");
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** (/r)adio (/d)epartment (/m)egafon (/su)spect /ro(radiooc) /depo(departamentooc) /pd(wiadomosc)");
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Policja *** /cela /togcrime /poscig NEW: /pozwolenie");
-    }
-    if (PlayerInfo[playerid][pMember] == 2 || PlayerInfo[playerid][pLider] == 2)
-    {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** FBI *** /zmienskin /namierz /fbi /federalne /cela /gps /dgps /red");
-    }
-    if (PlayerInfo[playerid][pMember] == 17 || PlayerInfo[playerid][pLider] == 17)
-    {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Stra¿ *** /straz /megafon /ro /r /duty /czysc /gps /dgps /red");
-    }
-    if (gTeam[playerid] == 1 || PlayerInfo[playerid][pMember] == 4 || PlayerInfo[playerid][pLider] == 4)
-    {
-        SendClientMessage(playerid, COLOR_GRAD5, "*** Lekarz *** (/r)adio (/d)epartment /ulecz /sluzba /apteczka /zastrzyk /szpital-info /zmienplec /sprzedajapteczke /gps /dgps /red");
-    }
-    if (PlayerInfo[playerid][pAdmin] >= 1)
-    {
-        SendClientMessage(playerid, COLOR_GRAD6, "*** ADMIN *** (/a)dmin (/ah)elp");
-    }
-    SendClientMessage(playerid, COLOR_GRAD6,"*** INNE *** /telefonpomoc /dompomoc /wynajempomoc /liderpomoc /rybypomoc /ircpomoc /anim");
-    SendClientMessage(playerid, COLOR_GRAD6,"*** INNE *** Pomoc od supportu: {FFFFFF}/zapytaj");
+    new string[256];
+    format(string, sizeof(string), "# Podstawowe komendy\n# Komendy czatów\n# Blokady czatów\n# Komendy pojazdu\n# Komendy posiad³oœci\n# Komendy bankowe\n# Komendy pracy\n# Komendy organizacji\n# Komendy przestêpstwa\n# Inne komendy");
+    ShowPlayerDialogEx(playerid, DIALOG_POMOC_NEW, DIALOG_STYLE_LIST, "{8FCB04}Kotnik-RP{FFFFFF} »» Pomoc", string, "Ok", "");
     return 1;
 }
 
@@ -1188,7 +1120,7 @@ CMD:id(playerid, params[])
 {
 	if(isnull(params))
 	{
-		sendTipMessage(playerid, "U¿yj /id [playerid/czêœæ nicku]");
+        sendTipDialogMessage(playerid, "U¿yj: /id [playerid/czêœæ nicku]");
 		return 1;
 	}
 
@@ -1199,13 +1131,14 @@ CMD:id(playerid, params[])
 
 		if(!IsPlayerConnected(giveplayerid))
 		{
-			sendTipMessage(playerid, "Obecnie na serwerze nie ma gracza o tym ID.");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Nie ma na serwerze gracza o podanym ID", "Zamknij", "");
 			return 1;
 		}
 
-  		SendClientMessage(playerid, COLOR_GREEN, "Znalezione osoby:");
-		format(string, sizeof(string), "Gracz (ID: %d) %s.", giveplayerid, GetNick(giveplayerid, true));
-		SendClientMessage(playerid, COLOR_GRAD1, string);
+  		//SendClientMessage(playerid, COLOR_GREEN, "Znalezione osoby:");
+		format(string, sizeof(string), "Gracz (ID: %d) --> %s.", giveplayerid, GetNick(giveplayerid, true));
+        ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Znalezione osoby", string, "Zamknij", "");
+		//SendClientMessage(playerid, COLOR_GRAD1, string);
 
 		return 1;
 	}
@@ -1214,7 +1147,7 @@ CMD:id(playerid, params[])
         new ilosc;
 		if(strlen(params) < 3)
         {
-            SendClientMessage(playerid, COLOR_GRAD1, "Musisz podaæ conajmniej 3 litery nicku.");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Musisz podaæ minimum 3 litery.", "Zamknij", "");
             return 1;
         }
         
@@ -1229,27 +1162,27 @@ CMD:id(playerid, params[])
         }
         if(ilosc > 0 && ilosc < 10)
         {
-            SendClientMessage(playerid, COLOR_GREEN, "Znalezione osoby:");
             foreach(Player, i)
             {
                 new name[24];
                 GetPlayerName(i, name, sizeof(name));
                 if(strfind(name, params, true) >= 0)
                 {        
-                    format(string, sizeof(string), "Gracz (ID: %d) %s.", i, GetNick(i, true));
-                    SendClientMessage(playerid, COLOR_GRAD1, string);
+                    format(string, sizeof(string), "Gracz (ID: %d) %s.\n", i, GetNick(i, true));
+                    ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Znalezione osoby", string, "Zamknij", "");
+    
                 }
             }
             return 1;
         } 
         else if(ilosc == 0)
         {
-            sendTipMessage(playerid, "Obecnie na serwerze nie ma gracza o podanym nicku.");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Nie ma obecnie gracza o podanym nicku!", "Zamknij", "");
             return 1;
         }
         else 
         {
-            sendTipMessage(playerid, "Znaleziono zbyt du¿o osób.");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Zbyt wiele dopasowañ", "Zamknij", "");
             return 1;
         }
 		
@@ -1271,13 +1204,13 @@ CMD:koxubankot(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /koxubankot [playerid/CzêœæNicku] [level(1-5000)]");
+			sendTipDialogMessage(playerid, "U¿yj /koxubankot [playerid/CzêœæNicku] [level(1-5000)]");
 			return 1;
 		}
 
 		if (IsPlayerAdmin(playerid))
 		{
-            if(!Uprawnienia(playerid, ACCESS_OWNER)) return sendErrorMessage(playerid, "(PERM) Rcon nie jest wszystkim.");
+            if(!Uprawnienia(playerid, ACCESS_OWNER)) return sendErrorDialogMessage(playerid, "(PERM) Rcon nie jest wszystkim.");
 		    if(IsPlayerConnected(para1))
 		    {
 		        if(para1 != INVALID_PLAYER_ID)
@@ -1313,11 +1246,11 @@ CMD:nominacja(playerid, params[])
         new para1, level;
         if( sscanf(params, "k<fix>d", para1, level))
         {
-            sendTipMessage(playerid, "U¿yj /nominacja [playerid/CzêœæNicku] [level(1-3000)]");
+            sendTipDialogMessage(playerid, "U¿yj /nominacja [playerid/CzêœæNicku] [level(1-3000)]");
             return 1;
         }
 
-            if(!IsARoad(playerid) || ACCESS_ZG) return sendErrorMessage(playerid, "Brak uprawnieñ!");
+            if(!IsARoad(playerid) || ACCESS_ZG) return sendErrorDialogMessage(playerid, "Brak uprawnieñ!");
             if(IsPlayerConnected(para1))
             if(level > 3000) return noAccessMessage(playerid);
             {
@@ -1342,7 +1275,7 @@ CMD:wd(playerid) return cmd_wywaldragi(playerid);
 CMD:wyrzucdragi(playerid) return cmd_wywaldragi(playerid);
 CMD:wywaldragi(playerid)
 {
-    if(PlayerInfo[playerid][pDrugs] == 0) return sendErrorMessage(playerid, "Nie masz przy sobie narkotyków");
+    if(PlayerInfo[playerid][pDrugs] == 0) return sendErrorDialogMessage(playerid, "Nie masz przy sobie narkotyków");
 	new nick[MAX_PLAYER_NAME], string[128];
 	GetPlayerName(playerid, nick, sizeof(nick));
 	format(string, sizeof(string),"%s wyrzuci³ torebeczkê z bia³ym proszkiem na ziemie.", nick);
@@ -1357,7 +1290,7 @@ CMD:wyrzucmaterialy(playerid) return cmd_wm(playerid);
 CMD:wywalmaterialy(playerid) return cmd_wm(playerid);
 CMD:wm(playerid)
 {
-    if(PlayerInfo[playerid][pMats] == 0) return sendErrorMessage(playerid, "Nie masz przy sobie materia³ów");
+    if(PlayerInfo[playerid][pMats] == 0) return sendErrorDialogMessage(playerid, "Nie masz przy sobie materia³ów");
 	new nick[MAX_PLAYER_NAME], string[128];
 	GetPlayerName(playerid, nick, sizeof(nick));
 	format(string, sizeof(string),"%s wyrzuci³ torbê z materia³ami na ziemie.", nick);
@@ -1375,7 +1308,7 @@ CMD:setmats(playerid, params[])
 		new gracz, wartosc;
 		if(sscanf(params, "k<fix>d", gracz, wartosc))
 		{
-			sendTipMessage(playerid, "U¿yj /setmats [playerid/CzêœæNicku] [iloœæ matsów]");
+			sendTipDialogMessage(playerid, "U¿yj /setmats [playerid/CzêœæNicku] [iloœæ matsów]");
 			return 1;
 		}
 
@@ -1395,7 +1328,7 @@ CMD:setmats(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Ten gracz jest offline!");
+			sendErrorDialogMessage(playerid, "Ten gracz jest offline!");
 		}
 
 	}
@@ -1423,12 +1356,12 @@ CMD:dajbilet(playerid, params[])
 			new giveplayerid, string[128];
 			if(sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /dajbilet [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /dajbilet [playerid/CzêœæNicku]");
 				return 1;
 			}
 			if(!IsPlayerConnected(giveplayerid))
 			{
-				sendErrorMessage(playerid, "Ten gracz jest offline!");
+				sendErrorDialogMessage(playerid, "Ten gracz jest offline!");
 				return 1;
 			}
 			//
@@ -1452,12 +1385,12 @@ CMD:dajbilet(playerid, params[])
 			new giveplayerid, typ, string[128];
 			if(sscanf(params, "k<fix>D(1)", giveplayerid, typ))
 			{
-				sendTipMessage(playerid, "U¿yj /dajbilet [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /dajbilet [playerid/CzêœæNicku]");
                 return 1;
             }
             if(!IsPlayerConnected(giveplayerid))
             {
-                sendErrorMessage(playerid, "Ten gracz jest offline!");
+                sendErrorDialogMessage(playerid, "Ten gracz jest offline!");
 				return 1;
 			}
             if(typ > 2 || typ < 1) return 1;
@@ -1497,13 +1430,13 @@ CMD:konsola(playerid, params[])
     if(GetPlayerOrg(playerid) == FAMILY_VINYL)
     {
         if(!IsPlayerInRangeOfPoint(playerid, 4.0, 819.6357,-1351.2813,25.3)) return 1;
-        if(PlayerInfo[playerid][pRank] < 1) return sendErrorMessage(playerid, "Potrzebujesz rangi wiêkszej od 1!");
+        if(PlayerInfo[playerid][pRank] < 1) return sendErrorDialogMessage(playerid, "Potrzebujesz rangi wiêkszej od 1!");
         ShowPlayerDialogEx(playerid, DIALOG_KONSOLA_VINYL, DIALOG_STYLE_INPUT, "Konsola DJ'a", "Tutaj mo¿esz zmieniæ muzykê graj¹c¹ w klubie.\nWprowadŸ poni¿ej adres URL.", "Ustaw", "WyjdŸ");
     }
     else if(GetPlayerOrg(playerid) == FAMILY_IBIZA)
     {
         if(!IsPlayerConnected(playerid) || !GetPVarInt(playerid, "IbizaWejdz") ) return sendTipMessage(playerid, "Musisz byæ w ibizie!");
-        if(PlayerInfo[playerid][pRank] < 4) return sendErrorMessage(playerid, "Potrzebujesz rangi wiêkszej od 4!");
+        if(PlayerInfo[playerid][pRank] < 4) return sendErrorDialogMessage(playerid, "Potrzebujesz rangi wiêkszej od 4!");
         MikserDialog(playerid);
     }
     return 1;
@@ -1515,7 +1448,7 @@ CMD:sprzedajmaterialy(playerid, params[])
     new giveplayerid, moneys, kasa;
     if(sscanf(params, "k<fix>dd", giveplayerid, moneys, kasa))
     {
-        sendTipMessage(playerid, "U¿yj /sprzedajmats [playerid/CzêœæNicku] [iloœæ] [cena]");
+        sendTipDialogMessage(playerid, "U¿yj /sprzedajmats [playerid/CzêœæNicku] [iloœæ] [cena]");
         return 1;
     }
 
@@ -1533,18 +1466,18 @@ CMD:sprzedajmaterialy(playerid, params[])
                         {
                             if(moneys > 50000 || moneys < 5000)
                             {
-                                sendErrorMessage(playerid, "Zakres od 5 000 do 50 000!");
+                                sendErrorDialogMessage(playerid, "Zakres od 5 000 do 50 000!");
                                 return 1;
                             }
                             if(kasa > 1000000 || kasa < 1)
                             {
-                                sendErrorMessage(playerid, "Zakres od 1 do 1 000 000!");
+                                sendErrorDialogMessage(playerid, "Zakres od 1 do 1 000 000!");
                                 return 1;
                             }
-                            if(IsPlayerInAnyVehicle(giveplayerid) || IsPlayerInAnyVehicle(playerid)) return sendErrorMessage(playerid, "Jeden z was znajduje siê w pojeŸdzie!");
-                            if(GetPVarInt(giveplayerid, "OKupMats") == 1) return sendErrorMessage(playerid, "Gracz ma ju¿ ofertê!");
-                            if(GetPVarInt(playerid, "OSprzedajMats") == 1) return sendErrorMessage(playerid, "Oferujesz ju¿ komuœ sprzeda¿!");
-                            if(IsASklepZBronia(playerid) && !IsASklepZBronia(giveplayerid)) return sendErrorMessage(playerid, "Pracownik GunShopu mo¿e oferowaæ sprzeda¿ tylko innemu pracownikowi GunShopu!");
+                            if(IsPlayerInAnyVehicle(giveplayerid) || IsPlayerInAnyVehicle(playerid)) return sendErrorDialogMessage(playerid, "Jeden z was znajduje siê w pojeŸdzie!");
+                            if(GetPVarInt(giveplayerid, "OKupMats") == 1) return sendErrorDialogMessage(playerid, "Gracz ma ju¿ ofertê!");
+                            if(GetPVarInt(playerid, "OSprzedajMats") == 1) return sendErrorDialogMessage(playerid, "Oferujesz ju¿ komuœ sprzeda¿!");
+                            if(IsASklepZBronia(playerid) && !IsASklepZBronia(giveplayerid)) return sendErrorDialogMessage(playerid, "Pracownik GunShopu mo¿e oferowaæ sprzeda¿ tylko innemu pracownikowi GunShopu!");
 
                             new string[128];
                             format(string, sizeof(string),"%s oferuje %d materia³ów za %d $.", GetNick(playerid), moneys, kasa);
@@ -1561,24 +1494,24 @@ CMD:sprzedajmaterialy(playerid, params[])
                         }
                         else
                         {
-                            sendErrorMessage(playerid, "Gracz jest za daleko!");
+                            sendErrorDialogMessage(playerid, "Gracz jest za daleko!");
                         }
                     }
                     else
                     {
-                        sendErrorMessage(playerid, "Mo¿esz daæ tylko 50 000 materia³ów na raz!");
+                        sendErrorDialogMessage(playerid, "Mo¿esz daæ tylko 50 000 materia³ów na raz!");
                     }
                 }
                 else
                 {
-                    sendErrorMessage(playerid, "Mo¿esz komuœ przekazaæ minimum 5000 materia³ów!");
+                    sendErrorDialogMessage(playerid, "Mo¿esz komuœ przekazaæ minimum 5000 materia³ów!");
                 }
             }
         }
     }
     else
     {
-        sendErrorMessage(playerid, "Nie masz tylu materia³ów!");
+        sendTipDialogMessage(playerid, "Nie masz tylu materia³ów!");
     }
     return 1;
 }
@@ -1589,7 +1522,7 @@ CMD:dajmaterialy(playerid, params[])
 	new giveplayerid, moneys;
 	if(sscanf(params, "k<fix>d", giveplayerid, moneys))
 	{
-		sendTipMessage(playerid, "U¿yj /dajmats [playerid/CzêœæNicku] [iloœæ]");
+		sendTipDialogMessage(playerid, "U¿yj /dajmats [playerid/CzêœæNicku] [iloœæ]");
 		return 1;
 	}
 
@@ -1623,24 +1556,24 @@ CMD:dajmaterialy(playerid, params[])
 						}
 						else
 						{
-							sendErrorMessage(playerid, "Gracz jest za daleko!");
+							sendErrorDialogMessage(playerid, "Gracz jest za daleko!");
 						}
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Mo¿esz daæ tylko 50 000 materia³ów na raz!");
+						sendErrorDialogMessage(playerid, "Mo¿esz daæ tylko 50 000 materia³ów na raz!");
 					}
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Mo¿esz komuœ przekazaæ minimum 5000 materia³ów!");
+					sendErrorDialogMessage(playerid, "Mo¿esz komuœ przekazaæ minimum 5000 materia³ów!");
 				}
 			}
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie masz tylu materia³ów!");
+		sendErrorDialogMessage(playerid, "Nie masz tylu materia³ów!");
 	}
 	return 1;
 }*/
@@ -1651,13 +1584,13 @@ CMD:pokazcb(playerid)
 	{
 		if(adminpodgladcb[playerid] == 0)
 		{
-            sendTipMessage(playerid, "INFO: W³¹czy³eœ podgl¹d CB-radia!");
+            sendTipDialogMessage(playerid, "W³¹czy³eœ podgl¹d CB-radia!");
 			adminpodgladcb[playerid] = 1;
 			return 1;
 		}
 		else
 		{
-            sendTipMessage(playerid, "INFO: Wy³¹czy³eœ podgl¹d CB-radia!");
+            sendTipDialogMessage(playerid, "Wy³¹czy³eœ podgl¹d CB-radia!");
 			adminpodgladcb[playerid] = 0;
 			return 1;
 		}
@@ -1675,14 +1608,14 @@ CMD:cbradio(playerid, params[])
 {
 	if(PlayerInfo[playerid][pCB] == 0)
 	{
-		sendErrorMessage(playerid, "Nie masz CB-Radia");
+		sendErrorDialogMessage(playerid, "Nie masz CB-Radia");
 		return 1;
 	}
 	if(GetPlayerVehicleID(playerid))
 	{
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /cb [text]");
+			sendTipDialogMessage(playerid, "U¿yj /cb [text]");
 			return 1;
 		}
 		new string[128];
@@ -1710,7 +1643,7 @@ CMD:cbradio(playerid, params[])
 	}
 	else
 	{
-        sendErrorMessage(playerid, "Nie jesteœ w aucie");
+        sendErrorDialogMessage(playerid, "Nie jesteœ w aucie");
 	}
 	return 1;
 }
@@ -1734,7 +1667,7 @@ CMD:togcb(playerid)
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie masz CB-Radia");
+		sendErrorDialogMessage(playerid, "Nie masz CB-Radia");
 		return 1;
 	}
 	return 1;
@@ -1744,7 +1677,7 @@ CMD:wywalcb(playerid)
 {
 	if(PlayerInfo[playerid][pCB] == 0)
 	{
-		sendErrorMessage(playerid, "Nie masz CB-Radia");
+		sendErrorDialogMessage(playerid, "Nie masz CB-Radia");
 	}
 	else
 	{
@@ -1805,7 +1738,7 @@ CMD:wezportfel(playerid, params[])
 		new giveplayerid;
 		if(sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /wezportfel [id/nick]");
+			sendTipDialogMessage(playerid, "U¿yj /wezportfel [id/nick]");
 			return 1;
 		}
 		if(IsPlayerConnected(giveplayerid) && giveplayerid != INVALID_PLAYER_ID)
@@ -1819,7 +1752,7 @@ CMD:wezportfel(playerid, params[])
 			{
 				new car = GetPlayerVehicleID(playerid);
 				new pieniadze;
-				if(giveplayerid == playerid) { sendErrorMessage(playerid, "Nie mo¿esz zwi¹zaæ sam siebie!"); return 1; }
+				if(giveplayerid == playerid) { sendErrorDialogMessage(playerid, "Nie mo¿esz zwi¹zaæ sam siebie!"); return 1; }
 				if(IsPlayerInAnyVehicle(playerid) && (GetPlayerState(playerid) == 2 || GetPlayerState(playerid) == 3) && IsPlayerInVehicle(giveplayerid, car))
 				{
 					if(okradziony[giveplayerid] == 0)
@@ -1863,41 +1796,41 @@ CMD:wezportfel(playerid, params[])
 							}
 							else
 							{
-								sendErrorMessage(playerid, "Ten gracz za ma³o gra !");
+								sendErrorDialogMessage(playerid, "Ten gracz za ma³o gra !");
 							}
 						}
 						else
 						{
-							sendErrorMessage(playerid, "Ten gracz nie ma nic przy sobie !");
+							sendErrorDialogMessage(playerid, "Ten gracz nie ma nic przy sobie !");
 						}
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Ta osoba nie ma portfela, ju¿ jej ktoœ zabra³ !");
+						sendErrorDialogMessage(playerid, "Ta osoba nie ma portfela, ju¿ jej ktoœ zabra³ !");
 					}
 
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Jeden z was nie jest w samochodzie !");
+					sendErrorDialogMessage(playerid, "Jeden z was nie jest w samochodzie !");
 					return 1;
 				}
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Ten gracz nie jest w pobli¿u Ciebie !");
+				sendErrorDialogMessage(playerid, "Ten gracz nie jest w pobli¿u Ciebie !");
 				return 1;
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			return 1;
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ cz³onkiem / liderem rodziny !");
+		sendErrorDialogMessage(playerid, "Nie jesteœ cz³onkiem / liderem rodziny !");
 	}
 	return 1;
 }
@@ -1911,7 +1844,7 @@ CMD:poscig(playerid, params[])
 			new giveplayerid;
 			if(sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /poscig [id/nick]");
+				sendTipDialogMessage(playerid, "U¿yj /poscig [id/nick]");
 				return 1;
 			}
 			if(IsPlayerConnected(giveplayerid) && giveplayerid != INVALID_PLAYER_ID)
@@ -1922,7 +1855,7 @@ CMD:poscig(playerid, params[])
 					{
 						if(poscig[giveplayerid] == 1)
 						{
-							sendErrorMessage(playerid, "Ten gracz ma ju¿ poœcig!");
+							sendErrorDialogMessage(playerid, "Ten gracz ma ju¿ poœcig!");
 							return 1;
 						}
 						SendClientMessage(playerid,COLOR_LIGHTBLUE,"Rozpocza³eœ poœcig! Trwa on 7 minut.");
@@ -1936,27 +1869,27 @@ CMD:poscig(playerid, params[])
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Ten gracz nie jest w pobli¿u Ciebie !");
+						sendErrorDialogMessage(playerid, "Ten gracz nie jest w pobli¿u Ciebie !");
 					}
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Ten gracz nie ma WL !");
+					sendErrorDialogMessage(playerid, "Ten gracz nie ma WL !");
 				}
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie !");
+			sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie !");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z PD!");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z PD!");
 	}
 	return 1;
 }
@@ -1985,8 +1918,8 @@ CMD:gps(playerid)
                 FracGPS[frac] = (FracGPS[frac] == playerid) ? (-1) : (playerid);
     
                 SendRadioMessage(frac,COLOR_YELLOW2, string);
-            } else sendErrorMessage(playerid, "Twój nadajnik GPS zosta³ zabrany.");
-        } else sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie.");
+            } else sendErrorDialogMessage(playerid, "Twój nadajnik GPS zosta³ zabrany.");
+        } else sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie.");
     } else noAccessMessage(playerid);
     return 1;
 }
@@ -2018,11 +1951,11 @@ CMD:dgps(playerid)
                 SendRadioMessage(4, COLOR_YELLOW2, string);
                 //SendRadioMessage(9, COLOR_YELLOW2, string);
                 SendRadioMessage(FRAC_LSFD, COLOR_YELLOW2, string);
-            } else sendErrorMessage(playerid, "Twój nadajnik GPS zosta³ zabrany!");
+            } else sendErrorDialogMessage(playerid, "Twój nadajnik GPS zosta³ zabrany!");
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie.");
+			sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie.");
 		}
 	}
 	else
@@ -2071,11 +2004,11 @@ CMD:red(playerid)
                  SendRadioMessage(4, COLOR_YELLOW2, string);
                  //SendRadioMessage(9, COLOR_YELLOW2, string);
                  SendRadioMessage(FRAC_LSFD, COLOR_YELLOW2, string);
-            } else sendErrorMessage(playerid, "Twój nadajnik GPS zosta³ zabrany!");
+            } else sendErrorDialogMessage(playerid, "Twój nadajnik GPS zosta³ zabrany!");
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie.");
+            sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie.");
         }
     }
     else
@@ -2104,7 +2037,7 @@ CMD:namierz(playerid, params[])
 			new giveplayerid = INVALID_PLAYER_ID;
 			if(sscanf(params, "d", givenumber))
 			{
-				sendTipMessage(playerid, "U¿yj /namierz [numer telefonu]");
+				sendTipDialogMessage(playerid, "U¿yj /namierz [numer telefonu]");
 				return 1;
 			}
             if(givenumber <= 0) return sendTipMessage(playerid, "Niepoprawny numer telefonu!");
@@ -2122,11 +2055,11 @@ CMD:namierz(playerid, params[])
             //if(PhoneOnline[giveplayerid]) return sendTipMessage(playerid, "Ten telefon jest wy³¹czony!");
 			if(giveplayerid == playerid)
 			{
-				sendErrorMessage(playerid, "Nie mo¿esz szukaæ samego siebie!"); return 1;
+				sendErrorDialogMessage(playerid, "Nie mo¿esz szukaæ samego siebie!"); return 1;
 			}
 			if(Spectate[giveplayerid] != INVALID_PLAYER_ID)
 			{
-				sendErrorMessage(playerid, "Nie mo¿esz namierzyæ tego gracza.");
+				sendErrorDialogMessage(playerid, "Nie mo¿esz namierzyæ tego gracza.");
 				return 1;
 			}
 			new points, range;
@@ -2176,12 +2109,12 @@ CMD:namierz(playerid, params[])
 			//}
 			//else
 			//{
-			//	sendErrorMessage(playerid, "Z³e ID/Nick !");
+			//	sendErrorDialogMessage(playerid, "Z³e ID/Nick !");
 			//}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ agentem FBI !");
+			sendErrorDialogMessage(playerid, "Nie jesteœ agentem FBI !");
 		}
 	}
 	return 1;
@@ -2194,7 +2127,7 @@ CMD:odznaka(playerid, params[])
 		new giveplayerid;
 		if(sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /odznaka [id gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /odznaka [id gracza]");
 			return 1;
 		}
 		if(IsPlayerConnected(giveplayerid))
@@ -2412,14 +2345,14 @@ CMD:odznaka(playerid, params[])
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Gracz nie jest przed tob¹ !");
+					sendErrorDialogMessage(playerid, "Gracz nie jest przed tob¹ !");
 					return 1;
 				}
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Gracz jest OFFLINE!");
+			sendErrorDialogMessage(playerid, "Gracz jest OFFLINE!");
 			return 1;
 		}
 	}
@@ -2437,14 +2370,14 @@ CMD:kajdanki(playerid, params[])
                 new giveplayerid;
                 if(sscanf(params, "k<fix>", giveplayerid))
                 {
-                    sendTipMessage(playerid, "U¿yj /kajdanki [id gracza]");
+                    sendTipDialogMessage(playerid, "U¿yj /kajdanki [id gracza]");
                     return 1;
                 }
                 if(IsACop(playerid))
                 {
                     if(OnDuty[playerid] == 0)
                     {
-                        sendErrorMessage(playerid,"Nie jesteœ na s³u¿bie!");
+                        sendErrorDialogMessage(playerid,"Nie jesteœ na s³u¿bie!");
                         return 1;
                     }
                 }
@@ -2465,7 +2398,7 @@ CMD:kajdanki(playerid, params[])
                                             new string[128], sendername[MAX_PLAYER_NAME], giveplayer[MAX_PLAYER_NAME];
                                             /*if(IsACop(giveplayerid) && OnDuty[giveplayerid] == 1)
                                             {
-                                                sendErrorMessage(playerid, "Nie mo¿esz skuæ policjanta na s³u¿bie!");
+                                                sendErrorDialogMessage(playerid, "Nie mo¿esz skuæ policjanta na s³u¿bie!");
                                                 return 1;
                                             }
                                             if(PoziomPoszukiwania[giveplayerid] == 0)
@@ -2513,38 +2446,38 @@ CMD:kajdanki(playerid, params[])
                                     }
                                     else
                                     {
-                                        sendErrorMessage(playerid, "Odczekaj 5 sekund zanim znowu za³o¿ysz kajdanki temu graczowi!");
+                                        sendErrorDialogMessage(playerid, "Odczekaj 5 sekund zanim znowu za³o¿ysz kajdanki temu graczowi!");
                                     }
                                 }
                                 else
                                 {
-                                    sendErrorMessage(playerid, "Ten gracz ma ju¿ za³o¿one kajdanki!");
+                                    sendErrorDialogMessage(playerid, "Ten gracz ma ju¿ za³o¿one kajdanki!");
                                 }
                             }
                             else
                             {
-                                sendErrorMessage(playerid, "Nikt z was nie mo¿e byæ siê w wozie!");
+                                sendErrorDialogMessage(playerid, "Nikt z was nie mo¿e byæ siê w wozie!");
                             }
                         }
                         else
                         {
-                            sendErrorMessage(playerid, "Jesteœ za daleko od gracza !");
+                            sendErrorDialogMessage(playerid, "Jesteœ za daleko od gracza !");
                         }
                     }
                     else
                     {
-                        sendErrorMessage(playerid, "Nie ma takiego gracza !");
+                        sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
                     }
                 }
             }
             else
             {
-                sendErrorMessage(playerid, "Ju¿ u¿ywasz swoje kajdanki !");
+                sendErrorDialogMessage(playerid, "Ju¿ u¿ywasz swoje kajdanki !");
             }
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ policjantem lub BOR z rang¹ 2");
+            sendErrorDialogMessage(playerid, "Nie jesteœ policjantem lub BOR z rang¹ 2");
         }
     }
     return 1;
@@ -2561,13 +2494,13 @@ CMD:barierka(playerid, params[])
     	SetPVarInt(playerid, "gatechose_active", 1);
     	CreateSelectionMenu(playerid);
     	SelectTextDraw(playerid, 0xACCBF1FF);
-        sendTipMessage(playerid, "U¿yj /barierka usuñ [ID] aby usun¹æ!");
+        sendTipDialogMessage(playerid, "U¿yj /barierka usuñ [ID] aby usun¹æ!");
     }
     else
     {
         new var[32], id;
         if(GetPlayerState(playerid) != PLAYER_STATE_ONFOOT) return 1;
-        if(sscanf(params, "s[32]d", var, id)) return sendTipMessage(playerid, "U¿yj /barierka usuñ [ID]");
+        if(sscanf(params, "s[32]d", var, id)) return sendTipDialogMessage(playerid, "U¿yj /barierka usuñ [ID]");
         if(strcmp(var, "usuñ", true) == 0 ||  strcmp(var, "usun", true) == 0)
         {
             if(id < 0 || id > 9) return 1;
@@ -2590,22 +2523,22 @@ CMD:obezwladnij(playerid, params[])
 		new giveplayerid;
 		if(sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /ob [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /ob [ID gracza]");
 			return 1;
 		}
 		if(giveplayerid == playerid)
 		{
-		    sendErrorMessage(playerid, "Nie mo¿esz obezw³adniæ samego siebie!");
+		    sendErrorDialogMessage(playerid, "Nie mo¿esz obezw³adniæ samego siebie!");
 		    return 1;
 		}
 		if(!IsPlayerConnected(giveplayerid))
 		{
-		    sendErrorMessage(playerid, "Nie ma takiego gracza!");
+		    sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 			return 1;
 		}
 		if(Spectate[giveplayerid] != INVALID_PLAYER_ID)
 		{
-			sendErrorMessage(playerid, "Ten gracz jest za daleko.");
+			sendErrorDialogMessage(playerid, "Ten gracz jest za daleko.");
 			return 1;
 		}
 		new Float:x, Float:y, Float:z;
@@ -2637,12 +2570,12 @@ CMD:obezwladnij(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ zbyt daleko");
+			sendErrorDialogMessage(playerid, "Jesteœ zbyt daleko");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ cz³onkiem policji na s³u¿bie");
+		sendErrorDialogMessage(playerid, "Nie jesteœ cz³onkiem policji na s³u¿bie");
 	}
 	return 1;
 }*/
@@ -2652,7 +2585,7 @@ CMD:wyrzucbronie(playerid)
 {
 	if(IsPlayerConnected(playerid))
 	{
-        if(TazerAktywny[playerid] == 1 || PlayerInfo[playerid][pBW] > 0) return sendErrorMessage(playerid, "Podczas parali¿u/BW nie mo¿esz daæ /wb");
+        if(TazerAktywny[playerid] == 1 || PlayerInfo[playerid][pBW] > 0) return sendErrorDialogMessage(playerid, "Podczas parali¿u/BW nie mo¿esz daæ /wb");
         new weapon[12], ammo[12], bool:wyrzuc=false;
         for(new i=0;i<12;i++)
         {
@@ -2699,7 +2632,7 @@ CMD:ub(playerid) return cmd_usunbron(playerid);
 CMD:usunbron(playerid)
 {
 
-    if(GetPVarInt(playerid, "mozeUsunacBronie") == 1) return sendErrorMessage(playerid, "Nie mo¿esz usun¹æ broni do czasu zrespienia siê, u¿y³eœ /wb");
+    if(GetPVarInt(playerid, "mozeUsunacBronie") == 1) return sendErrorDialogMessage(playerid, "Nie mo¿esz usun¹æ broni do czasu zrespienia siê, u¿y³eœ /wb");
 
 	if(MaZapisanaBron(playerid))
 	{
@@ -2731,7 +2664,7 @@ CMD:bp(playerid, params[])//blokada pisania
 	new giveplayerid, czas, text[32];
 	if(sscanf(params, "k<fix>ds[32]", giveplayerid, czas, text))
 	{
-		sendTipMessage(playerid, "U¿yj /bp [ID gracza] [czas (w gozinach)] [nazwa chatu]");
+		sendTipDialogMessage(playerid, "U¿yj /bp [ID gracza] [czas (w gozinach)] [nazwa chatu]");
 		return 1;
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 1)
@@ -2771,7 +2704,7 @@ CMD:bp(playerid, params[])//blokada pisania
 	{
 		new string[64];
 		format(string, sizeof(string), "%d jest nieaktywny.", giveplayerid);
-		sendErrorMessage(playerid, string);
+		sendErrorDialogMessage(playerid, string);
 	}
 	return 1;
 }
@@ -2898,7 +2831,7 @@ CMD:awans(playerid, params[])
 	new para1;
 	if(sscanf(params, "k<fix>", para1))
 	{
-		sendTipMessage(playerid, "U¿yj /awans [playerid/CzêœæNicku]");
+		sendTipDialogMessage(playerid, "U¿yj /awans [playerid/CzêœæNicku]");
 		return 1;
 	}
 	if (PlayerInfo[playerid][pLider] >= 1)
@@ -2924,13 +2857,13 @@ CMD:awans(playerid, params[])
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Ten gracz nie jest w twojej frakcji!");
+					sendErrorDialogMessage(playerid, "Ten gracz nie jest w twojej frakcji!");
 				}
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie ma takiego gracza!");
+			sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 		}
 	}
 	else
@@ -2945,7 +2878,7 @@ CMD:degraduj(playerid, params[])
 	new para1;
 	if(sscanf(params, "k<fix>", para1))
 	{
-		sendTipMessage(playerid, "U¿yj /degraduj [playerid/CzêœæNicku]");
+		sendTipDialogMessage(playerid, "U¿yj /degraduj [playerid/CzêœæNicku]");
 		return 1;
 	}
 	if (PlayerInfo[playerid][pLider] >= 1)
@@ -2958,7 +2891,7 @@ CMD:degraduj(playerid, params[])
 				{
 					if(PlayerInfo[para1][pRank] == 0)
 					{
-                        if(PlayerInfo[para1][pLider] != 0) return sendErrorMessage(playerid, "Nie mo¿esz wyrzuciæ lidera.");
+                        if(PlayerInfo[para1][pLider] != 0) return sendErrorDialogMessage(playerid, "Nie mo¿esz wyrzuciæ lidera.");
 						//SendClientMessage(para1, COLOR_GRAD1, "Zosta³eœ wywalony ze swojej frakcji, (degradacja do 0 rangi)!");
 
                         _MruGracz(para1, sprintf("%s zdegradowa³ Ciê. Masz ju¿ rangê 0 - zostajesz zwolniony z frakcji", GetNick(playerid, true)));
@@ -2981,7 +2914,7 @@ CMD:degraduj(playerid, params[])
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Ten gracz nie jest w twojej frakcji!");
+					sendErrorDialogMessage(playerid, "Ten gracz nie jest w twojej frakcji!");
 				}
 			}
 		}
@@ -2998,7 +2931,7 @@ CMD:dpa(playerid, params[])
 	new para1;
 	if(sscanf(params, "k<fix>", para1))
 	{
-		sendTipMessage(playerid, "U¿yj /dpa [playerid/CzêœæNicku]");
+		sendTipDialogMessage(playerid, "U¿yj /dpa [playerid/CzêœæNicku]");
 		return 1;
 	}
 	if (PlayerInfo[playerid][pAdmin] >= 1)
@@ -3018,7 +2951,7 @@ CMD:dpa(playerid, params[])
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Ten gracz nie jest pó³adminem!");
+					sendErrorDialogMessage(playerid, "Ten gracz nie jest pó³adminem!");
 				}
 			}
 		}
@@ -3035,7 +2968,7 @@ CMD:apteczka(playerid, params[])
 	new playa;
 	if(sscanf(params, "k<fix>", playa))
 	{
-		sendTipMessage(playerid, "U¿yj /apteczka [playerid/CzêœæNicku]");
+		sendTipDialogMessage(playerid, "U¿yj /apteczka [playerid/CzêœæNicku]");
 		return 1;
 	}
 
@@ -3063,9 +2996,9 @@ CMD:apteczka(playerid, params[])
                                 obezwladniony[playa] = 0;
                                 PlayerInfo[playa][pBW] = 2;
                                 PlayerInfo[playerid][pApteczki]--;
-                            } else return sendErrorMessage(playerid, "Temu graczowi mo¿e pomóc tylko lekarz!");
-                        } else return sendErrorMessage(playerid, "Ten gracz nie potrzebuje leczenia!");
-                    } else return sendErrorMessage(playerid, "Nie mo¿esz kogoœ uleczyæ gdy sam potrzebujesz pomocy!");
+                            } else return sendErrorDialogMessage(playerid, "Temu graczowi mo¿e pomóc tylko lekarz!");
+                        } else return sendErrorDialogMessage(playerid, "Ten gracz nie potrzebuje leczenia!");
+                    } else return sendErrorDialogMessage(playerid, "Nie mo¿esz kogoœ uleczyæ gdy sam potrzebujesz pomocy!");
                 }
             }
         }
@@ -3099,8 +3032,8 @@ CMD:apteczka(playerid, params[])
 					      pobity[playa] = 0;
 					      obezwladniony[playa] = 0;
                           PlayerInfo[playa][pBW] = 2;
-                        }  else return sendErrorMessage(playerid, "Ten gracz nie potrzebuje leczenia!");
-                    } else return sendErrorMessage(playerid, "Nie mo¿esz kogoœ uleczyæ gdy sam potrzebujesz pomocy!");
+                        }  else return sendErrorDialogMessage(playerid, "Ten gracz nie potrzebuje leczenia!");
+                    } else return sendErrorDialogMessage(playerid, "Nie mo¿esz kogoœ uleczyæ gdy sam potrzebujesz pomocy!");
 				}
 			}
 		}
@@ -3112,7 +3045,7 @@ CMD:apteczka(playerid, params[])
 	}
 	else
 	{
-       sendErrorMessage(playerid, "Nie masz apteczek!");
+       sendErrorDialogMessage(playerid, "Nie masz apteczek!");
 		
 	}
 	return 1;
@@ -3123,7 +3056,7 @@ CMD:zastrzyk(playerid, params[])
 	new playa;
 	if(sscanf(params, "k<fix>", playa))
 	{
-		sendTipMessage(playerid, "U¿yj /zastrzyk [ID gracza]");
+		sendTipDialogMessage(playerid, "U¿yj /zastrzyk [ID gracza]");
 		return 1;
 	}
 	if (PlayerInfo[playerid][pMember] == 4 && PlayerInfo[playerid][pRank] >= 1 || PlayerInfo[playerid][pLider] == 4)
@@ -3150,12 +3083,12 @@ CMD:zastrzyk(playerid, params[])
 		else
 		{
 			format(string, sizeof(string),"Jesteœ zbyt daleko od gracza %s", giveplayer);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie masz 1 rangi lub nie jesteœ medykiem!");
+		sendErrorDialogMessage(playerid, "Nie masz 1 rangi lub nie jesteœ medykiem!");
 	}
 	return 1;
 }
@@ -3166,7 +3099,7 @@ CMD:zmienplec(playerid, params[])
 	new playa;
 	if(sscanf(params, "k<fix>", playa))
 	{
-		sendTipMessage(playerid, "U¿yj /zmienplec [ID gracza]");
+		sendTipDialogMessage(playerid, "U¿yj /zmienplec [ID gracza]");
 		return 1;
 	}
 	if (PlayerInfo[playerid][pMember] == 4 && PlayerInfo[playerid][pRank] >= 3 || PlayerInfo[playerid][pLider] == 4)
@@ -3182,7 +3115,7 @@ CMD:zmienplec(playerid, params[])
 				{
 					if(GetPlayerVirtualWorld(playerid) > 90 && IsPlayerInRangeOfPoint(playerid, 100.0, 1230.44, -1429.05, 47.29))
 					{
-                        if(kaska[playerid] < 50000) return sendErrorMessage(playerid, "Nie masz 50 000$ na operacjê.");
+                        if(kaska[playerid] < 50000) return sendErrorDialogMessage(playerid, "Nie masz 50 000$ na operacjê.");
 						format(string, sizeof(string),"Przeprowadzi³eœ operacje zmiany p³ci na %s. Koszt: 50 000$", giveplayer);
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
 
@@ -3210,7 +3143,7 @@ CMD:zmienplec(playerid, params[])
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Nie jesteœ w szpitalu!");
+						sendErrorDialogMessage(playerid, "Nie jesteœ w szpitalu!");
 					}
 				}
 			}
@@ -3218,12 +3151,12 @@ CMD:zmienplec(playerid, params[])
 		else
 		{
 			format(string, sizeof(string),"Jesteœ zbyt daleko od gracza %s.", playa);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie masz 3 rangi lub nie jesteœ medykiem!");
+		sendErrorDialogMessage(playerid, "Nie masz 3 rangi lub nie jesteœ medykiem!");
 	}
 	return 1;
 }
@@ -3235,12 +3168,12 @@ CMD:szpital(playerid, params[])
 	{
 		if(!IsAMedyk(playerid))
 		{
-			sendErrorMessage(playerid, "Nie jesteœ lekarzem!");
+			sendErrorDialogMessage(playerid, "Nie jesteœ lekarzem!");
 			return 1;
 		}
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/szpital)-info [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/szpital)-info [tekst]");
 			return 1;
 		}
 
@@ -3280,10 +3213,10 @@ CMD:straz(playerid, params[])
 		}
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /straz [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj /straz [tekst]");
 			return 1;
 		}
-        if(PlayerInfo[playerid][pRank] < 2) return sendErrorMessage(playerid, "Potrzebujesz conajmniej 2 rangi.");
+        if(PlayerInfo[playerid][pRank] < 2) return sendErrorDialogMessage(playerid, "Potrzebujesz conajmniej 2 rangi.");
 		new string[128], sendername[MAX_PLAYER_NAME];
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if (strfind(params , "ip:" , true)>=0 ||strfind(params , "www." , true)>=0 || strfind(params , ".pl" , true)>=0 || strfind(params , ",pl" , true)>=0  || strfind(params , " ip" , true)>=0 || strfind(params , ":7" , true)>=0 || strfind(params , "795" , true)>=0 || strfind(params , ":3" , true)>=0 || strfind(params , ":4" , true)>=0 || strfind(params , ":5" , true)>=0 || strfind(params , ":6" , true)>=0 || strfind(params , ":8" , true)>=0)
@@ -3314,7 +3247,7 @@ CMD:reklama(playerid)
 {
 	if(!IsAHA(playerid))
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z agencji!");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z agencji!");
 		return 1;
 	}
 	if(AntySpam[playerid] == 0)
@@ -3346,14 +3279,14 @@ CMD:alkomat(playerid, params[])
 	new giveplayerid;
 	if(sscanf(params, "k<fix>", giveplayerid))
 	{
-		sendTipMessage(playerid, "U¿yj /alkomat [ID gracza]");
+		sendTipDialogMessage(playerid, "U¿yj /alkomat [ID gracza]");
 		return 1;
 	}
 	if (IsACop(playerid) || IsAHA(playerid))
 	{
 		if(OnDuty[playerid] == 0 && IsACop(playerid))
 		{
-			sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie");
+			sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie");
 			return 1;
 		}
 		if(IsPlayerConnected(giveplayerid))
@@ -3398,13 +3331,13 @@ CMD:alkomat(playerid, params[])
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Gracz nie znajduje sie obok ciebie.");
+				sendErrorDialogMessage(playerid, "Gracz nie znajduje sie obok ciebie.");
 			}
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ policjantem, ani agentem FBI");
+		sendErrorDialogMessage(playerid, "Nie jesteœ policjantem, ani agentem FBI");
 	}
 	return 1;
 }
@@ -3422,7 +3355,7 @@ CMD:bronlic(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-                sendTipMessage(playerid, "U¿yj /bronlic [playerid]");
+                sendTipDialogMessage(playerid, "U¿yj /bronlic [playerid]");
 				return 1;
 			}
 			if(IsPlayerConnected(giveplayerid))
@@ -3444,20 +3377,20 @@ CMD:bronlic(playerid, params[])
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Koszt wydania tej licencji to 25 000$ a ty tyle nie masz!");
+						sendErrorDialogMessage(playerid, "Koszt wydania tej licencji to 25 000$ a ty tyle nie masz!");
 						return 1;
 					}
 			  	}
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Gracz jest nieaktywny !");
+				sendErrorDialogMessage(playerid, "Gracz jest nieaktywny !");
 				return 1;
 			}
         }
         else
         {
-            sendErrorMessage(playerid, "Licencjê na broñ wydaje tylko urzêdnik z Firearms Licensing Department!");
+            sendErrorDialogMessage(playerid, "Licencjê na broñ wydaje tylko urzêdnik z Firearms Licensing Department!");
             return 1;
         }
     }
@@ -3479,7 +3412,7 @@ CMD:wypisz(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "s[16] k<fix>", x_nr, giveplayerid))
 			{
-                sendTipMessage(playerid, "U¿yj /wydaj [nazwa dokumentu] [playerid]");
+                sendTipDialogMessage(playerid, "U¿yj /wydaj [nazwa dokumentu] [playerid]");
                 sendTipMessage(playerid, "Dostêpne dokumenty: dowod");
 				return 1;
 			}
@@ -3499,14 +3432,14 @@ CMD:wypisz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Gracz jest nieaktywny!");
+				    sendErrorDialogMessage(playerid, "Gracz jest nieaktywny!");
 				    return 1;
 				}
 			}
         }
         else
         {
-            sendErrorMessage(playerid, "Tylko urzêdnicy maj¹ prawo do wydawania dowodów!");
+            sendErrorDialogMessage(playerid, "Tylko urzêdnicy maj¹ prawo do wydawania dowodów!");
             return 1;
         }
     }
@@ -3528,7 +3461,7 @@ CMD:respawn(playerid)
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Poczekaj a¿ skoñczy siê to odliczanie!!!");
+			sendErrorDialogMessage(playerid, "Poczekaj a¿ skoñczy siê to odliczanie!!!");
 		}
 	}
 	return 1;
@@ -3539,10 +3472,10 @@ CMD:respawnplayer(playerid, params[])
 {
     if(PlayerInfo[playerid][pAdmin] < 1 && PlayerInfo[playerid][pNewAP] < 1) return 1;
     new v;
-    if(sscanf(params, "k<fix>", v)) return sendTipMessage(playerid, "U¿yj /respawnplayer [ID/Nick]");
-    if(!IsPlayerConnected(v)) return sendErrorMessage(playerid, "Niepoprawne ID gracza.");
+    if(sscanf(params, "k<fix>", v)) return sendTipDialogMessage(playerid, "U¿yj /respawnplayer [ID/Nick]");
+    if(!IsPlayerConnected(v)) return sendErrorDialogMessage(playerid, "Niepoprawne ID gracza.");
     new pstate = GetPlayerState(v);
-    if(pstate == 0 || pstate == 7 || pstate == 9) return sendErrorMessage(playerid, "Nie mo¿esz go teraz zrespawnowaæ!");
+    if(pstate == 0 || pstate == 7 || pstate == 9) return sendErrorDialogMessage(playerid, "Nie mo¿esz go teraz zrespawnowaæ!");
 
     _MruAdmin(playerid, sprintf("Przywróci³eœ na pozycje startow¹ %s [ID: %d]", GetNick(v, true), v));
     if(v != playerid)
@@ -3557,9 +3490,9 @@ CMD:respawncar(playerid, params[])
 {
     if(PlayerInfo[playerid][pAdmin] < 1 && PlayerInfo[playerid][pNewAP] < 1) return 1;
     new v;
-    if(sscanf(params, "d", v)) return sendTipMessage(playerid, "U¿yj /respawncar [ID pojazdu]");
+    if(sscanf(params, "d", v)) return sendTipDialogMessage(playerid, "U¿yj /respawncar [ID pojazdu]");
     if(!(0 < v < MAX_VEHICLES)) return 1;
-    if(GetVehicleModel(v) == 0) return sendErrorMessage(playerid, "Niepoprawne ID pojazdu.");
+    if(GetVehicleModel(v) == 0) return sendErrorDialogMessage(playerid, "Niepoprawne ID pojazdu.");
     new bool:used=false;
     foreach(Player, p)
 	{
@@ -3569,7 +3502,7 @@ CMD:respawncar(playerid, params[])
             break;
 		}
 	}
-    if(used) return sendErrorMessage(playerid, "Pojazd nie jest pusty");
+    if(used) return sendErrorDialogMessage(playerid, "Pojazd nie jest pusty");
     else
     {
         SetVehicleToRespawn(v);
@@ -3663,7 +3596,7 @@ CMD:bandana(playerid)
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie !");
+			    sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie !");
 			}
 		}
 		return 1;
@@ -3691,7 +3624,7 @@ CMD:bandana(playerid)
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie!");
+			    sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie!");
 			}
 		}
 		return 1;
@@ -3706,12 +3639,12 @@ CMD:yo(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /yo [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /yo [ID gracza]");
 			return 1;
 		}
         if(Spectate[playa] != INVALID_PLAYER_ID)
 		{
-			sendErrorMessage(playerid, "Ten gracz jest za daleko.");
+			sendErrorDialogMessage(playerid, "Ten gracz jest za daleko.");
 			return 1;
 		}
 		if (ProxDetectorS(5.0, playerid, playa))
@@ -3728,7 +3661,7 @@ CMD:yo(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko !");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 		}
 	}
 	return 1;
@@ -3741,7 +3674,7 @@ CMD:yo3(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /yo3 [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /yo3 [ID gracza]");
 			return 1;
 		}
 
@@ -3759,7 +3692,7 @@ CMD:yo3(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko!");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko!");
 		}
 	}
 	return 1;
@@ -3772,7 +3705,7 @@ CMD:yo2(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /yo2 [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /yo2 [ID gracza]");
 			return 1;
 		}
 
@@ -3790,7 +3723,7 @@ CMD:yo2(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko !");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 		}
 	}
 	return 1;
@@ -3803,7 +3736,7 @@ CMD:yo4(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /yo4 [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /yo4 [ID gracza]");
 			return 1;
 		}
 
@@ -3823,7 +3756,7 @@ CMD:yo4(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko !");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 		}
 	}
 	return 1;
@@ -3836,7 +3769,7 @@ CMD:elo(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /elo [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /elo [ID gracza]");
 			return 1;
 		}
 
@@ -3850,7 +3783,7 @@ CMD:elo(playerid, params[])
 		        {
 		            if(Spectate[playa] != INVALID_PLAYER_ID)
 					{
-						sendErrorMessage(playerid, "Ten gracz jest za daleko.");
+						sendErrorDialogMessage(playerid, "Ten gracz jest za daleko.");
 						return 1;
 					}
 					SendClientMessage(playa, COLOR_WHITE, "Witasz siê");
@@ -3861,7 +3794,7 @@ CMD:elo(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko !");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 		}
 	}
 	return 1;
@@ -3874,7 +3807,7 @@ CMD:elo2(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /elo2 [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /elo2 [ID gracza]");
 			return 1;
 		}
 
@@ -3894,7 +3827,7 @@ CMD:elo2(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko !");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 		}
 	}
 	return 1;
@@ -3907,12 +3840,12 @@ CMD:witaj(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /witaj [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /witaj [ID gracza]");
 			return 1;
 		}
         if(Spectate[playa] != INVALID_PLAYER_ID)
 		{
-			sendErrorMessage(playerid, "Ten gracz jest za daleko.");
+			sendErrorDialogMessage(playerid, "Ten gracz jest za daleko.");
 			return 1;
 		}
 		if (ProxDetectorS(5.0, playerid, playa))
@@ -3929,7 +3862,7 @@ CMD:witaj(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko !");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 		}
 	}
 	return 1;
@@ -3944,7 +3877,7 @@ CMD:caluj(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /caluj [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /caluj [ID gracza]");
 			return 1;
 		}
 
@@ -3956,7 +3889,7 @@ CMD:caluj(playerid, params[])
 		        {
 		            if(Spectate[playa] != INVALID_PLAYER_ID)
 					{
-						sendErrorMessage(playerid, "Jesteœ za daleko !");
+						sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 						return 1;
 					}
   					new nick[200];
@@ -3977,7 +3910,7 @@ CMD:caluj(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Jesteœ za daleko !");
+			sendErrorDialogMessage(playerid, "Jesteœ za daleko !");
 		}
 	}
 	return 1;
@@ -4001,7 +3934,7 @@ CMD:bdaj(playerid, params[])
 	    new giveplayerid, level;
 		if( sscanf(params, "k<fix>d", giveplayerid, level))
 		{
-			sendTipMessage(playerid, "U¿yj /bdaj [id graczcza] [id broni] [naboje]");
+			sendTipDialogMessage(playerid, "U¿yj /bdaj [id graczcza] [id broni] [naboje]");
 			return 1;
 		}
 
@@ -4022,7 +3955,7 @@ CMD:dajdzwiek(playerid, params[])
             new giveplayerid, level;
 			if( sscanf(params, "k<fix>d", giveplayerid, level))
 			{
-				sendTipMessage(playerid, "U¿yj /dajdzwiek [id graczcza] [id dzwieku]");
+				sendTipDialogMessage(playerid, "U¿yj /dajdzwiek [id graczcza] [id dzwieku]");
 				return 1;
 			}
 			PlayerPlaySound(giveplayerid, level, 0.0, 0.0, 0.0);
@@ -4040,7 +3973,7 @@ CMD:crimereport(playerid, params[])
             new giveplayerid, level;
 			if( sscanf(params, "k<fix>d", giveplayerid, level))
 			{
-				sendTipMessage(playerid, "U¿yj /crimereport [id graczcza] [id przestepstwa]");
+				sendTipDialogMessage(playerid, "U¿yj /crimereport [id graczcza] [id przestepstwa]");
 				return 1;
 			}
 			PlayCrimeReportForPlayer(playerid, giveplayerid, level);
@@ -4290,7 +4223,7 @@ CMD:getposp(playerid, params[])
 	    new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /getposp [id gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /getposp [id gracza]");
 			return 1;
 		}
 
@@ -4309,7 +4242,7 @@ CMD:fdaj(playerid, params[])
 	    new giveplayerid, level;
 		if( sscanf(params, "k<fix>d", giveplayerid, level))
 		{
-			sendTipMessage(playerid, "U¿yj /fdaj [id graczcza] [id stylu]");
+			sendTipDialogMessage(playerid, "U¿yj /fdaj [id graczcza] [id stylu]");
 			return 1;
 		}
 
@@ -4328,7 +4261,7 @@ CMD:dajdowozu(playerid, params[])
 	    new giveplayerid, level;
 		if( sscanf(params, "k<fix>d", giveplayerid, level))
 		{
-			sendTipMessage(playerid, "U¿yj /dajdowozu [id graczcza] [id wozu]");
+			sendTipDialogMessage(playerid, "U¿yj /dajdowozu [id graczcza] [id wozu]");
 			return 1;
 		}
 
@@ -4351,7 +4284,7 @@ CMD:ksam(playerid, params[])
 	    new level;
 		if( sscanf(params, "d", level))
 		{
-			sendTipMessage(playerid, "U¿yj /ksam [kamera]");
+			sendTipDialogMessage(playerid, "U¿yj /ksam [kamera]");
 			return 1;
 		}
 
@@ -4554,7 +4487,7 @@ CMD:dskill(playerid, params[])
 	    new giveplayerid, idskill, level;
 		if( sscanf(params, "k<fix>dd", giveplayerid, idskill, level))
 		{
-			sendTipMessage(playerid, "/dskill [id graczcza] [id skilla] [level]");
+			sendTipDialogMessage(playerid, "/dskill [id graczcza] [id skilla] [level]");
 			return 1;
 		}
 
@@ -4648,7 +4581,7 @@ CMD:dsus(playerid, params[])
 	    new giveplayerid, przestepca;
 		if( sscanf(params, "k<fix>d", giveplayerid, przestepca))
 		{
-			sendTipMessage(playerid, "U¿yj /dsus [id graczcza] [id wl]");
+			sendTipDialogMessage(playerid, "U¿yj /dsus [id graczcza] [id wl]");
 			return 1;
 		}
 		if(przestepca >= 3 && przestepca <= 22)
@@ -4708,12 +4641,12 @@ CMD:pokazdowod(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /dowod [id gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /dowod [id gracza]");
 			return 1;
 		}
 		if (PlayerInfo[playerid][pDowod] == 0)
 		{
-			sendErrorMessage(playerid, "Nie posiadasz dowodu, wyrób go w urzêdzie !");
+			sendTipDialogMessage(playerid, "Nie posiadasz dowodu, wyrób go w urzêdzie !");
 			return 1;
 		}
 
@@ -4811,14 +4744,14 @@ CMD:pokazdowod(playerid, params[])
   				}
 		        else
 		        {
-				    sendErrorMessage(playerid, "Gracz nie jest przed tob¹ !");
+				    sendErrorDialogMessage(playerid, "Gracz nie jest przed tob¹ !");
 				    return 1;
 				}
 			}
 		}
         else
         {
-            sendErrorMessage(playerid, "Nie ma takiego gracza!");
+            sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
             return 1;
         }
 	}
@@ -4839,7 +4772,7 @@ CMD:odmv(playerid)
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ instruktorem");
+		sendErrorDialogMessage(playerid, "Nie jesteœ instruktorem");
 	}
 	return 1;
 }
@@ -4860,7 +4793,7 @@ CMD:zdmv(playerid)
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ instruktorem");
+		sendErrorDialogMessage(playerid, "Nie jesteœ instruktorem");
 	}
 	return 1;
 }
@@ -4875,18 +4808,18 @@ CMD:dmv_info(playerid, params[])
     {
 		if(!IsAUrzednik(playerid) && !IsABOR(playerid))
 		{
- 			sendErrorMessage(playerid, "Nie jesteœ urzêdnikiem / agentem BOR!");
+ 			sendErrorDialogMessage(playerid, "Nie jesteœ urzêdnikiem / agentem BOR!");
 		    return 1;
 		}
 		if(PlayerInfo[playerid][pRank] < 3)
 		{
-		    sendErrorMessage(playerid, "Musisz mieæ 3 range aby tego u¿ywaæ!");
+		    sendErrorDialogMessage(playerid, "Musisz mieæ 3 range aby tego u¿ywaæ!");
 		    return 1;
 		}
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/dmv)-info [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/dmv)-info [tekst]");
 			return 1;
 		}
 		if(PlayerInfo[playerid][pBP] >= 1)
@@ -4910,18 +4843,18 @@ CMD:armia(playerid, params[])
     {
 		if(GetPlayerOrg(playerid) != 12)
 		{
- 			sendErrorMessage(playerid, "Nie jesteœ z wojska!");
+ 			sendErrorDialogMessage(playerid, "Nie jesteœ z wojska!");
 		    return 1;
 		}
 		if(PlayerInfo[playerid][pRank] < 9)
 		{
-		    sendErrorMessage(playerid, "Musisz mieæ 9 rangê aby tego u¿ywaæ !");
+		    sendErrorDialogMessage(playerid, "Musisz mieæ 9 rangê aby tego u¿ywaæ !");
 		    return 1;
 		}
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /armia [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj /armia [tekst]");
 			return 1;
 		}
 		if(PlayerInfo[playerid][pBP] >= 1)
@@ -4945,18 +4878,18 @@ CMD:sad(playerid, params[])
     {
 		if(GetPlayerOrg(playerid) != FAMILY_SAD)
 		{
- 			sendErrorMessage(playerid, "Nie jesteœ z s¹du!");
+ 			sendErrorDialogMessage(playerid, "Nie jesteœ z s¹du!");
 		    return 1;
 		}
 		if(PlayerInfo[playerid][pRank] < 3)
 		{
-		    sendErrorMessage(playerid, "Musisz mieæ 3 range aby tego u¿ywaæ !");
+		    sendErrorDialogMessage(playerid, "Musisz mieæ 3 range aby tego u¿ywaæ !");
 		    return 1;
 		}
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj: /sad [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj: /sad [tekst]");
 			return 1;
 		}
 		if(PlayerInfo[playerid][pBP] >= 1)
@@ -4981,7 +4914,7 @@ CMD:kt(playerid, params[])
 	{
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /kt [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj /kt [tekst]");
 			return 1;
 		}
 		if(PlayerInfo[playerid][pBP] >= 1)
@@ -4997,7 +4930,7 @@ CMD:kt(playerid, params[])
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie posiadasz 4 rangi!");
+	    sendErrorDialogMessage(playerid, "Nie posiadasz 4 rangi!");
 	}
 	return 1;
 }
@@ -5024,7 +4957,7 @@ CMD:trasa(playerid)
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z Korporacji Transportowej!");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z Korporacji Transportowej!");
 	}
 	return 1;
 }
@@ -5053,24 +4986,24 @@ CMD:zd(playerid)
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Drzwi autobusu s¹ ju¿ zamkniête !");
+						sendErrorDialogMessage(playerid, "Drzwi autobusu s¹ ju¿ zamkniête !");
 					}
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Nie jesteœ w autobusie Korporacji !");
+					sendErrorDialogMessage(playerid, "Nie jesteœ w autobusie Korporacji !");
 				}
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie posiadasz 2 rangi !");
+				sendErrorDialogMessage(playerid, "Nie posiadasz 2 rangi !");
 			}
 			return 1;
 		}
 	}
 	else
 	{
-	sendErrorMessage(playerid, "Nie jesteœ z Korporacji Transportowej !");
+	sendErrorDialogMessage(playerid, "Nie jesteœ z Korporacji Transportowej !");
 	}
 	return 1;
 }
@@ -5095,14 +5028,14 @@ CMD:zakoncztrase(playerid)
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie posiadasz 2 rangi!");
+				sendErrorDialogMessage(playerid, "Nie posiadasz 2 rangi!");
 			}
 			return 1;
 		}
 	}
 	else
 	{
-	sendErrorMessage(playerid, "Nie jesteœ z Korporacji Transportowej!");
+	sendErrorDialogMessage(playerid, "Nie jesteœ z Korporacji Transportowej!");
 	}
 	return 1;
 }
@@ -5132,7 +5065,7 @@ CMD:okienko(playerid)
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ urzêdnikiem!");
+		sendErrorDialogMessage(playerid, "Nie jesteœ urzêdnikiem!");
 	}
 	return 1;
 }
@@ -5148,12 +5081,12 @@ CMD:pjtest(playerid, params[])
 		new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /pjtest [ID/Nick]");
+			sendTipDialogMessage(playerid, "U¿yj /pjtest [ID/Nick]");
 			return 1;
 		}
 		if(giveplayerid == playerid)
 		{
-			sendErrorMessage(playerid, "Nie mo¿esz rozpocz¹æ testu z samym sob¹ !");
+			sendErrorDialogMessage(playerid, "Nie mo¿esz rozpocz¹æ testu z samym sob¹ !");
 			return 1;
 		}
 
@@ -5187,15 +5120,15 @@ CMD:pjtest(playerid, params[])
 					ShowPlayerDialogEx(giveplayerid, D_PJTEST, DIALOG_STYLE_MSGBOX, "Prawo jazdy - Test", "{7FFF00}Witaj!\n{FFFFFF}Rozpoczynasz test na prawo jazdy.\nW teœcie {FF0000}NIE U¯YWAJ{FFFFFF} polskich znaków!\n\n¯yczymy powodzenia!", "Rozpocznij", "");
 					return 1;
 				}
-				else {sendErrorMessage(playerid, "Gracz jest za daleko !"); return 1;}
+				else {sendErrorDialogMessage(playerid, "Gracz jest za daleko !"); return 1;}
     		}
-    		else {sendErrorMessage(playerid, "Ten gracz jest w trakcie testu !"); return 1;}
+    		else {sendErrorDialogMessage(playerid, "Ten gracz jest w trakcie testu !"); return 1;}
 		}
-	    else {sendErrorMessage(playerid, "Nie ma takiego gracza !"); return 1;}
+	    else {sendErrorDialogMessage(playerid, "Nie ma takiego gracza !"); return 1;}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ Urzêdnikiem z rang¹ 1+ / nie jesteœ w DMV !");
+		sendErrorDialogMessage(playerid, "Nie jesteœ Urzêdnikiem z rang¹ 1+ / nie jesteœ w DMV !");
 		return 1;
 	}
 }
@@ -5211,7 +5144,7 @@ CMD:sprawdztest(playerid, params[])
         new giveplayerid;
     	if( sscanf(params, "k<fix>", giveplayerid))
     	{
-    		sendTipMessage(playerid, "U¿yj /sprawdztest [ID/Nick]");
+    		sendTipDialogMessage(playerid, "U¿yj /sprawdztest [ID/Nick]");
     		return 1;
     	}
         GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
@@ -5264,7 +5197,7 @@ CMD:sprawdztest(playerid, params[])
 			}
         }
     }
-    else return sendErrorMessage(playerid, "* Nie jesteœ Urzêdnikiem!");
+    else return sendErrorDialogMessage(playerid, "* Nie jesteœ Urzêdnikiem!");
 }
 
 CMD:wepchnij(playerid, params[]) return cmd_wrzuc(playerid, params);
@@ -5279,17 +5212,17 @@ CMD:wrzuc(playerid, params[])
     {
     	new person, seat4;
     	if( sscanf(params, "k<fix>d", person, seat4))
-    	return sendTipMessage(playerid, "U¿yj /wepchnij [ID Gracza] [miejsce 2-4]");
+    	return sendTipDialogMessage(playerid, "U¿yj /wepchnij [ID Gracza] [miejsce 2-4]");
 
     	if (GetPlayerState(playerid)!=PLAYER_STATE_DRIVER)
-    	return sendTipMessage(playerid, "Musisz byæ w pojeŸdzie.");
+    	return sendTipDialogMessage(playerid, "Musisz byæ w pojeŸdzie.");
 
     	if (IsPlayerInAnyVehicle(person))
-    	return sendTipMessage(playerid, "Gracz nie mo¿e znajdowaæ siê w pojeŸdzie.");
+    	return sendTipDialogMessage(playerid, "Gracz nie mo¿e znajdowaæ siê w pojeŸdzie.");
 
     	if(pobity[person] >= 1 || PlayerInfo[person][pBW] > 0)
         {
-    		if (GetDistanceBetweenPlayers(playerid,person) > 5) return sendErrorMessage(playerid, "Gracz nie jest w pobli¿u.");
+    		if (GetDistanceBetweenPlayers(playerid,person) > 5) return sendErrorDialogMessage(playerid, "Gracz nie jest w pobli¿u.");
 
             TogglePlayerControllable(person, 1);
     		new Float:pos[6];
@@ -5321,7 +5254,7 @@ CMD:wrzuc(playerid, params[])
     	    sendTipMessage(playerid, "Gracz nie jest pobity!");
     	}
     } else {
-        sendErrorMessage(playerid, "Nie mo¿esz tego zrobiæ!");
+        sendErrorDialogMessage(playerid, "Nie mo¿esz tego zrobiæ!");
         return 1;
     }
     return 1;
@@ -7937,7 +7870,7 @@ CMD:cela2(playerid, params[])
 			new level;
 			if( sscanf(params, "d", level))
 			{
-				sendTipMessage(playerid, "U¿yj /cela [numer celi (1-3)]");
+				sendTipDialogMessage(playerid, "U¿yj /cela [numer celi (1-3)]");
 				return 1;
 			}
 
@@ -8055,7 +7988,7 @@ CMD:kod(playerid,params[])
         sscanf(params, "D(0)", lKey);
         if(lKey != 0)
         {
-            if(!(0 < lKey < 6666)) return sendTipMessage(playerid, "U¿yj /kod [kod(od 0 do 6666)]");
+            if(!(0 < lKey < 6666)) return sendTipDialogMessage(playerid, "U¿yj /kod [kod(od 0 do 6666)]");
             STANOWE_GATE_KEY = lKey;
             new lStr[64];
             format(lStr, 64, "UPDATE `mru_config` SET `stanowe_key`='%d'", lKey);
@@ -8063,7 +7996,7 @@ CMD:kod(playerid,params[])
             SendClientMessage(playerid, COLOR_GRAD2, "Zmieniono");
         }
     }
-    if(VAR_NGKeypad) return sendErrorMessage(playerid, "Ktoœ ju¿ wpisuje kod");
+    if(VAR_NGKeypad) return sendErrorDialogMessage(playerid, "Ktoœ ju¿ wpisuje kod");
     if(GetPVarInt(playerid, "ng-gatekey") == 0)
     {
     	if(IsPlayerInRangeOfPoint(playerid,8.0, 2720.3491, -2509.8152, 13.8384))
@@ -8095,7 +8028,7 @@ CMD:zawodnik(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /zawodnik [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /zawodnik [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -8152,7 +8085,7 @@ CMD:dajkm(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /dajkm [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /dajkm [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -8264,7 +8197,7 @@ CMD:komentuj(playerid, params[])
             GetPlayerName(playerid, sendername, sizeof(sendername));
 			if(isnull(params))
 			{
-				sendTipMessage(playerid, "U¿yj /km [tekst]");
+				sendTipDialogMessage(playerid, "U¿yj /km [tekst]");
 				return 1;
 			}
 			format(string, sizeof(string), "Komentator %s: %s", sendername, params);
@@ -8272,7 +8205,7 @@ CMD:komentuj(playerid, params[])
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ komentatorem!");
+            sendErrorDialogMessage(playerid, "Nie jesteœ komentatorem!");
         }
     }
 	return 1;
@@ -8325,7 +8258,7 @@ CMD:setskin(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setskin [playerid/CzêœæNicku] [id skinu]");
+			sendTipDialogMessage(playerid, "U¿yj /setskin [playerid/CzêœæNicku] [id skinu]");
 			return 1;
 		}
 
@@ -8408,7 +8341,7 @@ CMD:rozwiedz(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /rozwiedz [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /rozwiedz [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -8441,7 +8374,7 @@ CMD:zmienwl(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setwl [playerid/CzêœæNicku] [iloœæ wl]");
+			sendTipDialogMessage(playerid, "U¿yj /setwl [playerid/CzêœæNicku] [iloœæ wl]");
 			return 1;
 		}
 		if (PlayerInfo[playerid][pAdmin] >= 1)
@@ -8485,7 +8418,7 @@ CMD:sprawdzteam(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /checkteam [playerid/CzêœæNicku] [iloœæ wl]");
+			sendTipDialogMessage(playerid, "U¿yj /checkteam [playerid/CzêœæNicku] [iloœæ wl]");
 			return 1;
 		}
 
@@ -8521,7 +8454,7 @@ CMD:pojazdygracza(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /pojazdygracza [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /pojazdygracza [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -8564,16 +8497,16 @@ CMD:checkcar(playerid, params[])
         new vehid;
 		if( sscanf(params, "d", vehid))
 		{
-			sendTipMessage(playerid, "U¿yj /checkcar [Vehicle ID]");
+			sendTipDialogMessage(playerid, "U¿yj /checkcar [Vehicle ID]");
 			return 1;
 		}
         if(vehid < 1 || vehid >= MAX_VEHICLES)
-            return sendErrorMessage(playerid, "Niepoprawne ID pojazdu.");
+            return sendErrorDialogMessage(playerid, "Niepoprawne ID pojazdu.");
         if(GetVehicleModel(vehid) == 0)
-            return sendErrorMessage(playerid, "Taki pojazd nie istnieje.");
+            return sendErrorDialogMessage(playerid, "Taki pojazd nie istnieje.");
         new uid = VehicleUID[vehid][vUID];
         if(uid == 0)
-            return sendErrorMessage(playerid, "Pojazd nie nale¿y do systemu.");
+            return sendErrorDialogMessage(playerid, "Pojazd nie nale¿y do systemu.");
         new str[128];
         format(str, 128, "System: Pojazd nale¿y do %s - %s (UID: %d)", CarOwnerNames[CarData[uid][c_OwnerType]], Car_PrintOwner(uid), CarData[uid][c_UID]);
         SendClientMessage(playerid, COLOR_GREEN, str);
@@ -8592,7 +8525,7 @@ CMD:checkcars(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			SendClientMessage(playerid, COLOR_GRAD2, "U¿yj /checkcars [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /checkcars [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -8621,7 +8554,7 @@ CMD:setveh(playerid, params[])
 		new para1, nrcar, level;
 		if( sscanf(params, "k<fix>dd", para1, nrcar, level))
 		{
-			sendTipMessage(playerid, "U¿yj /zmienauto [playerid/CzêœæNicku] [Nr. z listy (nie UID!)] [UID pojazdu]");
+			sendTipDialogMessage(playerid, "U¿yj /zmienauto [playerid/CzêœæNicku] [Nr. z listy (nie UID!)] [UID pojazdu]");
 			return 1;
 		}
 
@@ -8713,7 +8646,7 @@ CMD:zmienprace(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setjob [playerid/CzêœæNicku] [id pracy]");
+			sendTipDialogMessage(playerid, "U¿yj /setjob [playerid/CzêœæNicku] [id pracy]");
 			return 1;
 		}
 		if (PlayerInfo[playerid][pAdmin] >= 5000)
@@ -8746,7 +8679,7 @@ CMD:setslot(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setslot [playerid/CzêœæNicku] [id pracy]");
+			sendTipDialogMessage(playerid, "U¿yj /setslot [playerid/CzêœæNicku] [id pracy]");
 			return 1;
 		}
 		if (PlayerInfo[playerid][pAdmin] >= 5000)
@@ -8787,7 +8720,7 @@ CMD:zmiendom(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setdom [playerid/CzêœæNicku] [id domu]");
+			sendTipDialogMessage(playerid, "U¿yj /setdom [playerid/CzêœæNicku] [id domu]");
 			return 1;
 		}
 
@@ -8832,7 +8765,7 @@ CMD:zmiendomk(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setdomk [playerid/CzêœæNicku] [id domu]");
+			sendTipDialogMessage(playerid, "U¿yj /setdomk [playerid/CzêœæNicku] [id domu]");
 			return 1;
 		}
 
@@ -8874,7 +8807,7 @@ CMD:zmienwiek(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setwiek [playerid/CzêœæNicku] [wiek]");
+			sendTipDialogMessage(playerid, "U¿yj /setwiek [playerid/CzêœæNicku] [wiek]");
 			return 1;
 		}
 
@@ -8917,7 +8850,7 @@ CMD:sprawdzdom(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /checkdom [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /checkdom [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -8960,7 +8893,7 @@ CMD:choroba(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setstd [playerid/CzêœæNicku] [id choroby] (4 - grypa, 5 - sepsa)");
+			sendTipDialogMessage(playerid, "U¿yj /setstd [playerid/CzêœæNicku] [id choroby] (4 - grypa, 5 - sepsa)");
 			return 1;
 		}
 
@@ -9000,7 +8933,7 @@ CMD:unfrakcja(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /unfrakcja [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /unfrakcja [ID gracza]");
 			return 1;
 		}
 
@@ -9077,12 +9010,12 @@ CMD:skinf(playerid)
 {
     if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER || GetPlayerState(playerid) == PLAYER_STATE_PASSENGER || GetPlayerState(playerid) == PLAYER_STATE_EXIT_VEHICLE || GetPlayerState(playerid) == PLAYER_STATE_ENTER_VEHICLE_DRIVER || GetPlayerState(playerid) == PLAYER_STATE_ENTER_VEHICLE_PASSENGER)
     {
-        sendErrorMessage(playerid, "Nie mo¿esz tego u¿yæ w pojeŸdzie!");
+        sendErrorDialogMessage(playerid, "Nie mo¿esz tego u¿yæ w pojeŸdzie!");
         return 1;
     }
     if(GetPVarInt(playerid, "entering_car") == 1)
     {
-        sendErrorMessage(playerid, "Nie mo¿esz tego u¿yæ wsiadaj¹c do pojazdu!");
+        sendErrorDialogMessage(playerid, "Nie mo¿esz tego u¿yæ wsiadaj¹c do pojazdu!");
         return 1;
     }
     if(!IsPlayerConnected(playerid) || !gPlayerLogged[playerid]) return 1;
@@ -9130,7 +9063,7 @@ CMD:ubranie(playerid)
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ w sklepie z ubraniami!");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ w sklepie z ubraniami!");
 		}
 	}
 	return 1;
@@ -9147,7 +9080,7 @@ CMD:kill(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /kill [ID/Imie_Nazwisko]");
+			sendTipDialogMessage(playerid, "U¿yj /kill [ID/Imie_Nazwisko]");
 			return 1;
 		}
 
@@ -9188,7 +9121,7 @@ CMD:podglad(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /podglad [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /podglad [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -9243,7 +9176,7 @@ CMD:undemorgan(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /prisonoff [id/nick]");
+			sendTipDialogMessage(playerid, "U¿yj /prisonoff [id/nick]");
 			return 1;
 		}
 
@@ -9274,7 +9207,7 @@ CMD:undemorgan(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Ten gracz jest offline!");
+		    sendErrorDialogMessage(playerid, "Ten gracz jest offline!");
 		    return 1;
 		}
     }
@@ -9290,7 +9223,7 @@ CMD:antybh(playerid, params[])
 		new bh;
 		if( sscanf(params, "d", bh))
 		{
-			sendTipMessage(playerid, "U¿yj /antybh [0-off, 1-on]");
+			sendTipDialogMessage(playerid, "U¿yj /antybh [0-off, 1-on]");
 			return 1;
 		}
 
@@ -9340,13 +9273,13 @@ CMD:qf(playerid)
 	    {
 			if(PlayerInfo[playerid][pLider] > 0)
 			{
-				sendTipMessage(playerid, "Nie mo¿esz odjeœæ z lidera.", COLOR_LIGHTBLUE);
+				sendTipDialogMessage(playerid, "Nie mo¿esz odjeœæ z lidera.");
 				return 1;
 			}
             orgUnInviteDeleteGPS(playerid);
 			new giveplayer[MAX_PLAYER_NAME];
 			GetPlayerName(playerid, giveplayer, sizeof(giveplayer));
-			sendTipMessage(playerid, "Odszed³eœ z frakcji, jesteœ teraz cywilem!", COLOR_LIGHTBLUE);
+			sendTipDialogMessage(playerid, "Odszed³eœ z frakcji, jesteœ teraz cywilem!");
 			gTeam[playerid] = 3;
 			PlayerInfo[playerid][pTeam] = 3;
 			PlayerInfo[playerid][pMember] = 0;
@@ -9359,7 +9292,7 @@ CMD:qf(playerid)
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie masz frakcji");
+		    sendTipDialogMessage(playerid, "Nie masz frakcji");
 		}
 	}
 	return 1;
@@ -9461,7 +9394,7 @@ CMD:ip(playerid, params[])
 		new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /ip [playerid]");
+			sendTipDialogMessage(playerid, "U¿yj /ip [playerid]");
 			sendTipMessage(playerid, "FUNKCJA: Pokazuje IP wybranego gracza.");
 			return 1;
 		}
@@ -9484,7 +9417,7 @@ CMD:ip(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "Nie znaleziono gracza o nicku/id %s", params);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	else
@@ -9509,7 +9442,7 @@ CMD:flip(playerid, params[])
 		new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-		    sendTipMessage(playerid, "U¿yj /flip [id Gracza]");
+		   sendTipDialogMessage(playerid, "U¿yj /flip [id Gracza]");
 		}
 		else
 		{
@@ -9541,11 +9474,11 @@ CMD:snn(playerid, params[])
 
 	if(isnull(params))
 	{
-		sendTipMessage(playerid, "U¿yj /snn [cnn textformat ~n~=nowa linia ~r~=czerwony ~g~=zielony ~b~=niebieski ~w~=bia³y ~y~=¿ó³ty]");
+		sendTipDialogMessage(playerid, "U¿yj /snn [cnn textformat ~n~=nowa linia ~r~=czerwony ~g~=zielony ~b~=niebieski ~w~=bia³y ~y~=¿ó³ty]");
 		return 1;
 	}
 	format(string, sizeof(string), "  ~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~                         %s",params);
-    if(!issafefortextdraw(string)) return sendErrorMessage(playerid, "Niekompletny tekst (tyldy etc)");
+    if(!issafefortextdraw(string)) return sendErrorDialogMessage(playerid, "Niekompletny tekst (tyldy etc)");
     GameTextForAll(string, 3000, 1);
 	format(string, sizeof(string), "AdmCmd: %s [ID: %d] napisal cos na /snn", sendername, playerid);
 	ABroadCast(COLOR_PANICRED,string,1);
@@ -9570,7 +9503,7 @@ CMD:blok(playerid, params[])
         new giveplayerid, result[128];
         if( sscanf(params, "k<fix>s[128]", giveplayerid, result))
         {
-            sendTipMessage(playerid, "U¿yj /block [id/nick] [powod]");
+            sendTipDialogMessage(playerid, "U¿yj /block [id/nick] [powod]");
             return 1;
         }
 
@@ -9587,17 +9520,17 @@ CMD:blok(playerid, params[])
             	{
             	    if(PlayerInfo[giveplayerid][pAdmin] >= 1)
 		            {
-		                sendErrorMessage(playerid, "Nie mozesz zablokowaæ Admina !");
+		                sendTipDialogMessage(playerid, "Nie mozesz zablokowaæ Admina !");
 		                return 1;
 		            }
 		            if(PlayerInfo[giveplayerid][pNewAP] >= 1 && PlayerInfo[playerid][pZG] >= 4)
 		            {
-		                sendErrorMessage(playerid, "Nie mozesz zablokowaæ P@!");
+		                sendTipDialogMessage(playerid, "Nie mozesz zablokowaæ P@!");
 		                return 1;
 		            }
 		            if(PlayerInfo[playerid][pZG] >= 4 && PlayerInfo[playerid][pZG] < 8 && PlayerInfo[giveplayerid][pLevel] > 1)
 		            {
-		                sendErrorMessage(playerid, "Nie mozesz zablokowaæ gracza z lvl wiekszym niz 1!");
+		               sendTipDialogMessage(playerid, "Nie mozesz zablokowaæ gracza z lvl wiekszym niz 1!");
 		                return 1;
 		            }
 	                GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
@@ -9619,7 +9552,7 @@ CMD:blok(playerid, params[])
   		else
 	 	{
 			format(string, sizeof(string), " %d nie jest aktywnym graczem.", giveplayerid);
-      		sendErrorMessage(playerid, string);
+      		sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -9644,7 +9577,7 @@ CMD:pblok(playerid, params[])
 	   		new nick[MAX_PLAYER_NAME], result[128];
 			if( sscanf(params, "s[24] s[128]", nick, result))
 			{
-				sendTipMessage(playerid, "U¿yj /pblock [NICK GRACZA OFFLINE] [powod]");
+				sendTipDialogMessage(playerid, "U¿yj /pblock [NICK GRACZA OFFLINE] [powod]");
 				return 1;
 			}
 
@@ -9652,13 +9585,13 @@ CMD:pblok(playerid, params[])
 			sscanf(nick, "k<fix>", giveplayerid);
             if(IsPlayerConnected(giveplayerid))
 			{
-			    sendErrorMessage(playerid, "Nie mo¿esz zablokowaæ tego gracza (jest online (na serwerze))");
+			    sendTipDialogMessage(playerid, "Nie mo¿esz zablokowaæ tego gracza (jest online (na serwerze))");
 				return 1;
 			}
 
 			if(MruMySQL_DoesAccountExist(nick) != -1)
 			{
-				sendErrorMessage(playerid, "Brak gracza w bazie, nie mo¿na zablokowaæ (konto nie istnieje).");
+				sendTipDialogMessage(playerid, "Brak gracza w bazie, nie mo¿na zablokowaæ (konto nie istnieje).");
 				return 1;
 			}
             GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -9694,19 +9627,19 @@ CMD:pban(playerid, params[])
 	   		new nick[MAX_PLAYER_NAME], result[128];
 			if( sscanf(params, "s[21]s[128]", nick, result))
 			{
-                sendTipMessage(playerid, "U¿yj /pban [NICK GRACZA OFFLINE] [powod]");
+                sendTipDialogMessage(playerid, "U¿yj /pban [NICK GRACZA OFFLINE] [powod]");
                 return 1;
             }
             new giveplayerid;
 			sscanf(nick, "k<fix>", giveplayerid);
             if(IsPlayerConnected(giveplayerid))
 			{
-			    sendErrorMessage(playerid, "Nie mo¿esz zablokowaæ tego gracza (jest online (na serwerze))");
+			    sendTipDialogMessage(playerid, "Nie mo¿esz zablokowaæ tego gracza (jest online (na serwerze))");
 				return 1;
 			}
             if(MruMySQL_DoesAccountExist(nick) != -1)
 			{
-				sendErrorMessage(playerid, "Brak pliku gracza, nie mo¿na zbanowaæ (konto nie istnieje).");
+				sendTipDialogMessage(playerid, "Brak pliku gracza, nie mo¿na zbanowaæ (konto nie istnieje).");
 				return 1;
 			}
             GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -9740,20 +9673,20 @@ CMD:pwarn(playerid, params[])
 	   		new nick[MAX_PLAYER_NAME], result[64];
 			if( sscanf(params, "s[21]s[64]", nick, result))
 			{
-                sendTipMessage(playerid, "U¿yj /pwarn [NICK GRACZA OFFLINE] [powod]");
+                sendTipDialogMessage(playerid, "U¿yj /pwarn [NICK GRACZA OFFLINE] [powod]");
                 return 1;
             }
 			new giveplayerid;
 			sscanf(nick, "k<fix>", giveplayerid);
             if(IsPlayerConnected(giveplayerid))
 			{
-			    sendErrorMessage(playerid, "Nie mo¿esz zablokowaæ tego gracza (jest online (na serwerze))");
+			    sendTipDialogMessage(playerid, "Nie mo¿esz zablokowaæ tego gracza (jest online (na serwerze))");
 				return 1;
 			}
 
 			if(!MruMySQL_DoesAccountExist(nick))
 			{
-				sendErrorMessage(playerid, "Brak pliku gracza, nie mo¿na zwarnowaæ (konto nie istnieje).");
+				sendTipDialogMessage(playerid, "Brak pliku gracza, nie mo¿na zwarnowaæ (konto nie istnieje).");
 				return 1;
 			}
 
@@ -9791,20 +9724,20 @@ CMD:paj(playerid, params[])
 	   		new nick[MAX_PLAYER_NAME], czas, result[64];
 			if( sscanf(params, "s[21]ds[64]", nick, czas, result))
 			{
-                sendTipMessage(playerid, "U¿yj /paj [NICK GRACZA OFFLINE] [czas] [powod]"); //
+                sendTipDialogMessage(playerid, "U¿yj /paj [NICK GRACZA OFFLINE] [czas] [powod]"); //
                 return 1;
             }
             new giveplayerid;
 			sscanf(nick, "k<fix>", giveplayerid);
             if(IsPlayerConnected(giveplayerid))
 			{
-			    sendErrorMessage(playerid, "Nie mo¿esz zablokowaæ tego gracza (jest online (na serwerze))");
+			    sendTipDialogMessage(playerid, "Nie mo¿esz AJotowaæ OFFLINE tego gracza (jest online (na serwerze))");
 				return 1;
 			}
 
 			if(!MruMySQL_DoesAccountExist(nick))
 			{
-				sendErrorMessage(playerid, "Brak pliku gracza, nie mo¿na zAJotowaæ (konto nie istnieje).");
+				sendTipDialogMessage(playerid, "Brak pliku gracza, nie mo¿na zAJotowaæ (konto nie istnieje).");
 				return 1;
 			}
 
@@ -9840,7 +9773,7 @@ CMD:sblok(playerid, params[])
         new giveplayerid, result[64];
         if( sscanf(params, "k<fix>s[64]", giveplayerid, result))
         {
-            sendTipMessage(playerid, "U¿yj /sblock [id/nick] [powod]");
+            sendTipDialogMessage(playerid, "U¿yj /sblock [id/nick] [powod]");
             return 1;
         }
 
@@ -9857,7 +9790,7 @@ CMD:sblok(playerid, params[])
             	{
             	    if(PlayerInfo[giveplayerid][pAdmin] >= 1)
 		            {
-		                sendErrorMessage(playerid, "Nie mozesz zablokowaæ Admina !");
+		               sendTipDialogMessage(playerid, "Nie mozesz zablokowaæ Admina !");
 		                return 1;
 		            }
 	                GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
@@ -9877,7 +9810,7 @@ CMD:sblok(playerid, params[])
   		else
 	 	{
 			format(string, sizeof(string), " %d nie jest aktywnym graczem.", giveplayerid);
-      		sendErrorMessage(playerid, string);
+      		sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -9895,7 +9828,7 @@ CMD:aname(playerid, params[])
     {
         if(sscanf(params, "s[128]", newname))
         {
-            sendTipMessage(playerid, "U¿yj /aname [Imie_Nazwisko]");
+            sendTipDialogMessage(playerid, "U¿yj /aname [Imie_Nazwisko]");
             return 1;
         }
 
@@ -9920,7 +9853,7 @@ CMD:setname(playerid, params[])
 		new giveplayerid;
 		if( sscanf(params, "k<fix>s[24]", giveplayerid, newname))
 		{
-			sendTipMessage(playerid, "U¿yj /setname [playerid] [nowynick]");
+			sendTipDialogMessage(playerid, "U¿yj /setname [playerid] [nowynick]");
 			return 1;
 		}
 
@@ -9954,18 +9887,18 @@ CMD:setname(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Ten gracz ma biznes, nie mo¿esz zmieniæ mu nicku");
+				    sendErrorDialogMessage(playerid, "Ten gracz ma biznes, nie mo¿esz zmieniæ mu nicku");
 				}
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Ten gracz ma dom, nie mo¿esz zmieniæ mu nicku");
+			    sendErrorDialogMessage(playerid, "Ten gracz ma dom, nie mo¿esz zmieniæ mu nicku");
 			}
 		}
 		else if(giveplayerid == INVALID_PLAYER_ID)
 		{
 			format(string, sizeof(string), "%d nie jest aktywnym graczem.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -9977,7 +9910,7 @@ CMD:dajzn(playerid, params[])
     if(PlayerInfo[playerid][pAdmin] >= 5000)
     {
         new id, ile;
-        if(sscanf(params, "dd", id, ile)) return sendTipMessage(playerid, "U¿yj: /dajzn [playerid/CzêœæNicku] [zmiany nicku]");
+        if(sscanf(params, "dd", id, ile)) return sendTipDialogMessage(playerid, "U¿yj: /dajzn [playerid/CzêœæNicku] [zmiany nicku]");
 
         PlayerInfo[id][pZmienilNick] += ile;
 
@@ -10006,14 +9939,14 @@ CMD:zmiennick(playerid, params[])
 				GetPlayerName(playerid, sendername, sizeof(sendername));
 				if(isnull(params))
 				{
-					sendTipMessage(playerid, "U¿yj /zmiennick [nowy nick]");
+					sendTipDialogMessage(playerid, "U¿yj /zmiennick [nowy nick]");
                     sendTipMessage(playerid, "UWAGA!! Przy zmianie nicku kasuje ci siê frakcja/rodzina.", COLOR_PANICRED);
 					return 1;
 				}
 				else
 				{
                     if(ReturnUser(params) != INVALID_PLAYER_ID) {
-                        return sendErrorMessage(playerid, "Bug zg³oszony przez Odyseusz_Verone");
+                        return sendErrorDialogMessage(playerid, "Bug zg³oszony przez Odyseusz_Verone");
                     }
                     if(ChangePlayerName(playerid, params))
                     {
@@ -10027,18 +9960,18 @@ CMD:zmiennick(playerid, params[])
 			}
 			else
 			{
-			    sendTipMessage(playerid, "Masz biznes, nie mo¿esz zmieniæ nicku");
+			    sendTipDialogMessage(playerid, "Masz biznes, nie mo¿esz zmieniæ nicku");
 			}
 		}
 		else
 		{
-		    sendTipMessage(playerid, "Masz lub wynajmujesz dom, nie mo¿esz zmieniæ nicku");
-		    sendTipMessage(playerid, "U¿yj /sprzedajdom lub /unrent");
+		    sendTipDialogMessage(playerid, "Masz lub wynajmujesz dom, nie mo¿esz zmieniæ nicku");
+		    sendTipDialogMessage(playerid, "U¿yj /sprzedajdom lub /unrent");
 		}
 	}
 	else
  	{
- 		sendTipMessage(playerid, "Musisz mieæ 1 level aby zmieniæ sobie nick.");
+ 		sendTipDialogMessage(playerid, "Musisz mieæ 1 level aby zmieniæ sobie nick.");
   	}
 	return 1;
 }
@@ -10073,9 +10006,9 @@ CMD:spec(playerid, params[])
         {
             GetPlayerName(playerid, sendername, sizeof(sendername));
             new pid;
-			if(sscanf(params, "k<fix>", pid)) return sendTipMessage(playerid, "U¿yj /spec [Nick lub ID gracza] - Aby wy³¹czyæ - Klawisz skoku");
-            if(pid == INVALID_PLAYER_ID) return sendErrorMessage(playerid, "Cel nie jest osiagalny.");
-            if(pid == playerid) return sendErrorMessage(playerid, "Cel nie jest osiagalny.");
+			if(sscanf(params, "k<fix>", pid)) return sendTipDialogMessage(playerid, "U¿yj /spec [Nick lub ID gracza] - Aby wy³¹czyæ - Klawisz skoku");
+            if(pid == INVALID_PLAYER_ID) return sendErrorDialogMessage(playerid, "Cel nie jest osiagalny.");
+            if(pid == playerid) return sendErrorDialogMessage(playerid, "Cel nie jest osiagalny.");
 	        /*if(SpectateTime[playerid] >= 1)
 	        {
 				new Float:spectime = (SpectateTime[playerid]*2)/60;
@@ -10127,11 +10060,11 @@ CMD:ann(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /ann [cnn textformat ~n~=nowa linia ~r~=czerwony ~g~=zielony ~b~=niebieski ~w~=bia³y ~y~=¿ó³ty]");
+			sendTipDialogMessage(playerid, "U¿yj /ann [cnn textformat ~n~=nowa linia ~r~=czerwony ~g~=zielony ~b~=niebieski ~w~=bia³y ~y~=¿ó³ty]");
 			return 1;
 		}
 		format(string, sizeof(string), "  ~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~                         %s",params);
-        if(!issafefortextdraw(string)) return sendErrorMessage(playerid, "Niekompletny tekst (tyldy etc)");
+        if(!issafefortextdraw(string)) return sendErrorDialogMessage(playerid, "Niekompletny tekst (tyldy etc)");
         GameTextForAll(string, 3000, 3);
 		format(string, sizeof(string), "AdmCmd: %s [ID: %d] napisal cos na /ann", sendername, playerid);
 		ABroadCast(COLOR_PANICRED,string,1);
@@ -10155,20 +10088,20 @@ CMD:zmienhaslo(playerid, params[])
     {
         if(gPlayerLogged[playerid] == 0)
         {
-            sendErrorMessage(playerid, "Nie zalogowa³eœ siê!");
+            sendErrorDialogMessage(playerid, "Nie zalogowa³eœ siê!");
             return 1;
         }
         new tmppass[64];
 		if(sscanf(params, "s[64]", tmppass))
 		{
-			sendTipMessage(playerid, "U¿yj /zmienhaslo [nowehaslo]");
+			sendTipDialogMessage(playerid, "U¿yj /zmienhaslo [nowehaslo]");
 			return 1;
 		}
-        //if(CheckAlfaNumeric(tmppass)) return sendErrorMessage(playerid, "To has³o posiada nieodpowiednie znaki, zmieñ je.");
+        //if(CheckAlfaNumeric(tmppass)) return sendErrorDialogMessage(playerid, "To has³o posiada nieodpowiednie znaki, zmieñ je.");
         mysql_real_escape_string(tmppass, string);
         if(strcmp(tmppass,string) != 0)  //Anty non-alpha
         {
-            sendErrorMessage(playerid, "UWAGA! Twoje has³o zawiera³o niepoprawne znaki!!");
+            sendErrorDialogMessage(playerid, "UWAGA! Twoje has³o zawiera³o niepoprawne znaki!!");
             return 1;
         }
 
@@ -10191,8 +10124,8 @@ CMD:zmienhaslo(playerid, params[])
         //print(string);
 		mysql_query(string);
 	
-        sendErrorMessage(playerid, "Twoje has³o do konta w grze zosta³o zmienione!!!!");
-        sendErrorMessage(playerid, "Jeœli wpisa³eœ t¹ komendê przypadkowo, nie wychodŸ z serwera i zmieñ has³o ponownie za pomoc¹ tej komendy");
+        sendErrorDialogMessage(playerid, "Twoje has³o do konta w grze zosta³o zmienione!!!!");
+        sendErrorDialogMessage(playerid, "Jeœli wpisa³eœ t¹ komendê przypadkowo, nie wychodŸ z serwera i zmieñ has³o ponownie za pomoc¹ tej komendy");
     }
 	return 1;
 }
@@ -10314,7 +10247,7 @@ CMD:pobij(playerid, params[])
     {
         /*if(IsAMedyk(playerid))
     	{
-    	    sendErrorMessage(playerid, "Nie mo¿esz uzywaæ tej komendy");
+    	    sendErrorDialogMessage(playerid, "Nie mo¿esz uzywaæ tej komendy");
 			return 1;
 		}*/
         // w kasynie
@@ -10328,7 +10261,7 @@ CMD:pobij(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /pobij [id/nick]");
+			sendTipDialogMessage(playerid, "U¿yj /pobij [id/nick]");
 			return 1;
 		}
 
@@ -10423,29 +10356,29 @@ CMD:pobij(playerid, params[])
 							}
 							else
 							{
-							    sendErrorMessage(playerid, "Ju¿ ktoœ toczy walke z tym graczem !");
+							    sendErrorDialogMessage(playerid, "Ju¿ ktoœ toczy walke z tym graczem !");
 							}
 						}
 						else
 						{
-						    sendErrorMessage(playerid, "Nie mo¿esz pobiæ gracza gdy on jest w pojeŸdzie !");
+						    sendErrorDialogMessage(playerid, "Nie mo¿esz pobiæ gracza gdy on jest w pojeŸdzie !");
 						}
 					}
 					else
 					{
-					    sendErrorMessage(playerid, "Nie mo¿esz pobiæ gracza gdy jesteœ w pojeŸdzie !");
+					    sendErrorDialogMessage(playerid, "Nie mo¿esz pobiæ gracza gdy jesteœ w pojeŸdzie !");
 					}
  				}
 				else
 				{
-					sendErrorMessage(playerid, "Ten gracz jest za daleko !");
+					sendErrorDialogMessage(playerid, "Ten gracz jest za daleko !");
 					return 1;
 				}
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Ten gracz jest za daleko !");
+			sendErrorDialogMessage(playerid, "Ten gracz jest za daleko !");
 			return 1;
 		}
 	} 
@@ -10468,7 +10401,7 @@ CMD:sprzedajalkohol(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "s[16] u", x_nr, giveplayerid))
 			{
-				sendTipMessage(playerid, "U¯YJ: /sprzedaja [nazwa] [playerid]");
+				sendTipDialogMessage(playerid, "U¿yj: /sprzedaja [nazwa] [playerid]");
 				sendTipMessage(playerid, "Dostêpne nazwy: Piwo, Wino, Sprunk, Cygaro");
 				return 1;
 			}
@@ -10493,13 +10426,13 @@ CMD:sprzedajalkohol(playerid, params[])
 						else
 						{
 							format(string, sizeof(string), "Jesteœ zbyt daleko od gracza %s.",giveplayer);
-		     				sendErrorMessage(playerid, string);
+		     				sendErrorDialogMessage(playerid, string);
 						}
 					}
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Gracz jest nieaktywny!");
+				    sendErrorDialogMessage(playerid, "Gracz jest nieaktywny!");
 				    return 1;
 				}
 			}
@@ -10525,13 +10458,13 @@ CMD:sprzedajalkohol(playerid, params[])
 						else
 						{
 							format(string, sizeof(string), "Jesteœ zbyt daleko od gracza %s.",giveplayer);
-		     				sendErrorMessage(playerid, string);
+		     				sendErrorDialogMessage(playerid, string);
 						}
 			        }
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Gracz jest nieaktywny !");
+				    sendErrorDialogMessage(playerid, "Gracz jest nieaktywny !");
 				    return 1;
 				}
 			}
@@ -10557,13 +10490,13 @@ CMD:sprzedajalkohol(playerid, params[])
 						else
 						{
 							format(string, sizeof(string), "Jesteœ zbyt daleko od gracza %s.",giveplayer);
-		     				sendErrorMessage(playerid, string);
+		     				sendErrorDialogMessage(playerid, string);
 						}
 			        }
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Gracz jest nieaktywny !");
+				    sendErrorDialogMessage(playerid, "Gracz jest nieaktywny !");
 				    return 1;
 				}
 			}
@@ -10588,20 +10521,20 @@ CMD:sprzedajalkohol(playerid, params[])
 						else
 						{
 							format(string, sizeof(string), "Jesteœ zbyt daleko od gracza %s.",giveplayer);
-		     				sendErrorMessage(playerid, string);
+		     				sendErrorDialogMessage(playerid, string);
 						}
 			        }
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Gracz jest nieaktywny !");
+				    sendErrorDialogMessage(playerid, "Gracz jest nieaktywny !");
 				    return 1;
 				}
 			}
         }
         else
         {
-            sendErrorMessage(playerid, "Nie masz czego sprzedaæ / nie jesteœ z Mafii !");
+            sendErrorDialogMessage(playerid, "Nie masz czego sprzedaæ / nie jesteœ z Mafii !");
             return 1;
         }
     }
@@ -10630,7 +10563,7 @@ CMD:naucz(playerid, params[])
             SendClientMessage(playerid, COLOR_LIGHTGREEN, "Aby zarobic dawaj 2-4 razy wiêksze ceny");
             return 1;
         }
-        if(PlayerInfo[playerid][pJob] == 12 || PlayerInfo[playerid][pAdmin] >= 1000)
+        if(GetPlayerOrg(playerid) == FAMILY_GYM || PlayerInfo[playerid][pAdmin] >= 1000)
         {
             if(GetDistanceBetweenPlayers(playerid,playa) < 5 && obezwladniony[playa] != 1 && IsPlayerInRangeOfPoint(playerid, 9.0, 762.9852,2.4439,1001.5942))
             {
@@ -10864,7 +10797,7 @@ CMD:nos(playerid, params[])
     {
         if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//if(PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
         {
-            if(!IsAtWarsztat(playerid)) return sendErrorMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
             new playa;
             if( sscanf(params, "k<fix>", playa))
             {
@@ -11020,7 +10953,7 @@ CMD:hydraulika(playerid, params[])
     {
         if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//if(PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
         {
-            if(!IsAtWarsztat(playerid)) return sendErrorMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
             new playa;
             if( sscanf(params, "k<fix>", playa))
             {
@@ -11111,7 +11044,7 @@ CMD:malunek(playerid, params[])
     {
         if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
         {
-            if(!IsAtWarsztat(playerid)) return sendErrorMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
             new playa, malunek;
             if( sscanf(params, "k<fix>d", playa, malunek))
             {
@@ -11219,7 +11152,7 @@ CMD:felga(playerid, params[])
     {
         if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//if(PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
         {
-            if(!IsAtWarsztat(playerid)) return sendErrorMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
             new playa, idfelgi;
             if( sscanf(params, "k<fix>d", playa, idfelgi))
             {
@@ -11328,7 +11261,7 @@ CMD:dajfiltr(playerid, params[])
 		    new ip[16];
 			if( sscanf(params, "s[16]s[21]", ip, sendername))
 			{
-				sendTipMessage(playerid, "U¿yj /dajfiltr [ip] [NICK_GRACZA]");
+				sendTipDialogMessage(playerid, "U¿yj /dajfiltr [ip] [NICK_GRACZA]");
 				return 1;
 			}
 			//gfpower
@@ -11356,7 +11289,7 @@ CMD:unblock(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /unblock [nick]");
+			sendTipDialogMessage(playerid, "U¿yj /unblock [nick]");
 			return 1;
 		}
         if(MruMySQL_Unblock(params, playerid))
@@ -11382,11 +11315,11 @@ CMD:spoiler(playerid, params[])
     {
         if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//if(PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
         {
-            if(!IsAtWarsztat(playerid)) return sendErrorMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
             new playa, spojlerid;
             if( sscanf(params, "k<fix>d", playa, spojlerid))
             {
-                SendClientMessage(playerid, COLOR_GRAD2, "U¯YJ: /spojler [Nick/ID] [id spojlera]");
+                sendTipDialogMessage(playerid, "U¯YJ: /spojler [Nick/ID] [id spojlera]");
                 SendClientMessage(playerid, COLOR_GRAD3, "INFORMACJA: Koszt spojera to: 25 000$ , aby zobaczyæ listê spojlerów wpisz /spojlery");
                 return 1;
             }
@@ -11708,11 +11641,11 @@ CMD:zderzaki(playerid, params[])
     {
         if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//if(PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
         {
-            if(!IsAtWarsztat(playerid)) return sendErrorMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
             new playa;
             if( sscanf(params, "k<fix>", playa))
             {
-                SendClientMessage(playerid, COLOR_GRAD2, "U¯YJ: /zderzak [Nick/ID]");
+                sendTipDialogMessage(playerid, "U¯YJ: /zderzak [Nick/ID]");
                 SendClientMessage(playerid, COLOR_GRAD3, "INFORMACJA: Koszt tuningu to: 10 000$");
                 return 1;
             }
@@ -11805,7 +11738,7 @@ CMD:dajneony(playerid, params[])
                 new playa;
                 if( sscanf(params, "k<fix>", playa))
                 {
-                    SendClientMessage(playerid, COLOR_GRAD2, "U¯YJ: /dajneon [Nick/ID]");
+                    sendTipDialogMessage(playerid, "U¯YJ: /dajneon [Nick/ID]");
                     SendClientMessage(playerid, COLOR_RED, "UWAGA: Koszt zamontowania neonów to 3 000 000$. Automatycznie ponosi je kupuj¹cy. Ty zarabiasz na tym 25 000$");
                     return 1;
                 }
@@ -11873,7 +11806,7 @@ CMD:kupkredyty(playerid)
     	    }
     	    else
     	    {
-   				sendErrorMessage(playerid, "Nie jesteœ na basenie Tsunami!");
+   				sendErrorDialogMessage(playerid, "Nie jesteœ na basenie Tsunami!");
     	    }
     	}
     }
@@ -11895,7 +11828,7 @@ CMD:kupneony(playerid)
 	                    new veh = GetPlayerVehicleID(playerid);
 	                    if(IsABoat(veh) || IsAPlane(veh) || IsABike(veh))
 	                    {
-	                        sendErrorMessage(playerid, "W helikoptrze/samolocie/³odzi/motorze nie mo¿na zamontowaæ neonów.");
+	                        sendTipDialogMessage(playerid, "W helikoptrze/samolocie/³odzi/motorze nie mo¿na zamontowaæ neonów.");
 	                        return  1;
 	                    }
 	                    if(IsCarOwner(playerid, veh))
@@ -11912,23 +11845,23 @@ CMD:kupneony(playerid)
 						}
 						else
 						{
-						    sendErrorMessage(playerid, "Ten pojazd nie jest twój");
+						    sendErrorDialogMessage(playerid, "Ten pojazd nie jest twój");
 						    return 1;
 						}
 	                }
 	                else
 	                {
-	                    sendErrorMessage(playerid, "Nie jesteœ w pojeŸdzie");
+	                    sendErrorDialogMessage(playerid, "Nie jesteœ w pojeŸdzie");
 	                }
 	            }
 	            else
 	            {
-	                sendErrorMessage(playerid, "Nie masz wystarczaj¹cej iloœci pieniêdzy (3 500 000$)!");
+	                sendErrorDialogMessage(playerid, "Nie masz wystarczaj¹cej iloœci pieniêdzy (3 500 000$)!");
 	            }
     	    }
     	    else
     	    {
-   				sendErrorMessage(playerid, "Nie jesteœ w warsztacie obok Alhambry!");
+   				sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie obok Alhambry!");
     	    }
     	}
     }
@@ -11980,7 +11913,7 @@ CMD:wyscig(playerid, params[])
 				new playa;
 				if( sscanf(params, "k<fix>", playa))
 				{
-					sendTipMessage(playerid, "U¿yj /wyscig [Nick/ID]");
+					sendTipDialogMessage(playerid, "U¿yj /wyscig [Nick/ID]");
 					return 1;
 				}
 
@@ -11999,22 +11932,22 @@ CMD:wyscig(playerid, params[])
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Jesteœ za daleko od gracza");
+					sendErrorDialogMessage(playerid, "Jesteœ za daleko od gracza");
 				}
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie organizuj wyœcigu! Aby to zbiæ, u¿yj panelu wyœcigów (/wyscigi)" );
+				sendErrorDialogMessage(playerid, "Nie organizuj wyœcigu! Aby to zbiæ, u¿yj panelu wyœcigów (/wyscigi)" );
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 2 ranga)");
+			sendErrorDialogMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 2 ranga)");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z NoA");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z NoA");
 	}
 	return 1;
 }
@@ -12063,22 +11996,22 @@ CMD:wyscig_start(playerid)
 	            }
 	            else
 	            {
-	                sendErrorMessage(playerid, "Ju¿ trwa jeden wyœcig! Poczekaj, a¿ siê skoñczy lub u¿yj /wyscig-stop");
+	                sendErrorDialogMessage(playerid, "Ju¿ trwa jeden wyœcig! Poczekaj, a¿ siê skoñczy lub u¿yj /wyscig-stop");
 	            }
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie organizujesz wyœcigu, aby to zrobiæ, u¿yj panelu tras (/wyscigi)");
+			    sendErrorDialogMessage(playerid, "Nie organizujesz wyœcigu, aby to zrobiæ, u¿yj panelu tras (/wyscigi)");
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 2 ranga)");
+			sendErrorDialogMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 2 ranga)");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z NoA");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z NoA");
 	}
 	//rup
 	return 1;
@@ -12097,17 +12030,17 @@ CMD:wyscig_stop(playerid)
 			}
 			else
 			{
-				sendErrorMessage(playerid, "¯aden wyœcig nie jest w tej chwili organizowany");
+				sendErrorDialogMessage(playerid, "¯aden wyœcig nie jest w tej chwili organizowany");
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 2 ranga)");
+			sendErrorDialogMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 2 ranga)");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z NoA");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z NoA");
 	}
 	return 1;
 }
@@ -12151,12 +12084,12 @@ CMD:stworztrase(playerid)
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Potrzebujesz 4 rangi by tworzyæ wyœcigi!");
+				sendErrorDialogMessage(playerid, "Potrzebujesz 4 rangi by tworzyæ wyœcigi!");
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ z NoA!");
+			sendErrorDialogMessage(playerid, "Nie jesteœ z NoA!");
 		}
 	}
 	return 1;
@@ -12253,17 +12186,17 @@ CMD:cp(playerid)
 		    }
 		    else
  			{
- 			    sendErrorMessage(playerid, "Nie jesteœ w trakcie tworzenia wyœcigu!");
+ 			    sendErrorDialogMessage(playerid, "Nie jesteœ w trakcie tworzenia wyœcigu!");
  			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 4 ranga)");
+			sendErrorDialogMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 4 ranga)");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z NoA!");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z NoA!");
 	}
 	return 1;
 }
@@ -12294,22 +12227,22 @@ CMD:cp_usun(playerid)
 		        }
 		        else
 		        {
-		            sendErrorMessage(playerid, "Nie postawi³eœ jeszcze ani jednego checkpointu!");
+		            sendErrorDialogMessage(playerid, "Nie postawi³eœ jeszcze ani jednego checkpointu!");
 		        }
 		    }
 		    else
  			{
- 			    sendErrorMessage(playerid, "Nie jesteœ w trakcie tworzenia wyœcigu!");
+ 			    sendErrorDialogMessage(playerid, "Nie jesteœ w trakcie tworzenia wyœcigu!");
  			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 4 ranga)");
+			sendErrorDialogMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 4 ranga)");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z NoA!");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z NoA!");
 	}
 	return 1;
 }
@@ -12375,22 +12308,22 @@ CMD:finisz(playerid)
 		        }
 		        else
 		        {
-		            sendErrorMessage(playerid, "Wyœcig musi mieæ co najmniej 4 checkpointy!");
+		            sendErrorDialogMessage(playerid, "Wyœcig musi mieæ co najmniej 4 checkpointy!");
 		        }
 		    }
 		    else
  			{
- 			    sendErrorMessage(playerid, "Nie jesteœ w trakcie tworzenia wyœcigu!");
+ 			    sendErrorDialogMessage(playerid, "Nie jesteœ w trakcie tworzenia wyœcigu!");
  			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 4 ranga)");
+			sendErrorDialogMessage(playerid, "Nie posiadasz uprawnieñ (wymagana 4 ranga)");
 		}
 	}
 	else
 	{
-		sendErrorMessage(playerid, "Nie jesteœ z NoA!");
+		sendErrorDialogMessage(playerid, "Nie jesteœ z NoA!");
 	}
 	return 1;
 }
@@ -12449,17 +12382,17 @@ CMD:wezzlecenie(playerid, params[])
 {
     if(PlayerInfo[playerid][pJob] == JOB_TRUCKER)
     {
-        return sendErrorMessage(playerid, "Zlecenia zosta³y tymczaswo wy³¹czone!");
+        return sendErrorDialogMessage(playerid, "Zlecenia zosta³y tymczaswo wy³¹czone!");
         /*new veh = GetPlayerVehicleID(playerid);
         if(veh == 0) return sendTipMessage(playerid, "Musisz byæ w pojeŸdzie firmowym.");
         if(Car_GetOwnerType(veh) != CAR_OWNER_JOB || Car_GetOwner(veh) != JOB_TRUCKER) return sendTipMessage(playerid, "Musisz byæ w pojeŸdzie firmowym.");
-        if(GetVehicleModel(veh) != 578) return sendErrorMessage(playerid, " Tym pojazdem nie weŸmiesz zlecenia.");
+        if(GetVehicleModel(veh) != 578) return sendErrorDialogMessage(playerid, " Tym pojazdem nie weŸmiesz zlecenia.");
 
         if(GetPVarInt(playerid, "trans") == 0)
         {
             ShowPlayerDialogEx(playerid, D_TRANSPORT, DIALOG_STYLE_LIST, "Rodzaj zlecenia", "Szybkie zlecenie\nCentrum transportu", "Wybierz", "WyjdŸ");
         }
-        else return sendErrorMessage(playerid, "Masz ju¿ zlecenie.");
+        else return sendErrorDialogMessage(playerid, "Masz ju¿ zlecenie.");
         return 1;*/
     }
 
@@ -12475,7 +12408,7 @@ CMD:wezzlecenie(playerid, params[])
                 new playa;
 				if( sscanf(params, "k<fix>", playa))
 				{
-					sendTipMessage(playerid, "U¿yj /zlecenie [Nick/ID]");
+					sendTipDialogMessage(playerid, "U¿yj /zlecenie [Nick/ID]");
 					SendClientMessage(playerid, COLOR_GRAD3, "INFORMACJA: ta komenda daje zlecenie na przestêpce, mo¿esz go wtedy zabiæ za kase lub zaoferowaæ poddanie siê.");
 					return 1;
 				}
@@ -12574,32 +12507,32 @@ CMD:wezzlecenie(playerid, params[])
 						    	}
 						    	else
 						    	{
-                                    sendErrorMessage(playerid, "Nie jesteœ w biurze £owcy Nagród");
+                                    sendErrorDialogMessage(playerid, "Nie jesteœ w biurze £owcy Nagród");
                                 }
 					    	}
 					    	else
 					    	{
-					    	    sendErrorMessage(playerid, "Nie mo¿esz daæ zlecenia na samego siebie");
+					    	    sendErrorDialogMessage(playerid, "Nie mo¿esz daæ zlecenia na samego siebie");
 					    	}
 					    }
 					    else
 					    {
-					        sendErrorMessage(playerid, "Ten gracz nie ma WL");
+					        sendErrorDialogMessage(playerid, "Ten gracz nie ma WL");
 					    }
                     }
 					else
 					{
-                        sendErrorMessage(playerid, "Taki gracz nie istnieje");
+                        sendErrorDialogMessage(playerid, "Taki gracz nie istnieje");
                     }
                 }
 				else
 				{
- 					sendErrorMessage(playerid, "Taki gracz nie istnieje");
+ 					sendErrorDialogMessage(playerid, "Taki gracz nie istnieje");
       			}
 	    	}
 	    	else
 	    	{
-	    	    sendErrorMessage(playerid, "Nie jesteœ ³owc¹ nagród");
+	    	    sendErrorDialogMessage(playerid, "Nie jesteœ ³owc¹ nagród");
 	    	}
     	}
     }
@@ -12619,7 +12552,7 @@ CMD:poddajsie(playerid, params[])
 	 	    new playa;
 			if( sscanf(params, "k<fix>", playa))
 			{
-				sendTipMessage(playerid, "U¿yj /poddajsie [Nick/ID]");
+				sendTipDialogMessage(playerid, "U¿yj /poddajsie [Nick/ID]");
 				SendClientMessage(playerid, COLOR_GRAD3, "INFORMACJA: ta komenda proponuje poddanie siê przestêpcy");
 				return 1;
 			}
@@ -12649,33 +12582,33 @@ CMD:poddajsie(playerid, params[])
 								}
 								else
 								{
-								    sendErrorMessage(playerid, "Nie masz zlecenia na tego gracza");
+								    sendErrorDialogMessage(playerid, "Nie masz zlecenia na tego gracza");
 								}
 							}
 							else
 							{
-								sendErrorMessage(playerid, "Nie mo¿esz siê poddaæ samemu sobie");
+								sendErrorDialogMessage(playerid, "Nie mo¿esz siê poddaæ samemu sobie");
                 			}
 					    }
 					    else
 					    {
-					    	sendErrorMessage(playerid, "Ten gracz nie ma WL");
+					    	sendErrorDialogMessage(playerid, "Ten gracz nie ma WL");
                 		}
 					}
 					else
 				    {
-				    	sendErrorMessage(playerid, "Ten gracz jest za daleko");
+				    	sendErrorDialogMessage(playerid, "Ten gracz jest za daleko");
                		}
 				}
 				else
 				{
-                    sendErrorMessage(playerid, "Taki gracz nie istnieje");
+                    sendErrorDialogMessage(playerid, "Taki gracz nie istnieje");
                 }
 			}
 		}
 		else
 	   	{
-	   		sendErrorMessage(playerid, "Nie jesteœ ³owc¹ nagród");
+	   		sendErrorDialogMessage(playerid, "Nie jesteœ ³owc¹ nagród");
 		}
 	}
 	return 1;
@@ -12740,7 +12673,7 @@ CMD:oczyscmdc(playerid, params[])
 	    	new playa;
 			if( sscanf(params, "k<fix>", playa))
 			{
-				sendTipMessage(playerid, "U¿yj /oczyscmdc [Nick/ID] (koszt -300$)");
+				sendTipDialogMessage(playerid, "U¿yj /oczyscmdc [Nick/ID] (koszt -300$)");
 				SendClientMessage(playerid, COLOR_GRAD3, "INFORMACJA: ta komenda czysci kartoteki policyjne gracza (koszt -300$)");
 				return 1;
 			}
@@ -12770,23 +12703,23 @@ CMD:oczyscmdc(playerid, params[])
 						}
 						else
 						{
-						    sendErrorMessage(playerid, "Nie masz wystarczaj¹cej iloœci pieniêdzy ($300)");
+						    sendErrorDialogMessage(playerid, "Nie masz wystarczaj¹cej iloœci pieniêdzy ($300)");
 						}
                     }
 					else
 					{
-					    sendErrorMessage(playerid, "Gracz nie jest za daleko");
+					    sendErrorDialogMessage(playerid, "Gracz nie jest za daleko");
 					}
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza");
 				}
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ prawnikiem");
+			sendErrorDialogMessage(playerid, "Nie jesteœ prawnikiem");
 		}
 	}
 	return 1;
@@ -12805,7 +12738,7 @@ CMD:zbijwl(playerid, params[])
 	 	    new playa;
 			if( sscanf(params, "k<fix>", playa))
 			{
-				sendTipMessage(playerid, "U¿yj /zbijwl [Nick/ID]");
+				sendTipDialogMessage(playerid, "U¿yj /zbijwl [Nick/ID]");
 				SendClientMessage(playerid, COLOR_GRAD3, "INFORMACJA: Komenda s³uzy do zbicia WL graczowi do 0");
 				SendClientMessage(playerid, COLOR_RED, "WA¯NE: Koszt ponoszony podczas zbijania WL to [WL gracza * 700] - [skill * 100]");
 				return 1;
@@ -12890,39 +12823,39 @@ CMD:zbijwl(playerid, params[])
 									}
 									else
 									{
-									    sendErrorMessage(playerid, "Jesteœ zbyt blisko policjanta aby zbiæ komuœ WL!");
+									    sendErrorDialogMessage(playerid, "Jesteœ zbyt blisko policjanta aby zbiæ komuœ WL!");
 									}
 								}
 								else
 								{
-								    sendErrorMessage(playerid, "Nie mo¿esz zbiæ WL samemu sobie");
+								    sendErrorDialogMessage(playerid, "Nie mo¿esz zbiæ WL samemu sobie");
 								}
 							}
 							else
 							{
 								format(string, sizeof(string), "Nie staæ ciê na to, potrzebujesz %d !", koszt);
-						        sendErrorMessage(playerid, string);
+						        sendErrorDialogMessage(playerid, string);
 						    }
 						}
 						else
 						{
-						    sendErrorMessage(playerid, "Ten gracz ma 0 poziom poszuiwania");
+						    sendErrorDialogMessage(playerid, "Ten gracz ma 0 poziom poszuiwania");
 						}
 					}
 					else
 					{
-					    sendErrorMessage(playerid, "Gracz nie jest za daleko");
+					    sendErrorDialogMessage(playerid, "Gracz nie jest za daleko");
 					}
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza");
 				}
 			}
 	 	}
 	 	else
 	 	{
-	 		sendErrorMessage(playerid, "Nie jesteœ prawnikiem");
+	 		sendErrorDialogMessage(playerid, "Nie jesteœ prawnikiem");
 		}
 	}
 	return 1;
@@ -12949,7 +12882,7 @@ CMD:kamera_wiezienie(playerid, params[])
 				new number;
 				if( sscanf(params, "d", number))
 				{
-					sendTipMessage(playerid, "U¿yj /kamera-w [numer 1 - 6]  (6 = OFF)");
+					sendTipDialogMessage(playerid, "U¿yj /kamera-w [numer 1 - 6]  (6 = OFF)");
 					return 1;
 				}
 
@@ -12974,13 +12907,13 @@ CMD:kamera_wiezienie(playerid, params[])
 			}
 			else
 			{
-   				sendErrorMessage(playerid, "Nie jesteœ w kancelarii prawniczej !");
+   				sendErrorDialogMessage(playerid, "Nie jesteœ w kancelarii prawniczej !");
 			    return 1;
 			}
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ Prawnikiem !");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ Prawnikiem !");
 		    return 1;
 		}
 	}
@@ -13018,18 +12951,18 @@ CMD:federalne(playerid, params[])
     {
 	 	if(!IsAFBI(playerid) || IsACop(playerid))
 	 	{
-	 		sendErrorMessage(playerid, "Nie jesteœ agentem FBI albo funkcjonariuszem LSPD!");
+	 		sendErrorDialogMessage(playerid, "Nie jesteœ agentem FBI albo funkcjonariuszem LSPD!");
 		    return 1;
 		}
 	    if(OnDuty[playerid] != 1 )
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie!");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie!");
 		    return 1;
 		}
 		new giveplayerid, result[128];
 		if( sscanf(params, "k<fix>s[128]", giveplayerid, result))
 		{
-			sendTipMessage(playerid, "U¿yj (/fed)eralne [playerid/CzêœæNicku] [popelnione przestepstwo]");
+			sendTipDialogMessage(playerid, "U¿yj (/fed)eralne [playerid/CzêœæNicku] [popelnione przestepstwo]");
 			return 1;
 		}
 
@@ -13059,30 +12992,30 @@ CMD:federalne(playerid, params[])
 							}
 							else
 							{
-							    sendErrorMessage(playerid, "Ten gracz jest ju¿ œcigany za przestêpstwo federalne");
+							    sendErrorDialogMessage(playerid, "Ten gracz jest ju¿ œcigany za przestêpstwo federalne");
 							}
 						}
 						else
 						{
-							sendErrorMessage(playerid, "Da³eœ ju¿ poziom poszukiwania, poczekaj 1 minute (zapobiega spamowaniu WL)");
+							sendErrorDialogMessage(playerid, "Da³eœ ju¿ poziom poszukiwania, poczekaj 1 minute (zapobiega spamowaniu WL)");
 						}
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Nie mo¿esz dawaæ Wanted Level policjantom na s³u¿bie!");
+						sendErrorDialogMessage(playerid, "Nie mo¿esz dawaæ Wanted Level policjantom na s³u¿bie!");
 					}
 				}
 			}
 			else
  			{
 				format(string, sizeof(string), "Gracz o ID %d nie istnieje.", giveplayerid);
-				sendErrorMessage(playerid, string);
+				sendErrorDialogMessage(playerid, string);
 				return 1;
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ z FBI/LSPD!");
+			sendErrorDialogMessage(playerid, "Nie jesteœ z FBI/LSPD!");
 		}
 	}
 	return 1;
@@ -13114,7 +13047,7 @@ CMD:bus(playerid)
                     if(!IsPlayerInAnyVehicle(playerid))
                     {
                         ShowPrzystanki(playerid, 1);
-                    } else sendErrorMessage(playerid, "Nie mo¿esz byæ w pojeŸdzie!");
+                    } else sendErrorDialogMessage(playerid, "Nie mo¿esz byæ w pojeŸdzie!");
                     return 1;
                 }
             }
@@ -13134,7 +13067,7 @@ CMD:stworzdom(playerid, params[])
    			new interior, kesz;
 			if( sscanf(params, "dd", interior, kesz))
 			{
-				sendTipMessage(playerid, "U¿yj /zrobdom [interior] [dodatkowa op³ata]");
+				sendTipDialogMessage(playerid, "U¿yj /zrobdom [interior] [dodatkowa op³ata]");
 				return 1;
 			}
 
@@ -13169,7 +13102,7 @@ CMD:domint(playerid, params[])
 		new dld, interior;
 		if( sscanf(params, "dd", dld, interior))
 		{
-			sendTipMessage(playerid, "U¿yj /domint [dom ID] [interior] ");
+			sendTipDialogMessage(playerid, "U¿yj /domint [dom ID] [interior] ");
 			return 1;
 		}
 		if(interior >= 1 && interior <= 48)
@@ -13191,7 +13124,7 @@ CMD:houseowner(playerid, params[])
 		new dld, id;
 		if( sscanf(params, "dd", dld, id))
 		{
-			sendTipMessage(playerid, "U¿yj /houseowner [dom ID] [ID gracza] ");
+			sendTipDialogMessage(playerid, "U¿yj /houseowner [dom ID] [ID gracza] ");
 			return 1;
 		}
 		if(IsPlayerConnected(id))
@@ -13223,7 +13156,7 @@ CMD:losowostworzdom(playerid, params[])
    			new kategoria, kesz;
 			if( sscanf(params, "dd", kategoria, kesz))
 			{
-				sendTipMessage(playerid, "U¿yj /lzrobdom [kategoria] [dodatkowa op³ata]");
+				sendTipDialogMessage(playerid, "U¿yj /lzrobdom [kategoria] [dodatkowa op³ata]");
 				return 1;
 			}
 
@@ -13262,7 +13195,7 @@ CMD:deletedom(playerid, params[])
 		    new kategoria;
 			if( sscanf(params, "d", kategoria))
 			{
-				sendTipMessage(playerid, "U¿yj /usundom [numer pliku]");
+				sendTipDialogMessage(playerid, "U¿yj /usundom [numer pliku]");
 				return 1;
 			}
 
@@ -13378,7 +13311,7 @@ CMD:deletedom(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Brak pliku");
+			    sendErrorDialogMessage(playerid, "Brak pliku");
 				return 1;
 			}
 		}
@@ -13431,13 +13364,13 @@ CMD:kupowaniedomu(playerid)
 								else
 								{
 								    format(string, sizeof(string), "Nie staæ ciê na zakup tego domu, potrzebujesz %d", cenadomu);
-								    sendErrorMessage(playerid, string);
+								    sendErrorDialogMessage(playerid, string);
 								}
 							}
 						}
 						else
 						{
-						    sendErrorMessage(playerid, "Ten dom ju¿ jest kupiony");
+						    sendErrorDialogMessage(playerid, "Ten dom ju¿ jest kupiony");
 						}
 					}
 				}
@@ -13499,7 +13432,7 @@ CMD:opuscdom(playerid)
 					}
 					else
 					{
-					    sendErrorMessage(playerid, "Masz zablokowan¹ mo¿liwoœæ opuszczenia tego domu.");
+					    sendErrorDialogMessage(playerid, "Masz zablokowan¹ mo¿liwoœæ opuszczenia tego domu.");
 					}
 				}
 				else
@@ -13509,12 +13442,12 @@ CMD:opuscdom(playerid)
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Twój dom nie jest kupiony (???) Zg³oœ ten b³¹d na forum.");
+			    sendErrorDialogMessage(playerid, "Twój dom nie jest kupiony (???) Zg³oœ ten b³¹d na forum.");
 			}
 	    }
 	    else
 	    {
-	        sendErrorMessage(playerid, "Nie masz wlasnego domu.");
+	        sendErrorDialogMessage(playerid, "Nie masz wlasnego domu.");
 	    }
 	}
 	return 1;
@@ -13537,7 +13470,7 @@ CMD:blokujsprzedarz(playerid, params[])
 			    new dom;
 				if( sscanf(params, "d", dom))
 				{
-					sendTipMessage(playerid, "U¿yj /blokujdom [id domu]");
+					sendTipDialogMessage(playerid, "U¿yj /blokujdom [id domu]");
 					return 1;
 				}
 
@@ -13662,7 +13595,7 @@ CMD:house(playerid)
 					}
 					else
 					{
-					    sendErrorMessage(playerid,"Twój dom nie istnieje");
+					    sendErrorDialogMessage(playerid,"Twój dom nie istnieje");
 					}
 				}
 				else if(PlayerInfo[playerid][pWynajem] != 0)
@@ -13681,12 +13614,12 @@ CMD:house(playerid)
 					}
 					else
 					{
-					    sendErrorMessage(playerid,"Wynajmowany dom nie istnieje");
+					    sendErrorDialogMessage(playerid,"Wynajmowany dom nie istnieje");
 					}
 				}
 		        else
 		        {
-                    sendErrorMessage(playerid,"Nie posiadasz w³asnego domu.");
+                    sendErrorDialogMessage(playerid,"Nie posiadasz w³asnego domu.");
 		        }
 		    }
 	    }
@@ -13750,7 +13683,7 @@ CMD:sejfpomoc(playerid)
 	    	{
 	    	    if(PlayerInfo[playerid][pDom] == 0 && PlayerInfo[playerid][pDomWKJ] == 0)
 				{
-					sendErrorMessage(playerid,"Nie posiadasz domu.");
+					sendErrorDialogMessage(playerid,"Nie posiadasz domu.");
 					return 1;
 				}
 		        if(PlayerInfo[playerid][pDom] == PlayerInfo[playerid][pDomWKJ])
@@ -13766,14 +13699,14 @@ CMD:sejfpomoc(playerid)
 		            else
 					{
 			            ShowPlayerDialogEx(playerid, 8000, DIALOG_STYLE_LIST, "Sejf", "Zawartoœæ sejfu\nW³ó¿ do sejfu\nWyjmij z sejfu\nUstal kod sejfu", "Wybierz", "Anuluj");
-	                    sendErrorMessage(playerid,"Poniewa¿ jesteœ w³aœcicielem domu kod zosta³ wpisany automatycznie.");
+	                    sendErrorDialogMessage(playerid,"Poniewa¿ jesteœ w³aœcicielem domu kod zosta³ wpisany automatycznie.");
 					}
 				}
 		        else
 		        {
 		            if(AntyWlamSejf[playerid] >= 5)
 		            {
-		                sendErrorMessage(playerid, "Nie mo¿esz wpisaæ ju¿ kodu do sejfu - zbyt du¿o nieudanych prób. Spróbuj za 5 minut");
+		                sendErrorDialogMessage(playerid, "Nie mo¿esz wpisaæ ju¿ kodu do sejfu - zbyt du¿o nieudanych prób. Spróbuj za 5 minut");
 		                return 1;
 		            }
 		            new xxx[20];
@@ -13782,7 +13715,7 @@ CMD:sejfpomoc(playerid)
 		            format(xxx2, sizeof(xxx2), "%s", Dom[PlayerInfo[playerid][pDomWKJ]][hKodSejf]);
 		            if(strcmp(xxx2, xxx, true ) == 0)
 		            {
-		            	sendErrorMessage(playerid,"Ten dom nie ma sejfu/nie jesteœ w domu.");
+		            	sendErrorDialogMessage(playerid,"Ten dom nie ma sejfu/nie jesteœ w domu.");
 		            	return 1;
 		            }
 		            else
@@ -13799,7 +13732,7 @@ CMD:sejfpomoc(playerid)
 
 
 
-/*CMD:zbrojownia(playerid) return cmd_zbrojuj(playerid);
+CMD:zbrojownia(playerid) return cmd_zbrojuj(playerid);
 CMD:zbrojka(playerid) return cmd_zbrojuj(playerid);
 CMD:zbrojuj(playerid)
 {
@@ -13836,7 +13769,7 @@ CMD:zbrojuj(playerid)
 	    }
 	}
 	return 1;
-}*/
+}
 
 
 
@@ -14212,7 +14145,7 @@ CMD:rentroom(playerid)
 									}
 									else
 									{
-                                    	sendErrorMessage(playerid,"Ten dom nie jest do wynajmu.");
+                                    	sendErrorDialogMessage(playerid,"Ten dom nie jest do wynajmu.");
 						        		return 1;
 									}
 								}
@@ -14224,7 +14157,7 @@ CMD:rentroom(playerid)
 						    }
 						    else
 						    {
-						        sendErrorMessage(playerid,"Nie staæ ciê na wynajmowanie tego domu.");
+						        sendErrorDialogMessage(playerid,"Nie staæ ciê na wynajmowanie tego domu.");
 						        return 1;
 						    }
 						}
@@ -14238,7 +14171,7 @@ CMD:rentroom(playerid)
 			}
 			else
 			{
-			    sendErrorMessage(playerid,"Nie mo¿esz wynajmowaæ domu kiedy posiadasz swój w³asny.");
+			    sendErrorDialogMessage(playerid,"Nie mo¿esz wynajmowaæ domu kiedy posiadasz swój w³asny.");
 			}
 	    }
 	}
@@ -14266,7 +14199,7 @@ CMD:giveroom(playerid, params[])
                     new giveplayerid;
 					if( sscanf(params, "k<fix>", giveplayerid))
 					{
-						sendTipMessage(playerid, "U¿yj /dajpokoj [id]");
+						sendTipDialogMessage(playerid, "U¿yj /dajpokoj [id]");
 						return 1;
 					}
 
@@ -14392,7 +14325,7 @@ CMD:unrentroom(playerid)
 	        }
 	        else
 	        {
-	            sendErrorMessage(playerid,"Nie wynajmujesz domu.");
+	            sendErrorDialogMessage(playerid,"Nie wynajmujesz domu.");
 	        }
 	    }
 	}
@@ -14418,7 +14351,7 @@ CMD:selldom(playerid, params[])
 	            new dom = PlayerInfo[playerid][pDom];
 	            if(Dom[dom][hBlokada] == 1)
 	        	{
-                    sendErrorMessage(playerid, "Ten dom ma blokadê sprzedawania");
+                    sendErrorDialogMessage(playerid, "Ten dom ma blokadê sprzedawania");
                     return 1;
 	        	}
 	            if(IsPlayerInRangeOfPoint(playerid, 10.0, Dom[dom][hWej_X], Dom[dom][hWej_Y], Dom[dom][hWej_Z]))
@@ -14426,7 +14359,7 @@ CMD:selldom(playerid, params[])
 	                new giveplayerid, money;
 					if( sscanf(params, "k<fix>s[32]", giveplayerid, string))
 					{
-						sendTipMessage(playerid, "U¿yj /sprzedajdom [id/nick] [cena]");
+						sendTipDialogMessage(playerid, "U¿yj /sprzedajdom [id/nick] [cena]");
 						return 1;
 					}
 					money = FunkcjaK(string);
@@ -14539,12 +14472,12 @@ CMD:kuplodzie(playerid)
 	    }
 	    else
 	    {
-	        sendErrorMessage(playerid, "Posiadasz ju¿ ³ódŸ.");
+	        sendErrorDialogMessage(playerid, "Posiadasz ju¿ ³ódŸ.");
 	    }
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie jesteœ przy stoczni.");
+	    sendErrorDialogMessage(playerid, "Nie jesteœ przy stoczni.");
 	}
 	return 1;
 }
@@ -14568,12 +14501,12 @@ CMD:kupsamoloty(playerid)
 	    }
 	    else
 	    {
-	        sendErrorMessage(playerid, "Posiadasz ju¿ samolot.");
+	        sendErrorDialogMessage(playerid, "Posiadasz ju¿ samolot.");
 	    }
     }
     else
     {
-        sendErrorMessage(playerid, "Nie jesteœ w salonie helikopterów/samolotów.");
+        sendErrorDialogMessage(playerid, "Nie jesteœ w salonie helikopterów/samolotów.");
     }
 	return 1;
 }
@@ -14597,12 +14530,12 @@ CMD:kuphelikopter(playerid)
 	    }
 	    else
 	    {
-	        sendErrorMessage(playerid, "Posiadasz ju¿ helikopter.");
+	        sendErrorDialogMessage(playerid, "Posiadasz ju¿ helikopter.");
 	    }
     }
     else
     {
-        sendErrorMessage(playerid, "Nie jesteœ w salonie helikopterów/samolotów.");
+        sendErrorDialogMessage(playerid, "Nie jesteœ w salonie helikopterów/samolotów.");
     }
 	return 1;
 }
@@ -14616,7 +14549,7 @@ CMD:zaparkuj(playerid)
 	if(IsPlayerInAnyVehicle(playerid))
 	{
         new lVeh = GetPlayerVehicleID(playerid);
-		if(!IsCarOwner(playerid, lVeh)) return sendErrorMessage(playerid, "Ten pojazd nie nale¿y do Ciebie!");
+		if(!IsCarOwner(playerid, lVeh)) return sendErrorDialogMessage(playerid, "Ten pojazd nie nale¿y do Ciebie!");
 		if(IsAPlane(lVeh))
 		{
    			new pZone[MAX_ZONE_NAME];
@@ -14669,7 +14602,7 @@ CMD:zaparkuj(playerid)
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie jesteœ w wozie.");
+	    sendErrorDialogMessage(playerid, "Nie jesteœ w wozie.");
 	}
 	return 1;
 }
@@ -14689,7 +14622,7 @@ CMD:dajklucze(playerid, params[])
 	    new playa, numerp;
 		if( sscanf(params, "k<fix>d", playa, numerp))
 		{
-			sendTipMessage(playerid, "U¿yj /dajkluczyki [Nick/ID] [numer wozu]");
+			sendTipDialogMessage(playerid, "U¿yj /dajkluczyki [Nick/ID] [numer wozu]");
 			return 1;
 		}
 
@@ -14703,7 +14636,7 @@ CMD:dajklucze(playerid, params[])
 		        if(PlayerInfo[playa][pKluczeAuta] == 0)
 		        {
                     if (playerid == playa) { sendTipMessageEx(playerid, COLOR_GREY, "Nie mo¿esz daæ kluczyków samemu sobie!"); return 1; }
-                    if(PlayerInfo[playerid][pCars][numerp] == 0) return sendErrorMessage(playerid, "Nie masz wozu pod tym numerem");
+                    if(PlayerInfo[playerid][pCars][numerp] == 0) return sendErrorDialogMessage(playerid, "Nie masz wozu pod tym numerem");
 
 					if(CarData[PlayerInfo[playerid][pCars][numerp]][c_Keys] == 0)
 					{
@@ -14730,7 +14663,7 @@ CMD:dajklucze(playerid, params[])
 	    	}
 		    else
 		    {
-		        sendErrorMessage(playerid, "Taki gracz nie istnieje");
+		        sendErrorDialogMessage(playerid, "Taki gracz nie istnieje");
 		    }
 		}
 		else
@@ -14750,13 +14683,13 @@ CMD:zk(playerid, params[])
         new numerp;
 		if( sscanf(params, "d", numerp))
 		{
-			sendTipMessage(playerid, "U¿yj /zabierzkluczyki(/zk) [numer wozu]");
+			sendTipDialogMessage(playerid, "U¿yj /zabierzkluczyki(/zk) [numer wozu]");
 			return 1;
 		}
         if(numerp < 1 || numerp > MAX_CAR_SLOT) return sendTipMessage(playerid, "Numer wozu od 1");
         numerp--;
         if(PlayerInfo[playerid][pCars][numerp] == 0) return sendTipMessage(playerid, "Nie masz wozu pod tym numerem");
-        if(CarData[PlayerInfo[playerid][pCars][numerp]][c_Keys] == 0) return sendErrorMessage(playerid, "Nikomu nie dawa³eœ kluczyków od tego pojazdu.");
+        if(CarData[PlayerInfo[playerid][pCars][numerp]][c_Keys] == 0) return sendErrorDialogMessage(playerid, "Nikomu nie dawa³eœ kluczyków od tego pojazdu.");
 
         CarData[PlayerInfo[playerid][pCars][numerp]][c_Keys] = 0;
   		_MruGracz(playerid, "Kluczyki zabrane");
@@ -14781,7 +14714,7 @@ CMD:wk(playerid)
   	}
   	else
   	{
-  	    sendErrorMessage(playerid, "Nie masz kluczy");
+  	    sendErrorDialogMessage(playerid, "Nie masz kluczy");
   	}
 	return 1;
 }
@@ -14796,10 +14729,10 @@ CMD:wymiana(playerid, params[])
    		new playa, cena;
 		if( sscanf(params, "k<fix>s[32]", playa, string))
 		{
-			sendTipMessage(playerid, "U¿yj /wymiana [Nick/ID] [cena]");
+			sendTipDialogMessage(playerid, "U¿yj /wymiana [Nick/ID] [cena]");
 			return 1;
 		}
-        if(!IsPlayerConnected(playa)) return sendErrorMessage(playerid, "Brak takiego gracza.");
+        if(!IsPlayerConnected(playa)) return sendErrorDialogMessage(playerid, "Brak takiego gracza.");
         if(playerid == playa) return sendTipMessage(playerid, "Nie mo¿esz wymieniæ siê sam ze sob¹!");
         if(!IsPlayerInAnyVehicle(playa)) return sendTipMessage(playerid, "Gracz musi byæ w pojeŸdzie.");
 		cena = FunkcjaK(string);
@@ -14812,13 +14745,13 @@ CMD:wymiana(playerid, params[])
 
         IDAuta[playa] = VehicleUID[lVeh][vUID];
 
- 		if(!ProxDetectorS(10.0, playerid, playa)) return sendErrorMessage(playerid, "Ten gracz jest za daleko !");
+ 		if(!ProxDetectorS(10.0, playerid, playa)) return sendErrorDialogMessage(playerid, "Ten gracz jest za daleko !");
 		if(!(cena >= 0 && cena < 900000001)) return sendTipMessage(playerid, "Cena od 0 do 900 000 000$ !");
 
-        if(lVeh <= CAR_End) return sendErrorMessage(playerid, "Tego pojazdu nie mo¿na sprzedaæ.");
-        if(GetPlayerVehicleID(playa) <= CAR_End) return sendErrorMessage(playerid, "Pojazdu gracza nie mo¿na sprzedaæ.");
+        if(lVeh <= CAR_End) return sendErrorDialogMessage(playerid, "Tego pojazdu nie mo¿na sprzedaæ.");
+        if(GetPlayerVehicleID(playa) <= CAR_End) return sendErrorDialogMessage(playerid, "Pojazdu gracza nie mo¿na sprzedaæ.");
 
-	    if(kaska[playa] == 0) return sendErrorMessage(playerid, "B³¹d");
+	    if(kaska[playa] == 0) return sendErrorDialogMessage(playerid, "B³¹d");
 
 	    GetPlayerName(playa, giveplayer, sizeof(giveplayer));
 		GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -14865,10 +14798,10 @@ CMD:sprzedajauto(playerid, params[])
    		new playa, cena;
 		if( sscanf(params, "k<fix>s[32]", playa, string))
 		{
-			sendTipMessage(playerid, "U¿yj /dajauto [Nick/ID] [cena]");
+			sendTipDialogMessage(playerid, "U¿yj /dajauto [Nick/ID] [cena]");
 			return 1;
 		}
-        if(!IsPlayerConnected(playa)) return sendErrorMessage(playerid, "Brak takiego gracza.");
+        if(!IsPlayerConnected(playa)) return sendErrorDialogMessage(playerid, "Brak takiego gracza.");
 		cena = FunkcjaK(string);
 		//
         new lVeh = GetPlayerVehicleID(playerid);
@@ -14878,12 +14811,12 @@ CMD:sprzedajauto(playerid, params[])
 
         IDAuta[playa] = VehicleUID[lVeh][vUID];
 
- 		if(!ProxDetectorS(10.0, playerid, playa)) return sendErrorMessage(playerid, "Ten gracz jest za daleko !");
-		if(!(cena > 0 && cena < 900000001)) return sendErrorMessage(playerid, "Cena od 1 do 900 000 000$ !");
+ 		if(!ProxDetectorS(10.0, playerid, playa)) return sendErrorDialogMessage(playerid, "Ten gracz jest za daleko !");
+		if(!(cena > 0 && cena < 900000001)) return sendErrorDialogMessage(playerid, "Cena od 1 do 900 000 000$ !");
 
-        if(lVeh <= CAR_End) return sendErrorMessage(playerid, "Tego pojazdu nie mo¿na sprzedaæ");
+        if(lVeh <= CAR_End) return sendErrorDialogMessage(playerid, "Tego pojazdu nie mo¿na sprzedaæ");
 
-	    if(kaska[playa] == 0) return sendErrorMessage(playerid, "B³¹d");
+	    if(kaska[playa] == 0) return sendErrorDialogMessage(playerid, "B³¹d");
 
 	    GetPlayerName(playa, giveplayer, sizeof(giveplayer));
 		GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -15016,40 +14949,40 @@ CMD:kogut(playerid)
 								format(string, sizeof(string), "* %s przyczepia kogut na dach samochodu.", sendername);
 								ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
 							}
-							sendErrorMessage(playerid, "OSTRZE¯ENIE: Nadu¿ywanie kogutów skutkuje natychmiastowym wyrzuceniem z frakcji.");
+							sendErrorDialogMessage(playerid, "OSTRZE¯ENIE: Nadu¿ywanie kogutów skutkuje natychmiastowym wyrzuceniem z frakcji.");
 						}
 						else
 						{
-						    sendErrorMessage(playerid, "Nie jesteœ na s³u¿bie.");
+						    sendErrorDialogMessage(playerid, "Nie jesteœ na s³u¿bie.");
 						}
 					}
 					else
 					{
-					    sendErrorMessage(playerid, "Na tym pojeŸdzie nie mo¿na przyczepiæ koguta.");
+					    sendErrorDialogMessage(playerid, "Na tym pojeŸdzie nie mo¿na przyczepiæ koguta.");
 			            return 1;
 					}
                 }
 				else
 				{
-				    sendErrorMessage(playerid, "Potrzebujesz 1 lub wiêkszej rangi!");
+				    sendErrorDialogMessage(playerid, "Potrzebujesz 1 lub wiêkszej rangi!");
      				return 1;
 				}
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie jesteœ z PD!");
+			    sendErrorDialogMessage(playerid, "Nie jesteœ z PD!");
             	return 1;
 			}
         }
 		else
 		{
-		    sendErrorMessage(playerid, "Musisz byæ kierowc¹!");
+		    sendErrorDialogMessage(playerid, "Musisz byæ kierowc¹!");
         	return 1;
 		}
 	}
 	else
 	{
-        sendErrorMessage(playerid, "Musisz byæ w wozie");
+        sendErrorDialogMessage(playerid, "Musisz byæ w wozie");
         return 1;
 	}
 	return 1;
@@ -15091,7 +15024,7 @@ CMD:autok(playerid)
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie posiadasz klucz do pojazdu");
+	    sendErrorDialogMessage(playerid, "Nie posiadasz klucz do pojazdu");
 	}
 	return 1;
 }
@@ -15123,7 +15056,7 @@ CMD:plac(playerid, params[])
 			new giveplayerid, moneys;
 			if( sscanf(params, "k<fix>s[32]", giveplayerid, string))
 			{
-				sendTipMessage(playerid, "U¿yj /plac [playerid/CzêœæNicku] [iloœæ]");
+				sendTipDialogMessage(playerid, "U¿yj /plac [playerid/CzêœæNicku] [iloœæ]");
 				return 1;
 			}
 			moneys = FunkcjaK(string);
@@ -15197,19 +15130,19 @@ CMD:plac(playerid, params[])
 						}
 						else
 						{
-							sendErrorMessage(playerid, "Nieprawid³owa iloœæ pieniêdzy.");
+							sendErrorDialogMessage(playerid, "Nieprawid³owa iloœæ pieniêdzy.");
 						}
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Jesteœ za daleko od gracza.");
+						sendErrorDialogMessage(playerid, "Jesteœ za daleko od gracza.");
 					}
 				}//invalid id
 			}
 			else
 			{
 				format(string, sizeof(string), "%d nie jest na serwerze.", giveplayerid);
-				sendErrorMessage(playerid, string);
+				sendErrorDialogMessage(playerid, string);
 			}
 		}
 		else
@@ -15233,7 +15166,7 @@ CMD:teczka(playerid, params[])
 			new giveplayerid, moneys;
 			if( sscanf(params, "k<fix>s[32]", giveplayerid, string))
 			{
-				sendTipMessage(playerid, "U¿yj /teczka [playerid/CzêœæNicku] [iloœæ]");
+				sendTipDialogMessage(playerid, "U¿yj /teczka [playerid/CzêœæNicku] [iloœæ]");
 				return 1;
 			}
 			moneys = FunkcjaK(string);
@@ -15265,12 +15198,12 @@ CMD:teczka(playerid, params[])
 			    {
 			        if(Spectate[giveplayerid] != INVALID_PLAYER_ID)
 					{
-						sendErrorMessage(playerid, "Ten gracz jest za daleko.");
+						sendErrorDialogMessage(playerid, "Ten gracz jest za daleko.");
 						return 1;
 					}
 			        if(PlayerInfo[giveplayerid][pLocal] == 106)
 					{
-						sendErrorMessage(playerid, "Komenda nie dzia³a w tym miejscuu");
+						sendErrorDialogMessage(playerid, "Komenda nie dzia³a w tym miejscuu");
 						return 1;
 					}
 					if (ProxDetectorS(5.0, playerid, giveplayerid))
@@ -15302,19 +15235,19 @@ CMD:teczka(playerid, params[])
 						}
 						else
 						{
-							sendErrorMessage(playerid, "Nieprawid³owa iloœæ pieniêdzy.");
+							sendErrorDialogMessage(playerid, "Nieprawid³owa iloœæ pieniêdzy.");
 						}
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Jesteœ zadaleko od gracza.");
+						sendErrorDialogMessage(playerid, "Jesteœ zadaleko od gracza.");
 					}
 				}//invalid id
 			}
 			else
 			{
 				format(string, sizeof(string), "%d nie jest na serwerze.", giveplayerid);
-				sendErrorMessage(playerid, string);
+				sendErrorDialogMessage(playerid, string);
 			}
 		}
 	}
@@ -15332,14 +15265,14 @@ CMD:datek(playerid, params[])
 		new moneys;
 		if( sscanf(params, "s[16]", string))
 		{
-			sendTipMessage(playerid, "U¿yj /charity [kwota]");
+			sendTipDialogMessage(playerid, "U¿yj /charity [kwota]");
 			return 1;
 		}
 		moneys = FunkcjaK(string);
 
 		if(PlayerInfo[playerid][pLocal] == 106)
 		{
-			sendErrorMessage(playerid, "Komenda nie dzia³a w tym miejscu");
+			sendErrorDialogMessage(playerid, "Komenda nie dzia³a w tym miejscu");
 			return 1;
 		}
 		if(moneys < 1)
@@ -15378,7 +15311,7 @@ CMD:datek(playerid, params[])
 	new moneys;
 	if( sscanf(params, "s[16]", string))
 	{
-		sendTipMessage(playerid, "U¿yj /wosp [kwota] np. /wosp 10kk");
+		sendTipDialogMessage(playerid, "U¿yj /wosp [kwota] np. /wosp 10kk");
 		return 1;
 	}
 	moneys = FunkcjaK(string);
@@ -15659,7 +15592,7 @@ CMD:check(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /check [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /check [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -15673,7 +15606,7 @@ CMD:check(playerid, params[])
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie ma takiego gracza");
+				sendErrorDialogMessage(playerid, "Nie ma takiego gracza");
 			}
 		}
 		else
@@ -15700,7 +15633,7 @@ CMD:ksiazkatel(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /numer [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /numer [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -15716,7 +15649,7 @@ CMD:ksiazkatel(playerid, params[])
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			}
 		}
 		else
@@ -15739,7 +15672,7 @@ CMD:sprawdzkase(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /sprawdzkase[playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /sprawdzkase[playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -15759,18 +15692,18 @@ CMD:sprawdzkase(playerid, params[])
 					}
 					else
 					{
-					    sendErrorMessage(playerid, "Ten gracz nie jest w kasynie");
+					    sendErrorDialogMessage(playerid, "Ten gracz nie jest w kasynie");
 					}
 				}
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie ma takiego gracza");
+				sendErrorDialogMessage(playerid, "Nie ma takiego gracza");
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ w kasynie !");
+			sendErrorDialogMessage(playerid, "Nie jesteœ w kasynie !");
 		}
 	}
 	return 1;
@@ -15913,7 +15846,7 @@ CMD:kupdildo(playerid)
 		}
 		else
 		{
-		    sendErrorMessage(playerid,"Nie jesteœ w sex shopie");
+		    sendErrorDialogMessage(playerid,"Nie jesteœ w sex shopie");
 		    return 1;
 		}
 	}
@@ -16242,13 +16175,13 @@ CMD:fbi(playerid, params[])
 		{
 			if(PlayerInfo[playerid][pRank] < 2)
 			{
-			    sendErrorMessage(playerid, "Musisz mieæ 2 range aby u¿ywaæ tej komendy!");
+			    sendErrorDialogMessage(playerid, "Musisz mieæ 2 range aby u¿ywaæ tej komendy!");
 			    return 1;
 			}
 			GetPlayerName(playerid, sendername, sizeof(sendername));
 			if(isnull(params))
 			{
-				sendTipMessage(playerid, "U¿yj /fbi [text]");
+				sendTipDialogMessage(playerid, "U¿yj /fbi [text]");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pBP] >= 1)
@@ -16273,7 +16206,7 @@ CMD:fbi(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ agentem FBI !");
+			sendErrorDialogMessage(playerid, "Nie jesteœ agentem FBI !");
 		    return 1;
 		}
 	}
@@ -16294,13 +16227,13 @@ CMD:lspd(playerid, params[])
 			if(PlayerInfo[playerid][pRank] < 2)
 			{
 			    //SendClientMessage(playerid, COLOR_GREY, "   Musisz mieæ 2 range aby u¿ywaæ tej komendy !");
-                sendErrorMessage(playerid, "Komenda dostêpna od 2 rangi!");
+                sendErrorDialogMessage(playerid, "Komenda dostêpna od 2 rangi!");
 			    return 1;
 			}
 			GetPlayerName(playerid, sendername, sizeof(sendername));
 			if(isnull(params))
 			{
-				sendTipMessage(playerid, "U¿yj /pd [text]");
+				sendTipDialogMessage(playerid, "U¿yj /pd [text]");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pBP] >= 1)
@@ -16325,7 +16258,7 @@ CMD:lspd(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ policjantem !");
+			sendErrorDialogMessage(playerid, "Nie jesteœ policjantem !");
 		    return 1;
 		}
 	}
@@ -16343,13 +16276,13 @@ CMD:sasd(playerid, params[])
 		{
 			if(PlayerInfo[playerid][pRank] < 2)
 			{
-			    sendErrorMessage(playerid, "Musisz mieæ 2 range aby u¿ywaæ tej komendy !");
+			    sendErrorDialogMessage(playerid, "Musisz mieæ 2 range aby u¿ywaæ tej komendy !");
 			    return 1;
 			}
 			GetPlayerName(playerid, sendername, sizeof(sendername));
 			if(isnull(params))
 			{
-				sendTipMessage(playerid, "U¿yj /sasd [text]");
+				sendTipDialogMessage(playerid, "U¿yj /sasd [text]");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pBP] >= 1)
@@ -16374,7 +16307,7 @@ CMD:sasd(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ z SASD!");
+			sendErrorDialogMessage(playerid, "Nie jesteœ z SASD!");
 		    return 1;
 		}
 	}
@@ -16404,9 +16337,40 @@ CMD:owarsztat(playerid)
 	}
 	else
 	{
-		sendErrorMessage(playerid,"Nie jesteœ z FDU");
+		sendErrorDialogMessage(playerid,"Nie jesteœ z FDU");
 	}
 	return 1;
+}
+
+CMD:silownia(playerid, params[])
+{
+    new string[256];
+    new sendername[MAX_PLAYER_NAME];
+
+    if(IsPlayerConnected(playerid) || PlayerInfo[playerid][pMember] == FAMILY_GYM || PlayerInfo[playerid][pLider] == FAMILY_GYM)
+    {
+        if(isnull(params))
+        {
+            sendTipDialogMessage(playerid, "U¿yj /silownia [tekst]");
+            return 1;
+        }
+
+        if(PlayerInfo[playerid][pBP] >= 1)
+        {
+            format(string, sizeof(string), "Nie mo¿esz napisaæ na tym czacie, gdy¿ masz zakaz pisania na globalnych czatach! Minie on za %d godzin.", PlayerInfo[playerid][pBP]);
+            sendTipMessage(playerid, string, TEAM_CYAN_COLOR);
+            return 1;
+        }
+        GetPlayerName(playerid, sendername, sizeof(sendername));
+        SendClientMessageToAll(COLOR_BLUE, "|___________ Si³ownia  ___________|");
+        format(string, sizeof(string), " %s: {FFFFFF}%s", sendername, params);
+        SendClientMessageToAll(COLOR_WHITE, string);
+    }
+    else
+    {
+        sendErrorDialogMessage(playerid, "Nie jesteœ pracownikiem si³ownii");
+    }
+    return 1;
 }
 
 CMD:gs(playerid, params[])
@@ -16418,7 +16382,7 @@ CMD:gs(playerid, params[])
     {
         if(isnull(params))
         {
-            sendTipMessage(playerid, "U¿yj /gs [tekst]");
+            sendTipDialogMessage(playerid, "U¿yj /gs [tekst]");
             return 1;
         }
 
@@ -16435,7 +16399,7 @@ CMD:gs(playerid, params[])
     }
     else
     {
-        sendErrorMessage(playerid, "Nie jesteœ z Gunshopu!");
+        sendErrorDialogMessage(playerid, "Nie jesteœ z Gunshopu!");
     }
     return 1;
 }
@@ -16461,7 +16425,7 @@ CMD:cwarsztat(playerid)
 	}
 	else
 	{
-		sendErrorMessage(playerid,"Nie jesteœ z FDU");
+		sendErrorDialogMessage(playerid,"Nie jesteœ z FDU");
 	}
 	return 1;
 }
@@ -16476,7 +16440,7 @@ CMD:noa(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /FDU [tresc]");
+			sendTipDialogMessage(playerid, "U¿yj /FDU [tresc]");
 			return 1;
 		}
 		SendClientMessageToAll(0xA400A4C8,"|____________[WIADOMOSC FDU]____________|");
@@ -16486,7 +16450,7 @@ CMD:noa(playerid, params[])
 	}
 	else
 	{
-		sendErrorMessage(playerid,"Nie jesteœ z FDU/nie masz 6 rangi");
+		sendErrorDialogMessage(playerid,"Nie jesteœ z FDU/nie masz 6 rangi");
 	}
 	return 1;
 }
@@ -16797,7 +16761,7 @@ CMD:zablokujtel(playerid)
 
 CMD:sprobuj(playerid, params[])
 {
-	if(isnull(params)) return sendTipMessage(playerid, "U¿yj /sprobuj [Akcja] np. trafiæ do kosza");
+	if(isnull(params)) return sendTipDialogMessage(playerid, "U¿yj /sprobuj [Akcja] np. trafiæ do kosza");
     new string[256];
 	//switch(random(4)+1) 
     switch(random(2))
@@ -16815,7 +16779,7 @@ CMD:ja(playerid, params[])
 {
 	if(isnull(params))
 	{
-		sendTipMessage(playerid, "U¿yj /me [akcja]");
+		sendTipDialogMessage(playerid, "U¿yj /me [akcja]");
 		return 1;
 	}
     new string[256];
@@ -16848,7 +16812,7 @@ CMD:ja(playerid, params[])
 
 CMD:ame(playerid, args[]) {
     new string[128];
-    if(sscanf(args, "s[128]", string)) return sendTipMessage(playerid, "U¿yj: /ame [opis czynnoœci]");
+    if(sscanf(args, "s[128]", string)) return sendTipDialogMessage(playerid, "U¿yj: /ame [opis czynnoœci]");
     if(strlen(string) > 86) return sendTipMessage(playerid, "Wyst¹pi³ b³¹d, wiadomoœæ posiada ponad 86 znaków!");
     format(string, sizeof string, "* %s %s", RemoveUnderLine(playerid), string);
     SetPlayerChatBubble(playerid, string, COLOR_PURPLE, 30.0, 7500);
@@ -16862,7 +16826,7 @@ CMD:ado(playerid, params[])
     {
         if(isnull(params))
         {
-            sendTipMessage(playerid, "U¿yj /ado [opis globalnej sytuacji]");
+            sendTipDialogMessage(playerid, "U¿yj /ado [opis globalnej sytuacji]");
             return 1;
         }
         new string[256];
@@ -16898,7 +16862,7 @@ CMD:do(playerid, params[])
 {
     if(isnull(params))
     {
-        sendTipMessage(playerid, "U¿yj /do [opis sytuacji]");
+        sendTipDialogMessage(playerid, "U¿yj /do [opis sytuacji]");
         return 1;
     }
     new string[256];
@@ -16935,7 +16899,7 @@ CMD:don(playerid, params[])
     {
         if(isnull(params))
         {
-            sendTipMessage(playerid, "U¿yj /don [opis sytuacji]");
+            sendTipDialogMessage(playerid, "U¿yj /don [opis sytuacji]");
             return 1;
         }
         new string[256];
@@ -17006,7 +16970,7 @@ CMD:odpal(playerid)
 			}
             new Float:lHP;
             GetVehicleHealth(GetPlayerVehicleID(playerid), lHP);
-            if(lHP <= 250.0) return sendErrorMessage(playerid, "Silnik jest zepsuty!"); //        8.12.2016 propozycja uid 30923
+            if(lHP <= 250.0) return sendErrorDialogMessage(playerid, "Silnik jest zepsuty!"); //        8.12.2016 propozycja uid 30923
 			GetPlayerName(playerid, sendername, sizeof(sendername));
 			format(string, sizeof(string), "* %s wk³ada kluczyk do stacyjki i przekrêca.", sendername);
 			ProxDetector(10.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
@@ -17017,7 +16981,7 @@ CMD:odpal(playerid)
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ kierowc¹ !");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ kierowc¹ !");
             return 1;
 		}
 	}
@@ -17073,7 +17037,7 @@ CMD:zgas(playerid)
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ kierowc¹ !");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ kierowc¹ !");
             return 1;
 		}
 	}
@@ -17101,7 +17065,7 @@ CMD:say(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /(l)ocal [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj /(l)ocal [tekst]");
 			return 1;
 		}
 		/*format(string, sizeof(string), "%s mówi: %s", sendername, params);
@@ -17156,7 +17120,7 @@ CMD:b(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /b [CZAT OOC]");
+			sendTipDialogMessage(playerid, "U¿yj /b [CZAT OOC]");
 			return 1;
 		}
 		//format(string, sizeof(string), "%s [%d] Czat OOC: (( %s ))", sendername, playerid, params);
@@ -17216,7 +17180,7 @@ CMD:szept(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /(s)zept [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj /(s)zept [tekst]");
 			return 1;
 		}
 		/*format(string, sizeof(string), "%s Szepcze: %s", sendername, params);
@@ -17272,7 +17236,7 @@ CMD:k(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /(k)rzyk [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj /(k)rzyk [tekst]");
 			return 1;
 		}
 		if (strfind(params , "{" , true)>=0 || strfind(params , "}" , true)>=0)
@@ -17335,7 +17299,7 @@ CMD:megafon(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/m)egafon [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/m)egafon [tekst]");
 			return 1;
 		}
 		if(PlayerInfo[playerid][pMember] == 1||PlayerInfo[playerid][pLider] == 1)
@@ -17421,7 +17385,7 @@ CMD:r(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/r)adio [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/r)adio [tekst]");
 			return 1;
 		}
         new member = GetPlayerFraction(playerid);
@@ -17470,7 +17434,7 @@ CMD:rlow(playerid, params[])
         GetPlayerName(playerid, sendername, sizeof(sendername));
         if(isnull(params))
         {
-            sendTipMessage(playerid, "U¿yj (/r)adio [tekst]");
+            sendTipDialogMessage(playerid, "U¿yj (/r)adio [tekst]");
             return 1;
         }
         new member = GetPlayerFraction(playerid);
@@ -17517,7 +17481,7 @@ CMD:rooc(playerid, params[])
     {
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/r)adio [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/r)adio [tekst]");
 			return 1;
 		}
         new member = GetPlayerFraction(playerid);
@@ -17556,7 +17520,7 @@ CMD:kupskin(playerid, params[])
             new lolgf;
 			if( sscanf(params, "d", lolgf))
 			{
-				sendTipMessage(playerid, "U¿yj /wybierzskin [id skinu] (koszt: 5000$)");
+				sendTipDialogMessage(playerid, "U¿yj /wybierzskin [id skinu] (koszt: 5000$)");
 				sendTipMessage(playerid, "ID skinów znajdziesz na: http://wiki.sa-mp.com/wiki/Skins:All");
 				return 1;
 			}
@@ -17591,7 +17555,7 @@ CMD:kupskin(playerid, params[])
         }
         else
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ w sklepie z ciuchami!");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ w sklepie z ciuchami!");
 		}
     }
 	return 1;
@@ -17604,7 +17568,7 @@ CMD:dutymoto(playerid)
 
     if(IsPlayerConnected(playerid))
     {
-         if(GetPVarInt(playerid, "dutyadmin") == 1 || GetPVarInt(playerid, "gmduty") == 1) return sendTipMessage(playerid, "ZejdŸ z duty @");
+        if(GetPVarInt(playerid, "dutyadmin") == 1 || GetPVarInt(playerid, "gmduty") == 1) return sendTipMessage(playerid, "ZejdŸ z duty @");
         if(IsACop(playerid) && PoziomPoszukiwania[playerid] > 0)
         {
             sendTipMessage(playerid, "Osoby poszukiwane przez policjê nie mog¹ rozpocz¹æ s³u¿by !");
@@ -17612,7 +17576,7 @@ CMD:dutymoto(playerid)
         }
         if(GetPlayerState(playerid) != PLAYER_STATE_ONFOOT) return sendTipMessage(playerid, "Aby wzi¹æ s³u¿be musisz byæ pieszo!");
 
-        if(OnDuty[playerid]==1 && OnDutyCD[playerid] == 0) return sendTipMessage(playerid, "U¿yj /duty !");
+        if(OnDuty[playerid]==1 && OnDutyCD[playerid] == 0) return sendTipDialogMessage(playerid, "U¿yj /duty !");
 
         GetPlayerName(playerid, sendername, sizeof(sendername));
         if(PlayerInfo[playerid][pMember] == 3 || PlayerInfo[playerid][pLider] == 3)
@@ -17676,7 +17640,7 @@ CMD:dutycd(playerid)
 		}
         if(GetPlayerState(playerid) != PLAYER_STATE_ONFOOT) return sendTipMessage(playerid, "Aby wzi¹æ s³u¿be musisz byæ pieszo!");
 
-        if(OnDuty[playerid]==1 && OnDutyCD[playerid] == 0) return sendTipMessage(playerid, "U¿yj /duty !");
+        if(OnDuty[playerid]==1 && OnDutyCD[playerid] == 0) return sendTipDialogMessage(playerid, "U¿yj /duty !");
 
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1)
@@ -18173,7 +18137,7 @@ CMD:swat(playerid)
 		}
         else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ ze s³u¿b porz¹dkowych !");
+			sendErrorDialogMessage(playerid, "Nie jesteœ ze s³u¿b porz¹dkowych !");
 			return 1;
 		}
 	}
@@ -18207,7 +18171,7 @@ CMD:kamizelka(playerid)
             {
                 if(OnDuty[playerid] == 1 && GetPVarInt(playerid, "kamizelka-Pd") == 0)
                 {
-                    if(kaska[playerid] < 10000) return sendErrorMessage(playerid, "Nie staæ ciê na kamizelke");
+                    if(kaska[playerid] < 10000) return sendErrorDialogMessage(playerid, "Nie staæ ciê na kamizelke");
                     ZabierzKase(playerid, 10000);
                     sendTipMessageEx(playerid, COLOR_P@, "Zap³aci³eœ $10000 za kamizelkê"); 
                     format(string, sizeof(string), "* %s wyci¹ga z szafki i ubiera kamizelkê.", sendername);
@@ -18246,7 +18210,7 @@ CMD:kamizelka(playerid)
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ z PD!");
+            sendErrorDialogMessage(playerid, "Nie jesteœ z PD!");
             return 1;
         }
     }
@@ -18305,7 +18269,7 @@ CMD:szturmowy(playerid)
 		}
         else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ ze s³u¿b porz¹dkowych !");
+			sendErrorDialogMessage(playerid, "Nie jesteœ ze s³u¿b porz¹dkowych !");
 			return 1;
 		}
 	}
@@ -18469,7 +18433,7 @@ CMD:depo(playerid, params[])
         GetPlayerName(playerid, sendername, sizeof(sendername));
         if(isnull(params))
         {
-            sendTipMessage(playerid, "U¿yj /depo [tekst]");
+            sendTipDialogMessage(playerid, "U¿yj /depo [tekst]");
             return 1;
         }
         if(PlayerInfo[playerid][pBW] > 0) return sendTipMessage(playerid, "Nie mo¿esz pisaæ na /depo podczas BW!");
@@ -18505,13 +18469,13 @@ CMD:tablet(playerid, params[])
     {
         if(!IsACop(playerid))
         {
-            sendErrorMessage(playerid, "Nie jesteœ policjantem!");
+            sendErrorDialogMessage(playerid, "Nie jesteœ policjantem!");
             return 1;
         }
 		new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /tablet [id gracza/czêœæ nicku]");
+			sendTipDialogMessage(playerid, "U¿yj /tablet [id gracza/czêœæ nicku]");
 			return 1;
 		}
 		if(OnDuty[playerid] == 1)
@@ -18530,7 +18494,7 @@ CMD:tablet(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
@@ -18552,14 +18516,14 @@ CMD:mdc(playerid, params[])
     {
         if(!IsACop(playerid))
         {
-            sendErrorMessage(playerid, "Nie jesteœ policjantem!");
+            sendErrorDialogMessage(playerid, "Nie jesteœ policjantem!");
             return 1;
         }
 		new tmpcar = GetPlayerVehicleID(playerid);
 		new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /mdc [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /mdc [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -18616,7 +18580,7 @@ CMD:mdc(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
@@ -18651,7 +18615,7 @@ CMD:po(playerid, params[])
     		new giveplayerid, result[64];
     		if( sscanf(params, "k<fix>s[64]", giveplayerid, result))
     		{
-    			sendTipMessage(playerid, "U¿yj /(su)spect [playerid/CzêœæNicku] [popelnione przestepstwo]");
+    			sendTipDialogMessage(playerid, "U¿yj /(su)spect [playerid/CzêœæNicku] [popelnione przestepstwo]");
     			return 1;
     		}
     		if(IsPlayerConnected(giveplayerid))
@@ -18688,7 +18652,7 @@ CMD:po(playerid, params[])
     					}
     					else
     					{
-    						sendErrorMessage(playerid, "Da³eœ ju¿ poziom poszukiwania, poczekaj 1 minute (zapobiega spamowaniu WL)");
+    						sendErrorDialogMessage(playerid, "Da³eœ ju¿ poziom poszukiwania, poczekaj 1 minute (zapobiega spamowaniu WL)");
     					}
     				}
     				else
@@ -18700,10 +18664,10 @@ CMD:po(playerid, params[])
     		else
     		{
     			format(string, sizeof(string), "   Gracz o ID %d nie istnieje.", giveplayerid);
-    			sendErrorMessage(playerid, string);
+    			sendErrorDialogMessage(playerid, string);
     			return 1;
     		}
-        } else sendErrorMessage(playerid, " Nie jesteœ funkcjonariuszem PD/FBI/NG/BOR na s³u¿bie!");
+        } else sendErrorDialogMessage(playerid, " Nie jesteœ funkcjonariuszem PD/FBI/NG/BOR na s³u¿bie!");
 	}
 	return 1;
 }
@@ -18719,7 +18683,7 @@ CMD:wiadomosc(playerid, params[])
     new giveplayerid, text[128];
     if( sscanf(params, "k<fix>s[128]", giveplayerid, text))
     {
-        sendTipMessage(playerid, "U¿yj /(w)iadomosc [playerid/CzêœæNicku] [tekst]");
+        sendTipDialogMessage(playerid, "U¿yj /(w)iadomosc [playerid/CzêœæNicku] [tekst]");
         return 1;
     }
 
@@ -18738,7 +18702,7 @@ CMD:wiadomosc(playerid, params[])
         if(PlayerInfo[giveplayerid][pAdmin] == 0 && PlayerInfo[giveplayerid][pNewAP] == 0 && PlayerInfo[giveplayerid][pZG] == 0)
         {
             if(PlayerInfo[playerid][pBW] > 0 && GetDistanceBetweenPlayers(playerid, giveplayerid) > 50.0 && (PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0 && PlayerInfo[playerid][pZG] == 0)) {
-                return sendErrorMessage(playerid, "Gdy masz BW mo¿esz wysy³aæ wiadomoœci jedynie na ma³¹ odleg³oœæ");
+                return sendErrorDialogMessage(playerid, "Gdy masz BW mo¿esz wysy³aæ wiadomoœci jedynie na ma³¹ odleg³oœæ");
             }
         }
         new giveplayer[MAX_PLAYER_NAME];
@@ -18821,7 +18785,7 @@ CMD:wiadomosc(playerid, params[])
     }
     else
     {
-        sendErrorMessage(playerid, "Nie ma na serwerze takiego gracza!");
+        sendErrorDialogMessage(playerid, "Nie ma na serwerze takiego gracza!");
     }
     return 1;
 }
@@ -18829,7 +18793,7 @@ CMD:wiadomosc(playerid, params[])
 CMD:reply(playerid, params[]) return cmd_re(playerid, params);
 CMD:re(playerid, params[]) {
     if(lastMsg[playerid] != INVALID_PLAYER_ID) {
-        if(!IsPlayerConnected(lastMsg[playerid])) return sendErrorMessage(playerid, "Tego gracza nie ma na serwerze!");
+        if(!IsPlayerConnected(lastMsg[playerid])) return sendErrorDialogMessage(playerid, "Tego gracza nie ma na serwerze!");
         new buf[177];
         format(buf, sizeof(buf), "%d %s", lastMsg[playerid], params);
         return cmd_wiadomosc(playerid, buf);
@@ -18849,7 +18813,7 @@ CMD:wyplac(playerid, params[])
 			new cashdeposit;
 			if( sscanf(params, "s[32]", string))
 			{
-				sendTipMessage(playerid, "U¿yj /wyplac [kwota]");
+				sendTipDialogMessage(playerid, "U¿yj /wyplac [kwota]");
 				format(string, sizeof(string), "Masz teraz $%d na swoim koncie.", PlayerInfo[playerid][pAccount]);
 				sendTipMessage(playerid, string);
 				return 1;
@@ -18896,7 +18860,7 @@ CMD:wplac(playerid, params[])
 			new cashdeposit, depo2 = 0;
 			if( sscanf(params, "s[32]", string))
 			{
-				sendTipMessage(playerid, "U¿yj /wplac [kwota]");
+				sendTipDialogMessage(playerid, "U¿yj /wplac [kwota]");
 				format(string, sizeof(string), "Masz teraz $%d na swoim koncie.", PlayerInfo[playerid][pAccount]);
 				sendTipMessage(playerid, string);
                 if(GraczBankomat(playerid)) {
@@ -19217,7 +19181,7 @@ CMD:ruleta(playerid)
         }
         else
         {
-        	sendErrorMessage(playerid, "Nie jesteœ przy stole z ruletk¹");
+        	sendErrorDialogMessage(playerid, "Nie jesteœ przy stole z ruletk¹");
 			return 1;
         }
 	}
@@ -19235,11 +19199,11 @@ CMD:ruleta(playerid, params[])
         if(IsPlayerInRangeOfPoint(playerid, 5.0, 1038.22924805,-1090.59741211,-67.52223969))
         {
             new kolor[32], kasa, kasa_s[32], kolor_id;
-            if(sscanf(params, "s[32]s[32]", kolor, kasa_s)) return sendTipMessage(playerid, "U¿yj: /ruletka [kolor (czarny/czerwony/zielony)] [kasa]");
+            if(sscanf(params, "s[32]s[32]", kolor, kasa_s)) return sendTipDialogMessage(playerid, "U¿yj: /ruletka [kolor (czarny/czerwony/zielony)] [kasa]");
             if(strfind(kolor, "czarny", true) >= 0) kolor_id = 0;
             else if(strfind(kolor, "czerwony", true) >= 0) kolor_id = 1;
             else if(strfind(kolor, "zielony", true) >= 0) kolor_id = 2;
-            else return sendTipMessage(playerid, "U¿yj: /ruletka [kolor (czarny/czerwony/zielony)] [kasa]");
+            else return sendTipDialogMessage(playerid, "U¿yj: /ruletka [kolor (czarny/czerwony/zielony)] [kasa]");
             kasa = FunkcjaK(kasa_s);
             if(kaska[playerid] < kasa) return sendTipMessage(playerid, "Nie masz tyle!");
             if(kasa < 0 || kasa > 10000000) return sendTipMessage(playerid, "Nie mo¿esz zagraæ o $0, ani o wiêcej ni¿ $10.000.000");
@@ -19326,7 +19290,7 @@ CMD:ruleta(playerid, params[])
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ przy stole z ruletk¹");
+            sendErrorDialogMessage(playerid, "Nie jesteœ przy stole z ruletk¹");
             return 1;
         }
     }
@@ -19376,7 +19340,7 @@ CMD:blackjack(playerid)
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ przy stole do black jacka!");
+            sendErrorDialogMessage(playerid, "Nie jesteœ przy stole do black jacka!");
         }
     }
 	return 1;
@@ -19431,7 +19395,7 @@ CMD:kolo(playerid)
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ przy kole fortuny!");
+            sendErrorDialogMessage(playerid, "Nie jesteœ przy kole fortuny!");
         }
     }
 	return 1;
@@ -19498,7 +19462,7 @@ CMD:kolo(playerid)
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ przy kole fortuny!");
+            sendErrorDialogMessage(playerid, "Nie jesteœ przy kole fortuny!");
         }
     }
     return 1;
@@ -19524,13 +19488,13 @@ CMD:przelew(playerid, params[])
 			}
 			if(PlayerInfo[playerid][pLocal] != 103)
 	        {
-	            sendErrorMessage(playerid, "Nie jesteœ w Banku!");
+	            sendErrorDialogMessage(playerid, "Nie jesteœ w Banku!");
 	            return 1;
 	        }
 			new giveplayerid, moneys;
 			if( sscanf(params, "k<fix>s[32]", giveplayerid, string))
 			{
-				sendTipMessage(playerid, "U¿yj /przelew [playerid/CzêœæNicku] [kwota]");
+				sendTipDialogMessage(playerid, "U¿yj /przelew [playerid/CzêœæNicku] [kwota]");
 				return 1;
 			}
 			moneys = FunkcjaK(string);
@@ -19592,7 +19556,7 @@ CMD:przelew(playerid, params[])
 			else
 			{
 				format(string, sizeof(string), "Gracz o ID %d nie istnieje.", giveplayerid);
-				sendErrorMessage(playerid, string);
+				sendErrorDialogMessage(playerid, string);
 			}
 		}
 	}
@@ -19653,12 +19617,12 @@ CMD:call_live(playerid, params[])
 	        new phonenumb;
 			if( sscanf(params, "d", phonenumb))
 			{
-				sendTipMessage(playerid, "U¿yj /call-live [numertelefonu]");
+				sendTipDialogMessage(playerid, "U¿yj /call-live [numertelefonu]");
 				return 1;
 			}
 			if(PlayerInfo[playerid][pPnumber] == 0)
 			{
-				sendErrorMessage(playerid, "Nie posiadasz telefonu !");
+				sendErrorDialogMessage(playerid, "Nie posiadasz telefonu !");
 				return 1;
 			}
 			GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -19711,7 +19675,7 @@ CMD:call_live(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ z SAN.");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ z SAN.");
 			return 1;
 		}
 	}
@@ -19733,12 +19697,12 @@ CMD:dzwon(playerid, params[])
 		new phonenumb;
 		if( sscanf(params, "d", phonenumb))
 		{
-			sendTipMessage(playerid, "U¿yj /dzwon [numertelefonu]");
+			sendTipDialogMessage(playerid, "U¿yj /dzwon [numertelefonu]");
 			return 1;
 		}
 		if(PlayerInfo[playerid][pPnumber] == 0)
 		{
-			sendErrorMessage(playerid, "Nie posiadasz telefonu !");
+			sendErrorDialogMessage(playerid, "Nie posiadasz telefonu !");
 			return 1;
 		}
         //Phone_Call(playerid, PlayerInfo[playerid][pPnumber], phonenumb);
@@ -19811,7 +19775,7 @@ CMD:zamknijlinie(playerid, p[])
         format(lStr, 128, "San-SMS: Linia %d zosta³a zamkniêta przez %s", lLine, GetNick(playerid));
         SendFamilyMessage(FRAC_SN, COLOR_YELLOW, lStr);
     }
-    else sendErrorMessage(playerid, "Nie jesteœ z SN.");
+    else sendErrorDialogMessage(playerid, "Nie jesteœ z SN.");
     return 1;
 }
 
@@ -19839,7 +19803,7 @@ CMD:linie(playerid, p[])
             SendClientMessage(playerid, COLOR_GREEN, lStr);
         }
     }
-    else sendErrorMessage(playerid, "Nie jesteœ z SN.");
+    else sendErrorDialogMessage(playerid, "Nie jesteœ z SN.");
     return 1;
 }
 
@@ -19855,7 +19819,7 @@ CMD:otworzlinie(playerid, p[])
         format(lStr, 128, "San-SMS: Linia %d zosta³a otwarta przez %s", lLine, GetNick(playerid));
         SendFamilyMessage(FRAC_SN, COLOR_YELLOW, lStr);
     }
-    else sendErrorMessage(playerid, "Nie jesteœ z SN.");
+    else sendErrorDialogMessage(playerid, "Nie jesteœ z SN.");
     return 1;
 }
 
@@ -19871,12 +19835,12 @@ CMD:sms(playerid, params[])
 	new phonenumb, result[128];
 	if( sscanf(params, "ds[128]", phonenumb, result))
 	{
-		sendTipMessage(playerid, "U¿yj /(t)ext [numertelefonu] [tekst]");
+		sendTipDialogMessage(playerid, "U¿yj /(t)ext [numertelefonu] [tekst]");
 		return 1;
 	}
 	if(PlayerInfo[playerid][pPnumber] == 0)
 	{
-		sendErrorMessage(playerid, "Nie posiadasz telefonu...");
+		sendErrorDialogMessage(playerid, "Nie posiadasz telefonu...");
 		return 1;
 	}
     if(PlayerInfo[playerid][pJailTime] > 0) return SendClientMessage(playerid, COLOR_GREY, "Nie mo¿esz tego u¿yæ bêd¹æ w wiêzieniu!");
@@ -19964,7 +19928,7 @@ CMD:sms(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "Koszt tego SMS wynosi: %d$, nie masz a¿ tylu pieniêdzy.", platny);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 		return 1;
 	}
@@ -20271,7 +20235,7 @@ CMD:windalock(playerid, params[])
 		new level;
 		if( sscanf(params, "d", level))
 		{
-			sendTipMessage(playerid, "U¿yj: /windalock [nr poziomu]");
+			sendTipDialogMessage(playerid, "U¿yj: /windalock [nr poziomu]");
 			return 1;
 		}
 
@@ -20347,13 +20311,13 @@ CMD:windalock(playerid, params[])
 			}
 			else
 			{
-		 		sendErrorMessage(playerid, "Nieodpowiedni poziom windy!");
+		 		sendErrorDialogMessage(playerid, "Nieodpowiedni poziom windy!");
 		 		return 1;
 			}
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie znajdujesz siê obok windy, któr¹ mo¿esz zarz¹dzaæ!");
+			sendErrorDialogMessage(playerid, "Nie znajdujesz siê obok windy, któr¹ mo¿esz zarz¹dzaæ!");
 		}
 	}
 	return 1;
@@ -21487,7 +21451,7 @@ CMD:wejdz(playerid)
                             }
                             else
                             {
-                                sendErrorMessage(playerid, "Drzwi s¹ zamkniête.");
+                                sendErrorDialogMessage(playerid, "Drzwi s¹ zamkniête.");
                                 GameTextForPlayer(playerid, "~r~Zamkniete", 5000, 1);
                                 return 1;
                             }
@@ -22483,13 +22447,13 @@ CMD:armor(playerid)
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie jesteœ w domu.");
+			    sendErrorDialogMessage(playerid, "Nie jesteœ w domu.");
 			    return 1;
 			}
 		}
 		else
 		{
-			sendTipMessage(playerid, "U¿yj /ulecz [playerid/CzêœæNicku] [cena]");
+			sendTipDialogMessage(playerid, "U¿yj /ulecz [playerid/CzêœæNicku] [cena]");
 			return 1;
 		}
 	}
@@ -22547,13 +22511,13 @@ CMD:ulecz(playerid, params[])
     			}
                 else
                 {
-                    sendTipMessage(playerid, "U¿yj /ulecz [playerid/CzêœæNicku] [cena]");
+                    sendTipDialogMessage(playerid, "U¿yj /ulecz [playerid/CzêœæNicku] [cena]");
                     return 1;
                 }
             }
 			else
 			{
-				sendTipMessage(playerid, "U¿yj /ulecz [playerid/CzêœæNicku] [cena]");
+				sendTipDialogMessage(playerid, "U¿yj /ulecz [playerid/CzêœæNicku] [cena]");
 				return 1;
 			}
 		}
@@ -22610,13 +22574,13 @@ CMD:ulecz(playerid, params[])
 					}
 					else
 					{
-						sendErrorMessage(playerid, "Nie jesteœ w pojeŸdzie medycznym / Chopper !");
+						sendErrorDialogMessage(playerid, "Nie jesteœ w pojeŸdzie medycznym / Chopper !");
 						return 1;
 					}
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Nie jesteœ medykiem !");
+					sendErrorDialogMessage(playerid, "Nie jesteœ medykiem !");
 					return 1;
 				}
 			}
@@ -22624,7 +22588,7 @@ CMD:ulecz(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "   Gracz o ID %d nie istnieje.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -22640,7 +22604,7 @@ CMD:mole(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /mole [mole text]");
+			sendTipDialogMessage(playerid, "U¿yj /mole [mole text]");
 			return 1;
 		}
 		format(string, sizeof(string), "SMS: %s, Nadawca: Marcepan_Marks (555)",params);
@@ -22675,7 +22639,7 @@ CMD:mole(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			//sendTipMessage(playerid, "U¿yj /hq [hq text]");
+			//sendTipDialogMessage(playerid, "U¿yj /hq [hq text]");
 			return 1;
 		}
 		format(string, sizeof(string), "HQ: %s, bez odbioru", params);
@@ -22760,7 +22724,7 @@ CMD:a(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/a)dmin [admin chat]");
+			sendTipDialogMessage(playerid, "U¿yj (/a)dmin [admin chat]");
 			return 1;
 		}
 		if(PlayerInfo[playerid][pAdmin] >= 1)
@@ -22828,7 +22792,7 @@ CMD:o(playerid, params[])
         if(noooc == 0 || PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] > 0 || PremiumInfo[playerid][pKP] > 0)
         {
             if(PlayerInfo[playerid][pMuted] == 1) return sendTipMessageEx(playerid, TEAM_CYAN_COLOR, "Nie mo¿esz mówiæ gdy¿ zosta³eœ uciszony!");
-            if(isnull(params)) return sendTipMessage(playerid, "U¿yj: (/o)oc [tekst]");
+            if(isnull(params)) return sendTipDialogMessage(playerid, "U¿yj: (/o)oc [tekst]");
 
             if (strfind(params , "ip:" , true)>=0 ||strfind(params , "-roleplay" , true)>=0 || strfind(params , "Nicolson" , true)>=0 || strfind(params , "roleplay." , true)>=0  || strfind(params , " ip" , true)>=0 || strfind(params , "794" , true)>=0 || strfind(params , "772" , true)>=0 || strfind(params , "797" , true)>=0 || strfind(params , "795" , true)>=0 || strfind(params , "775" , true)>=0 || strfind(params , "91." , true)>=0 || strfind(params , "91," , true)>=0)
             {
@@ -22908,7 +22872,7 @@ CMD:newbie(playerid, params[])
 		}
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/n)ewbie [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/n)ewbie [tekst]");
 			return 1;
 		}
 		GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -23101,7 +23065,7 @@ CMD:wylogujgracz(playerid, params[])
 		new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /wylogujgracz [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /wylogujgracz [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -23163,7 +23127,7 @@ CMD:cnn(playerid, params[])
 	{
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /cnn [cnn formattextu ~n~=Nowalinia ~r~=Czerwony ~g~=Zielony ~b~=Niebieski ~w~=Bia³y ~y~=¯ó³ty]");
+			sendTipDialogMessage(playerid, "U¿yj /cnn [cnn formattextu ~n~=Nowalinia ~r~=Czerwony ~g~=Zielony ~b~=Niebieski ~w~=Bia³y ~y~=¯ó³ty]");
 			return 1;
 		}
 		new string[128];
@@ -23171,7 +23135,7 @@ CMD:cnn(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		//
 		format(string, sizeof(string), "~b~%s: ~w~%s",sendername,params);
-        if(!issafefortextdraw(string)) return sendErrorMessage(playerid, "Niekompletny tekst (tyldy etc)");
+        if(!issafefortextdraw(string)) return sendErrorDialogMessage(playerid, "Niekompletny tekst (tyldy etc)");
 		foreach(Player, i)
 		{
 			if(IsPlayerConnected(i))
@@ -23196,7 +23160,7 @@ CMD:cnnn(playerid, params[])
 		new txtid, result[128];
 		if( sscanf(params, "ds[128]", txtid, result))
 		{
-			sendTipMessage(playerid, "U¿yj /cnnn <typ> [cnnn formattextu ~n~=Nowalinia ~r~=Czerwony ~g~=Zielony ~b~=Niebieski ~w~=Bia³y ~y~=¯ó³ty]");
+			sendTipDialogMessage(playerid, "U¿yj /cnnn <typ> [cnnn formattextu ~n~=Nowalinia ~r~=Czerwony ~g~=Zielony ~b~=Niebieski ~w~=Bia³y ~y~=¯ó³ty]");
 			return 1;
 		}
 
@@ -23207,7 +23171,7 @@ CMD:cnnn(playerid, params[])
 		}
 		new string[128];
 		format(string, sizeof(string), "~w~%s",result);
-        if(!issafefortextdraw(string)) return sendErrorMessage(playerid, "Niekompletny tekst (tyldy etc)");
+        if(!issafefortextdraw(string)) return sendErrorDialogMessage(playerid, "Niekompletny tekst (tyldy etc)");
 		foreach(Player, i)
 		{
 			if(IsPlayerConnected(i) == 1)
@@ -23241,7 +23205,7 @@ CMD:demorgan(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /demorgan [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /demorgan [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -23268,7 +23232,7 @@ CMD:demorgan(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+		    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 		    return 1;
 		}
     }
@@ -23287,7 +23251,7 @@ CMD:unjail(playerid, params[])
         new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /unaj [ID gracza]");
+			sendTipDialogMessage(playerid, "U¿yj /unaj [ID gracza]");
 			return 1;
 		}
 
@@ -23369,7 +23333,7 @@ CMD:adminajail(playerid, params[])
 		new playa, money, result[128];
 		if( sscanf(params, "k<fix>ds[128]", playa, money, result))
 		{
-			sendTipMessage(playerid, "U¿yj /aj [id/nick] [czas(w minutach)] [powod]");
+			sendTipDialogMessage(playerid, "U¿yj /aj [id/nick] [czas(w minutach)] [powod]");
 			return 1;
 		}
 
@@ -23434,7 +23398,7 @@ CMD:adminajail(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Ten gracz ju¿ siedzi w wiêzieniu !");
+		    sendErrorDialogMessage(playerid, "Ten gracz ju¿ siedzi w wiêzieniu !");
 		}
 	}
 	return 1;
@@ -23452,7 +23416,7 @@ CMD:jail(playerid, params[])
 		new playa, money;
 		if( sscanf(params, "k<fix>d", playa, money))
 		{
-			sendTipMessage(playerid, "U¿yj /jail [playerid/CzêœæNicku] [czas(minuty)]");
+			sendTipDialogMessage(playerid, "U¿yj /jail [playerid/CzêœæNicku] [czas(minuty)]");
 			return 1;
 		}
 
@@ -23500,7 +23464,7 @@ CMD:tod(playerid, params[])
 		new hour;
 		if( sscanf(params, "d", hour))
 		{
-			sendTipMessage(playerid, "U¿yj /tod [czas] (0-23)");
+			sendTipDialogMessage(playerid, "U¿yj /tod [czas] (0-23)");
 			return 1;
 		}
 
@@ -23561,7 +23525,7 @@ CMD:setstat(playerid, params[])
 		new giveplayerid, stat, amount;
 		if( sscanf(params, "k<fix>dd", giveplayerid, stat, amount))
 		{
-			sendTipMessage(playerid, "U¿yj /setstat [playerid/CzêœæNicku] [statcode] [amount]");
+			sendTipDialogMessage(playerid, "U¿yj /setstat [playerid/CzêœæNicku] [statcode] [amount]");
 			SendClientMessage(playerid, COLOR_GRAD4, "|1 Level |2 SpawnHealth |3 UpgradePoints |4 Skin ");
 			SendClientMessage(playerid, COLOR_GRAD3, "|5 KontoBankowe |6 NumerTelefonu |7 PunktyRespektu ");
 			SendClientMessage(playerid, COLOR_GRAD2, "|8 KluczDomowy |9 KluczBiznesu |10 KontoPremium |11 FMember");
@@ -23775,13 +23739,13 @@ CMD:setint(playerid, params[])
 		new gracz, intid;
 		if( sscanf(params, "k<fix>d", gracz, intid))
 		{
-			sendTipMessage(playerid, "U¿yj /setint [nick/id] [interiorid]");
+			sendTipDialogMessage(playerid, "U¿yj /setint [nick/id] [interiorid]");
 			return 1;
 		}
 
 		if(!IsPlayerConnected(gracz))
 		{
-			sendErrorMessage(playerid, "Nie ma takiego gracza.");
+			sendErrorDialogMessage(playerid, "Nie ma takiego gracza.");
 			return 1;
 		}
 
@@ -23811,13 +23775,13 @@ CMD:setvw(playerid, params[])
 		new gracz, intid;
 		if( sscanf(params, "k<fix>d", gracz, intid))
 		{
-			sendTipMessage(playerid, "U¿yj /setvw [nick/id] [virtualworld]");
+			sendTipDialogMessage(playerid, "U¿yj /setvw [nick/id] [virtualworld]");
 			return 1;
 		}
 
 		if(!IsPlayerConnected(gracz))
 		{
-			sendErrorMessage(playerid, "Nie ma takiego gracza.");
+			sendErrorDialogMessage(playerid, "Nie ma takiego gracza.");
 			return 1;
 		}
 
@@ -23842,13 +23806,13 @@ CMD:getint(playerid, params[])
 	new gracz, string[64];
 	if( sscanf(params, "k<fix>", gracz))
 	{
-		sendTipMessage(playerid, "U¿yj /getint [nick/id]");
+		sendTipDialogMessage(playerid, "U¿yj /getint [nick/id]");
 		return 1;
 	}
 
 	if(!IsPlayerConnected(gracz))
 	{
-		sendErrorMessage(playerid, "Nie ma takiego gracza.");
+		sendErrorDialogMessage(playerid, "Nie ma takiego gracza.");
 		return 1;
 	}
 
@@ -23869,13 +23833,13 @@ CMD:getvw(playerid, params[])
 	new gracz, string[64];
 	if( sscanf(params, "k<fix>", gracz))
 	{
-		sendTipMessage(playerid, "U¿yj /getvw [nick/id]");
+		sendTipDialogMessage(playerid, "U¿yj /getvw [nick/id]");
 		return 1;
 	}
 
 	if(!IsPlayerConnected(gracz))
 	{
-		sendErrorMessage(playerid, "Nie ma takiego gracza.");
+		sendErrorDialogMessage(playerid, "Nie ma takiego gracza.");
 		return 1;
 	}
 
@@ -23926,13 +23890,13 @@ CMD:przyjmij(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /przyjmij [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /przyjmij [playerid/CzêœæNicku]");
 			return 1;
 		}
 
 		if (PlayerInfo[playerid][pLider] >= 1)
 		{
-		    if(!IsPlayerConnected(para1)) return sendErrorMessage(playerid, "Ten gracz nie jest na serwerze!");
+		    if(!IsPlayerConnected(para1)) return sendErrorDialogMessage(playerid, "Ten gracz nie jest na serwerze!");
 		    {
 		        if(para1 != INVALID_PLAYER_ID)
 		        {
@@ -24004,7 +23968,7 @@ CMD:zwolnij(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /zwolnij [idgracza/FragmentNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /zwolnij [idgracza/FragmentNicku]");
 			return 1;
 		}
 
@@ -24115,7 +24079,7 @@ CMD:dajpomocnika(playerid, params[])
 	new para1, level;
 	if( sscanf(params, "k<fix>d", para1, level))
 	{
-		sendTipMessage(playerid, "U¿yj /dajpomocnika [playerid/CzêœæNicku] [level(1-3)]");
+		sendTipDialogMessage(playerid, "U¿yj /dajpomocnika [playerid/CzêœæNicku] [level(1-3)]");
 		return 1;
 	}
 
@@ -24154,7 +24118,7 @@ CMD:dajskryptera(playerid, params[])
     new para1;
     if( sscanf(params, "k<fix>d", para1))
     {
-        sendTipMessage(playerid, "U¿yj /dajskryptera [playerid/CzêœæNicku]");
+        sendTipDialogMessage(playerid, "U¿yj /dajskryptera [playerid/CzêœæNicku]");
         return 1;
     }
 
@@ -24185,7 +24149,7 @@ CMD:dajgma(playerid, params[])
     new para1;
     if( sscanf(params, "k<fix>d", para1))
     {
-        sendTipMessage(playerid, "U¿yj /dajgma [playerid/CzêœæNicku]");
+        sendTipDialogMessage(playerid, "U¿yj /dajgma [playerid/CzêœæNicku]");
         return 1;
     }
 
@@ -24217,7 +24181,7 @@ CMD:dajsupportera(playerid, params[])
     	new sendername[MAX_PLAYER_NAME];
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /dajsupportera [playerid/CzêœæNicku] [1- 5]");
+			sendTipDialogMessage(playerid, "U¿yj /dajsupportera [playerid/CzêœæNicku] [1- 5]");
 			return 1;
 		}
 
@@ -24258,7 +24222,7 @@ CMD:makeircadmin(playerid, params[])
 		new giveplayerid, channel;
 		if( sscanf(params, "k<fix>d", giveplayerid, channel))
 		{
-			sendTipMessage(playerid, "U¿yj /makeircadmin [playerid/CzêœæNicku] [NrKana³u]");
+			sendTipDialogMessage(playerid, "U¿yj /makeircadmin [playerid/CzêœæNicku] [NrKana³u]");
 			return 1;
 		}
 
@@ -24334,7 +24298,7 @@ CMD:makeircadmin(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
@@ -24351,11 +24315,11 @@ CMD:dajlideraorg(playerid, params[])
 {
     if(!Uprawnienia(playerid, ACCESS_MAKELEADER)) return 1;
     new id=-1, family;
-	if( sscanf(params, "dK<fix>(-1)", family, id)) return sendTipMessage(playerid, "U¿yj /dajlideraorg [ORG ID] [ID/Nick]");
+	if( sscanf(params, "dK<fix>(-1)", family, id)) return sendTipDialogMessage(playerid, "U¿yj /dajlideraorg [ORG ID] [ID/Nick]");
     if(family < 0 || family > MAX_ORG-1) return 1;
     if(id != -1)
     {
-        if(!IsPlayerConnected(id)) return sendErrorMessage(playerid, "Brak takiego gracza!");
+        if(!IsPlayerConnected(id)) return sendErrorDialogMessage(playerid, "Brak takiego gracza!");
         if(GetPlayerFraction(id) != 0 || GetPlayerOrg(id) != 0) return sendTipMessageEx(playerid, COLOR_GRAD2, "Ten gracz ma frakcje lub rodzine!");
         orgInvitePlayer(id, family);
         gPlayerOrgLeader[id] = true;
@@ -24404,10 +24368,10 @@ CMD:zabierzlideraorg(playerid, params[])
 {
     if(!Uprawnienia(playerid, ACCESS_MAKEFAMILY)) return 1;
     new id=-1;
-	if( sscanf(params, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj /zabierzlideraorg [ID/Nick]");
+	if( sscanf(params, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj /zabierzlideraorg [ID/Nick]");
 	if(id != -1)
     {
-        if(!IsPlayerConnected(id)) return sendErrorMessage(playerid, "Brak takiego gracza!");
+        if(!IsPlayerConnected(id)) return sendErrorDialogMessage(playerid, "Brak takiego gracza!");
         if(!gPlayerOrgLeader[id]) return sendTipMessageEx(playerid, COLOR_GRAD2, "Ten gracz nie ma lidera rodziny!");
         orgGivePlayerRank(id, INVALID_PLAYER_ID, PlayerInfo[id][pRank]);
         gPlayerOrgLeader[id] = false;
@@ -24438,7 +24402,7 @@ CMD:makeleader(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /makeleader [playerid/CzêœæNicku] [Number(1-17)]");
+			sendTipDialogMessage(playerid, "U¿yj /makeleader [playerid/CzêœæNicku] [Number(1-17)]");
 			return 1;
 		}
 
@@ -24528,7 +24492,7 @@ CMD:makewomanleader(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /makewomanleader [ID gracza] [Numer (1-17)]");
+			sendTipDialogMessage(playerid, "U¿yj /makewomanleader [ID gracza] [Numer (1-17)]");
 			return 1;
 		}
 
@@ -24604,7 +24568,7 @@ CMD:makemember(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /makemember [ID gracza] [Numer (1-17)]");
+			sendTipDialogMessage(playerid, "U¿yj /makemember [ID gracza] [Numer (1-17)]");
 			return 1;
 		}
 
@@ -24689,7 +24653,7 @@ CMD:frakcjaskin(playerid, params[])
 		new para1;
 		if( sscanf(params, "k<fix>", para1))
 		{
-			sendTipMessage(playerid, "U¿yj /frakcjaskin [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /frakcjaskin [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -24763,7 +24727,7 @@ CMD:dajrange(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /dajrange [playerid/CzêœæNicku] [Numer(0-9)]");
+			sendTipDialogMessage(playerid, "U¿yj /dajrange [playerid/CzêœæNicku] [Numer(0-9)]");
 			return 1;
 		}
 
@@ -24790,7 +24754,7 @@ CMD:dajrange(playerid, params[])
 					}
 					else
 					{
-					    sendErrorMessage(playerid, "Ten gracz nie jest z twojej frakcji!");
+					    sendErrorDialogMessage(playerid, "Ten gracz nie jest z twojej frakcji!");
 					}
 				}
 			}
@@ -24814,7 +24778,7 @@ CMD:setteam(playerid, params[])
 		new para1, level;
 		if( sscanf(params, "k<fix>d", para1, level))
 		{
-			sendTipMessage(playerid, "U¿yj /setteam [playerid/CzêœæNicku] [team 1(civ) - 2(cop)]");
+			sendTipDialogMessage(playerid, "U¿yj /setteam [playerid/CzêœæNicku] [team 1(civ) - 2(cop)]");
 			return 1;
 		}
 
@@ -24855,7 +24819,7 @@ CMD:gotopos(playerid, params[])
 		    new Float:x, Float:y, Float:z;
 			if( sscanf(params, "fff", x,y,z))
 			{
-				sendTipMessage(playerid, "U¿yj /gotopos [x] [y] [z]");
+				sendTipDialogMessage(playerid, "U¿yj /gotopos [x] [y] [z]");
 				return 1;
 			}
 
@@ -25063,7 +25027,7 @@ CMD:entercar(playerid, params[])
 		new testcar;
 		if( sscanf(params, "d", testcar))
 		{
-			sendTipMessage(playerid, "U¿yj /entercar [carid]");
+			sendTipDialogMessage(playerid, "U¿yj /entercar [carid]");
 			return 1;
 		}
 
@@ -25087,7 +25051,7 @@ CMD:gotocar(playerid, params[])
 		new testcar;
 		if( sscanf(params, "d", testcar))
 		{
-			sendTipMessage(playerid, "U¿yj /gotocar [carid]");
+			sendTipDialogMessage(playerid, "U¿yj /gotocar [carid]");
 			return 1;
 		}
 
@@ -25248,7 +25212,7 @@ CMD:tp(playerid, params[])
         new plo, plo1;
 		if( sscanf(params, "k<fix>k<fix>", plo1, plo))
 		{
-			sendTipMessage(playerid, "U¿yj /tp [playerid/CzêœæNicku] [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /tp [playerid/CzêœæNicku] [playerid/CzêœæNicku]");
 			return 1;
 		}
 		new Float:plocx,Float:plocy,Float:plocz;
@@ -25330,7 +25294,7 @@ CMD:tp(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "%d lub %d nie jest aktywnym graczem.", plo, plo1);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -25346,7 +25310,7 @@ CMD:goto(playerid, params[])
 		new plo;
 		if( sscanf(params, "k<fix>", plo))
 		{
-			sendTipMessage(playerid, "U¿yj /goto [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /goto [playerid/CzêœæNicku]");
 			return 1;
 		}
 		new Float:plocx,Float:plocy,Float:plocz;
@@ -25423,7 +25387,7 @@ CMD:goto(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "%d nie jest aktywnym graczem.", plo);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -25438,7 +25402,7 @@ CMD:gotoint(playerid, params[])
 		new plo;
 		if( sscanf(params, "d", plo))
 		{
-			sendTipMessage(playerid, "U¿yj /gototint [nr inta]");
+			sendTipDialogMessage(playerid, "U¿yj /gototint [nr inta]");
 			return 1;
 		}
 
@@ -25481,7 +25445,7 @@ CMD:gethere(playerid, params[])
 		new plo;
 		if( sscanf(params, "k<fix>", plo))
 		{
-			sendTipMessage(playerid, "U¿yj /gethere [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /gethere [playerid/CzêœæNicku]");
 			return 1;
 		}
 		new Float:plocx,Float:plocy,Float:plocz;
@@ -25539,7 +25503,7 @@ CMD:gethere(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "%d nie jest aktywnym graczem.", plo);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -25552,7 +25516,7 @@ CMD:getcar(playerid, params[])
 		new plo;
 		if( sscanf(params, "d", plo))
 		{
-			sendTipMessage(playerid, "U¿yj /getcar [carid]");
+			sendTipDialogMessage(playerid, "U¿yj /getcar [carid]");
 			return 1;
 		}
 		new Float:plocx,Float:plocy,Float:plocz;
@@ -25688,7 +25652,7 @@ CMD:givegun(playerid, params[])
 		new playa, gun, ammo;
 		if( sscanf(params, "k<fix>dd", playa, gun, ammo))
 		{
-			sendTipMessage(playerid, "U¿yj /givegun [ID gracza] [Broñ] [Amunicja]");
+			sendTipDialogMessage(playerid, "U¿yj /givegun [ID gracza] [Broñ] [Amunicja]");
 			SendClientMessage(playerid, COLOR_GRAD4, "3(Club) 4(knife) 5(bat) 6(Shovel) 7(Cue) 8(Katana) 10-13(Dildo) 14(Flowers) 15(Grenades) 16(Tear) 17(Molotovs) 22(Pistol) 23(SPistol)");
 			SendClientMessage(playerid, COLOR_GRAD3, "24(Eagle) 25(shotgun) 29(MP5) 30(AK47) 31(M4) 33(Rifle) 34(Sniper) 37(Flamethrower) 41(spray) 42(exting) 43(Camera) 46(Parachute)");
 			return 1;
@@ -25827,7 +25791,7 @@ CMD:zmienhp(playerid, params[])
 		new playa, health;
 		if( sscanf(params, "k<fix>d", playa, health))
 		{
-			sendTipMessage(playerid, "U¿yj /sethp [playerid/CzêœæNicku] [health]");
+			sendTipDialogMessage(playerid, "U¿yj /sethp [playerid/CzêœæNicku] [health]");
 			return 1;
 		}
 
@@ -25867,7 +25831,7 @@ CMD:setarmor(playerid, params[])
 		new playa, health;
 		if( sscanf(params, "k<fix>d", playa, health))
 		{
-			sendTipMessage(playerid, "U¿yj /setarmor [playerid/CzêœæNicku] [armor]");
+			sendTipDialogMessage(playerid, "U¿yj /setarmor [playerid/CzêœæNicku] [armor]");
 			return 1;
 		}
 
@@ -25908,7 +25872,7 @@ CMD:veh(playerid, params[])
 		new car, color1, color2;
 		if( sscanf(params, "ddd", car, color1, color2))
 		{
-			sendTipMessage(playerid, "U¿yj /veh [car] [color1] [color2]");
+			sendTipDialogMessage(playerid, "U¿yj /veh [car] [color1] [color2]");
 			return 1;
 		}
 
@@ -25985,7 +25949,7 @@ CMD:pogoda(playerid, params[])
 		new weather;
 		if( sscanf(params, "d", weather))
 		{
-		    sendTipMessage(playerid, "U¿yj /pogoda [pogodaid]");
+		    sendTipDialogMessage(playerid, "U¿yj /pogoda [pogodaid]");
 		    return 1;
 		}
 
@@ -26008,7 +25972,7 @@ CMD:pogodaall(playerid, params[])
 			new weather;
 			if( sscanf(params, "d", weather))
 			{
-			    sendTipMessage(playerid, "U¿yj: /pogodaall [pogodaid]");
+			    sendTipDialogMessage(playerid, "U¿yj: /pogodaall [pogodaid]");
 			    return 1;
 			}
 
@@ -26039,7 +26003,7 @@ CMD:kasa(playerid, params[])
 		new playa, money;
 		if( sscanf(params, "k<fix>d", playa, money))
 		{
-			sendTipMessage(playerid, "U¿yj /kasa [playerid/CzêœæNicku] [money]");
+			sendTipDialogMessage(playerid, "U¿yj /kasa [playerid/CzêœæNicku] [money]");
 			return 1;
 		}
 
@@ -26077,7 +26041,7 @@ CMD:dajkase(playerid, params[])
 		new playa, money;
 		if( sscanf(params, "k<fix>d", playa, money))
 		{
-			sendTipMessage(playerid, "U¿yj /dajkase [playerid/CzêœæNicku] [kasa]");
+			sendTipDialogMessage(playerid, "U¿yj /dajkase [playerid/CzêœæNicku] [kasa]");
 			return 1;
 		}
 
@@ -26114,7 +26078,7 @@ CMD:carslot(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /carslot [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /carslot [playerid/CzêœæNicku]");
 			return 1;
 		}
 		if (PlayerInfo[playerid][pAdmin] >=1000)
@@ -26150,7 +26114,7 @@ CMD:slap(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /slap [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /slap [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -26203,7 +26167,7 @@ CMD:ucisz(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /ucisz [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /ucisz [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -26258,7 +26222,7 @@ CMD:kick(playerid, params[])
     	new giveplayerid, result[128];
 		if( sscanf(params, "k<fix>s[128]", giveplayerid, result))
 		{
-			sendTipMessage(playerid, "U¿yj /kick [playerid/CzêœæNicku] [reason]");
+			sendTipDialogMessage(playerid, "U¿yj /kick [playerid/CzêœæNicku] [reason]");
 			return 1;
 		}
 		if(giveplayerid == 65535)
@@ -26315,7 +26279,7 @@ CMD:kick(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "Gracz o ID %d nie istnieje.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -26332,7 +26296,7 @@ CMD:warn(playerid, params[])
     	new giveplayerid, result[128];
 		if( sscanf(params, "k<fix>s[128]", giveplayerid, result))
 		{
-			sendTipMessage(playerid, "U¿yj /warn [playerid/CzêœæNicku] [reason]");
+			sendTipDialogMessage(playerid, "U¿yj /warn [playerid/CzêœæNicku] [reason]");
 			return 1;
 		}
 		if(giveplayerid == 65535)
@@ -26407,7 +26371,7 @@ CMD:warn(playerid, params[])
             else
             {
                 format(string, sizeof(string), "Gracz o ID %d nie jest po³aczony.", giveplayerid);
-			    sendErrorMessage(playerid, string);
+			    sendErrorDialogMessage(playerid, string);
             }
 		}
         else {
@@ -26434,7 +26398,7 @@ CMD:unwarn(playerid, params[])
     	new giveplayerid, result[64];
 		if( sscanf(params, "k<fix>s[64]", giveplayerid, result))
 		{
-			sendTipMessage(playerid, "U¿yj /unwarn [playerid/CzêœæNicku] [reason]");
+			sendTipDialogMessage(playerid, "U¿yj /unwarn [playerid/CzêœæNicku] [reason]");
 			return 1;
 		}
 
@@ -26462,7 +26426,7 @@ CMD:unwarn(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "Gracz o ID %d nie istnieje.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -26479,7 +26443,7 @@ CMD:skick(playerid, params[])
     	new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /skick [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /skick [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -26513,7 +26477,7 @@ CMD:skick(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "   Gracz o ID %d nie istnieje.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -26530,7 +26494,7 @@ CMD:sban(playerid, params[])
     	new giveplayerid, result[128];
 		if( sscanf(params, "k<fix>s[128]", giveplayerid, result))
 		{
-			sendTipMessage(playerid, "U¿yj /sban [playerid/CzêœæNicku] [reason]");
+			sendTipDialogMessage(playerid, "U¿yj /sban [playerid/CzêœæNicku] [reason]");
 			return 1;
 		}
 
@@ -26564,7 +26528,7 @@ CMD:sban(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "   Gracz o ID %d nie istnieje.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -26581,7 +26545,7 @@ CMD:ban(playerid, params[])
     	new giveplayerid, result[128];
 		if( sscanf(params, "k<fix>s[128]", giveplayerid, result))
 		{
-			sendTipMessage(playerid, "U¿yj /ban [playerid/CzêœæNicku] [powód]");
+			sendTipDialogMessage(playerid, "U¿yj /ban [playerid/CzêœæNicku] [powód]");
 			return 1;
 		}
 		
@@ -26691,7 +26655,7 @@ CMD:ban(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "   Gracz o ID %d nie istnieje.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -26709,7 +26673,7 @@ CMD:zamroz(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /freeze [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /freeze [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -26751,7 +26715,7 @@ CMD:odmroz(playerid, params[])
 		new playa;
 		if( sscanf(params, "k<fix>", playa))
 		{
-			sendTipMessage(playerid, "U¿yj /unfreeze [playerid]");
+			sendTipDialogMessage(playerid, "U¿yj /unfreeze [playerid]");
 			return 1;
 		}
 
@@ -27386,7 +27350,7 @@ CMD:dl(playerid, params[])
 								}
 								else
 								{
-								    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+								    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 								    return 1;
 								}
 							}
@@ -27438,7 +27402,7 @@ CMD:dl(playerid, params[])
 							}
 							else
 							{
-							    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+							    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 							    return 1;
 							}
 	                    }
@@ -27485,7 +27449,7 @@ CMD:dl(playerid, params[])
 							}
 							else
 							{
-							    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+							    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 							    return 1;
 							}
 						}
@@ -27530,7 +27494,7 @@ CMD:dl(playerid, params[])
 						}
 						else
 						{
-						    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+						    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 						    return 1;
 						}
 					}
@@ -27572,7 +27536,7 @@ CMD:dl(playerid, params[])
 							}
 							else
 							{
-							    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+							    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 							    return 1;
 							}
 						}
@@ -27600,7 +27564,7 @@ CMD:dl(playerid, params[])
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ insturktorem !");
+            sendErrorDialogMessage(playerid, "Nie jesteœ insturktorem !");
             return 1;
         }
     }
@@ -27624,7 +27588,7 @@ CMD:startujlekcje(playerid, params[])
             new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-			    sendTipMessage(playerid, "U¿yj /startlekcja [playerid/CzêœæNicku]");
+			    sendTipDialogMessage(playerid, "U¿yj /startlekcja [playerid/CzêœæNicku]");
 			    return 1;
 			}
 
@@ -27667,7 +27631,7 @@ CMD:startujlekcje(playerid, params[])
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ urzêdnikiem !");
+            sendErrorDialogMessage(playerid, "Nie jesteœ urzêdnikiem !");
             return 1;
         }
     }
@@ -27691,7 +27655,7 @@ CMD:zatrzymajlekcje(playerid, params[])
             new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-			    sendTipMessage(playerid, "U¿yj /stoplekcja [playerid/CzêœæNicku]");
+			    sendTipDialogMessage(playerid, "U¿yj /stoplekcja [playerid/CzêœæNicku]");
 			    return 1;
 			}
 
@@ -27716,13 +27680,13 @@ CMD:zatrzymajlekcje(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ instruktorem !");
+            sendErrorDialogMessage(playerid, "Nie jesteœ instruktorem !");
             return 1;
         }
     }
@@ -27742,7 +27706,7 @@ CMD:zaliczegz(playerid, params[])
             new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-			    sendTipMessage(playerid, "U¿yj /zaliczegz [playerid/CzêœæNicku]");
+			    sendTipDialogMessage(playerid, "U¿yj /zaliczegz [playerid/CzêœæNicku]");
 			    return 1;
 			}
 
@@ -27767,13 +27731,13 @@ CMD:zaliczegz(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ urzêdnikiem !");
+            sendErrorDialogMessage(playerid, "Nie jesteœ urzêdnikiem !");
             return 1;
         }
     }
@@ -27819,7 +27783,7 @@ CMD:pr(playerid, params[])
     {
         if(GetPlayerOrg(playerid) == 0)
         {
-            sendErrorMessage(playerid, "Nie jestes w rodzinie !");
+            sendErrorDialogMessage(playerid, "Nie jestes w rodzinie !");
             return 1;
         }
         new org = gPlayerOrg[playerid];
@@ -27829,7 +27793,7 @@ CMD:pr(playerid, params[])
 
 			if( sscanf(params, "s[16]{s}",x_nr))
 			{
-				sendTipMessage(playerid, "U¯YJ: /PR(/PanelRodzinny) [nazwa]");
+				sendTipDialogMessage(playerid, "U¿yj: /PR(/PanelRodzinny) [nazwa]");
 				sendTipMessage(playerid, "Dostêpne nazwy: Nazwa, MOTD, Spawn, Przyjmij, Zwolnij, Ranga, Kolor");
 				return 1;
 			}
@@ -27838,7 +27802,7 @@ CMD:pr(playerid, params[])
                 new name[32];
 			    if( sscanf(params, "{s[16]}s[32]",name))
 				{
-					sendTipMessage(playerid, "U¿yj /pr nazwa [Nazwa Rodziny]");
+					sendTipDialogMessage(playerid, "U¿yj /pr nazwa [Nazwa Rodziny]");
 					return 1;
 				}
                 mysql_real_escape_string(name, name);
@@ -27849,7 +27813,7 @@ CMD:pr(playerid, params[])
                 new lStr[128];
 			    if( sscanf(params, "{s[16]}s[128]",lStr))
 				{
-					sendTipMessage(playerid, "U¿yj /pr MOTD [Tekst MOTD Rodziny]");
+					sendTipDialogMessage(playerid, "U¿yj /pr MOTD [Tekst MOTD Rodziny]");
 					return 1;
 				}
                 mysql_real_escape_string(lStr, lStr);
@@ -27860,7 +27824,7 @@ CMD:pr(playerid, params[])
 			    new hexa;
 			    if( sscanf(params, "{s[16]}h",hexa))
 				{
-					sendTipMessage(playerid, "U¿yj /pr kolor [Rodzinny Kolor Próbka: AABBCC]");
+					sendTipDialogMessage(playerid, "U¿yj /pr kolor [Rodzinny Kolor Próbka: AABBCC]");
 					return 1;
 				}
 				if(hexa <= 0x0 || hexa >= 0xFFFFFF)
@@ -27882,7 +27846,7 @@ CMD:pr(playerid, params[])
 				new giveplayerid;
 			    if( sscanf(params, "{s[16]}k<fix>",giveplayerid))
 				{
-				    sendTipMessage(playerid, "U¿yj /pr przyjmij [playerid/CzêœæNicku]");
+				    sendTipDialogMessage(playerid, "U¿yj /pr przyjmij [playerid/CzêœæNicku]");
 				    return 1;
 				}
 
@@ -27908,7 +27872,7 @@ CMD:pr(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -27918,7 +27882,7 @@ CMD:pr(playerid, params[])
 				new giveplayerid;
 			    if( sscanf(params, "{s[16]}k<fix>",giveplayerid))
 				{
-				    sendTipMessage(playerid, "U¿yj /pr zwolnij [playerid/CzêœæNicku]");
+				    sendTipDialogMessage(playerid, "U¿yj /pr zwolnij [playerid/CzêœæNicku]");
 				    return 1;
 				}
 
@@ -27942,7 +27906,7 @@ CMD:pr(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -27952,7 +27916,7 @@ CMD:pr(playerid, params[])
 				new giveplayerid, rank;
 			    if( sscanf(params, "{s[16]}k<fix>d",giveplayerid, rank))
 				{
-				    sendTipMessage(playerid, "U¿yj /pr ranga [playerid/CzêœæNicku] [Numer]");
+				    sendTipDialogMessage(playerid, "U¿yj /pr ranga [playerid/CzêœæNicku] [Numer]");
 				    return 1;
 				}
 
@@ -27992,7 +27956,7 @@ CMD:pr(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, " Nie jesteœ liderem rodziny!");
+		    sendErrorDialogMessage(playerid, " Nie jesteœ liderem rodziny!");
 		    return 1;
 		}
     }
@@ -28015,7 +27979,7 @@ CMD:rozwod(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /rozwod [id/nick]");
+			sendTipDialogMessage(playerid, "U¿yj /rozwod [id/nick]");
 			return 1;
 		}
 
@@ -28058,7 +28022,7 @@ CMD:rozwod(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "   Nie ma takiego gracza !");
+		    sendErrorDialogMessage(playerid, "   Nie ma takiego gracza !");
 		    return 1;
 		}
 	}
@@ -28086,7 +28050,7 @@ CMD:slub(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /slub [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /slub [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -28119,7 +28083,7 @@ CMD:slub(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+		    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 		    return 1;
 		}
     }
@@ -28138,7 +28102,7 @@ CMD:swiadek(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /swiadek [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /swiadek [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -28166,7 +28130,7 @@ CMD:swiadek(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+		    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 		    return 1;
 		}
     }
@@ -28240,7 +28204,7 @@ CMD:irc(playerid, params[])
 
 			    if(!strlen(password))
 				{
-				    sendTipMessage(playerid, "U¿yj /irc password [nrkana³u] [has³o]");
+				    sendTipDialogMessage(playerid, "U¿yj /irc password [nrkana³u] [has³o]");
 				    return 1;
 				}
 				strmid(IRCInfo[channel][iPassword], password, 0, strlen(password));
@@ -28325,7 +28289,7 @@ CMD:irc(playerid, params[])
 			{
 				if(!strlen(password))
 				{
-					sendTipMessage(playerid, "U¿yj /irc motd [motdtext]");
+					sendTipDialogMessage(playerid, "U¿yj /irc motd [motdtext]");
 					return 1;
 				}
 				strmid(IRCInfo[channel][iMOTD], password, 0, strlen(password));
@@ -28381,7 +28345,7 @@ CMD:irc(playerid, params[])
 
 			    if(!strlen(password))
 				{
-				    sendTipMessage(playerid, "U¿yj /irc kick [playerid/CzêœæNicku]");
+				    sendTipDialogMessage(playerid, "U¿yj /irc kick [playerid/CzêœæNicku]");
 				    return 1;
 				}
 
@@ -28414,7 +28378,7 @@ CMD:irc(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
             }
@@ -28453,7 +28417,7 @@ CMD:i(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj /i [irc chat]");
+			sendTipDialogMessage(playerid, "U¿yj /i [irc chat]");
 			return 1;
 		}
 		format(string, sizeof(string), "** IRC %s: %s. **", sendername, params);
@@ -28484,7 +28448,7 @@ CMD:podatek(playerid, params[])
         new moneys;
         if( sscanf(params, "d", moneys))
 		{
-			sendTipMessage(playerid, "U¿yj /podatek [iloœæ]");
+			sendTipDialogMessage(playerid, "U¿yj /podatek [iloœæ]");
 			return 1;
 		}
 
@@ -28572,7 +28536,7 @@ CMD:stanowe(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /stanowe [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /stanowe [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -28644,13 +28608,13 @@ CMD:stanowe(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "   Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "   Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie jesteœ policjantem/nie masz 1 rangi !");
+		    sendErrorDialogMessage(playerid, "Nie jesteœ policjantem/nie masz 1 rangi !");
             return 1;
 		}
 	}
@@ -29070,7 +29034,7 @@ CMD:zabierz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -29101,7 +29065,7 @@ CMD:zabierz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -29132,7 +29096,7 @@ CMD:zabierz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -29163,7 +29127,7 @@ CMD:zabierz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -29195,7 +29159,7 @@ CMD:zabierz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -29226,7 +29190,7 @@ CMD:zabierz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -29257,7 +29221,7 @@ CMD:zabierz(playerid, params[])
 				}
 				else
 				{
-				    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				    return 1;
 				}
 			}
@@ -29269,7 +29233,7 @@ CMD:zabierz(playerid, params[])
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ policjantem !");
+            sendErrorDialogMessage(playerid, "Nie jesteœ policjantem !");
             return 1;
         }
     }
@@ -29518,7 +29482,7 @@ CMD:ustawmistrz(playerid, params[])
             new  giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /ustawmistrz [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /ustawmistrz [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -29639,7 +29603,7 @@ CMD:boks(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /walcz [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /walcz [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -29667,7 +29631,7 @@ CMD:boks(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+		    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 		    return 1;
 		}
     }
@@ -29697,7 +29661,7 @@ CMD:glosnik(playerid)
 {
     if(PlayerInfo[playerid][pMember] == 9 && PlayerInfo[playerid][pRank] >= 2 ||PlayerInfo[playerid][pLider] == 9 || GetPlayerOrg(playerid) == 19 && IsPlayerInRangeOfPoint(playerid, 75.0 , 578.6193,-2195.7708,1.6288) && PlayerInfo[playerid][pRank] >= 3)
     {
-        if(SanDuty[playerid] == 0) return sendErrorMessage(playerid, "Musisz byæ na s³u¿bie San News");
+        if(SanDuty[playerid] == 0) return sendErrorDialogMessage(playerid, "Musisz byæ na s³u¿bie San News");
 		if(SANradio == 0)
 		{
             new bool:inpos=true;
@@ -29732,7 +29696,7 @@ CMD:glosnik(playerid)
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie jesteœ z SAN News!");
+	    sendErrorDialogMessage(playerid, "Nie jesteœ z SAN News!");
 	    return 1;
 	}
     return 1;
@@ -29752,7 +29716,7 @@ CMD:radiostacja(playerid)
             sendTipMessage(playerid, "Od teraz mo¿esz ustawiaæ radiostacjê w dowolnym miejscu!");
             ShowPlayerDialogEx(playerid, 667, DIALOG_STYLE_LIST, "Wybierz nag³oœniê", "R SAN 01\nR LSRS", "Wybierz", "Anuluj");
         }
-        else return sendErrorMessage(playerid, "Nie nale¿ysz do SN!");
+        else return sendErrorDialogMessage(playerid, "Nie nale¿ysz do SN!");
 	/*}
 	else
 	{
@@ -29925,7 +29889,7 @@ CMD:zwiaz(playerid, params[])
 		    new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /zwiaz [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /zwiaz [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -29972,7 +29936,7 @@ CMD:zwiaz(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
@@ -30004,7 +29968,7 @@ CMD:rozwiaz(playerid, params[])
 		    new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /odwiaz [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /odwiaz [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -30043,7 +30007,7 @@ CMD:rozwiaz(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
@@ -30141,7 +30105,7 @@ CMD:kurs(playerid, params[])
 				{
 					if( sscanf(params, "d", moneys))
 					{
-						sendTipMessage(playerid, "U¿yj /fare [cena]");
+						sendTipDialogMessage(playerid, "U¿yj /fare [cena]");
 						return 1;
 					}
 					if(PlayerInfo[playerid][pCarSkill] >= 51 && PlayerInfo[playerid][pCarSkill] <= 101)
@@ -30208,7 +30172,7 @@ CMD:kurs(playerid, params[])
 	}
 	else
 	{
-		sendErrorMessage(playerid,"Nie jesteœ taksówkarzem / busiarzem !");
+		sendErrorDialogMessage(playerid,"Nie jesteœ taksówkarzem / busiarzem !");
 		return 1;
 	}
 	return 1;
@@ -30231,7 +30195,7 @@ CMD:zjedz(playerid, params[])
         new cookid;
 		if( sscanf(params, "d", cookid))
 		{
-			sendTipMessage(playerid, "U¿yj /jedz [numer potrawy]");
+			sendTipDialogMessage(playerid, "U¿yj /jedz [numer potrawy]");
 			return 1;
 		}
 
@@ -30343,7 +30307,7 @@ CMD:ugotuj(playerid, params[])
             new x_nr[16];
 			if( sscanf(params, "s[16]", x_nr))
 			{
-				sendTipMessage(playerid, "U¿yj /gotuj [nazwa]");
+				sendTipDialogMessage(playerid, "U¿yj /gotuj [nazwa]");
 				sendTipMessage(playerid, "Dostêpne nazwy: OstatniaRyba, Ryba.");
 				return 1;
 			}
@@ -30426,7 +30390,7 @@ CMD:ugotuj(playerid, params[])
 
 				if( sscanf(params, "{s[16]}d", x_nr, fishid))
 				{
-					sendTipMessage(playerid, "U¿yj /gotuj ryba [id]");
+					sendTipDialogMessage(playerid, "U¿yj /gotuj ryba [id]");
 					return 1;
 				}
 
@@ -30923,7 +30887,7 @@ CMD:ugotuj(playerid, params[])
         }
         else
         {
-            sendErrorMessage(playerid, "Nie jesteœ w miejscu przeznaczonym do gotowania (Cluckin Bell / Burger Shot / Pizzeria).");
+            sendErrorDialogMessage(playerid, "Nie jesteœ w miejscu przeznaczonym do gotowania (Cluckin Bell / Burger Shot / Pizzeria).");
             return 1;
         }
     }
@@ -31416,7 +31380,7 @@ CMD:apl(playerid, params[])
         new giveplayerid;
         if( sscanf(params, "k<fix>", giveplayerid))
         {
-            sendTipMessage(playerid, "U¿yj /apl [playerid/CzêœæNicku]");
+            sendTipDialogMessage(playerid, "U¿yj /apl [playerid/CzêœæNicku]");
             return 1;
         }
 
@@ -31468,7 +31432,7 @@ CMD:pl(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /pl(pokazlicencje) [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /pl(pokazlicencje) [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -31517,7 +31481,7 @@ CMD:pl(playerid, params[])
 		}
         else
         {
-            sendErrorMessage(playerid, "Nie ma takiego gracza !");
+            sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
             return 1;
         }
 	}
@@ -31539,7 +31503,7 @@ CMD:zobp(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /zobp(pokazlicencje) [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /zobp(pokazlicencje) [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -31568,7 +31532,7 @@ CMD:zobp(playerid, params[])
 		}
         else
         {
-            sendErrorMessage(playerid, "Nie ma takiego gracza !");
+            sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
             return 1;
         }
 	}
@@ -31588,7 +31552,7 @@ CMD:przeszukaj(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /przeszukaj [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /przeszukaj [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -31642,7 +31606,7 @@ CMD:przeszukaj(playerid, params[])
 		}
         else
         {
-            sendErrorMessage(playerid, "Nie ma takiego gracza !");
+            sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
             return 1;
         }
 	}
@@ -31664,7 +31628,7 @@ CMD:sb(playerid, params[])
         new giveplayerid;
 		if( sscanf(params, "k<fix>", giveplayerid))
 		{
-			sendTipMessage(playerid, "U¿yj /szukajbroni(/sb) [playerid/CzêœæNicku]");
+			sendTipDialogMessage(playerid, "U¿yj /szukajbroni(/sb) [playerid/CzêœæNicku]");
 			return 1;
 		}
 
@@ -31791,7 +31755,7 @@ CMD:sb(playerid, params[])
 		}
         else
         {
-            sendErrorMessage(playerid, "Nie ma takiego gracza !");
+            sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
             return 1;
         }
 	}
@@ -31856,7 +31820,7 @@ CMD:materialy(playerid, params[])
 		new moneys=0;
 		if( sscanf(params, "s[16]D(10)", x_nr, moneys))
 		{
-			sendTipMessage(playerid, "U¿yj /mats [nazwa]");
+			sendTipDialogMessage(playerid, "U¿yj /mats [nazwa]");
 			sendTipMessage(playerid, "Dostêpne nazwy: Wez, Dostarcz.");
 			return 1;
 		}
@@ -31872,7 +31836,7 @@ CMD:materialy(playerid, params[])
 
 		        if(moneys == 0)
 				{
-					sendTipMessage(playerid, "U¿yj /mats get [ammount]");
+					sendTipDialogMessage(playerid, "U¿yj /mats get [ammount]");
 					return 1;
 				}
 
@@ -32030,7 +31994,8 @@ CMD:sprzedajbron(playerid, params[])
             new giveplayerid;
             if( sscanf(params, "k<fix>s[16]", giveplayerid, x_weapon))
             {
-                SendClientMessage(playerid, COLOR_GRAD1, "U¿yj: /sprzedajbron [ID gracza] [nazwa broni]");
+                //SendClientMessage(playerid, COLOR_GRAD1, "U¿yj: /sprzedajbron [ID gracza] [nazwa broni]");
+                sendTipDialogMessage(playerid, "U¿yj: /sprzedajbron [playerid/czêœæ nicku] [nazwa broni]");
                 SendClientMessage(playerid, COLOR_GREY, "----[DILER BRONI - GANG]----");
                 SendClientMessage(playerid, COLOR_GREY, "Bronie 1 Skill: pistolety(150)");
                 SendClientMessage(playerid, COLOR_GREY, "Bronie 2 Skill: sdpistol(250) eagle(400)");
@@ -32627,7 +32592,7 @@ CMD:wez(playerid, params[])
 		{
 			if(ammount == 0)
 			{
-				sendTipMessage(playerid, "U¿yj /wez dragi [ilosc]");
+				sendTipDialogMessage(playerid, "U¿yj /wez dragi [ilosc]");
 			}
 	        if(PlayerInfo[playerid][pDrugs] > 15)
 	        {
@@ -32981,7 +32946,7 @@ CMD:wywaldmv(playerid, params[])
             new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /wywalzdmv [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /wywalzdmv [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -33024,7 +32989,7 @@ CMD:wywaldmv(playerid, params[])
 	    }
 	    else
 	    {
-	        sendErrorMessage(playerid, "Nie jesteœ z BOR !");
+	        sendErrorDialogMessage(playerid, "Nie jesteœ z BOR !");
 	    }
 	}
 	return 1;
@@ -33040,7 +33005,7 @@ CMD:tazer(playerid, params[])
 		{
     		if((GetPlayerWeapon(playerid) == 23 || GetPlayerWeapon(playerid) == 24) && MaTazer[playerid] == 0)
 			{
-                if(GetPVarInt(playerid, "wytazerowany") > 0) return sendErrorMessage(playerid, "Tazer mo¿esz u¿yæ 15s po u¿yciu!");
+                if(GetPVarInt(playerid, "wytazerowany") > 0) return sendErrorDialogMessage(playerid, "Tazer mo¿esz u¿yæ 15s po u¿yciu!");
  				MaTazer[playerid] = 1;
  				//PlayerInfo[playerid][pGun2] = 23;
 				//GivePlayerWeapon(playerid, 23, PlayerInfo[playerid][pAmmo2]);
@@ -33176,7 +33141,7 @@ CMD:zakuj(playerid, params[])
 		    new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /skuj [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /skuj [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -33228,7 +33193,7 @@ CMD:zakuj(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
@@ -33255,7 +33220,7 @@ CMD:rozkuj(playerid, params[])
 		    new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /odkuj [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /odkuj [playerid/CzêœæNicku]");
 				return 1;
 			}
 			if(IsPlayerConnected(giveplayerid))
@@ -33299,7 +33264,7 @@ CMD:rozkuj(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 			    return 1;
 			}
 		}
@@ -33328,7 +33293,7 @@ CMD:ochrona(playerid, params[])
 	new giveplayerid, money;
 	if( sscanf(params, "k<fix>d", giveplayerid, money))
 	{
-		sendTipMessage(playerid, "U¿yj /ochrona [playerid/CzêœæNicku] [cena]");
+		sendTipDialogMessage(playerid, "U¿yj /ochrona [playerid/CzêœæNicku] [cena]");
 		return 1;
 	}
 
@@ -33341,12 +33306,12 @@ CMD:ochrona(playerid, params[])
 			{
                 if(gettime() < GetPVarInt(playerid, "armoryTimeLimit"))
                 {
-                    return sendErrorMessage(playerid, "Kamizelki oferowaæ mo¿esz co 45 sekundy");
+                    return sendErrorDialogMessage(playerid, "Kamizelki oferowaæ mo¿esz co 45 sekundy");
                 }
 			    if(giveplayerid == playerid)
 			    {
 			        if(gettime() < GetPVarInt(playerid, "selfArmorLimit")) {
-                        return sendErrorMessage(playerid, "Mo¿esz oferowaæ kamizelke samemu sobie co 15 minut");
+                        return sendErrorDialogMessage(playerid, "Mo¿esz oferowaæ kamizelke samemu sobie co 15 minut");
                     }
                     SetPVarInt(playerid, "selfArmorLimit", gettime() + 900);
                     SetPlayerArmour(playerid, 90);
@@ -33373,7 +33338,7 @@ CMD:ochrona(playerid, params[])
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie ma takiego gracza!");
+	    sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 	}
 	return 1;
 }
@@ -33386,7 +33351,7 @@ CMD:placmedyk(playerid, params[])
 	new giveplayerid, money;
 	if( sscanf(params, "k<fix>d", giveplayerid, money))
 	{
-		sendTipMessage(playerid, "U¿yj /placmedyk [playerid/CzêœæNicku] [cena]");
+		sendTipDialogMessage(playerid, "U¿yj /placmedyk [playerid/CzêœæNicku] [cena]");
 		return 1;
 	}
 
@@ -33440,7 +33405,7 @@ CMD:placmedyk(playerid, params[])
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie ma takiego gracza!");
+	    sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 	}
 	return 1;
 }
@@ -33461,7 +33426,7 @@ CMD:wypusc(playerid, params[])
 	new giveplayerid;
 	if( sscanf(params, "k<fix>", giveplayerid))
 	{
-		sendTipMessage(playerid, "U¿yj /uwolnij [playerid/CzêœæNicku]");
+		sendTipDialogMessage(playerid, "U¿yj /uwolnij [playerid/CzêœæNicku]");
 		return 1;
 	}
 
@@ -33510,7 +33475,7 @@ CMD:wypusc(playerid, params[])
 	}
 	else
 	{
-	    sendErrorMessage(playerid, "Nie ma takiego gracza!");
+	    sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 	}//not connected
 	return 1;
 }
@@ -34565,7 +34530,7 @@ CMD:akceptuj(playerid, params[])
                     {
                         if(PlayerInfo[giveplayerid][pJob] == 2)
                         {
-                            if(kaska[playerid] < 20000) return sendErrorMessage(playerid, "Koszt wydania pozwolenia prawniczego to $10 000. Nie masz tyle!");
+                            if(kaska[playerid] < 20000) return sendErrorDialogMessage(playerid, "Koszt wydania pozwolenia prawniczego to $10 000. Nie masz tyle!");
                             GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
                             GetPlayerName(playerid, sendername, sizeof(sendername));
                             format(string, sizeof(string), "* Da³eœ zgodê %s na uwolnienie wiêŸnia z celi. Tracisz $10 000 z portfela", giveplayer);
@@ -35013,7 +34978,7 @@ CMD:tankowanie(playerid, params[])
 			new playa, money;
 			if( sscanf(params, "k<fix>d", playa, money))
 			{
-				sendTipMessage(playerid, "U¿yj /tankowanie [playerid/CzêœæNicku] [cena]");
+				sendTipDialogMessage(playerid, "U¿yj /tankowanie [playerid/CzêœæNicku] [cena]");
 				return 1;
 			}
 
@@ -35058,7 +35023,7 @@ CMD:tankowanie(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza.");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza.");
 			}
 		}
 		else
@@ -35085,7 +35050,7 @@ CMD:napraw(playerid, params[])
             new playa, money;
             if( sscanf(params, "k<fix>s[32]", playa, string))
             {
-                sendTipMessage(playerid, "U¿yj /napraw [playerid/CzêœæNicku] [cena]");
+                sendTipDialogMessage(playerid, "U¿yj /napraw [playerid/CzêœæNicku] [cena]");
                 return 1;
             }
             money = FunkcjaK(string);
@@ -35125,7 +35090,7 @@ CMD:napraw(playerid, params[])
                     }
                     else
                     {
-                        sendErrorMessage(playerid, "Ten gracz nie jest przy tobie / nie jest w wozie.");
+                        sendErrorDialogMessage(playerid, "Ten gracz nie jest przy tobie / nie jest w wozie.");
                     }
                 }
             }
@@ -35187,7 +35152,7 @@ CMD:rodzinny(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/f)amily [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/f)amily [tekst]");
 			return 1;
 		}
         if (GetPlayerOrg(playerid) != 0 || MozeMowicNaFamily(playerid) || PlayerInfo[playerid][pTajniak] >= 1)
@@ -35301,7 +35266,7 @@ CMD:fooc(playerid, params[])
 		GetPlayerName(playerid, sendername, sizeof(sendername));
 		if(isnull(params))
 		{
-			sendTipMessage(playerid, "U¿yj (/fo)oc [tekst]");
+			sendTipDialogMessage(playerid, "U¿yj (/fo)oc [tekst]");
 			return 1;
 		}
 		if (GetPlayerOrg(playerid) != 0 || MozeMowicNaFamily(playerid) || PlayerInfo[playerid][pTajniak] >= 1)
@@ -35440,7 +35405,7 @@ CMD:news(playerid, params[])
 				GetPlayerName(playerid, sendername, sizeof(sendername));
 				if(isnull(params))
 				{
-					sendTipMessage(playerid, "U¿yj /news [newstext]");
+					sendTipDialogMessage(playerid, "U¿yj /news [newstext]");
 					return 1;
 				}
 				if (strfind(params , "ip:" , true)>=0 ||strfind(params , "www." , true)>=0 || strfind(params , ".pl" , true)>=0 || strfind(params , ",pl" , true)>=0  || strfind(params , " ip" , true)>=0 || strfind(params , ":7" , true)>=0 || strfind(params , "795" , true)>=0 || strfind(params , ":3" , true)>=0 || strfind(params , ":4" , true)>=0 || strfind(params , ":5" , true)>=0 || strfind(params , ":6" , true)>=0 || strfind(params , ":8" , true)>=0)
@@ -35478,7 +35443,7 @@ CMD:news(playerid, params[])
             	GetPlayerName(playerid, sendername, sizeof(sendername));
 				if(isnull(params))
 				{
-					sendTipMessage(playerid, "U¿yj /news [newstext]");
+					sendTipDialogMessage(playerid, "U¿yj /news [newstext]");
 					return 1;
 				}
 				if (strfind(params , "ip:" , true)>=0 ||strfind(params , "www." , true)>=0 || strfind(params , ".pl" , true)>=0 || strfind(params , ",pl" , true)>=0  || strfind(params , " ip" , true)>=0 || strfind(params , ":7" , true)>=0 || strfind(params , "795" , true)>=0 || strfind(params , ":3" , true)>=0 || strfind(params , ":4" , true)>=0 || strfind(params , ":5" , true)>=0 || strfind(params , ":6" , true)>=0 || strfind(params , ":8" , true)>=0)
@@ -35562,7 +35527,7 @@ CMD:nazywo(playerid, params[])
 			new giveplayerid;
 			if( sscanf(params, "k<fix>", giveplayerid))
 			{
-				sendTipMessage(playerid, "U¿yj /wywiad [playerid/CzêœæNicku]");
+				sendTipDialogMessage(playerid, "U¿yj /wywiad [playerid/CzêœæNicku]");
 				return 1;
 			}
 
@@ -35584,7 +35549,7 @@ CMD:nazywo(playerid, params[])
 			}
 			else
 			{
-			    sendErrorMessage(playerid, "Nie ma takiego gracza!");
+			    sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 			    return 1;
 			}
 		}
@@ -35616,10 +35581,10 @@ CMD:sprzedajnarkotyki(playerid, params[])
 		new playa, needed, money;
 		if( sscanf(params, "k<fix>dd", playa, needed, money))
 		{
-			sendTipMessage(playerid, "U¿yj /sprzedajdragi [playerid/CzêœæNicku] [iloœæ] [cena]");
+			sendTipDialogMessage(playerid, "U¿yj /sprzedajdragi [playerid/CzêœæNicku] [iloœæ] [cena]");
 			return 1;
 		}
-        if(GetPVarInt(playerid, "wydragowany") > 0) return sendErrorMessage(playerid, "Dragi mo¿esz sprzedawaæ raz na minutê!");
+        if(GetPVarInt(playerid, "wydragowany") > 0) return sendErrorDialogMessage(playerid, "Dragi mo¿esz sprzedawaæ raz na minutê!");
 		if(needed < 1 || needed > 99) { SendClientMessage(playerid, COLOR_GREY, "   Iloœæ gram od 1 do 60!"); return 1; }
 		if(money < 1 || money > 9999) { SendClientMessage(playerid, COLOR_GREY, "   Cena od 1 do 9999!"); return 1; }
 		if(needed > PlayerInfo[playerid][pDrugs]) { SendClientMessage(playerid, COLOR_GREY, "   Nie masz a¿ tylu narkotyków przy sobie !"); return 1; }
@@ -35652,7 +35617,7 @@ CMD:sprzedajnarkotyki(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "   Nie ma takiego gracza.");
+		    sendErrorDialogMessage(playerid, "   Nie ma takiego gracza.");
 		}
 	}
 	return 1;
@@ -35788,7 +35753,7 @@ CMD:wywal(playerid, params[])
 			new playa;
 			if( sscanf(params, "k<fix>", playa))
 			{
-				sendTipMessage(playerid, "U¿yj /wywal [playerid/CzêœæNicku] (wywala z pojazdu)");
+				sendTipDialogMessage(playerid, "U¿yj /wywal [playerid/CzêœæNicku] (wywala z pojazdu)");
 				return 1;
 			}
 
@@ -35820,7 +35785,7 @@ CMD:wywal(playerid, params[])
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie ma takiego gracza!");
+				sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 			}
 		}
 		else
@@ -35850,10 +35815,10 @@ CMD:sex(playerid, params[])
 			new giveplayerid, money;
 			if( sscanf(params, "k<fix>d", giveplayerid, money))
 			{
-				sendTipMessage(playerid, "U¿yj /sex [playerid/CzêœæNicku] [cena]");
+				sendTipDialogMessage(playerid, "U¿yj /sex [playerid/CzêœæNicku] [cena]");
 				return 1;
 			}
-            if(GetPVarInt(playerid, "wysekszony") > 0) return sendErrorMessage(playerid, "Stosunek mo¿esz uprawiaæ raz na dwie minuty!");
+            if(GetPVarInt(playerid, "wysekszony") > 0) return sendErrorDialogMessage(playerid, "Stosunek mo¿esz uprawiaæ raz na dwie minuty!");
 			if(money < 1 || money > 9999) { sendTipMessageEx(playerid, COLOR_GREY, "Cena od 1$ do 9999$!"); return 1; }
 			if(IsPlayerConnected(giveplayerid))
 			{
@@ -35888,7 +35853,7 @@ CMD:sex(playerid, params[])
 			}
 			else
 			{
-				sendErrorMessage(playerid, "Nie ma takiego gracza !");
+				sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 				return 1;
 			}
 		}
@@ -36263,7 +36228,7 @@ CMD:ukradnij(playerid)
                 new id;
                 id = GetPlayerFraction(playerid);
                 if(id == 0) id = GetPlayerOrg(playerid)+100;
-                if(id == 0) return sendErrorMessage(playerid, "Wyst¹pi³ krytyczny b³¹d!");
+                if(id == 0) return sendErrorDialogMessage(playerid, "Wyst¹pi³ krytyczny b³¹d!");
     
     
                 if(UkradzionyPojazd[id] == 0)
@@ -36475,7 +36440,7 @@ CMD:wyczysc(playerid, params[])
 				new giveplayerid;
 				if( sscanf(params, "k<fix>",giveplayerid))
 				{
-					sendTipMessage(playerid, "U¿yj /oczysc [playerid/CzêœæNicku]");
+					sendTipDialogMessage(playerid, "U¿yj /oczysc [playerid/CzêœæNicku]");
 					return 1;
 				}
 
@@ -36510,7 +36475,7 @@ CMD:wyczysc(playerid, params[])
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Nie ma takiego gracza!");
+					sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
 				}
 			}
 			else
@@ -36546,7 +36511,7 @@ CMD:wywaz(playerid, params[])
     	new giveplayerid, dom;
 		if( sscanf(params, "k<fix>d", giveplayerid, dom))
 		{
-			sendTipMessage(playerid, "U¿yj /wywaz [playerid/CzêœæNicku] [ID domu]");
+			sendTipDialogMessage(playerid, "U¿yj /wywaz [playerid/CzêœæNicku] [ID domu]");
 			return 1;
 		}
 		if(IsPlayerConnected(giveplayerid))
@@ -36601,7 +36566,7 @@ CMD:wywaz(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+		    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 		    return 1;
 		}
 	}
@@ -36630,7 +36595,7 @@ CMD:mandacik(playerid, params[])
     	new giveplayerid, moneys, karne, result[128];
 		if( sscanf(params, "k<fix>dds[128]", giveplayerid, moneys, karne, result))
 		{
-			sendTipMessage(playerid, "U¿yj /mandat [playerid/CzêœæNicku] [Stawki dzienne] [Punkty karne] [Powód]");
+			sendTipDialogMessage(playerid, "U¿yj /mandat [playerid/CzêœæNicku] [Stawki dzienne] [Punkty karne] [Powód]");
 			return 1;
 		}
 
@@ -36681,7 +36646,7 @@ CMD:mandacik(playerid, params[])
 		}
 		else
 		{
-		    sendErrorMessage(playerid, "Nie ma takiego gracza !");
+		    sendErrorDialogMessage(playerid, "Nie ma takiego gracza !");
 		    return 1;
 		}
 	}
@@ -36716,7 +36681,7 @@ CMD:paka(playerid, params[])
 			     new moneys, time, bail, bailprice;
 			     if( sscanf(params, "dddd", moneys, time, bail, bailprice))
 			     {
-			     	sendTipMessage(playerid, "U¿yj /paka [grzywna] [czas (minuty)] [kaucja (0=nie 1=tak)] [kosz kaucji]");
+			     	sendTipDialogMessage(playerid, "U¿yj /paka [grzywna] [czas (minuty)] [kaucja (0=nie 1=tak)] [kosz kaucji]");
 			     	return 1;
 			     }
         
@@ -36828,7 +36793,7 @@ CMD:aresztuj(playerid, params[])
 		   	    new playa;
 				if( sscanf(params, "k<fix>", playa))
 				{
-					sendTipMessage(playerid, "U¿yj /aresztuj [playerid/CzêœæNicku]");
+					sendTipDialogMessage(playerid, "U¿yj /aresztuj [playerid/CzêœæNicku]");
 					return 1;
 				}
 
@@ -36921,7 +36886,7 @@ CMD:aresztuj(playerid, params[])
 				}
 				else
 				{
-					sendErrorMessage(playerid, "Nie ma takiego gracza.");
+					sendErrorDialogMessage(playerid, "Nie ma takiego gracza.");
 				}
 			}
 			else
@@ -36932,7 +36897,7 @@ CMD:aresztuj(playerid, params[])
 		}
 		else
 		{
-			sendErrorMessage(playerid, "Nie jesteœ z Policji.");
+			sendErrorDialogMessage(playerid, "Nie jesteœ z Policji.");
 		}
 	}
 	return 1;
@@ -36950,7 +36915,7 @@ CMD:kontrakt(playerid, params[])
 		new giveplayerid, moneys;
 		if( sscanf(params, "k<fix>d", giveplayerid, moneys))
 		{
-			sendTipMessage(playerid, "U¿yj /kontrakt [playerid/CzêœæNicku] [kwota]");
+			sendTipDialogMessage(playerid, "U¿yj /kontrakt [playerid/CzêœæNicku] [kwota]");
 			return 1;
 		}
 
@@ -37017,7 +36982,7 @@ CMD:kontrakt(playerid, params[])
 		else
 		{
 			format(string, sizeof(string), "   Gracz o ID %d nie istnieje.", giveplayerid);
-			sendErrorMessage(playerid, string);
+			sendErrorDialogMessage(playerid, string);
 		}
 	}
 	return 1;
@@ -37423,7 +37388,7 @@ CMD:lot(playerid, params[])
     	    if(PlayerInfo[playerid][pRank]>=4)
     	    {
                 new koszt;
-        		if(sscanf(sub, "d", koszt)) return sendTipMessage(playerid, "U¿yj /lot koszt [ilosc]");
+        		if(sscanf(sub, "d", koszt)) return sendTipDialogMessage(playerid, "U¿yj /lot koszt [ilosc]");
 
     		    if(koszt < 0 || koszt > 100000) { sendTipMessageEx(playerid, COLOR_GREY, "Cena biletu nie mo¿e byæ mniejsza od 0$ i nie wiêksza od 100.000$"); return 1; }
                 kosztbiletu = koszt;
@@ -37452,7 +37417,7 @@ CMD:lot(playerid, params[])
     		}
     		else
     		{
-    			sendErrorMessage(playerid, "Nie posiadasz 4 rangi !");
+    			sendErrorDialogMessage(playerid, "Nie posiadasz 4 rangi !");
     		}
     	}
         else if(strcmp(data,"drzwi",true) == 0)
@@ -37522,7 +37487,7 @@ CMD:lot(playerid, params[])
     		}
     	}
     }
-    else sendErrorMessage(playerid, "Nie jesteœ z Korporacji Transportowej !");
+    else sendErrorDialogMessage(playerid, "Nie jesteœ z Korporacji Transportowej !");
 	return 1;
 }
 
@@ -37576,7 +37541,7 @@ CMD:wyprowadz(playerid, params[])
 	if(PlayerInfo[playerid][pRank] >= 2 && GetPlayerOrg(playerid) == FAMILY_IBIZA) //RANGA
 	{
 		new id;
-		if(sscanf(params, "d", id)) return sendTipMessage(playerid, "U¿yj /wyprowadz [id]");
+		if(sscanf(params, "d", id)) return sendTipDialogMessage(playerid, "U¿yj /wyprowadz [id]");
 		if(!IsPlayerConnected(id)) return sendTipMessageEx(playerid, 0xB52E2BFF, "Tego gracza nie ma na serwerze");
 		if(GetPVarInt(playerid, "IbizaWejdz") != 1 || GetPVarInt(id, "IbizaWejdz") != 1) return sendTipMessageEx(playerid, 0xB52E2BFF, "Nie mo¿esz interweniowaæ poza klubem / podany gracz nie znajduje siê w klubue");
 		new Float:x, Float:y, Float:z;
@@ -37608,7 +37573,7 @@ CMD:ibizainfo(playerid, params[])
     {
         if(isnull(params))
         {
-            sendTipMessage(playerid, "U¿yj /ibizainfo [tekst]");
+            sendTipDialogMessage(playerid, "U¿yj /ibizainfo [tekst]");
             return 1;
         }
 
@@ -37639,8 +37604,8 @@ CMD:sprzedajbilet(playerid, params[])
 	if(GetPlayerOrg(playerid) == FAMILY_IBIZA) //RANGA
 	{
 		new id;
-		if(sscanf(params, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj /sprzedajbilet [id]");
-		if(!IsPlayerConnected(id) ) return sendErrorMessage(playerid, "Ten gracz nie jest zalogowanay");
+		if(sscanf(params, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj /sprzedajbilet [id]");
+		if(!IsPlayerConnected(id) ) return sendErrorDialogMessage(playerid, "Ten gracz nie jest zalogowanay");
 		new Float:x, Float:y, Float:z, tmp[128];
 		GetPlayerPos(id, x, y, z);
 		if(!IsPlayerInRangeOfPoint(playerid, 3.0, x, y, z)) return sendTipMessageEx(playerid, 0xB52E2BFF, "Ten gracz nie jest ko³o ciebie");
@@ -37659,7 +37624,7 @@ CMD:polej(playerid, params[])
 		if(!IsPlayerInRangeOfPoint(playerid, 50.0, 1904.3759,-2494.4448,13.6266) || GetPlayerVirtualWorld(playerid) != 1) return sendTipMessageEx(playerid, 0xB52E2BFF, "Jesteœ za daleko od baru klubu Ibiza");
 		new id, drink;
 		if(sscanf(params, "dd", id, drink)) return sendTipMessageEx(playerid, 0xB52E2BFF, "U¿yj /polej [id] [nr_drinka]");
-		if(!IsPlayerConnected(id)) return sendErrorMessage(playerid, "Ten gracz nie jest zalogowany");
+		if(!IsPlayerConnected(id)) return sendErrorDialogMessage(playerid, "Ten gracz nie jest zalogowany");
 		if(drink < 1 || drink > sizeof(IbizaDrinkiCeny) )  return sendTipMessageEx(playerid, 0xB52E2BFF, "Niepoprawne ID drinka, u¿yj: /cennik");
 		new Float:x, Float:y, Float:z, tmp[128];
 		GetPlayerPos(id, x, y, z);
@@ -37826,7 +37791,7 @@ CMD:removeganglimit(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] == 5000 || PlayerInfo[playerid][pNewAP] == 5) {
         new id;
-        if(sscanf(p, "d", id)) return sendTipMessage(playerid, "U¿yj /removeganglimit [ID frakcji]");
+        if(sscanf(p, "d", id)) return sendTipDialogMessage(playerid, "U¿yj /removeganglimit [ID frakcji]");
         ZoneGangLimit[id] = true;
         sendTipMessageEx(playerid, COLOR_GRAD2, "Removed");
     }
@@ -37837,7 +37802,7 @@ CMD:removezoneprotect(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] == 5000 || PlayerInfo[playerid][pNewAP] == 5) {
         new id;
-        if(sscanf(p, "d", id)) return sendTipMessage(playerid, "U¿yj /removezoneprotect [ID strefy]");
+        if(sscanf(p, "d", id)) return sendTipDialogMessage(playerid, "U¿yj /removezoneprotect [ID strefy]");
         ZoneProtect[id] = false;
         sendTipMessageEx(playerid, COLOR_GRAD2, "Removed");
     }
@@ -37848,7 +37813,7 @@ CMD:gangzone(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] == 5000 || PlayerInfo[playerid][pNewAP] == 5) {
         new id;
-        if(sscanf(p, "d", id)) return sendTipMessage(playerid, "U¿yj /gangzone [0/1]");
+        if(sscanf(p, "d", id)) return sendTipDialogMessage(playerid, "U¿yj /gangzone [0/1]");
         if(id < 0 || id > 1) return 1;
         ZONE_DISABLED = id;
         new str[64];
@@ -37866,7 +37831,7 @@ CMD:zonedelay(playerid, p[])
         new id;
         new str[64];
         if(sscanf(p, "d", id)) {
-            sendTipMessage(playerid, "U¿yj /zonedelay [Czas w sekundach]");
+            sendTipDialogMessage(playerid, "U¿yj /zonedelay [Czas w sekundach]");
             format(str,64,"Aktualnie: %d sek", ZONE_DEF_TIME);
             sendTipMessage(playerid, str);
         } 
@@ -37885,7 +37850,7 @@ CMD:clearzone(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] == 5000 || PlayerInfo[playerid][pNewAP] == 5) {
         new id;
-        if(sscanf(p, "d", id)) return sendTipMessage(playerid, "U¿yj /clearzone [ID]");
+        if(sscanf(p, "d", id)) return sendTipDialogMessage(playerid, "U¿yj /clearzone [ID]");
         if(id < 0) return sendTipMessageEx(playerid, COLOR_GRAD2, "Numer od 0");
         ZoneControl[id] = 0;
         ZoneProtect[id] = 0;
@@ -37906,7 +37871,7 @@ CMD:setzonecontrol(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] == 5000 || PlayerInfo[playerid][pNewAP] == 5) {
         new id, frac;
-        if(sscanf(p, "dd", id, frac)) return sendTipMessage(playerid, "U¿yj /setzonecontrol [ZoneID] [Owner]");
+        if(sscanf(p, "dd", id, frac)) return sendTipDialogMessage(playerid, "U¿yj /setzonecontrol [ZoneID] [Owner]");
         if(id < 0) return sendTipMessageEx(playerid, COLOR_GRAD2, "Numer od 0");
         ZoneControl[id] = frac;
         new str[128];
@@ -37958,7 +37923,7 @@ CMD:bw(playerid, params[])
 {
     if(PlayerInfo[playerid][pAdmin] <= 100) return 1;
     new id, time, string[64];
-    if(sscanf(params, "k<fix>d", id, time)) return sendTipMessage(playerid, "U¿yj: /bw [ID] [Czas]");
+    if(sscanf(params, "k<fix>d", id, time)) return sendTipDialogMessage(playerid, "U¿yj: /bw [ID] [czas]");
 
     PlayerInfo[id][pBW] = time;
     SetPlayerChatBubble(id, "**Ranny**", 0xFF0000FF, 5, 2500);
@@ -37975,7 +37940,7 @@ CMD:unbw(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] < 1 && PlayerInfo[playerid][pNewAP] < 1) return 1;
     new id;
-    if(sscanf(p, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj: /unbw [ID]");
+    if(sscanf(p, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj: /unbw [playerid/czêœæ nicku]");
     if(PlayerInfo[id][pBW] == 0) return sendTipMessageEx(playerid, COLOR_GRAD2, "Ten gracz nie ma BW.");
     PlayerInfo[id][pBW] = 2;
     SendClientMessage(playerid, COLOR_GRAD2, "Zdjêto BW");
@@ -37986,7 +37951,7 @@ CMD:checkbw(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] < 1 && PlayerInfo[playerid][pNewAP] < 1) return 1;
     new id;
-    if(sscanf(p, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj: /checkbw [ID]");
+    if(sscanf(p, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj: /checkbw [playerid/czêœæ nicku]");
     if(PlayerInfo[id][pBW] == 0) return sendTipMessageEx(playerid, COLOR_GRAD2, "Ten gracz nie ma BW.");
     SendClientMessage(playerid, COLOR_GRAD2, sprintf("Ten gracz ma BW na %d sekund.", PlayerInfo[id][pBW]));
     return 1;
@@ -38459,7 +38424,7 @@ CMD:patrol(playerid, params[])
     }
     else if(strcmp(var, "vsign", true) == 0)
     {
-        if(strlen(sign) <= 0) return sendTipMessage(playerid, "U¿yj /patrol vsign [kryptonim]");
+        if(strlen(sign) <= 0) return sendTipDialogMessage(playerid, "U¿yj /patrol vsign [kryptonim]");
 
         if(IsPlayerInAnyVehicle(playerid))
         {
@@ -38560,7 +38525,7 @@ CMD:patrol(playerid, params[])
 CMD:c(playerid, params[])
 {
     new var[64];
-    if(sscanf(params, "s[64]", var)) return sendTipMessage(playerid, "U¿yj: /c [KOD RADIOWY]");
+    if(sscanf(params, "s[64]", var)) return sendTipDialogMessage(playerid, "U¿yj: /c [KOD RADIOWY]");
     new str[128];
     if(GetPVarInt(playerid, "patrol") == 1)
     {
@@ -38631,7 +38596,7 @@ CMD:scenaallow(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] < 200 || IsAKO(playerid)) return 1;
     new id;
-    if(sscanf(p, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj /scenaallow [Nick/ID]");
+    if(sscanf(p, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj /scenaallow [Nick/ID]");
     if(GetPVarInt(id, "scena-req") != 2 && PlayerInfo[playerid][pAdmin] < 1) return sendTipMessageEx(playerid, COLOR_GRAD2, "Ten gracz nie prosi³ o to.");
     new str[128];
     format(str, 128, "× Admin %s (ID: %d) nada³ Ci pozwolenie na zarz¹dzanie scen¹.", GetNick(playerid), playerid);
@@ -38646,7 +38611,7 @@ CMD:scenadisallow(playerid, p[])
 {
     if(PlayerInfo[playerid][pAdmin] < 200 ) return 1;
     new id;
-    if(sscanf(p, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj /scenadisallow [Nick/ID]");
+    if(sscanf(p, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj /scenadisallow [Nick/ID]");
     if(GetPVarInt(id, "scena-allow") != 1) return sendTipMessageEx(playerid, COLOR_GRAD2, "Ten gracz nie ma takiego pozwolenia.");
     new str[128];
     format(str, 128, "× Admin %s (ID: %d) zabra³ Ci pozwolenie na zarz¹dzanie scen¹.", GetNick(playerid), playerid);
@@ -38970,7 +38935,7 @@ CMD:addcar(playerid, p[])
     if(Uprawnienia(playerid, ACCESS_EDITCAR) || PlayerInfo[playerid][pAdmin] >= 5000)
     {
         new model, color1, color2;
-        if(sscanf(p, "ddd", model, color1, color2)) return sendTipMessage(playerid, "U¿yj /addcar [Model] [Kolor] [Kolor]");
+        if(sscanf(p, "ddd", model, color1, color2)) return sendTipDialogMessage(playerid, "U¿yj /addcar [Model] [Kolor] [Kolor]");
         new Float:x, Float:y, Float:z, Float:a;
         GetPlayerPos(playerid, x ,y ,z);
         GetPlayerFacingAngle(playerid, a);
@@ -38991,7 +38956,7 @@ CMD:removecar(playerid, p[])
     if(Uprawnienia(playerid, ACCESS_EDITCAR) || PlayerInfo[playerid][pAdmin] >= 5000)
     {
         new car;
-        if(sscanf(p, "d", car)) return sendTipMessage(playerid, "U¿yj /removecar [Car UID]");
+        if(sscanf(p, "d", car)) return sendTipDialogMessage(playerid, "U¿yj /removecar [Car UID]");
     
         new uid = Car_GetIDXFromUID(car);
         if(uid == -1)
@@ -39012,7 +38977,7 @@ CMD:removecar(playerid, p[])
 {
     if(!Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
     new car, neon;
-    if(sscanf(p, "dd", car, neon)) return sendTipMessage(playerid, "U¿yj /car_neon [Car UID] [model]");
+    if(sscanf(p, "dd", car, neon)) return sendTipDialogMessage(playerid, "U¿yj /car_neon [Car UID] [model]");
 
     new uid = Car_GetIDXFromUID(car);
     if(uid == -1)
@@ -39099,7 +39064,7 @@ CMD:adminduty(playerid)
         SetPVarInt(playerid, "support_duty", 0);
         SetPlayerColor(playerid,TEAM_HIT_COLOR);
         format(string, sizeof(string), "@DUTY: Wykona³eœ ->  %d banów | %d warnów | %d kicków | %d innych akcji!", iloscBan[playerid],iloscWarn[playerid],iloscKick[playerid], iloscInne[playerid]); 
-        sendErrorMessage(playerid, string); 
+        sendErrorDialogMessage(playerid, string); 
         //SetPlayerHealth(playerid, PlayerInfo[playerid][pSHealth]);
         MSGBOX_Show(playerid, "Admin Duty ~r~OFF", MSGBOX_ICON_TYPE_OK);
         sendTipMessage(playerid, "Dziêkujemy za sumienn¹ s³u¿bê, tickety nie bêd¹ ju¿ wyœwietlane!"); 
@@ -39221,11 +39186,11 @@ CMD:anulujzp(playerid, params[])
         new giveid, adminnick[MAX_PLAYER_NAME], gracznick[MAX_PLAYER_NAME];
 		
         if(sscanf(params, "k<fix>", giveid)) 
-			return sendTipMessage(playerid, "U¿yj /anulujzp [czêœæ nicku/id]"); 
+			return sendTipDialogMessage(playerid, "U¿yj /anulujzp [czêœæ nicku/id]"); 
 			
         if(PlayerInfo[giveid][pCarLic] == 0 || PlayerInfo[giveid][pCarLic] == 1) 
 		{
-            return sendErrorMessage(playerid, "Ten gracz nie posiada zabranego prawa jazdy!");
+            return sendErrorDialogMessage(playerid, "Ten gracz nie posiada zabranego prawa jazdy!");
         }
         PlayerInfo[giveid][pPK] = 0;
         PlayerInfo[giveid][pCarLic] = 0;
@@ -39260,7 +39225,7 @@ CMD:bwsettings(playerid, params[]) {
 CMD:bwtime(playerid, params[]) {
     if(Uprawnienia(playerid, ACCESS_PANEL) || PlayerInfo[playerid][pAdmin] >= 5000 || PlayerInfo[playerid][pNewAP] == 5) {
         new ust;
-        if(sscanf(params, "d", ust)) return sendTipMessage(playerid, "U¿yj /bwtime [Czas BW w Sekundach]");
+        if(sscanf(params, "d", ust)) return sendTipDialogMessage(playerid, "U¿yj /bwtime [Czas BW w Sekundach]");
         dini_IntSet("Settings.ini", "Time", ust);
         SetSVarInt("BW_Time", ust);
     } else {
@@ -39272,7 +39237,7 @@ CMD:bwtime(playerid, params[]) {
 CMD:bonehead(playerid, params[]) {
     if(Uprawnienia(playerid, ACCESS_PANEL) || PlayerInfo[playerid][pAdmin] >= 25 || PlayerInfo[playerid][pNewAP] == 5) {
         new ust[128];
-        if(sscanf(params, "s[128]", ust)) return sendTipMessage(playerid, "U¿yj /bonehead [URL do linku muzyki]");
+        if(sscanf(params, "s[128]", ust)) return sendTipDialogMessage(playerid, "U¿yj /bonehead [URL do linku muzyki]");
         //dini_IntSet("BWSettings.ini", "Time", ust);
         //SetSVarInt("BW_Time", ust);
         dini_Set("Settings.ini", "muzyka_bonehead", ust);
@@ -39287,12 +39252,12 @@ CMD:bonehead(playerid, params[]) {
 //new depo2 = floatround(((TicketMoney[playerid]/100) * 50), floatround_round);
 
 CMD:pozwolenie(playerid, params[]) {
-    if(!IsACop(playerid)) return sendErrorMessage(playerid, "Nie jesteœ policjantem!");
+    if(!IsACop(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ policjantem!");
     new komu;
-    if(sscanf(params, "k<fix>", komu)) return sendTipMessage(playerid, "U¿yj /pozwolenie [id gracza / czêœæ nazwy]");
-    if(!IsPlayerConnected(komu)) return sendErrorMessage(playerid, "Nie ma takiego gracza!");
-    if(!ProxDetectorS(4.5, playerid, komu)) return sendErrorMessage(playerid, "Tego gracza nie ma w pobli¿u!");
-    if(PlayerInfo[komu][pJob] != 2) return sendErrorMessage(playerid, "Gracz nie jest prawnikiem!");
+    if(sscanf(params, "k<fix>", komu)) return sendTipDialogMessage(playerid, "U¿yj /pozwolenie [id gracza / czêœæ nazwy]");
+    if(!IsPlayerConnected(komu)) return sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
+    if(!ProxDetectorS(4.5, playerid, komu)) return sendErrorDialogMessage(playerid, "Tego gracza nie ma w pobli¿u!");
+    if(PlayerInfo[komu][pJob] != 2) return sendErrorDialogMessage(playerid, "Gracz nie jest prawnikiem!");
     SetPVarInt(komu, "pozwolenie-oferuje", playerid);
     SetPVarInt(playerid, "pozwolenie-oferujeDla", komu);
     new string[128];
@@ -39304,11 +39269,11 @@ CMD:pozwolenie(playerid, params[]) {
 }
 
 CMD:app(playerid, params[]) {
-    if(GetPVarInt(playerid, "pozwolenie-oferuje") == 999) return sendErrorMessage(playerid, "Nikt nie oferowa³ Ci pozwolenia prawniczego!");
+    if(GetPVarInt(playerid, "pozwolenie-oferuje") == 999) return sendErrorDialogMessage(playerid, "Nikt nie oferowa³ Ci pozwolenia prawniczego!");
     new ofertaod = GetPVarInt(playerid, "pozwolenie-oferuje");
-    if(!IsPlayerConnected(ofertaod)) return sendErrorMessage(playerid, "Osoba, która oferowa³a Ci pozwolenie wysz³a z serwera!");
-    if(GetPVarInt(ofertaod, "pozwolenie-oferujeDla") != playerid) return sendErrorMessage(playerid, "Osoba, która oferowa³a Ci pozwolenie wysz³a z serwera!");
-    if(kaska[playerid] < 20000) return sendErrorMessage(playerid, "Nie staæ Cie na pozwolenie prawnicze");
+    if(!IsPlayerConnected(ofertaod)) return sendErrorDialogMessage(playerid, "Osoba, która oferowa³a Ci pozwolenie wysz³a z serwera!");
+    if(GetPVarInt(ofertaod, "pozwolenie-oferujeDla") != playerid) return sendErrorDialogMessage(playerid, "Osoba, która oferowa³a Ci pozwolenie wysz³a z serwera!");
+    if(kaska[playerid] < 20000) return sendErrorDialogMessage(playerid, "Nie staæ Cie na pozwolenie prawnicze");
     new string[128];
     format(string, sizeof(string), "%s akceptowa³ Twoj¹ ofertê pozwolenia prawiczego, otrzymujesz $10 000", GetNick(playerid, true));
     sendTipMessage(ofertaod, string, COLOR_LIGHTBLUE);
@@ -39329,7 +39294,7 @@ CMD:app(playerid, params[]) {
 }
 
 /*
-if(kaska[playerid] < 20000) return sendErrorMessage(playerid, "Koszt wydania pozwolenia prawniczego to $10 000. Nie masz tyle!");
+if(kaska[playerid] < 20000) return sendErrorDialogMessage(playerid, "Koszt wydania pozwolenia prawniczego to $10 000. Nie masz tyle!");
                             GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
                             GetPlayerName(playerid, sendername, sizeof(sendername));
                             format(string, sizeof(string), "* Da³eœ zgodê %s na uwolnienie wiêŸnia z celi. Tracisz $10 000 z portfela", giveplayer);
@@ -39523,20 +39488,20 @@ CMD:sprawdzneon(playerid, params[])
 {
     if(PlayerInfo[playerid][pJob] == 7)
     {
-        if(gettime() < GetPVarInt(playerid, "checkNeonLimit")) return sendErrorMessage(playerid, "Neony mo¿esz sprawdzaæ co 40 sekund");
-        if(PlayerInfo[playerid][pMechSkill] < 101) return sendErrorMessage(playerid, "Komenda od 3 skilla w górê");
+        if(gettime() < GetPVarInt(playerid, "checkNeonLimit")) return sendErrorDialogMessage(playerid, "Neony mo¿esz sprawdzaæ co 40 sekund");
+        if(PlayerInfo[playerid][pMechSkill] < 101) return sendErrorDialogMessage(playerid, "Komenda od 3 skilla w górê");
         new pid;
         if( sscanf(params, "k<fix>", pid))
         {
-            sendTipMessage(playerid, "U¿yj /sprawdzneon [id gracza]");
+            sendTipDialogMessage(playerid, "U¿yj /sprawdzneon [id gracza]");
             return 1;
         }
-        if(pid == playerid) return sendErrorMessage(playerid, "Nie mo¿esz sprawdziæ neonów sam sobie");
+        if(pid == playerid) return sendErrorDialogMessage(playerid, "Nie mo¿esz sprawdziæ neonów sam sobie");
         new string[128];
         //new veh_idx = VehicleUID[veh_id][vUID];
         new kolorneonu[16] = "";
-        if(!IsPlayerInAnyVehicle(pid)) return sendErrorMessage(playerid, "Ten gracz nie jest w ¿adnym pojeŸdzie");
-        if(GetDistanceBetweenPlayers(playerid,pid) > 5) return sendErrorMessage(playerid, "Jesteœcie od siebie zbyt daleko");
+        if(!IsPlayerInAnyVehicle(pid)) return sendErrorDialogMessage(playerid, "Ten gracz nie jest w ¿adnym pojeŸdzie");
+        if(GetDistanceBetweenPlayers(playerid,pid) > 5) return sendErrorDialogMessage(playerid, "Jesteœcie od siebie zbyt daleko");
         new veh_id = GetPlayerVehicleID(pid);
         new cNeon = CarData[VehicleUID[veh_id][vUID]][c_Neon];
         cmd_me(playerid, "zagl¹da pod podwozie w poszukiwaniu neonów");
@@ -39596,7 +39561,7 @@ CMD:anim(playerid, params[])
         if(PlayerInfo[playerid][pAdmin] >= 5000 || PlayerInfo[playerid][pNewAP] == 5)
         {
             new animlib[64], animname[64], loop;
-            if(sscanf(params, "s[64]s[64]d", animlib, animname, loop)) return sendTipMessage(playerid, "U¿yj /anim [animlib] [animname] [loop 0/1]"); 
+            if(sscanf(params, "s[64]s[64]d", animlib, animname, loop)) return sendTipDialogMessage(playerid, "U¿yj /anim [animlib] [animname] [loop 0/1]"); 
 
             ApplyAnimation(playerid, animlib, animname, 4.1,loop,1,1,1,1);
             return 1;
@@ -39612,7 +39577,7 @@ CMD:createanim(playerid, params[])
         if(PlayerInfo[playerid][pAdmin] >= 5000 || PlayerInfo[playerid][pNewAP] == 5)
         {
             new name[128],animlib[64], animname[64], loop, query[256];
-            if(sscanf(params, "s[128]s[64]s[64]d",name, animlib, animname, loop)) return sendTipMessage(playerid, "U¿yj /createanim [name] [animlib] [animname] [loop 0/1]"); 
+            if(sscanf(params, "s[128]s[64]s[64]d",name, animlib, animname, loop)) return sendTipDialogMessage(playerid, "U¿yj /createanim [name] [animlib] [animname] [loop 0/1]"); 
 
             new found = 0;
             for(new i = 0; i<=Animacje_Ilosc; i++)
@@ -39653,7 +39618,7 @@ CMD:deleteanim(playerid, params[])
         if(PlayerInfo[playerid][pAdmin] >= 5000 || PlayerInfo[playerid][pNewAP] == 5)
         {
             new name[128];
-            if(sscanf(params, "s[128]", name)) return sendTipMessage(playerid, "U¿yj: /deleteanim [name]");
+            if(sscanf(params, "s[128]", name)) return sendTipDialogMessage(playerid, "U¿yj: /deleteanim [name]");
 
             new path[64];
             format(path, sizeof(path), "Animacje/anim.ini");
@@ -39707,15 +39672,15 @@ CMD:setapteczki(playerid, params[])
         if(PlayerInfo[playerid][pAdmin] >= 100)
         {
             new giveplayerid, ilosc;
-            if(sscanf(params, "k<fix>d", giveplayerid, ilosc)) return sendTipMessage(playerid, "U¿yj: /setapteczki [playerid/CzêœæNicku] [iloœæ 0-3]");
-            if(giveplayerid == INVALID_PLAYER_ID) return sendErrorMessage(playerid, "Nie ma takiego gracza!");
+            if(sscanf(params, "k<fix>d", giveplayerid, ilosc)) return sendTipDialogMessage(playerid, "U¿yj: /setapteczki [playerid/CzêœæNicku] [iloœæ 0-3]");
+            if(giveplayerid == INVALID_PLAYER_ID) return sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
             if(ilosc < 0 || ilosc > 3) return sendTipMessage(playerid, "Iloœæ od 0 do 3");
             if(IsPlayerConnected(giveplayerid))
             {
                 PlayerInfo[giveplayerid][pApteczki] = ilosc;
                 _MruAdmin(playerid, sprintf("Ustawi³eœ graczowi %s apteczki na %d", GetNick(giveplayerid), ilosc));
                 _MruAdmin(giveplayerid, sprintf("Administrator %s ustawi³ Twoj¹ iloœæ apteczek na %d", GetNick(playerid), ilosc));
-            } else return sendErrorMessage(playerid, "Ten gracz nie istnieje!");
+            } else return sendErrorDialogMessage(playerid, "Ten gracz nie istnieje!");
         } else noAccessMessage(playerid);   
     }
     return 1; 
@@ -39729,15 +39694,15 @@ CMD:sprzedajapteczke(playerid, params[])
         if(PlayerInfo[playerid][pMember] == 4 || PlayerInfo[playerid][pLider] == 4)
         {
             new giveplayerid;
-            if(sscanf(params, "k<fix>", giveplayerid)) return sendTipMessage(playerid, "U¿yj: /sprzedajapteczke [playerid/CzêœæNicku]");
-            if(giveplayerid == INVALID_PLAYER_ID) return sendErrorMessage(playerid, "Nie ma takiego gracza!");
+            if(sscanf(params, "k<fix>", giveplayerid)) return sendTipDialogMessage(playerid, "U¿yj: /sprzedajapteczke [playerid/CzêœæNicku]");
+            if(giveplayerid == INVALID_PLAYER_ID) return sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
             if(PlayerInfo[giveplayerid][pApteczki] < 3)
             {
                 SetPVarInt(giveplayerid, "sprzedaje_apteczke", playerid);
                 ShowPlayerDialogEx(giveplayerid, D_SPRZEDAJAPTECZKE, DIALOG_STYLE_MSGBOX, "Apteczka", sprintf("Medyk %s oferuje Ci kupno apteczki za {33AA33}$5000", GetNick(playerid)), "Kup", "Anuluj");
                 return 1;
-            } else return sendErrorMessage(playerid, "Ten gracz ma za du¿o apteczek!");
-        } else return sendErrorMessage(playerid, "Nie jesteœ medykiem");
+            } else return sendErrorDialogMessage(playerid, "Ten gracz ma za du¿o apteczek!");
+        } else return sendErrorDialogMessage(playerid, "Nie jesteœ medykiem");
     }
     return 1;
 }
@@ -39808,8 +39773,8 @@ CMD:zabierzgps(playerid, params[])
         if(IsAPrzestepca(playerid))
         {
             new giveplayerid, string[128];
-            if(sscanf(params, "k<fix>", giveplayerid)) return sendTipMessage(playerid, "U¿yj: /zabierzgps [playerid/CzêœæNicku]");
-            if(giveplayerid == INVALID_PLAYER_ID) return sendErrorMessage(playerid, "Nie ma takiego gracza!");
+            if(sscanf(params, "k<fix>", giveplayerid)) return sendTipDialogMessage(playerid, "U¿yj: /zabierzgps [playerid/CzêœæNicku]");
+            if(giveplayerid == INVALID_PLAYER_ID) return sendErrorDialogMessage(playerid, "Nie ma takiego gracza!");
             if(GetDistanceBetweenPlayers(playerid, giveplayerid) <= 5)
             {
                 if(PlayerInfo[giveplayerid][pBW] >= 1)
@@ -39852,10 +39817,10 @@ CMD:zabierzgps(playerid, params[])
                             format(string, sizeof(string), "%s zabiera nadajnik GPS %s", GetNick(playerid, true), GetNick(giveplayerid, true));
                             ProxDetector(15.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
                             ZabranyGPS[giveplayerid] = 1;
-                        } else sendErrorMessage(playerid, "Ten gracz nie posiada GPS!");
-                    } else sendErrorMessage(playerid, "Ten gracz nie posiada GPS!");
-                } else sendErrorMessage(playerid, "Ten gracz nie ma BW!");
-            } else sendErrorMessage(playerid, "Ten gracz jest za daleko!");
+                        } else sendErrorDialogMessage(playerid, "Ten gracz nie posiada GPS!");
+                    } else sendErrorDialogMessage(playerid, "Ten gracz nie posiada GPS!");
+                } else sendErrorDialogMessage(playerid, "Ten gracz nie ma BW!");
+            } else sendErrorDialogMessage(playerid, "Ten gracz jest za daleko!");
         } else noAccessMessage(playerid);
     }
     return 1;
@@ -40060,7 +40025,7 @@ CMD:discord(playerid, params[])
     new string[128], id;
     if(PlayerInfo[playerid][pAdmin] >= 5000)
     {
-        if(sscanf(params, "ds[128]", id, string)) return sendTipMessage(playerid, "U¿yj: /discord [id] [wiadomoœæ]");
+        if(sscanf(params, "ds[128]", id, string)) return sendTipDialogMessage(playerid, "U¿yj: /discord [id] [wiadomoœæ]");
     
         format(string, sizeof(string), "%s: %s", GetNick(playerid), string);
     
@@ -40118,7 +40083,7 @@ CMD:personale(playerid)
 CMD:motel(playerid, params[])
 {
     new var[32];
-    if(sscanf(params, "s[32]", var)) return sendTipMessage(playerid, "U¿yj /motel wynajmij wejdz wyjdz");
+    if(sscanf(params, "s[32]", var)) return sendTipDialogMessage(playerid, "U¿yj /motel wynajmij wejdz wyjdz");
     if(!IsPlayerInRangeOfPoint(playerid, 2, 849.2945, -1336.3616, 13.5690) && !IsPlayerInRangeOfPoint(playerid, 2, 2178.3113, -1770.5784, 13.5451)) return sendTipMessage(playerid, "Nie znajdujesz siê w pobli¿u motelu!");
     if(strcmp(var, "wynajmij", true) == 0)
     {
@@ -40156,7 +40121,7 @@ CMD:czyjtonumer(playerid, params[])
     if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP])
     {
         new number, ilosc;
-        if(sscanf(params, "d", number)) return sendTipMessage(playerid, "U¿yj /czyjtonumer [numer telefonu]");
+        if(sscanf(params, "d", number)) return sendTipDialogMessage(playerid, "U¿yj /czyjtonumer [numer telefonu]");
         if(number <= 0) return sendTipMessage(playerid, "Numer musi byæ wiêkszy ni¿ 0");
 
         SendClientMessage(playerid, -1, sprintf("Gracze z numerem %d:", number));
@@ -40200,7 +40165,7 @@ CMD:gpci(playerid, params[])
     if(PlayerInfo[playerid][pAdmin] >= 1)
     {
         new id;
-        if(sscanf(params, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj: /gpci [playerid/CzêœæNicku]");
+        if(sscanf(params, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj: /gpci [playerid/CzêœæNicku]");
 
         new string[256];
         format(string, sizeof(string), "GPCI %s", GetNick(id));
@@ -40215,7 +40180,7 @@ CMD:unbangpci(playerid, params[])
     if(PlayerInfo[playerid][pAdmin] >= 1)
     {
         new _gpci[128];
-        if(sscanf(params, "s[128]", _gpci)) return sendTipMessage(playerid, "U¿yj: /unbangpci [GPCI]");
+        if(sscanf(params, "s[128]", _gpci)) return sendTipDialogMessage(playerid, "U¿yj: /unbangpci [GPCI]");
 
 
     } else return noAccessMessage(playerid);
@@ -40227,7 +40192,7 @@ CMD:powiazania(playerid, params[])
     if(PlayerInfo[playerid][pAdmin] >= 10)
     {
         new id;
-        if(sscanf(params, "k<fix>", id)) return sendTipMessage(playerid, "U¿yj: /powiazania [playerid/CzêœæNicku]");
+        if(sscanf(params, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj: /powiazania [playerid/CzêœæNicku]");
         SetPVarInt(playerid, "powiazania_id", id);
         ShowPlayerDialogEx(playerid, D_POWIAZANIA, DIALOG_STYLE_LIST, "Kotnik RP | GPCI", "»» Powi¹zania IP\n»» Powi¹zania GPCI", "OK", "Anuluj");
     } else return noAccessMessage(playerid);
