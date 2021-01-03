@@ -2216,6 +2216,25 @@ public JednaSekundaTimer()
         GetPlayerPos(i, x, y, z);
 		GetPlayerArmour(i, pancerzyy);
 
+		if(robTimerVar[i] > 0)
+        {
+            robTimerVar[i]--;
+            GameTextForPlayer(i, sprintf("NAPAD: %d", robTimerVar[i]), 1000, 3);
+        }
+        else if(robTimerVar[i] == 0 && robInProgress[i] == 1)
+        {
+        	new val = random(100000);
+            robInProgress[i] = 0;
+            poscig[i] = 1;
+
+            GameTextForPlayer(i, "SKLEP OBRABOWANY!", 1000, 3);
+            sendTipDialogMessage(i, sprintf("{FFFFFF}Wyci¹gn¹³eœ z kasy: {8FCB04}${FFFFFF}%d",val));
+            SetTimerEx("PoscigTimer",10*60000,0,"d", i);
+            format(C_STRING, sizeof(C_STRING), "[# NAPAD #] Gracz %s [%d] ukonczyl napad i otrzymal ---> %d$", GetNick(i), i, val);
+            RobLog(C_STRING);
+            DajKase(i, val);
+        }
+
         vehicleid = GetPlayerVehicleID(i);
 		if(State == PLAYER_STATE_DRIVER || State == PLAYER_STATE_PASSENGER && !ToggleSpeedo[i])
 		{
