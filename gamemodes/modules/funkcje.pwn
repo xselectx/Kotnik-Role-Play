@@ -189,6 +189,18 @@ sendErrorMessage(id, string:msg[]) {
 	format(_str,128,"»» %s", msg);
 	return SendClientMessage(id, COLOR_LIGHTRED, _str);
 }
+//sqluke
+sendTipDialogMessage(id, string:msg[]) {
+	format(_str,128,"%s", msg);
+	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Informacja", _str, "Zamknij", "");
+	//return SendClientMessage(id, color, _str);
+}
+
+sendErrorDialogMessage(id, string:msg[]) {
+	format(_str,128,"%s", msg);
+	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Wyst¹pi³ b³¹d", _str, "Zamknij", "");
+	//return SendClientMessage(id, color, _str);
+}
 //2.5.2
 
 stock GetMajatek(playerid)
@@ -4793,6 +4805,11 @@ stock SMSLog(text[])
 	Log(plik, text);
 }
 
+stock RobLog(text[])
+{
+	new plik[32] = "logi/napad.log";
+	Log(plik, text);
+}
 
 stock Log(plik[], text[])
 {
