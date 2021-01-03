@@ -1392,7 +1392,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 			case 9:
 			{
-				format(string, sizeof(string), "/animhelp /zapytaj");
+				format(string, sizeof(string), "/animhelp /zapytaj /mecz (koszykowka)");
 				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Inne", string, "Zamknij", "");
 			}
 		}
