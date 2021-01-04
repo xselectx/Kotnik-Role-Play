@@ -2216,6 +2216,27 @@ public JednaSekundaTimer()
         GetPlayerPos(i, x, y, z);
 		GetPlayerArmour(i, pancerzyy);
 
+		if(repairTimerVar[i] > 0)
+		{
+			if(GetPVarInt(i, "botnaprawia") == 1) {
+				repairTimerVar[i]--;
+				TogglePlayerControllable(i, 0);
+				GameTextForPlayer(i, sprintf("Naprawianie: %d", repairTimerVar[i]), 1000, 3);
+			}
+			//repairInProgress[i] = 1;
+		}
+		else if(repairTimerVar[i] == 0 && repairInProgress[i] == 1)
+        {
+        	new vehidx = GetPlayerVehicleID(i);
+        	GetVehicleHealth(vehidx, health);
+            repairInProgress[i] = 0;
+            RepairVehicle(vehidx);
+			naprawiony[vehidx] = 1;
+            TogglePlayerControllable(i, 1);
+            SetPVarInt(i, "botnaprawia", 0);
+            GameTextForPlayer(i, "POJAZD NAPRAWIONY!", 1000, 3);
+        }
+        ////enddddddddddddddddddddddddddddddddddd
 		if(robTimerVar[i] > 0)
         {
             robTimerVar[i]--;
