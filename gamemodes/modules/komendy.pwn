@@ -1136,7 +1136,7 @@ CMD:id(playerid, params[])
 		}
 
   		//SendClientMessage(playerid, COLOR_GREEN, "Znalezione osoby:");
-		format(string, sizeof(string), "Gracz (ID: %d) --> %s.", giveplayerid, GetNick(giveplayerid, true));
+		format(string, sizeof(string), "(ID: %d) %s.", giveplayerid, GetNick(giveplayerid, true));
         ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Znalezione osoby", string, "Zamknij", "");
 		//SendClientMessage(playerid, COLOR_GRAD1, string);
 
@@ -1168,7 +1168,7 @@ CMD:id(playerid, params[])
                 GetPlayerName(i, name, sizeof(name));
                 if(strfind(name, params, true) >= 0)
                 {        
-                    format(string, sizeof(string), "Gracz (ID: %d) %s.\n", i, GetNick(i, true));
+                    format(string, sizeof(string), "(ID: %d) %s.\n", i, GetNick(i, true));
                     ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Znalezione osoby", string, "Zamknij", "");
     
                 }
@@ -1250,7 +1250,7 @@ CMD:nominacja(playerid, params[])
             return 1;
         }
 
-            if(!IsARoad(playerid) || ACCESS_ZG) return sendErrorDialogMessage(playerid, "Brak uprawnieñ!");
+            if(!IsARoad(playerid) && !Uprawnienia(playerid, ACCESS_ZG)) return sendErrorMessage(playerid, "Brak uprawnieñ!");
             if(IsPlayerConnected(para1))
             if(level > 3000) return noAccessMessage(playerid);
             {
@@ -18689,6 +18689,21 @@ CMD:wiadomosc(playerid, params[])
 
     if (IsPlayerConnected(giveplayerid) && giveplayerid != INVALID_PLAYER_ID)
     {
+
+        if(PlayerInfo[giveplayerid][pAdmin] >= 1000 || PlayerInfo[giveplayerid][pAdmin] == 7 && GetPVarInt(giveplayerid, "dutyadmin") == 1) 
+        {
+            new tokenid = random(10000000000);
+
+            adminTokenID[playerid] = giveplayerid;
+            adminToken[playerid] = tokenid;
+            //adminTokenText[playerid] = text;
+            format(adminTokenText[playerid], 128, "%s", text);
+            printf("%s", adminTokenText[playerid]);
+
+            format(C_STRING, sizeof(C_STRING), "Aby wys³aæ wiadomoœæ do Administratora: %s [%d]\nMusisz przepisaæ token: {8FCB04}%d", GetNick(giveplayerid), giveplayerid, adminToken[playerid]);
+            ShowPlayerDialogEx(playerid, DIALOG_ADMIN_PM_TOKEN, DIALOG_STYLE_INPUT, "{8FCB04}Kotnik-RP{FFFFFF} » Token wiadomoœci", C_STRING, "Wyœlij", "Anuluj");
+            return 1;
+        }
         if(HidePM[giveplayerid] > 0)
         {
             sendTipMessage(playerid, "Ten gracz blokuje wiadomoœci!");
@@ -35393,93 +35408,40 @@ CMD:news(playerid, params[])
                     }
                 }
             }
-
-			if(inpos ||
-                IsPlayerInRangeOfPoint(playerid, 20.0, 676.9533,-1339.5132,30.3588) ||
-                IsPlayerInRangeOfPoint(playerid, 20.0, 660.1057,-1339.6501,29.3712) ||
-                IsPlayerInRangeOfPoint(playerid, 20.0, 655.8636,-1377.5455,28.4672) ||
-                IsPlayerInRangeOfPoint(playerid, 20.0, 652.1369,-1367.9576,28.5072) ||
-                IsPlayerInRangeOfPoint(playerid, 20.0, 651.2371,-1367.7997,28.5072) ||
-                IsPlayerInRangeOfPoint(playerid, 20.0, 667.8975,-1380.4872,28.4672))
+			GetPlayerName(playerid, sendername, sizeof(sendername));
+			if(isnull(params))
 			{
-				GetPlayerName(playerid, sendername, sizeof(sendername));
-				if(isnull(params))
-				{
-					sendTipDialogMessage(playerid, "U¿yj /news [newstext]");
-					return 1;
-				}
-				if (strfind(params , "ip:" , true)>=0 ||strfind(params , "www." , true)>=0 || strfind(params , ".pl" , true)>=0 || strfind(params , ",pl" , true)>=0  || strfind(params , " ip" , true)>=0 || strfind(params , ":7" , true)>=0 || strfind(params , "795" , true)>=0 || strfind(params , ":3" , true)>=0 || strfind(params , ":4" , true)>=0 || strfind(params , ":5" , true)>=0 || strfind(params , ":6" , true)>=0 || strfind(params , ":8" , true)>=0)
-				{
-					SendClientMessage(playerid, COLOR_GRAD2, "NIE CHCEMY REKLAM!");
-					format(string, sizeof(string), "AdmWarning: [%d] %s REKLAMA: %s.",playerid,sendername,params);
-					ABroadCast(COLOR_LIGHTRED,string,1);
-					CzitLog(string);
-				}
-				else
-				{
-				    if(AntySpam[playerid] == 1)
-				    {
-				        sendTipMessageEx(playerid, COLOR_GREY, "Odczekaj 3 sekund");
-				        return 1;
-				    }
-					format(string, sizeof(string), "NR %s: %s", sendername, params);
-					OOCNews(COLOR_NEWS,string);
-                    //OOCNews(0xFF8C55FF, string);
-					/*PlayerInfo[playerid][pNewsSkill] ++;
-					if(PlayerInfo[playerid][pNewsSkill] == 50)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 2, Nied³ugo bêdziesz móg³ lataæ helikopterem i prowadziæ wywiady."); }
-					else if(PlayerInfo[playerid][pNewsSkill] == 100)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 3, Nied³ugo bêdziesz móg³ lataæ helikopterem i prowadziæ wywiady."); }
-					else if(PlayerInfo[playerid][pNewsSkill] == 200)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 4, mo¿esz teraz lataæ helikopterem."); }
-					else if(PlayerInfo[playerid][pNewsSkill] == 400)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 5, mo¿esz teraz prowadziæ wywiady na ¿ywo z kim chcesz."); }*/
-                    SetTimerEx("AntySpamTimer",3000,0,"d",playerid);
-	    			AntySpam[playerid] = 1;
-				}
+				sendTipDialogMessage(playerid, "U¿yj /news [newstext]");
+				return 1;
 			}
-			else if(PlayerToPoint(10.5, playerid, 1820.0637,-1315.9836,109.9520))
+			if (strfind(params , "ip:" , true)>=0 ||strfind(params , "www." , true)>=0 || strfind(params , ".pl" , true)>=0 || strfind(params , ",pl" , true)>=0  || strfind(params , " ip" , true)>=0 || strfind(params , ":7" , true)>=0 || strfind(params , "795" , true)>=0 || strfind(params , ":3" , true)>=0 || strfind(params , ":4" , true)>=0 || strfind(params , ":5" , true)>=0 || strfind(params , ":6" , true)>=0 || strfind(params , ":8" , true)>=0)
 			{
-            	GetPlayerName(playerid, sendername, sizeof(sendername));
-				if(isnull(params))
-				{
-					sendTipDialogMessage(playerid, "U¿yj /news [newstext]");
-					return 1;
-				}
-				if (strfind(params , "ip:" , true)>=0 ||strfind(params , "www." , true)>=0 || strfind(params , ".pl" , true)>=0 || strfind(params , ",pl" , true)>=0  || strfind(params , " ip" , true)>=0 || strfind(params , ":7" , true)>=0 || strfind(params , "795" , true)>=0 || strfind(params , ":3" , true)>=0 || strfind(params , ":4" , true)>=0 || strfind(params , ":5" , true)>=0 || strfind(params , ":6" , true)>=0 || strfind(params , ":8" , true)>=0)
-				{
-					SendClientMessage(playerid, COLOR_GRAD2, "NIE CHCEMY REKLAM!");
-					format(string, sizeof(string), "AdmWarning: [%d] %s REKLAMA: %s.",playerid,sendername,params);
-					ABroadCast(COLOR_LIGHTRED,string,1);
-					CzitLog(string);
-				}
-				else
-				{
-				    if(AntySpam[playerid] == 1)
-				    {
-				        SendClientMessage(playerid, COLOR_GREY, "Odczekaj 3 sekund");
-				        return 1;
-				    }
-					format(string, sizeof(string), "NR %s: %s", sendername, params);
-					//OOCNews(COLOR_NEWS,string);
-                    OOCNews(0xFF8C55FF, string);
-					/*PlayerInfo[playerid][pNewsSkill] ++;
-					if(PlayerInfo[playerid][pNewsSkill] == 50)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 2, Nied³ugo bêdziesz móg³ lataæ helikopterem i prowadziæ wywiady."); }
-					else if(PlayerInfo[playerid][pNewsSkill] == 100)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 3, Nied³ugo bêdziesz móg³ lataæ helikopterem i prowadziæ wywiady."); }
-					else if(PlayerInfo[playerid][pNewsSkill] == 200)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 4, mo¿esz teraz lataæ helikopterem."); }
-					else if(PlayerInfo[playerid][pNewsSkill] == 400)
-					{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 5, mo¿esz teraz prowadziæ wywiady na ¿ywo z kim chcesz."); }*/
-                    SetTimerEx("AntySpamTimer",3000,0,"d",playerid);
-	    			AntySpam[playerid] = 1;
-				}
+				SendClientMessage(playerid, COLOR_GRAD2, "NIE CHCEMY REKLAM!");
+				format(string, sizeof(string), "AdmWarning: [%d] %s REKLAMA: %s.",playerid,sendername,params);
+				ABroadCast(COLOR_LIGHTRED,string,1);
+				CzitLog(string);
 			}
 			else
 			{
-			    sendTipMessageEx(playerid, COLOR_GREY, "Nie jesteœ w wozie SAN News !");
-			    return 1;
+			    if(AntySpam[playerid] == 1)
+			    {
+			        sendTipMessageEx(playerid, COLOR_GREY, "Odczekaj 3 sekund");
+			        return 1;
+			    }
+				format(string, sizeof(string), "NR %s: %s", sendername, params);
+				OOCNews(COLOR_NEWS,string);
+                //OOCNews(0xFF8C55FF, string);
+				/*PlayerInfo[playerid][pNewsSkill] ++;
+				if(PlayerInfo[playerid][pNewsSkill] == 50)
+				{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 2, Nied³ugo bêdziesz móg³ lataæ helikopterem i prowadziæ wywiady."); }
+				else if(PlayerInfo[playerid][pNewsSkill] == 100)
+				{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 3, Nied³ugo bêdziesz móg³ lataæ helikopterem i prowadziæ wywiady."); }
+				else if(PlayerInfo[playerid][pNewsSkill] == 200)
+				{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 4, mo¿esz teraz lataæ helikopterem."); }
+				else if(PlayerInfo[playerid][pNewsSkill] == 400)
+				{ SendClientMessage(playerid, COLOR_YELLOW, "* Twoje umiejêtnoœci Reportera wynosz¹ teraz 5, mo¿esz teraz prowadziæ wywiady na ¿ywo z kim chcesz."); }*/
+                SetTimerEx("AntySpamTimer",3000,0,"d",playerid);
+	    		AntySpam[playerid] = 1;
 			}
 		}
 		else
@@ -39126,6 +39088,14 @@ CMD:supportduty(playerid)
     return 1;
 }
 
+
+CMD:gmpanel(playerid, params[])
+{
+    if(PlayerInfo[playerid][pNewAP] != 6) return noAccessMessage(playerid);
+    format(C_STRING, sizeof(C_STRING), "\n{8FCB04}# Napady\n\t» Zmieñ czas napadu ({8FCB04}%d{FFFFFF} sekund)\n\t» Wy³¹cz/W³¹cz napady\n\n{8FCB04}# Opcje IC{FFFFFF}\n\n\t» Tymczasowy nick\n\t» Panel tworzenia", DEFAULT_ROB_TIME);
+    ShowPlayerDialogEx(playerid, DIALOG_GAMEMASTER, DIALOG_STYLE_LIST, "{8FCB04}Kotnik-RP{FFFFFF} » Gamemaster", C_STRING, "Ok", "Zamknij");
+    return 1;
+}
 
 CMD:gmduty(playerid)
 {
