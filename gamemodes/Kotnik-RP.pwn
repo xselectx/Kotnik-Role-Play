@@ -1,43 +1,21 @@
-//-----------------------------------------[Mapa Kotnik Role Play]-------------------------------------------//
-//----------------------------------------------------*------------------------------------------------------//
-//---------------------------------(Stworzona na podstawie mapy The Godfather)-------------------------------//
-//-------------------------------------------------(v2.5)----------------------------------------------------//
-//----------------------------------------------------*------------------------------------------------------//
-//----[                                                                                                 ]----//
-//----[            |||          |||                           ||||||||||       ||||||||||               ]----//
-//----[            |||        |||                             |||     ||||     |||     ||||             ]----//
-//----[            |||      |||                               |||       |||    |||       |||            ]----//
-//----[            |||    |||                                 |||       |||    |||       |||            ]----//
-//----[            |||  |||                                   |||     ||||     |||     ||||             ]----//
-//----[            ||||||                  __________         ||||||||||       ||||||||||               ]----//
-//----[            ||| |||                                    |||    |||       |||                      ]----//
-//----[            |||   |||                                  |||     ||       |||                      ]----//
-//----[            |||     |||                                |||     |||      |||                      ]----//
-//----[            |||       |||                              |||      ||      |||                      ]----//
-//----[            |||         |||                            |||      |||     |||                      ]----//
-//----[            |||          |||                           |||       |||    |||                      ]----//
-//----[                                                                                                 ]----//
-//----------------------------------------------------*------------------------------------------------------//
-/*
+/*                
+                   _  __     _         _ _           _____       _             _____  _             
+                  | |/ /    | |       (_) |         |  __ \     | |           |  __ \| |            
+                  | ' / ___ | |_ _ __  _| | ________| |__) |___ | | ___ ______| |__) | | __ _ _   _ 
+                  |  < / _ \| __| '_ \| | |/ /______|  _  // _ \| |/ _ \______|  ___/| |/ _` | | | |
+                  | . \ (_) | |_| | | | |   <       | | \ \ (_) | |  __/      | |    | | (_| | |_| |
+                  |_|\_\___/ \__|_| |_|_|_|\_\      |_|  \_\___/|_|\___|      |_|    |_|\__,_|\__, |
+                                                                                               __/ |
+                                                                                              |___/  
+                    
+    Autor mapy: Mrucznik-RP 
+       |---> Kotnik® Role Play 
 
-Kotnik® Role Play
-
-    <-------------------------------------------------------->
-    aktualizacja 2.5 system aut mysql, us³ugi p³atne
-    aktualizacja 2.4.94 prace dorywcze, boomboxy
-    aktualizacja 2.4.93 strefy gangów
-    aktualizacja v 2.4.92 Kubi
-    Edit by Kubi - v 2.4.8 noMysql
-    <-------------------------------------------------------->
-    aktualizacja 7 paŸdziernika
-    aktualizacja 10.08
-    aktualizacja 29.X
-    <-------------------------------------------------------->
-	Kubi cwel
-	aktualizacja 2015.11.15 kryptonim PADZIOCH
-
+    Czas dzia³ania projektu: 04.12.2020r
+    Osoby bior¹ce udzia³ w rozwoju skryptu: 
+        |---> xSeLeCTx (github.com/xselectx)
+        |---> LukeSQLY (github.com/LukeSQLY)
 */
-//----------------------------------------------------*------------------------------------------------------//
 
 //-------------------------------------------<[ Includy ]>---------------------------------------------------//
 //-                                                                                                         -//
@@ -94,6 +72,7 @@ Kotnik® Role Play
 
 #include "modules/inne/system_przedmiotow.pwn"
 #include "modules/inne/napady.pwn"
+#include "modules/inne/mechanicy.pwn"
 
 #include "modules/forward.pwn"
 #include "modules/funkcje.pwn"
@@ -122,7 +101,7 @@ Kotnik® Role Play
 //------------------------------------------------------------------------------------------------------
 main()
 {
-	print("\n----------------------------------");
+	/*print("\n----------------------------------");
 	print("K | ---  Kotnik Role Play  --- | K");
 	print("O | ---        ****        --- | O");
 	print("T | ---        v1.0        --- | T");
@@ -134,7 +113,7 @@ main()
 	print("  | ---       \\_^_/        --- |  ");
 	print("R | ---         |          --- | R");
 	print("P | ---         O          --- | P");
-	print("----------------------------------\n");
+	print("----------------------------------\n");*/
 	//exit;
 	WasteDeAMXersTime();
 
@@ -5529,6 +5508,9 @@ public OnGameModeInit()
         SetSVarInt("BW_Time", 180);
     }
 
+    print("=====================================================================================");
+    print("\t========================= INICJALIZACJA =========================");
+    print("=====================================================================================");
     f_init();
     //systempozarow_init();//System Po¿arów v0.1   DO POPRAWY
 	//Kotnik:
@@ -5596,7 +5578,9 @@ public OnGameModeInit()
 
     ZaladujAC();
 
-    //LoadActorsToRob();
+    //1.1
+    LoadActorsToRob(); //boty do okradania
+    LoadMechs(); //NPC naprawiaj¹ce auta
 
     //noYsi
     // LoadPrzewinienia();   DO POPRAWY
@@ -5768,6 +5752,9 @@ public OnGameModeInit()
     SendRconCommand("reloadfs obiekty");
     //SendRconCommand("reloadfs MRP/mrpshop");
     //SendRconCommand("reloadfs MRP/mrpattach");
+    print("=====================================================================================");
+    printf("\tSerwer pomyœlnie uruchomiony || Kotnik-Role-Play || Wersja: %s", VERSION);
+    print("=====================================================================================");
 	#if DEBUG == 1
 		printf("OnGameModeInit - end");
 	#endif
@@ -6950,6 +6937,32 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 			}
 		}
 	}*/
+
+    //
+    if(newkeys & KEY_NO && (GetPlayerState(playerid)==PLAYER_STATE_DRIVER))
+    {
+        new Float:carhealth, engine, unused;
+        new vehid = GetPlayerVehicleID(playerid);
+        GetVehicleHealth(vehid, carhealth);
+           if(IsPlayerInRangeOfPoint(playerid, 2, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
+           || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
+           {
+            GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine , unused , unused, unused, unused, unused, unused);
+                if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
+                if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  {
+                if(carhealth < 500.0)
+                {
+                    SetPVarInt(playerid, "botnaprawia", 1);
+                    repairTimerVar[playerid] = REPAIR_TIME;
+                    repairInProgress[playerid] = 1;
+                    //SetVehicleHealth(vehid, 1000.0);
+                    //else return sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
+                } else sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
+            }
+        }
+        
+    }
+    //
 	if(newkeys & KEY_YES && (GetPlayerState(playerid)==PLAYER_STATE_DRIVER))//id 131072
 	{
 		new engine, unused;
