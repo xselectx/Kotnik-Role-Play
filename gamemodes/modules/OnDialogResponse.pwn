@@ -1397,6 +1397,35 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 		}
 	}
+	else if(dialogid == DIALOG_ADMIN_PM_TOKEN)
+	{
+		if(!response) return sendTipDialogMessage(playerid, "Anulowa³eœ wysy³anie wiadomoœci do Administratora!");
+		valstr(adminTokenStr[playerid], adminToken[playerid]);
+		if(strlen(inputtext) <= 0) return sendTipDialogMessage(playerid, "Nie mo¿esz wys³aæ pustej wiadomoœci!");
+		if(strcmp(inputtext, adminTokenStr[playerid], false) == 0)
+		{
+			SetPVarInt(playerid, "admintoken", 1);
+			PlayerPlaySound(playerid, 1058, 0.0, 0.0, 0.0);
+       		PlayerPlaySound(adminTokenID[playerid], 1057, 0.0, 0.0, 0.0);
+			//sendTipMessage(playerid, sprintf("%s[%d]%s"));
+			format(C_STRING, sizeof(C_STRING), "»» %s (%d): %s", GetNick(playerid), playerid, adminTokenText[playerid]);
+            SendClientMessage(playerid, COLOR_YELLOW, C_STRING);
+
+			format(C_STRING, sizeof(C_STRING), "»» %s (%d): %s", GetNick(playerid), playerid, adminTokenText[playerid]);
+            SendClientMessage(adminTokenID[playerid], COLOR_NEWS, C_STRING);
+            return 1;
+		} else sendErrorDialogMessage(playerid, "B³êdnie przepisa³eœ kod TOKEN");
+	} 
+	else if(dialogid == DIALOG_GAMEMASTER)
+	{
+		if(!response) return 1;
+		switch(listitem)
+		{
+			case 1: {
+				ShowPlayerDialogEx(playerid, DIALOG_GAMEMASTER_ROB_TIME, DIALOG_STYLE_INPUT,"{8FCB04}Kotnik-RP{FFFFFF} » Czas napadu" , "WprowadŸ nowy czas napadu", "Ok", "Zamknij");
+			}
+		}
+	}
 	// ----------------------------------------------------------------------------------------------------------
 	else if(dialogid == 7420)
 	{
