@@ -22,7 +22,6 @@
 
 new robTimerVar[MAX_PLAYERS];
 new robInProgress[MAX_PLAYERS];
-new robDone[MAX_PLAYERS];
 
 new MembersRobOrg[MAX_PLAYERS][MAX_PLAYERS] = {INVALID_PLAYER_ID, INVALID_PLAYER_ID, ...};
 
