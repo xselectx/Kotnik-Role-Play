@@ -5460,7 +5460,7 @@ stock fracLoad()
     	format(FractionNames[lID], 64, "%s", FracInfo[lID][frac_Name]);
 		lID++;
     }
-    printf("%d | Wczytano informacje frakcji", lID);
+    printf("[K:RP][FRAKCJE]: Wczytano: %d frakcji ", lID);
 }
 
 stock fracSave(lID)
@@ -5515,7 +5515,7 @@ stock orgLoad()
         //printf("%d: [%d] %s, typ: %d", lID, OrgInfo[lID][o_UID], OrgInfo[lID][o_Name], OrgInfo[lID][o_Type]);
         lID++;
     }
-    printf("%d | Wczytano organizacje", lID);
+    printf("[K:RP][GRUPY]: Wczytano %d grup/organizacji", lID);
 }
 
 stock orgSave(lID, savetype)
@@ -5809,7 +5809,7 @@ ZaladujTrasy()
 		}
 	}
 	e = GetTickCount();
-	printf("DINI1: LADOWANIE TRAS czas wykonania: %d", e-s);
+	printf("[K:RP][TRASY]: Inicjalizacja tras, czas wykonania: %d", e-s);
 	return 1;
 }
 
@@ -9149,7 +9149,7 @@ stock LoadConfig()
 
     format(VINYL_Stream, 128, "%s",RadioSANDos);
 
-    print("Wczytano podstawow¹ konfiguracjê");
+    print("[K:RP]: Wczytano podstawow¹ konfiguracjê");
     mysql_free_result();
 }
 
@@ -9180,7 +9180,7 @@ stock WczytajRangi()
         }
     }
     mysql_free_result();
-    print("Wczytano rangi");
+    print("[K:RP]: Wczytano rangi organizacji");
 }
 
 stock WczytajSkiny()
@@ -9210,7 +9210,7 @@ stock WczytajSkiny()
         }
     }
     mysql_free_result();
-    print("Wczytano skiny");
+    print("[K:RP]: Pomyslnie wczytano skiny");
 }
 
 stock Config_FamilyScript()
@@ -9224,9 +9224,9 @@ stock Config_FamilyScript()
         if(strcmp(nazwa, "FAMILY_SAD") == 0)
         {
             FAMILY_SAD = id;
-            printf("FAMILY_SAD = %d", FAMILY_SAD);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_SAD = %d", FAMILY_SAD);
         }
-        if(strcmp(nazwa, "FAMILY_RSC") == 0)
+        if(strcmp(nazwa, "[K:RP][RODZINA_SKRYPT]: FAMILY_RSC") == 0)
         {
             FAMILY_RSC = id;
             printf("FAMILY_RSC = %d", FAMILY_RSC);
@@ -9234,22 +9234,27 @@ stock Config_FamilyScript()
         if(strcmp(nazwa, "FAMILY_ALHAMBRA") == 0)
         {
             FAMILY_ALHAMBRA = id;
-            printf("FAMILY_ALHAMBRA = %d", FAMILY_ALHAMBRA);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_ALHAMBRA = %d", FAMILY_ALHAMBRA);
         }
         if(strcmp(nazwa, "FAMILY_VINYL") == 0)
         {
             FAMILY_VINYL = id;
-            printf("FAMILY_VINYL = %d", FAMILY_VINYL);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_VINYL = %d", FAMILY_VINYL);
         }
         if(strcmp(nazwa, "FAMILY_IBIZA") == 0)
         {
             FAMILY_IBIZA = id;
-            printf("FAMILY_IBIZA = %d", FAMILY_IBIZA);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_IBIZA = %d", FAMILY_IBIZA);
         }
         if(strcmp(nazwa, "FAMILY_FDU") == 0)
         {
             FAMILY_FDU = id;
-            printf("FAMILY_FDU = %d", FAMILY_FDU);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_FDU = %d", FAMILY_FDU);
+        }
+        if(strcmp(nazwa, "FAMILY_GYM") == 0)
+        {
+            FAMILY_FDU = id;
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_FDU = %d", FAMILY_GYM);
         }
     }
     mysql_free_result();
