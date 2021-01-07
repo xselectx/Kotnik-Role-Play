@@ -55,6 +55,11 @@ new shotsFired[MAX_PLAYERS];
 new speedfireDetected[MAX_PLAYERS];
 new shotTime[MAX_PLAYERS];
 
+new adminToken[MAX_PLAYERS];
+new adminTokenStr[MAX_PLAYERS];
+new adminTokenID[MAX_PLAYERS];
+new adminTokenText[MAX_PLAYERS];
+
 new Urzednicy[4];
 new Text3D:UrzednicyName[4];
 

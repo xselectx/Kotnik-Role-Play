@@ -2,7 +2,7 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v1.0.7"
+#define VERSION "v1.1.DEV"
 
 #define DEBUG 2   // 2 - off  /  1 - on
 #define NULL 0
@@ -231,7 +231,7 @@ new acstr[128];
 #define HYDRA_D 250000
 
 new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, FAMILY_IBIZA = -1,
-    FAMILY_FDU = -1;
+    FAMILY_FDU = -1, FAMILY_GYM = -1;
 
 //2015.09.12
 #define TAJNIAK_FBI		0
@@ -489,7 +489,12 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define DIALOG_LIDER02 3002
 
 #define DIALOG_APL 4550
-#define DIALOG_ID_NO_RESPONSE 4600
+#define DIALOG_POMOC_NEW 4590
+#define DIALOG_ADMIN_PM_TOKEN 4595
+#define DIALOG_ID_NO_RESPONSE 4599
+
+#define DIALOG_GAMEMASTER 4610
+#define DIALOG_GAMEMASTER_ROB_TIME 4611
 
 // sprzedaz apteczek
 

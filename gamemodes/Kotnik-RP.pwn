@@ -1,43 +1,21 @@
-//-----------------------------------------[Mapa Kotnik Role Play]-------------------------------------------//
-//----------------------------------------------------*------------------------------------------------------//
-//---------------------------------(Stworzona na podstawie mapy The Godfather)-------------------------------//
-//-------------------------------------------------(v2.5)----------------------------------------------------//
-//----------------------------------------------------*------------------------------------------------------//
-//----[                                                                                                 ]----//
-//----[            |||          |||                           ||||||||||       ||||||||||               ]----//
-//----[            |||        |||                             |||     ||||     |||     ||||             ]----//
-//----[            |||      |||                               |||       |||    |||       |||            ]----//
-//----[            |||    |||                                 |||       |||    |||       |||            ]----//
-//----[            |||  |||                                   |||     ||||     |||     ||||             ]----//
-//----[            ||||||                  __________         ||||||||||       ||||||||||               ]----//
-//----[            ||| |||                                    |||    |||       |||                      ]----//
-//----[            |||   |||                                  |||     ||       |||                      ]----//
-//----[            |||     |||                                |||     |||      |||                      ]----//
-//----[            |||       |||                              |||      ||      |||                      ]----//
-//----[            |||         |||                            |||      |||     |||                      ]----//
-//----[            |||          |||                           |||       |||    |||                      ]----//
-//----[                                                                                                 ]----//
-//----------------------------------------------------*------------------------------------------------------//
-/*
+/*                
+                   _  __     _         _ _           _____       _             _____  _             
+                  | |/ /    | |       (_) |         |  __ \     | |           |  __ \| |            
+                  | ' / ___ | |_ _ __  _| | ________| |__) |___ | | ___ ______| |__) | | __ _ _   _ 
+                  |  < / _ \| __| '_ \| | |/ /______|  _  // _ \| |/ _ \______|  ___/| |/ _` | | | |
+                  | . \ (_) | |_| | | | |   <       | | \ \ (_) | |  __/      | |    | | (_| | |_| |
+                  |_|\_\___/ \__|_| |_|_|_|\_\      |_|  \_\___/|_|\___|      |_|    |_|\__,_|\__, |
+                                                                                               __/ |
+                                                                                              |___/  
+                    
+    Autor mapy: Mrucznik-RP 
+       |---> Kotnik® Role Play 
 
-Kotnik® Role Play
-
-    <-------------------------------------------------------->
-    aktualizacja 2.5 system aut mysql, us³ugi p³atne
-    aktualizacja 2.4.94 prace dorywcze, boomboxy
-    aktualizacja 2.4.93 strefy gangów
-    aktualizacja v 2.4.92 Kubi
-    Edit by Kubi - v 2.4.8 noMysql
-    <-------------------------------------------------------->
-    aktualizacja 7 paŸdziernika
-    aktualizacja 10.08
-    aktualizacja 29.X
-    <-------------------------------------------------------->
-	Kubi cwel
-	aktualizacja 2015.11.15 kryptonim PADZIOCH
-
+    Czas dzia³ania projektu: 04.12.2020r
+    Osoby bior¹ce udzia³ w rozwoju skryptu: 
+        |---> xSeLeCTx (github.com/xselectx)
+        |---> LukeSQLY (github.com/LukeSQLY)
 */
-//----------------------------------------------------*------------------------------------------------------//
 
 //-------------------------------------------<[ Includy ]>---------------------------------------------------//
 //-                                                                                                         -//
@@ -93,6 +71,8 @@ Kotnik® Role Play
 #include "modules/Inne/external.pwn"
 
 #include "modules/inne/system_przedmiotow.pwn"
+#include "modules/inne/napady.pwn"
+#include "modules/inne/mechanicy.pwn"
 
 #include "modules/forward.pwn"
 #include "modules/funkcje.pwn"
@@ -103,7 +83,6 @@ Kotnik® Role Play
 
 #include "modules/inne/pizzaboy.pwn"
 #include "modules/inne/kurier.pwn"
-//#include "modules/inne/napady.pwn"
 
 #include "modules/Inne/system_discord.pwn"
 /*#include "modules/obiekty/stare_obiekty.pwn"
@@ -122,7 +101,7 @@ Kotnik® Role Play
 //------------------------------------------------------------------------------------------------------
 main()
 {
-	print("\n----------------------------------");
+	/*print("\n----------------------------------");
 	print("K | ---  Kotnik Role Play  --- | K");
 	print("O | ---        ****        --- | O");
 	print("T | ---        v1.0        --- | T");
@@ -134,7 +113,7 @@ main()
 	print("  | ---       \\_^_/        --- |  ");
 	print("R | ---         |          --- | R");
 	print("P | ---         O          --- | P");
-	print("----------------------------------\n");
+	print("----------------------------------\n");*/
 	//exit;
 	WasteDeAMXersTime();
 
@@ -164,7 +143,7 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success)
     {
         SendClientMessage(playerid, -1, "dziala / fk");
     }
-    if(!success) sendTipMessage(playerid, "SERWER: "SZARY"Nie ma takiej komendy!");
+    if(!success) sendTipDialogMessage(playerid, "Nie znaleziono takiej komendy!");
 
 	return 1;
 }
@@ -1884,6 +1863,13 @@ public OnPlayerSpawn(playerid) //Przebudowany
         SetTimerEx("SpectatingPlayerSpawnFix", 4000, 0, "d", playerid);
     }
     
+    //resetowanie boksera
+    if(PlayerInfo[playerid][pJob] == JOB_BOXER) {
+        sendTipDialogMessage(playerid, "Twoja praca (bokser) zosta³a zresetowana z powodu przeniesienia pracy na skrypt grupy!");
+        PlayerInfo[playerid][pJob] = 0;
+    }
+    //end
+
     //Minusowe pieniadze (-10kk) = ban
     if(kaska[playerid] <= -10000000)
     {
@@ -1920,7 +1906,7 @@ public OnPlayerSpawn(playerid) //Przebudowany
         MruMySQL_SetAccInt("Rank", GetNick(playerid), 0);
         MruMySQL_SetAccInt("Member", GetNick(playerid), 0);
         UsunBron(playerid);
-        sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Zosta³eœ wyrzucony z pracy przez lidera, gdy by³eœ offline!");   
+        sendTipDialogMessage(playerid, "Zosta³eœ wyrzucony z pracy przez lidera, gdy by³eœ offline!");   
     }
         // zabieranie prawka //
     new string[128];
@@ -5007,7 +4993,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
                         if(PlayerInfo[playerid][pLevel] < 3)
                         {
                             ZabierzKase(playerid, floatround(TransportValue[i]/2));//moneycheat
-                            sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Jesteœ nowym graczem, obowi¹zuje Cie rabat 50 procent na taksówkê.");
+                            sendTipDialogMessage(playerid, "Jesteœ nowym graczem, obowi¹zuje Cie rabat 50 procent na taksówkê.");
                         }
                         else
                         {
@@ -5250,7 +5236,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
                 GetVehicleParamsEx(newcar, engine, unused, unused, unused, unused, unused, unused);
                 if(engine == 0)
                 {
-				    sendTipMessageEx(playerid, COLOR_LIGHTBLUE, "Mo¿esz ukraœæ ten wóz, wpisz /kradnij spróbowaæ to zrobiæ lub /wyjdz aby wyjœæ.");
+				    sendTipDialogMessage(playerid, "Mo¿esz ukraœæ ten wóz, wpisz /kradnij spróbowaæ to zrobiæ lub /wyjdz aby wyjœæ.");
                     KradniecieWozu[playerid] = newcar;
                 }
                 //if(PlayerInfo[playerid][pCarLic] == 1) TogglePlayerControllable(playerid, 0);
@@ -5522,6 +5508,9 @@ public OnGameModeInit()
         SetSVarInt("BW_Time", 180);
     }
 
+    print("=====================================================================================");
+    print("\t========================= INICJALIZACJA =========================");
+    print("=====================================================================================");
     f_init();
     //systempozarow_init();//System Po¿arów v0.1   DO POPRAWY
 	//Kotnik:
@@ -5589,7 +5578,9 @@ public OnGameModeInit()
 
     ZaladujAC();
 
-    //LoadActorsToRob();
+    //1.1
+    LoadActorsToRob(); //boty do okradania
+    LoadMechs(); //NPC naprawiaj¹ce auta
 
     //noYsi
     // LoadPrzewinienia();   DO POPRAWY
@@ -5761,6 +5752,9 @@ public OnGameModeInit()
     SendRconCommand("reloadfs obiekty");
     //SendRconCommand("reloadfs MRP/mrpshop");
     //SendRconCommand("reloadfs MRP/mrpattach");
+    print("=====================================================================================");
+    printf("\tSerwer pomyœlnie uruchomiony || Kotnik-Role-Play || Wersja: %s", VERSION);
+    print("=====================================================================================");
 	#if DEBUG == 1
 		printf("OnGameModeInit - end");
 	#endif
@@ -6943,6 +6937,32 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 			}
 		}
 	}*/
+
+    //
+    if(newkeys & KEY_NO && (GetPlayerState(playerid)==PLAYER_STATE_DRIVER))
+    {
+        new Float:carhealth, engine, unused;
+        new vehid = GetPlayerVehicleID(playerid);
+        GetVehicleHealth(vehid, carhealth);
+           if(IsPlayerInRangeOfPoint(playerid, 2, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
+           || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
+           {
+            GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine , unused , unused, unused, unused, unused, unused);
+                if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
+                if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  {
+                if(carhealth < 500.0)
+                {
+                    SetPVarInt(playerid, "botnaprawia", 1);
+                    repairTimerVar[playerid] = REPAIR_TIME;
+                    repairInProgress[playerid] = 1;
+                    //SetVehicleHealth(vehid, 1000.0);
+                    //else return sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
+                } else sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
+            }
+        }
+        
+    }
+    //
 	if(newkeys & KEY_YES && (GetPlayerState(playerid)==PLAYER_STATE_DRIVER))//id 131072
 	{
 		new engine, unused;
@@ -7273,7 +7293,7 @@ public OnPlayerText(playerid, text[])
 	new giveplayerid;
 	if(PlayerInfo[playerid][pMuted] == 1)
 	{
-		sendTipMessageEx(playerid, TEAM_CYAN_COLOR, "Nie mo¿esz mówiæ gdy¿ jesteœ uciszony");
+		sendTipDialogMessage(playerid, "Nie mo¿esz mówiæ gdy¿ jesteœ uciszony");
 		return 0;
 	}
 
