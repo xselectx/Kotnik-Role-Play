@@ -432,7 +432,9 @@ stock MruMySQL_SaveAccount(playerid, bool:forcegmx = false, bool:forcequit = fal
 	`ZaufanyGracz`='%d', \
 	`Apteczki`='%d', \
 	`DomWKJ`='%d', \
-	`DomT`='%d'\
+	`DomT`='%d', \
+	`pBPojazd` ='%d', \
+	`pBBron`='%d' \
 	WHERE `UID`='%d'", query,
     PlayerInfo[playerid][pCB],
 	PoziomPoszukiwania[playerid],
@@ -450,6 +452,8 @@ stock MruMySQL_SaveAccount(playerid, bool:forcegmx = false, bool:forcequit = fal
 	PlayerInfo[playerid][pApteczki],
 	PlayerInfo[playerid][pDomWKJ],
 	PlayerInfo[playerid][pDomT],
+	PlayerInfo[playerid][pBPojazd],
+	PlayerInfo[playerid][pBBron],
     PlayerInfo[playerid][pUID]);
 
     if(!mysql_query(query)) fault=false;
@@ -634,7 +638,7 @@ public MruMySQL_LoadAcocount(playerid)
 		PlayerInfo[playerid][pFuel], 
 		PlayerInfo[playerid][pMarried]);
 
-        lStr = "`MarriedTo`, `CBRADIO`, `PoziomPoszukiwania`, `Dowod`, `PodszywanieSie`, `ZmienilNick`, `Wino`, `Piwo`, `Cygaro`, `Sprunk`, `PodgladWiadomosci`, `StylWalki`, `PAdmin`, `ZaufanyGracz`, `Auto1`, `Auto2`, `Auto3`, `Auto4`, `Lodz`, `Samolot`, `Garaz`, `KluczykiDoAuta`, `Spawn`, `BW`, `BWType`, `Czystka`, `CarSlots`, `Apteczki`, `DomWKJ`, `DomT`";
+        lStr = "`MarriedTo`, `CBRADIO`, `PoziomPoszukiwania`, `Dowod`, `PodszywanieSie`, `ZmienilNick`, `Wino`, `Piwo`, `Cygaro`, `Sprunk`, `PodgladWiadomosci`, `StylWalki`, `PAdmin`, `ZaufanyGracz`, `Auto1`, `Auto2`, `Auto3`, `Auto4`, `Lodz`, `Samolot`, `Garaz`, `KluczykiDoAuta`, `Spawn`, `BW`, `BWType`, `Czystka`, `CarSlots`, `Apteczki`, `DomWKJ`, `DomT`, `pBPojazd`, `pBBron`";
 
         format(lStr, 1024, "SELECT %s FROM `mru_konta` WHERE `Nick`='%s'", lStr, GetNick(playerid));
     	mysql_query(lStr);
@@ -643,7 +647,7 @@ public MruMySQL_LoadAcocount(playerid)
         mysql_fetch_row_format(lStr, "|");
         mysql_free_result();
 
-        sscanf(lStr, "p<|>s[24]ddddddddddddddddddddddddddddd",
+        sscanf(lStr, "p<|>s[24]ddddddddddddddddddddddddddddddd",
         PlayerInfo[playerid][pMarriedTo],
 		PlayerInfo[playerid][pCB],
 		PlayerInfo[playerid][pWL],
@@ -673,7 +677,9 @@ public MruMySQL_LoadAcocount(playerid)
         PlayerInfo[playerid][pCarSlots],
         PlayerInfo[playerid][pApteczki],
         PlayerInfo[playerid][pDomWKJ],
-		PlayerInfo[playerid][pDomT]);
+		PlayerInfo[playerid][pDomT],
+		PlayerInfo[playerid][pBPojazd],
+		PlayerInfo[playerid][pBBron]);
 	}
 
 	// Pozycje kamizelki
