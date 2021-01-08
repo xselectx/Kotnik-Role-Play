@@ -203,7 +203,8 @@ sendErrorDialogMessage(id, string:msg[]) {
 }
 //2.5.2
 
-stock GetMajatek(playerid)
+forward GetMajatek(playerid);
+public GetMajatek(playerid)
 {
 	new vehvalues;
 	for(new i=0;i<MAX_CAR_SLOT;i++)
@@ -217,6 +218,43 @@ stock GetMajatek(playerid)
 	return kaska[playerid]+PlayerInfo[playerid][pAccount]+vehvalues+Dom[PlayerInfo[playerid][pDom]][hCena];
 }
 
+stock Czystka(playerid) {
+
+	for(new i = 0; i<MAX_CARS;i++)
+	{
+		if(CarData[i][c_UID] == PlayerInfo[playerid][pUID])
+		{
+		    Car_Destroy(CarData[i][c_UID]);
+		}
+	}
+
+	PlayerInfo[playerid][pLevel] = 1;
+	PlayerInfo[playerid][pAdmin] = 0;
+	PlayerInfo[playerid][pZG] = 0;
+	PlayerInfo[playerid][pMember] = 0;
+	PlayerInfo[playerid][pLider] = 0;
+	PlayerInfo[playerid][pNewAP] = 0;
+	PlayerInfo[playerid][pSHealth] = 0.0;
+	PlayerInfo[playerid][pHealth] = 50.0;
+	PlayerInfo[playerid][pPos_x] = 2246.6;
+	PlayerInfo[playerid][pPos_y] = -1161.9;
+	PlayerInfo[playerid][pPos_z] = 1029.7;
+	PlayerInfo[playerid][pInt] = 0;
+	PlayerInfo[playerid][pLocal] = 255;
+	PlayerInfo[playerid][pTeam] = 3;
+	PlayerInfo[playerid][pModel] = 136;
+	PlayerInfo[playerid][pPnumber] = 0;
+	PlayerInfo[playerid][pDom] = 0;
+	PlayerInfo[playerid][pPbiskey] = 255;
+	PlayerInfo[playerid][pAccount] = 5000;
+	PlayerInfo[playerid][pReg] = 1;
+	PlayerInfo[playerid][pDowod] = 0;
+    PlayerInfo[playerid][pCarSlots] = 4;
+    PlayerInfo[playerid][pCzystka] = 0;
+    ResetujKase(playerid);
+	DajKase(playerid, 5000);
+	sendTipMessage(playerid, "Twoje konto zosta³o wyczyszczone, usuniêto Ci dom, gotówkê, pojazdy, sloty. Otrzymujesz 5000$ na start");
+}
 
 
 //WRZUCANIE DO DEMORGAN
