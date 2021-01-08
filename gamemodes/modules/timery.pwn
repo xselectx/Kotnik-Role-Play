@@ -2234,6 +2234,10 @@ public JednaSekundaTimer()
 			naprawiony[vehidx] = 1;
             TogglePlayerControllable(i, 1);
             SetPVarInt(i, "botnaprawia", 0);
+            sendTipDialogMessage(i, sprintf("Zap³aci³eœ %d$ za naprawê pojazdu u mechanika", MECHS_COST_REPAIR));
+            DajKase(i, -MECHS_COST_REPAIR);
+            format(C_STRING, sizeof(C_STRING), "%s zap³aci³ %d za naprawê pojazdu u NPC", GetNick(i), MECHS_COST_REPAIR);
+            PayLog(C_STRING);
             GameTextForPlayer(i, "POJAZD NAPRAWIONY!", 1000, 3);
         }
         ////enddddddddddddddddddddddddddddddddddd
