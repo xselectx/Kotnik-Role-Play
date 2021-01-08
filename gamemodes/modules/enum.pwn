@@ -1514,6 +1514,8 @@ enum pInfo
 	pPayCheck,
 	pHeadValue,
 	pBP,
+    pBPojazd,
+    pBBron,
 	pJailed,
 	pJailTime,
     pJailReason[32],
