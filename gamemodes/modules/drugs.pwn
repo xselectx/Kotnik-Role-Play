@@ -7,7 +7,6 @@ new Float:corner_positions[][4] = // X Y Z Angle
 };
 
 
-
 LoadDrugActorsInit()
 {
 	print("Za³adowano system narkotykow.");
