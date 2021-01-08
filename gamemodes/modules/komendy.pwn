@@ -2659,6 +2659,99 @@ CMD:uwb(playerid)//usuñ wszystkie bronie
 	return 1;
 }
 
+CMD:bbron(playerid, params[])//blokada pisania
+{
+    new giveplayerid, czas, text[32];
+    if(sscanf(params, "k<fix>ds[32]", giveplayerid, czas, text))
+    {
+        sendTipDialogMessage(playerid, "U¿yj /bbron [ID gracza] [czas (w godzinach)] [powod]");
+        return 1;
+    }
+    if (PlayerInfo[playerid][pAdmin] >= 1)
+    {
+        if(IsPlayerConnected(giveplayerid))
+        {
+            if(giveplayerid != INVALID_PLAYER_ID)
+            {
+                if(czas <= 8 && czas >= 0)
+                {
+                    new string[256], sendername[MAX_PLAYER_NAME], giveplayer[MAX_PLAYER_NAME];
+                    GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
+                    GetPlayerName(playerid, sendername, sizeof(sendername));
+                    PlayerInfo[giveplayerid][pBBron] = czas;
+                    format(string, sizeof(string), "AdmCmd: %s otrzyma³ zakaz u¿ywania broni od %s. Czas: %d godzin. Powod: %s", giveplayer, sendername, czas, text);
+                    if(!KarywTXD) SendPunishMessage(string, giveplayerid);
+                    else KaraTextdraw(sprintf("Blokada broni (%dh)", czas), giveplayer, playerid, text);
+                    format(C_STRING, sizeof(C_STRING), "Zosta³eœ ukarany blokad¹ posiadania bronii na %d godzin. Powód nadania kary: %s", czas, text);
+                    sendTipDialogMessage(giveplayerid, C_STRING);
+                    ResetPlayerWeapons(playerid);
+                    UsunBron(playerid);
+                   // SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Kotnik-RP.pl");
+                    format(string, sizeof(string), "[BBRON]:  %s dostal blokade bronii od %s na %d godzin, z powodem %s", giveplayer, sendername, czas, text);
+                    KickLog(string);
+                    return 1;
+                }
+                else
+                {
+                    sendTipMessage(playerid, "Czas od 0 do 8");
+                }
+            }
+        }
+    }
+    else
+    {
+        new string[64];
+        format(string, sizeof(string), "%d jest nieaktywny.", giveplayerid);
+        sendErrorDialogMessage(playerid, string);
+    }
+    return 1;
+}
+
+CMD:bpojazd(playerid, params[])//blokada pisania
+{
+    new giveplayerid, czas, text[32];
+    if(sscanf(params, "k<fix>ds[32]", giveplayerid, czas, text))
+    {
+        sendTipDialogMessage(playerid, "U¿yj /bpojazd [ID gracza] [czas (w godzinach)] [powod]");
+        return 1;
+    }
+    if (PlayerInfo[playerid][pAdmin] >= 1)
+    {
+        if(IsPlayerConnected(giveplayerid))
+        {
+            if(giveplayerid != INVALID_PLAYER_ID)
+            {
+                if(czas <= 8 && czas >= 0)
+                {
+                    new string[256], sendername[MAX_PLAYER_NAME], giveplayer[MAX_PLAYER_NAME];
+                    GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
+                    GetPlayerName(playerid, sendername, sizeof(sendername));
+                    PlayerInfo[giveplayerid][pBPojazd] = czas;
+                    format(string, sizeof(string), "AdmCmd: %s otrzyma³ zakaz prowadzenia od %s. Czas: %d godzin. Powod: %s", giveplayer, sendername, czas, text);
+                    if(!KarywTXD) SendPunishMessage(string, giveplayerid);
+                    else KaraTextdraw(sprintf("Blokada prowadzenia (%dh)", czas), giveplayer, playerid, text);
+                    format(C_STRING, sizeof(C_STRING), "Zosta³eœ ukarany kar¹ prowadzenia pojazdów na %d godzin. Powód nadania kary: %s", czas, text);
+                    sendTipDialogMessage(giveplayerid, C_STRING);
+                    format(string, sizeof(string), "[BPOJAZD]:  %s dostal blokade prowadzenia od %s na %d godzin, z powodem %s", giveplayer, sendername, czas, text);
+                    KickLog(string);
+                    return 1;
+                }
+                else
+                {
+                    sendTipMessage(playerid, "Czas od 0 do 8");
+                }
+            }
+        }
+    }
+    else
+    {
+        new string[64];
+        format(string, sizeof(string), "%d jest nieaktywny.", giveplayerid);
+        sendErrorDialogMessage(playerid, string);
+    }
+    return 1;
+}
+
 CMD:bp(playerid, params[])//blokada pisania
 {
 	new giveplayerid, czas, text[32];
@@ -2709,7 +2802,7 @@ CMD:bp(playerid, params[])//blokada pisania
 	return 1;
 }
 
-CMD:KickEx_all(playerid)
+CMD:kickex_all(playerid)
 {
 	if(PlayerInfo[playerid][pAdmin] == 5000)
 	{
@@ -9459,6 +9552,8 @@ CMD:flip(playerid, params[])
 	return 1;
 }
 
+
+
 CMD:snn(playerid, params[])
 {
     if(PlayerInfo[playerid][pAdmin] < 25)
@@ -9557,7 +9652,6 @@ CMD:blok(playerid, params[])
 	}
 	return 1;
 }
-
 
 CMD:pblock(playerid, params[]) return cmd_pblok(playerid, params);
 CMD:pblok(playerid, params[])
@@ -32415,6 +32509,11 @@ CMD:sprzedajbron(playerid, params[])
                                     SendClientMessage(playerid, COLOR_RED, "Ten gracz nie posiada licencji na broñ, mo¿esz sprzedaæ mu tylko bronie na 1 skillu !");
                                     return 1;
                                 }
+                                if(PlayerInfo[giveplayerid][pBBron] > 0)
+                                {
+                                    SendClientMessage(playerid, COLOR_RED, "Ten gracz posiada blokadê posiadania bronii!");
+                                    return 1;
+                                }
 
                                 SetTimerEx("AntySB", 5000, 0, "d", giveplayerid); //by nie kickowa³o timer broni
                                 AntySpawnBroni[giveplayerid] = 5;
@@ -33300,9 +33399,9 @@ CMD:ochrona(playerid, params[])
 	new giveplayer[MAX_PLAYER_NAME];
 	new sendername[MAX_PLAYER_NAME];
 
-    if(PlayerInfo[playerid][pJob] != 8)
+    if(IsASklepZBronia(playerid))
     {
-		sendTipMessageEx(playerid, COLOR_GREY, "Nie jesteœ ochroniarzem!");
+		sendTipMessageEx(playerid, COLOR_GREY, "Nie jesteœ pracownikiem GS b¹dŸ nie masz 3 rangi");
 		return 1;
     }
 	new giveplayerid, money;
@@ -33312,7 +33411,7 @@ CMD:ochrona(playerid, params[])
 		return 1;
 	}
 
-	if(money < 5000 || money > 15000) { sendTipMessageEx(playerid, COLOR_GREY, "Cena od 5000 do 15000!"); return 1; }
+	if(money < 50000 || money > 100000) { sendTipMessageEx(playerid, COLOR_GREY, "Cena od 50000 do 100000!"); return 1; }
 	if(IsPlayerConnected(giveplayerid))
 	{
 	    if(giveplayerid != INVALID_PLAYER_ID)
@@ -33338,7 +33437,7 @@ CMD:ochrona(playerid, params[])
 				GetPlayerName(playerid, sendername, sizeof(sendername));
 			    format(string, sizeof(string), "* Oferujesz ochronê %s za $%d.", giveplayer, money);
 				_MruGracz(playerid, string);
-				format(string, sizeof(string), "* Ochroniarz %s oferuje ci kamizelkê za $%d, (wpisz /akceptuj ochrona) aby akceptowaæ", sendername, money);
+				format(string, sizeof(string), "* %s oferuje ci kamizelkê za $%d, (wpisz /akceptuj ochrona) aby akceptowaæ", sendername, money);
 				_MruGracz(giveplayerid, string);
 				GuardOffer[giveplayerid] = playerid;
 				GuardPrice[giveplayerid] = money;
