@@ -677,6 +677,19 @@ public OnEnterExitModShop(playerid, enterexit, interiorid)
 
 public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
+    if(PlayerInfo[playerid][pBPojazd] > 0)
+    {
+        if(!ispassenger)
+        {
+            new Float:slx, Float:sly, Float:slz;
+            GetPlayerPos(playerid, slx, sly, slz);
+            SetPlayerPosEx(playerid, slx, sly, slz+0.1);
+            ClearAnimations(playerid);
+            sendErrorDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê prowadzenia pojazdów. Pozosta³o: %dh", PlayerInfo[playerid][pBPojazd]));
+            return 0;
+        }
+    }
+
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerEnterVehicle - begin", GetNick(playerid), playerid);
 	#endif
@@ -1849,7 +1862,12 @@ public OnPlayerSpawn(playerid) //Przebudowany
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	//if(GetPVarInt(playerid, "class-sel")) DeletePVar(playerid, "class-sel");
 
-
+    if(PlayerInfo[playerid][pBBron] > 0)
+    {
+        sendTipDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[playerid][pBBron]));
+        ResetPlayerWeapons(playerid);
+        UsunBron(playerid);
+    }
 
     if(PlayerInfo[playerid][pGun7] == 41) PlayerInfo[playerid][pGun7] = 0;
     SetTimerEx("AntySB", 5000, 0, "d", playerid); //by nie kickowa³o timer broni
@@ -5657,7 +5675,7 @@ public OnGameModeInit()
 	//timery
 	SetTimer("AktywujPozar", 2200000, true);//System Po¿arów v0.1
     SetTimer("MainTimer", 1000, true);
-    //SetTimer("MySQL_Refresh", 15000, true);
+        //SetTimer("MySQL_Refresh", 15000, true);
 	//SetTimer("JednaSekundaTimer", 1000, true);//1 sekunda timer
     //SetTimer("GangZone_Process", 1750, true);//OnPlayerEnterGangZone / OnPlayerLeaveGangZone
 	//SetTimer("SyncUp", 60000, 1);//1min
@@ -5924,6 +5942,14 @@ PayDay()
 					{
 					    PlayerInfo[i][pBP]--;
 					}
+                    if(PlayerInfo[i][pBPojazd] >= 1)
+                    {
+                        PlayerInfo[i][pBPojazd]--;
+                    }
+                    if(PlayerInfo[i][pBBron] >= 1)
+                    {
+                        PlayerInfo[i][pBBron]--;
+                    }
 					if(kaska[i] >= 10000000 && PlayerInfo[i][pLevel] <= 2 || PlayerInfo[i][pAccount] >= 10000000 && PlayerInfo[i][pLevel] <= 2)
 					{
 						MruMySQL_Banuj(i, "10MLN i 1 lvl");
@@ -6051,6 +6077,15 @@ public OnPlayerUpdate(playerid)
 		printf("Problem z Update, nick: %s", GetNick(playerid, true));
         KickEx(playerid);
     }*/
+
+    if(PlayerInfo[playerid][pBBron] > 0) {
+        if(GetPlayerWeapon(playerid)) {
+            ABroadCast(COLOR_YELLOW, sprintf("[Blokady]: Gracz %s [%d] próbuje omijaæ blokadê posiadania bronii", GetNick(playerid), playerid), 1);
+            sendTipDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[playerid][pBBron]));
+            ResetPlayerWeapons(playerid);
+            UsunBron(playerid);
+        }
+    }
 
     if(GetPVarInt(playerid, "entering_car") == 1) // pierdoloy samp, ju¿ trzeci raz próbuje usun¹æ ten zjebany pvar...
     {
@@ -6368,6 +6403,7 @@ OnPlayerLogin(playerid, password[])
         sendTipMessage(playerid, string);
 		//_MruGracz(playerid,string);
 		printf("%s has logged in.",nick);
+
         if (PlayerInfo[playerid][pAdmin] > 0)
         {
             //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
@@ -6383,6 +6419,14 @@ OnPlayerLogin(playerid, password[])
 			//_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
             sendTipMessage(playerid, "Jesteœ posiadaczem {E2BA1B}Konta Premium.");
 		}
+
+        if (PlayerInfo[playerid][pCzystka] > 0)
+        {
+            Czystka(playerid);
+            KaraTextdrawSystem("Czystka konta", GetNick(playerid), "SYSTEM", "Defraudacja");
+            sendTipDialogMessage(playerid, "Twoje konto zosta³o wyczyszczone z gotówki, pojazdów, domów, slotów\n Otrzymujesz 5000$ na start.");
+            KickEx(playerid);
+        }
 
         
         SaveIPGPCI(playerid);
@@ -6948,6 +6992,7 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
            || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
            {
             GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine , unused , unused, unused, unused, unused, unused);
+                if(kaska[playerid] <= 49999) return sendTipDialogMessage(playerid, "Nie staæ Ciê na naprawê pojazdu u mechanika"); 
                 if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
                 if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  {
                 if(carhealth < 500.0)
