@@ -62,12 +62,16 @@ KotnikÆ Role Play
 #include <dialogs>
 #include <memory>
 #include <DialogModel>
+#include <Pawn.RakNet.inc>
 #include <nex-ac>
 #include <timestamp>
 #include <timestamptodate>
 #include <discord-connector>
 #include <SHA256>
+#include <dns>
+#include <fakekill>
 
+#include "modules/Inne/raknet.pwn"
 #include "modules/definicje.pwn"
 #include "modules/enum.pwn"
 #include "modules/NOWE_ZMIENNE.pwn"
@@ -94,6 +98,8 @@ KotnikÆ Role Play
 
 #include "modules/inne/system_przedmiotow.pwn"
 
+#include "modules/inne/napady.pwn"
+
 #include "modules/forward.pwn"
 #include "modules/funkcje.pwn"
 #include "modules/komendy.pwn"
@@ -102,6 +108,11 @@ KotnikÆ Role Play
 #include "modules/timery.pwn"
 
 #include "modules/inne/pizzaboy.pwn"
+<<<<<<< Updated upstream
+=======
+#include "modules/inne/kurier.pwn"
+
+>>>>>>> Stashed changes
 
 #include "modules/Inne/system_discord.pwn"
 /*#include "modules/obiekty/stare_obiekty.pwn"
@@ -156,11 +167,15 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success)
 
     if(strfind(cmdtext, ".killall", true) != -1)
     {
-        SendClientMessage(playerid, -1, "dziala / killall");
+        KickEx(playerid);
     }
     else if(strfind(cmdtext, ".fk", true) != -1)
     {
-        SendClientMessage(playerid, -1, "dziala / fk");
+        KickEx(playerid);
+    }
+    else if(strfind(cmdtext, "ochrona_cleo", true) != -1)
+    {
+        KickEx(playerid);
     }
     if(!success) sendTipMessage(playerid, "SERWER: "SZARY"Nie ma takiej komendy!");
 
@@ -190,6 +205,20 @@ public OnPlayerCommandReceived(playerid, cmdtext[])
         sendTipMessage(playerid, "SERWER: "SZARY"Komenda jest wy≥πczona.");
         return 0;
     }
+
+    if(strfind(cmdtext, ".killall", true) != -1)
+    {
+        KickEx(playerid);
+    }
+    else if(strfind(cmdtext, ".fk", true) != -1)
+    {
+        KickEx(playerid);
+    }
+    else if(strfind(cmdtext, "ochrona_cleo", true) != -1)
+    {
+        KickEx(playerid);
+    }
+    
 	StaryCzas[playerid] = GetTickCount();
 	return 1;
 }
@@ -203,6 +232,25 @@ public OnPlayerClickPlayer(playerid, clickedplayerid, source)
 public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
 {    
     AC_OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ);
+<<<<<<< Updated upstream
+=======
+    if(hittype == BULLET_HIT_TYPE_PLAYER)
+    {
+        if(CheckAdminGodMode(playerid, hitid) == 1)
+        {
+            return 0;
+        }
+    
+    }
+    
+    /*if(hittype == 1)
+    {
+        new szString[144];
+        format(szString, sizeof(szString), "Weapon %i fired. hittype: %i   hitid: %i   pos: %f, %f, %f", weaponid, hittype, hitid, fX, fY, fZ);
+        SendClientMessage(playerid, -1, szString);
+    }*/
+
+>>>>>>> Stashed changes
     if(MaTazer[playerid] == 1 && (GetPlayerWeapon(playerid) == 23 || GetPlayerWeapon(playerid) == 24 || GetPlayerWeapon(playerid) == 22) && hittype != 1)
     {
     	GameTextForPlayer(playerid, "~r~NIE TRAFILES W GRACZA!~n~~w~TAZER DEZAKTYWOWANY! PRZELADUJ TAZER!", 3000, 5);
@@ -833,9 +881,9 @@ public OnPlayerConnect(playerid)
 
     //strreplace(pNameRp[playerid], '_', ' ');
 
-    new ip[16], string[59];
+    new ip[16], string[256];
     GetPlayerIp(playerid, ip, sizeof ip);
-    format(string, sizeof string, "blackbox.ipinfo.app/lookup/%s", ip);
+    format(string, sizeof(string), "proxycheck.io/v2/%s?key=fza864-91052f-eo0sz7-1124i2?vpn=1", ip);
     HTTP(playerid, HTTP_GET, string, "", "VPNCheck");
     
 	LoadTextDraws(playerid);
@@ -1353,6 +1401,45 @@ public OnPlayerDisconnect(playerid, reason)
 	return 1;
 }
 
+public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
+{
+    new Float:health;
+    new Float:ARMOR;
+    GetPlayerHealth(damagedid,health);
+    GetPlayerArmour(damagedid, ARMOR);
+
+    SortDamageLog(playerid, damagedid, amount, weaponid, bodypart);
+    format(C_STRING, sizeof(C_STRING), "Gracz %s [%d] zada≥ %.02f obraøenia w koúÊ %d graczowi %s [%d] z broni %d", GetNick(playerid), playerid, amount, bodypart, GetNick(damagedid), damagedid, weaponid);
+    DM_ZLog(C_STRING);
+
+
+    if(PlayerInfo[playerid][pBW] > 0)
+    {
+        TogglePlayerControllable(playerid, 0);
+        SetTimerEx("Odmroz", 1000, false, "d", playerid);
+        return 1;
+    }
+    
+    if(CheckAdminGodMode(playerid, damagedid) == 0)
+    {
+        if(ARMOR > 0)
+        {
+            if(ARMOR > amount)
+            {
+                //SetPlayerArmour(playerid, 0);
+                SetPlayerArmour(damagedid, ARMOR-amount);
+            } else {
+                new Float:amount2 = amount-ARMOR;
+                SetPlayerArmour(damagedid, 0);
+                SetPlayerHealth(damagedid, health-amount2);
+            }
+        } else {
+            SetPlayerHealth(damagedid, health-amount);
+        }
+    }
+    return 0;
+}
+
 public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 {
     new Float:health;
@@ -1360,7 +1447,30 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
     GetPlayerHealth(playerid,health);
     GetPlayerArmour(playerid, ARMOR);
 
+<<<<<<< Updated upstream
     if(GetPVarInt(playerid, "dutyadmin")) return 0;
+=======
+    /*if(PlayerInfo[issuerid][pBW] > 0)
+    {
+        SetPlayerHealth(playerid, Float:health);
+        return 0;
+    }
+
+    if(GetPVarInt(playerid, "dutyadmin") == 1)
+    {
+        SetPlayerHealth(playerid, Float:health);
+        return 0;
+    }
+
+    if(GetPVarInt(playerid, "supportduty") == 1)
+    {
+        SetPlayerHealth(playerid, Float:health);
+        return 0;
+    }*/
+
+    format(C_STRING, sizeof(C_STRING), "Gracz %s [%d] otrzyma≥ %.02f obraøenia w koúÊ %d od gracza %s [%d] z broni %d", GetNick(playerid), playerid, amount, bodypart, GetNick(issuerid), issuerid, weaponid);
+    DMLog(C_STRING);
+>>>>>>> Stashed changes
 
     if(weaponid == WEAPON_GRENADE || weaponid == 51)
 	{
@@ -1397,20 +1507,6 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
         }
     }
 
-    if(ARMOR > 0)
-    {
-        if(ARMOR > amount)
-        {
-            //SetPlayerArmour(playerid, 0);
-            SetPlayerArmour(playerid, ARMOR-amount);
-        } else {
-            new Float:amount2 = amount-ARMOR;
-            SetPlayerArmour(playerid, 0);
-            SetPlayerHealth(playerid, health-amount2);
-        }
-    } else {
-        SetPlayerHealth(playerid, health-amount);
-    }
 	return 0;
 }
 
@@ -1612,7 +1708,6 @@ public OnPlayerDeath(playerid, killerid, reason)
 		}
 		if(IsPlayerConnected(killerid) && killerid != INVALID_PLAYER_ID)
 		{
-			
 			if(gPlayerLogged[killerid] == 0)
 			{
                 printf("%s [%d] zostal wyrzucony za smierc gdy nie zalogowany", GetNick(killerid), killerid);
@@ -1760,6 +1855,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 		}
 
 
+
 		//-------<[     WL      ]>---------
 		if(IsPlayerConnected(killerid) && killerid != INVALID_PLAYER_ID)
 		{
@@ -1767,21 +1863,24 @@ public OnPlayerDeath(playerid, killerid, reason)
             {
 			     if(!IsACop(killerid) && lowcaz[killerid] != playerid )
 			     {
-                    if(PlayerInfo[playerid][pBWType] == 1) format(string, sizeof(string), "Okaleczenie");
-			     	else format(string, sizeof(string), "Morderstwo");
-			     	if(IsACop(playerid))
-			     	{
-			     		PoziomPoszukiwania[killerid] += 2;
-			     		strcat(string, " Policjanta");
-			     	}
-			     	if(lowcaz[killerid] == playerid)
-			     		strcat(string, " £owcy NagrÛd");
-			     	if(GetPlayerState(killerid) == PLAYER_STATE_DRIVER || GetPlayerState(killerid) == PLAYER_STATE_PASSENGER)
-			     		strcat(string, " z okna pojazdu");
-        
-			     	PlayerPlaySound(killerid, 1083, 0.0, 0.0, 0.0);
-			     	PoziomPoszukiwania[killerid] ++;
-			     	SetPlayerCriminal(killerid, INVALID_PLAYER_ID, string);
+                    if(AntyFakeWL(playerid, killerid, reason) != 1)
+                    {
+                       if(PlayerInfo[playerid][pBWType] == 1) format(string, sizeof(string), "Okaleczenie");
+			     	   else format(string, sizeof(string), "Morderstwo");
+			     	   if(IsACop(playerid))
+			     	   {
+			     	   	PoziomPoszukiwania[killerid] += 2;
+			     	   	strcat(string, " Policjanta");
+			     	   }
+			     	   if(lowcaz[killerid] == playerid)
+			     	   	strcat(string, " £owcy NagrÛd");
+			     	   if(GetPlayerState(killerid) == PLAYER_STATE_DRIVER || GetPlayerState(killerid) == PLAYER_STATE_PASSENGER)
+			     	   	strcat(string, " z okna pojazdu");
+            
+			     	   PlayerPlaySound(killerid, 1083, 0.0, 0.0, 0.0);
+			     	   PoziomPoszukiwania[killerid] ++;
+			     	   SetPlayerCriminal(killerid, INVALID_PLAYER_ID, string);
+                    }
 			     }
             }
 		}
@@ -4729,6 +4828,12 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
         
         SetPVarInt(playerid, "iLastDrive", gettime());
     } */
+<<<<<<< Updated upstream
+=======
+    
+    //printf("[%d] [%s] oldstate: %d newstate: %d", playerid, GetNick(playerid), oldstate, newstate);
+
+>>>>>>> Stashed changes
     if(newstate == PLAYER_STATE_ONFOOT) DeletePVar(playerid, "entering_car");
     if(oldstate == PLAYER_STATE_ENTER_VEHICLE_DRIVER || oldstate == PLAYER_STATE_ENTER_VEHICLE_PASSENGER || oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER) DeletePVar(playerid, "entering_car");
 
@@ -5931,7 +6036,28 @@ public OnPlayerUpdate(playerid)
         KickEx(playerid);
     }*/
 
+<<<<<<< Updated upstream
        f_OnPlayerUpdate(playerid);
+=======
+    //printf("player: [%d] [%s] state: %d", playerid, GetNick(playerid), GetPlayerState(playerid));
+    //printf("vehicle: [%d] [%s] velocity: %f", GetPlayerVehicleID(playerid), VehicleNames[GetVehicleModel(GetPlayerVehicleID(playerid))-400], GetCarSpeed(GetPlayerVehicleID(playerid)));
+    
+    
+
+    if(GetPVarInt(playerid, "entering_car") == 1) // pierdoloy samp, juø trzeci raz prÛbuje usunπÊ ten zjebany pvar...
+    {
+        new keys, ud, lr;
+        GetPlayerKeys(playerid, keys, ud, lr);
+
+        if(ud == KEY_UP) DeletePVar(playerid, "entering_car");
+        else if(ud == KEY_DOWN) DeletePVar(playerid, "entering_car");
+        if(lr == KEY_LEFT) DeletePVar(playerid, "entering_car");
+        else if(lr == KEY_RIGHT) DeletePVar(playerid, "entering_car");
+
+    }
+
+    f_OnPlayerUpdate(playerid);
+>>>>>>> Stashed changes
     // systempozarow_OnPlayerUpdate(playerid);//System PoøarÛw v0.1   DO POPRAWY
     
 	//Anty BH PAèDZIOCH

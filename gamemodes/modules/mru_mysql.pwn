@@ -718,14 +718,16 @@ public MruMySQL_LoadAcocount(playerid)
 		db_free_result(db_query(db_handle, lStr));
 	}
 
-	if(PlayerInfo[playerid][pLider] == 14) 
-	{
-		gPlayerOrgLeader[playerid] = true;
-	}
-	if(PlayerInfo[playerid][pMember] == 14)
-	{
-		PlayerInfo[playerid][pOrg] = 22;
-	}
+	//if(PlayerInfo[playerid][pLider] == 14) 
+	//{
+	//	gPlayerOrgLeader[playerid] = true;
+	//}
+	//if(PlayerInfo[playerid][pMember] == 14)
+	//{
+	//	PlayerInfo[playerid][pOrg] = 22;
+	//}
+
+	OldPayCheck[playerid] = PlayerInfo[playerid][pPayCheck];
 
     MruMySQL_LoadAccess(playerid);
     premium_loadForPlayer(playerid);

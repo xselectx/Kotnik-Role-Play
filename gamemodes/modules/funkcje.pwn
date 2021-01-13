@@ -2420,6 +2420,54 @@ IsAKO(playerid)
 	return 0;
 }
 
+<<<<<<< Updated upstream
+=======
+
+
+IsAxSeLeCTx(playerid)
+{
+	if(IsPlayerConnected(playerid))
+	{
+	    new nick[MAX_PLAYER_NAME];
+		GetPlayerName(playerid, nick, sizeof(nick));
+		if(strcmp(nick,"Jayden_Howard", false) == 0 || strcmp(nick,"Yui_Tachibana", false) == 0)
+		{
+		    return 1;
+		}
+	}
+	return 0;
+}
+
+IsAChlor(playerid)
+{
+	if(IsPlayerConnected(playerid))
+	{
+	    new nick[MAX_PLAYER_NAME];
+		GetPlayerName(playerid, nick, sizeof(nick));
+		if(strcmp(nick,"Henry_Foxworthy", false) == 0)
+		{
+		    return 1;
+		}
+	}
+	return 0;
+}
+
+IsARoad(playerid)
+{
+	if(IsPlayerConnected(playerid))
+	{
+	    new nick[MAX_PLAYER_NAME];
+		GetPlayerName(playerid, nick, sizeof(nick));
+		if(strcmp(nick,"Andre_Schavione", false) == 0)
+		{
+		    return 1;
+		}
+	}
+	return 0;
+}
+
+
+>>>>>>> Stashed changes
 stock MozePobic(playerid)
 {
 	if(IsPlayerConnected(playerid))
@@ -3854,6 +3902,8 @@ CanUseCar(playerid, newcar)
 		return 1;
 	} 
 
+	if(PlayerInfo[playerid][pBW] > 0) return 0;
+
 	if(IsACopCar(newcar))
 	{
 	    if(IsACop(playerid))
@@ -4734,6 +4784,33 @@ stock AdminDutyLog(text[])
 	Log(plik, text);
 }
 
+<<<<<<< Updated upstream
+=======
+stock DeathLog(text[])
+{
+	new plik[32] = "logi/death.log";
+	Log(plik, text);
+}
+
+stock DMLog(text[])
+{
+	new plik[32] = "logi/dm2.log";
+	Log(plik, text);
+}
+stock DM_ZLog(text[])
+{
+	new plik[32] = "logi/dm2_z.log";
+	Log(plik, text);
+}
+
+stock SMSLog(text[])
+{
+	new plik[32] = "logi/sms-call.log";
+	Log(plik, text);
+}
+
+
+>>>>>>> Stashed changes
 stock Log(plik[], text[])
 {
 	new File:file = fopen(plik, io_append);
@@ -5144,6 +5221,20 @@ SetPlayerToTeamColor(playerid)
 			return 1;
 		}
 
+<<<<<<< Updated upstream
+=======
+		if(GetPVarInt(playerid, "gmduty") == 1)
+		{
+			SetPlayerColor(playerid, COLOR_PURPLE);
+			return 1;
+		}
+		if(GetPVarInt(playerid, "supportduty") == 1)
+		{
+			SetPlayerColor(playerid, COLOR_BLUE);
+			return 1;
+		}
+        
+>>>>>>> Stashed changes
 	    if(PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1)
 		{
 		    if(OnDuty[playerid] && OnDutyCD[playerid] == 0)
@@ -13225,6 +13316,8 @@ OnCheatDetected(playerid, ip_address[], type, code)
         case 52:    format(code_decoded, sizeof(code_decoded), "Anti-NOPs");
         case 53:    format(code_decoded, sizeof(code_decoded), "Speedfire");
         case 54:    format(code_decoded, sizeof(code_decoded), "Omijanie AFK");
+        case 55:    format(code_decoded, sizeof(code_decoded), "Fake Wanted");
+        case 56: 	format(code_decoded, sizeof(code_decoded), "Fake Kill (2)");
         default:    format(code_decoded, sizeof(code_decoded), "Inne");
         
     }
@@ -13240,15 +13333,15 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		case 1: // omijanie samouczka
     		{
     			format(code_decoded, sizeof(code_decoded), "Omijanie logowania (1)"); 
-    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
     			SendAdminMessage(0x9ACD32AA, string);
     			BanLog(string);
-    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
+    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ skickowany. | Kod: %d.", code);
     			SendClientMessage(playerid, 0x9ACD32AA, string);
-    			SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    			//SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
     			//MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-
-    			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod 101");
+    			BlockIpAddress(plrIP, 60 * 1000);
+    			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod: 101");
     			SetPlayerVirtualWorld(playerid, 7777);
 				KickEx(playerid);
     		}
@@ -13258,9 +13351,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
 
     if(code == 40)
     {
-    	new cmd[128];
-    	format(cmd, 128, "rcon banip %s", plrIP);
-    	SendRconCommand(cmd);
+    	BlockIpAddress(plrIP, 60 * 1000);
     }
 
     if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
@@ -14537,16 +14628,18 @@ public VPNCheck(playerid, response_code, data[])
 	if(!strcmp(ip, "127.0.0.1",true)) return 1;
 	if(response_code == 200)
 	{	
-		if(data[0] == 'Y')
+		if(strfind(data, "yes", true) != -1)
+		//if(data[0] == 'Y')
 		{
 			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
+			printf("%s", string);
 			SendRconCommand(sprintf("banip %s", ip));
 	    	SendVPNAdminMessage( 0xFF0000FF, string);
 	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
 	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
 	    	KickEx(playerid);
 		}
-		if(data[0] == 'X' || data[0] == 'E')
+		if(strfind(data, "error", true) != -1)
 		{
 			printf("WRONG IP FORMAT");
 		}	
@@ -14623,4 +14716,346 @@ public SprzedajMatsTimer(playerid,giveplayerid)
 		sendErrorMessage(playerid, "Sprzeda¿ mats zosta³a anulowana!");
 	}
 	return 1;
+<<<<<<< Updated upstream
+=======
+}
+
+forward PAUSE_CheckPlayer(playerid);
+forward OnPlayerPause(playerid);
+
+
+public PAUSE_CheckPlayer(playerid)
+{
+    if(IsPlayerPaused(playerid))
+    {
+         CallLocalFunction("OnPlayerPause", "d", playerid);
+    }
+    else 
+    {
+    	if(BreakTime[playerid] != -1)
+    	{
+    		new afktime;
+	
+    		if(AFKTime[playerid][1] == 0) afktime = AFKTime[playerid][0];
+    		else afktime = AFKTime[playerid][1];
+
+			BreakTime[playerid]++;
+
+    		if(BreakTime[playerid] > afktime || BreakTime[playerid] > 180)
+			{
+				//new name[MAX_PLAYER_NAME];
+				//GetPlayerName(playerid, name, sizeof(name));
+				//printf("%s byl afk przez %d", name, afktime);
+				AFKTime[playerid][1] = 0;
+				AFKTime[playerid][0] = 0;
+				BreakTime[playerid] = -1;
+			}
+		}
+    }
+    return 1;
+}
+
+
+
+public OnPlayerPause(playerid)
+{
+    //print("OnPlayerPause");
+    new text[26];
+    AFKTime[playerid][0]++;
+    if(AFKTime[playerid][0] >= 60)
+    {
+        AFKTime[playerid][1]++;
+        AFKTime[playerid][0] = 0;
+    }
+    BreakTime[playerid] = 0;
+    format(text, sizeof(text), "[AFK] %d min %d sek (%d)",AFKTime[playerid][1], AFKTime[playerid][0], playerid);
+    //printf("%s", text);
+    SetPlayerChatBubble(playerid, text, COLOR_GREEN, 10, 1200);
+
+
+	if(AFKTime[playerid][1] >= 10 && PlayerInfo[playerid][pAdmin] >= 1 || AFKTime[playerid][1] >= 10 && PlayerInfo[playerid][pNewAP] >= 1)
+	{
+		if(AFKTime[playerid][1] >= 30 && PlayerInfo[playerid][pAdmin] != 5000)
+		{
+			SendClientMessage(playerid, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugie AFK (30 minut).");
+			SetTimerEx("KickEx", 500, false, "i", playerid);
+		}
+	}
+	else if(AFKTime[playerid][1] > 10 && PlayerInfo[playerid][pDonateRank] >= 1)
+	{
+		if(AFKTime[playerid][1] >= 20)
+		{
+			SendClientMessage(playerid, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugie AFK (20 minut).");
+			SetTimerEx("KickEx", 500, false, "i", playerid);
+		}
+	}
+	else if(AFKTime[playerid][1] >= 10)
+	{
+		SendClientMessage(playerid, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugie AFK (10 minut).");
+		SetTimerEx("KickEx", 500, false, "i", playerid);
+	}
+	else
+	{
+		//SetPlayerChatBubble(playerid, text, 0x33AA33AA, 15.0, 1500);
+	}
+
+    return 1;
+
+}
+
+IsPlayerPaused(playerid)
+{
+	if((gState[playerid] == e_STATE_UPDATING) && ((GetTickCount() - MAX_AFK_TIME) >= gLastUpdate[playerid]))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+ReturnGPCI(iPlayerID)
+{
+    new 
+        szSerial[41]; // 40 + \0
+ 
+    gpci(iPlayerID, szSerial, sizeof(szSerial));
+    return szSerial;
+}
+
+
+
+
+ShowPowiazania(playerid, id, typ)
+{
+	new string[2048], query[128], ilosc;
+	new plrIP[16];
+    GetPlayerIp(id, plrIP, sizeof(plrIP));
+
+	if(typ == 1) format(query, sizeof(query), "SELECT `UID`, `Nick` FROM `mru_konta` WHERE `GPCI` = '%s'", ReturnGPCI(id));
+	else if(typ == 0) format(query, sizeof(query), "SELECT `UID`, `Nick` FROM `mru_konta` WHERE `IP` = '%s'", plrIP);
+
+
+	mysql_query(query);
+	mysql_store_result();
+	new uid, nick[24];
+
+	while(mysql_fetch_row_format(query, "|"))
+    {
+        sscanf(query, "p<|>ds[24]", uid, nick);
+        //printf("%s", query);
+
+		//new ban_reason[128];
+		//format(ban_reason, sizeof(ban_reason), "%s", MruMySQL_SprawdzBany2(nick));
+		//strcat(ban_reason, MruMySQL_SprawdzBany2(nick));
+		if(uid != PlayerInfo[playerid][pUID])
+		{
+			if(ilosc < 15)
+			{
+				//if(strcmp(ban_reason, "mysql_off") != 0 && strcmp(ban_reason, "brak") != 0)
+				//{
+				//	format(string, sizeof(string), "%s»» %s [%d] {FF0000}%s{FFFFFF}\n", string, nick, uid, ban_reason);
+				//}
+				//else
+				//{
+					format(string, sizeof(string), "%s»» %s [%d]\n", string, nick, uid);
+				//}
+			}
+			ilosc++;
+		}
+	}
+	mysql_free_result();
+	if(ilosc > 0) 
+	{
+		if(typ == 1) return ShowPlayerDialogEx(playerid, D_POWIAZANIA_GPCI, DIALOG_STYLE_LIST, sprintf("%s | %d powi¹zañ GPCI", GetNick(playerid), ilosc), string, "OK", "");
+		else if(typ == 0) return ShowPlayerDialogEx(playerid, D_POWIAZANIA_GPCI, DIALOG_STYLE_LIST, sprintf("%s | %d powi¹zañ IP", GetNick(playerid), ilosc), string, "OK", "");
+	}
+	else return sendTipMessage(playerid, "Brak powi¹zañ.");
+	
+	return 1;
+}
+
+SaveIPGPCI(playerid)
+{
+	new query[128];
+	new plrIP[16];
+    GetPlayerIp(playerid, plrIP, sizeof(plrIP));
+
+	format(query, sizeof(query), "UPDATE `mru_konta` SET `IP` = '%s', `GPCI`='%s' WHERE `Nick` = '%s'", plrIP, ReturnGPCI(playerid), GetNick(playerid));
+	mysql_query(query);
+}
+
+forward BranyPortfelTimer(typ, org);
+public BranyPortfelTimer(typ, org)
+{
+	if(typ == 0) BranyPortfelFrac[org] = 0;
+	if(typ == 1) BranyPortfelOrg[org] = 0;
+}
+
+AntyFakeWL(playerid, killerid, reason)
+{
+	if(AntyFakeKillVar[playerid] >= 1)
+	{
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	if(GetDistanceBetweenPlayers(playerid, killerid) > 500)
+	{
+		print("distance");
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(CheckPlayerWeapon(killerid, reason) == 0)
+	{
+		print("weap");
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
+	{
+		print("state");
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(TutTime[playerid] > 0 && TutTime[playerid] < 114)
+	{
+		print("tut");
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	if(gPlayerLogged[playerid] == 0)
+	{
+		print("logged");
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	return 0;
+}
+
+CheckPlayerWeapon(playerid, weapid)
+{
+	new weapons[13][2];
+	for (new i = 0; i <= 12; i++)
+	{
+	    GetPlayerWeaponData(playerid, i, weapons[i][0], weapons[i][1]);
+	    if(weapons[i][0] == weapid) return 1;
+	}
+	return 0;
+}
+
+PrintDamageLog(playerid, typ, id)
+{
+	new string[256];
+	if(typ == 0)
+	{
+		for(new i = 0; i<10; i++)
+		{
+			if(DamageLog[id][i][dmg_amount] != 0)
+			{
+				format(string, sizeof(string), "» %s | %s zada³ %s %.02f obra¿eñ z %s", 
+					DamageLog[id][i][dmg_time], 
+					GetNick(DamageLog[id][i][dmg_playerid]), 
+					GetNick(DamageLog[id][i][dmg_damagedid]),
+					DamageLog[id][i][dmg_amount],
+					DamageLogNames[DamageLog[id][i][dmg_weaponid]]);
+				SendClientMessage(playerid, COLOR_YELLOW, string);
+			}
+		}
+	}
+	return 1;
+}
+
+SortDamageLog(playerid, damagedid, Float:amount, weaponid, bodypart)
+{
+
+	new hour, minute, second, time[64];
+	gettime(hour, minute, second);
+	FixHour(hour);
+	hour = shifthour;
+	format(time, sizeof(time), "%02d:%02d:%02d", hour, minute, second);
+
+	for(new i = 0; i<10; i++)
+	{
+		if(DamageLog[playerid][i][dmg_amount] == 0)
+		{
+			DamageLog[playerid][i][dmg_playerid]  = playerid;
+			DamageLog[playerid][i][dmg_damagedid] = damagedid;
+			DamageLog[playerid][i][dmg_amount]    = amount;
+			DamageLog[playerid][i][dmg_weaponid]  = weaponid;
+			DamageLog[playerid][i][dmg_bodypart]  = bodypart;
+			strdel(DamageLog[playerid][i][dmg_time], 0, 64);
+			strins(DamageLog[playerid][i][dmg_time], time, 0);
+			return 1;
+		}
+	}
+
+	for(new i = 0; i<9; i++)
+	{
+		DamageLog[playerid][i+1][dmg_playerid] 	= 	DamageLog[playerid][i][dmg_playerid];
+		DamageLog[playerid][i+1][dmg_damagedid] = 	DamageLog[playerid][i][dmg_damagedid];
+		DamageLog[playerid][i+1][dmg_amount] 	= 	DamageLog[playerid][i][dmg_amount];
+		DamageLog[playerid][i+1][dmg_weaponid] 	= 	DamageLog[playerid][i][dmg_weaponid];
+		DamageLog[playerid][i+1][dmg_bodypart] 	= 	DamageLog[playerid][i][dmg_bodypart];
+	}
+
+	DamageLog[playerid][0][dmg_playerid] = playerid;
+	DamageLog[playerid][0][dmg_damagedid] = damagedid;
+	DamageLog[playerid][0][dmg_amount] = amount;
+	DamageLog[playerid][0][dmg_weaponid] = weaponid;
+	DamageLog[playerid][0][dmg_bodypart] = bodypart;
+	strdel(DamageLog[playerid][0][dmg_time], 0, 64);
+	strins(DamageLog[playerid][0][dmg_time], time, 0);
+	return 1;
+}
+
+ClearDamageLog(playerid)
+{
+	for(new i = 0; i<10; i++)
+	{
+		DamageLog[playerid][i][dmg_playerid]  = 0;
+		DamageLog[playerid][i][dmg_damagedid] = 0;
+		DamageLog[playerid][i][dmg_amount]    = 0;
+		DamageLog[playerid][i][dmg_weaponid]  = 0;
+		DamageLog[playerid][i][dmg_bodypart]  = 0;
+	}
+	return 1;
+}
+
+public OnReverseDNS(ip[], host[], extra)
+{
+	SetTimerEx("OnReverseDNS_Two", 150, false, "ssd", ip, host, extra); 
+    return 1;
+    
+}
+forward OnReverseDNS_Two(ip[], host[], extra);
+public OnReverseDNS_Two(ip[], host[], extra)
+{
+	new msg[256];
+    format(msg, 256, "{33AA33}IP:{FFFFFF} %s\n{33AA33}Host:{FFFFFF} %s",ip, host);
+    ShowPlayerDialogEx(extra, 9324, DIALOG_STYLE_MSGBOX, "DNS", msg, "OK", "Anuluj");
+}
+
+public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
+{
+	new string[128];
+	if(faketype == 2)
+	{
+		format(string, sizeof(string), "[FakeKill] %s[%d] u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
+		SendCommandLogMessage(string);
+		OnCheatDetected(playerid, "", 1, 56);
+	}
+	else
+	{
+		format(string, sizeof(string), "[FakeKill] %s[%d] prawdopodobnie u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
+		SendCommandLogMessage(string);
+	}
+}
+
+
+CheckAdminGodMode(pid1, pid2)
+{
+	if(PlayerInfo[pid1][pBW] > 0 || GetPVarInt(pid2, "dutyadmin") == 1 || GetPVarInt(pid2, "supportduty") == 1)
+    {
+    	return 1;
+    }
+    return 0;
+>>>>>>> Stashed changes
 }

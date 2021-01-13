@@ -14,7 +14,7 @@ new DiscordFractionChannels[][][128] =
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
-    {"brak", "brak", "brak", "brak"}, // 5
+    {"693204734190026793", "792565404526575656", "brak", "brak"}, // 5
     {"brak", "brak", "brak", "brak"},
     {"771330265078562816", "776729457226022922", "brak", "brak"}, // Kotnik Role Play - #bor
     {"brak", "brak", "brak", "brak"},
@@ -968,6 +968,64 @@ new GunNames[47][] = {
 	"Nightvision Goggle",//44
 	"Thermal Goggles",//45
 	"Spadochron"//46
+};
+
+new DamageLogNames[][] = {
+    "piêœci",//0
+    "kastetu",//1
+    "kija golfowego",//2
+    "pa³ki policyjnej",//3
+    "no¿a",//4
+    "kij baseballowego",//5
+    "³opaty",//6
+    "kij bilardowego",//7
+    "katany",//8
+    "pi³y mechanicznek",//9
+    "fioletowego dildo",//10
+    "ma³ego bia³ego wibratora",//11
+    "du¿ego bia³ego wibratora",//12
+    "srebrnego wibratora",//13
+    "kwiatów",//14
+    "laski",//15
+    "granata",//16
+    "gazu ³zawi¹cego",//17
+    "koktajlu mo³otowa",//18
+    "B³¹d",//19
+    "B³¹d",//20
+    "B³¹d",//21
+    "pistoletu 9mm",//22
+    "pistoletu z t³umikiem",//23
+    "Desert Eagle",//24
+    "shotguna",//25
+    "obrzyna",//26
+    "Spas-12",//27
+    "UZI",//28
+    "MP5",//29
+    "AK-47",//30
+    "M4",//31
+    "TEC-9",//32
+    "gwintówki",//33
+    "snajperki",//34
+    "RPG",//35
+    "wyrzutni rakiet",//36
+    "ogniomiotacza",//37
+    "minigun",//38
+    "C4",//39
+    "detonatora",//40
+    "spreja",//41
+    "gaœnicy",//42
+    "aparatu",//43
+    "Nightvision Goggle",//44
+    "Thermal Goggles",//45
+    "spadochronu",//46
+    "B³¹d",//47
+    "B³¹d",//48
+    "pojazdu",//49
+    "helikoptera",//50
+    "eksplozji",//51
+    "B³¹d",//52
+    "utoniêcia",//53
+    "upadku"//54
 };
 
 new NiggaNames[9][] = {
@@ -2329,7 +2387,9 @@ new KodyACName[][128] =
     "Anti-DOS",
     "Anti-NOPs", // 52
     "Speedfire", 
-    "Omijanie AFK" // 54
+    "Omijanie AFK", // 54
+    "FakeWL", // 55
+    "FakeKill (2)" // 56
 };
 
 enum PrzystankiEnum
@@ -2809,8 +2869,25 @@ new VehicleColoursTableRGBA[256] = {
 0x8A653AFF, 0x732617FF, 0x319490FF, 0x56941DFF, 0x59163DFF, 0x1B8A2FFF, 0x38160BFF, 0x041804FF, 0x355D8EFF, 0x2E3F5BFF,
 0x561A28FF, 0x4E0E27FF, 0x706C67FF, 0x3B3E42FF, 0x2E2D33FF, 0x7B7E7DFF, 0x4A4442FF, 0x28344EFF
 };
+<<<<<<< Updated upstream
 //EOF
 
 new AllowedDriveBy[] = {
     22, 28, 29, 30, 32
 };
+=======
+
+
+enum DamageLogEnum
+{
+    dmg_playerid,
+    dmg_damagedid,
+    Float:dmg_amount,
+    dmg_weaponid,
+    dmg_bodypart,
+    dmg_time[64]
+}
+new DamageLog[MAX_PLAYERS][10][DamageLogEnum];
+
+//EOF
+>>>>>>> Stashed changes

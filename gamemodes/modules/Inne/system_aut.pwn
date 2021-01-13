@@ -554,7 +554,7 @@ stock Car_Spawn(lUID, bool:onload=false, bool:loaddesc=true)
     VehicleUID[vehicleid][vUID] = lUID;
 
     new rejestracja[32];
-    if(isnull(CarData[lUID][c_Rejestracja]))
+    if(isnull(CarData[lUID][c_Rejestracja]) || CarData[lUID][c_Rejestracja][0] == "0")
 		format(rejestracja, sizeof(rejestracja), "LS%06d", CarData[lUID][c_UID]);
 	else
 		format(rejestracja, sizeof(rejestracja), "%s", CarData[lUID][c_Rejestracja]);

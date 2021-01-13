@@ -106,47 +106,44 @@ new bool:UniqueSkins[MAX_PLAYERS][MAX_PREMIUM_SKINS];
 new PremiumInfo[MAX_PLAYERS][ePremiumInfo];
 new PojazdyPremium[MAX_PREMIUM_VEHICLES][ePojazdyPremium] =
 {
-	{476, 1}, //1 Rustler
-	{447, 1}, //2 Seasparrow
-	{443, 1}, //3 Packer
-	{588, 1}, //4 Hotdog
-	{423, 1}, //5 Lodziarnia
-	{531, 1}, //6 Traktor
-	{494, 1}, //7 Hotring Racer
-	{502, 1}, //8 Hotring Racer
-	{503, 1}, //9 Hotring Racer
-	{503, 1}, //10 Hotring Racer
-	{504, 1}, //11 Bloodring Banger
-	{498, 1}, //12 Boxville
-	{461, 1}, //13 PCJ-600
-	{481, 1}, //14 BMX
-	{509, 1}, //15 Rower
-	{510, 1}, //16 Rower górski
-	{515, 1}, //17 Roadtrain
-	{514, 1}, //18 Tir
-	{403, 1}, //19 Linerunner (TIR)
-	{525, 1}, //20 Holownik
-	{524, 1}, //21 Betoniarka
-	{530, 1}, //22 Wózek wid³owy
-	{532, 1}, //23 Kombajn
-	{548, 1}, //24 Cargobob
-	{556, 1}, //25 Monster "A"
-	{557, 1}, //26 Monster "B"
-	{571, 1}, //27 Go-Kart
-	{573, 1}, //28 Dune
-	{574, 1}, //29 Sweeper
-	{578, 1}, //30 DFT-30
-	{583, 1}, //31 Tug
-	{485, 1}, //32 Baggage
-	{459, 1}, //33 Topfun Van (Berkley's RC)
-	{457, 1}, //34 Caddy
-	{456, 1}, //35 Yankee (ciê¿arówka)
-	{455, 1}, //36 Flatbed (ciê¿arówka)
-	{442, 1}, //37 Romero (karawan)
-	{433, 1}, //38 Barracks
-	{428, 1}, //39 Securicar
-	{408, 1}, //40 Trashmaster (œmieciarka)
-	{552, 1} //41 Utility Van
+	{443, 1}, //1 Packer
+	{588, 1}, //2 Hotdog
+	{423, 1}, //3 Lodziarnia
+	{531, 1}, //4 Traktor
+	{494, 1}, //5 Hotring Racer
+	{502, 1}, //6 Hotring Racer
+	{503, 1}, //7 Hotring Racer
+	{504, 1}, //8 Bloodring Banger
+	{498, 1}, //9 Boxville
+	{461, 1}, //10 PCJ-600
+	{481, 1}, //11 BMX
+	{509, 1}, //12 Rower
+	{510, 1}, //13 Rower górski
+	{515, 1}, //14 Roadtrain
+	{514, 1}, //15 Tir
+	{403, 1}, //16 Linerunner (TIR)
+	{525, 1}, //17 Holownik
+	{524, 1}, //18 Betoniarka
+	{530, 1}, //19 Wózek wid³owy
+	{532, 1}, //20 Kombajn
+	{548, 1}, //21 Cargobob
+	{556, 1}, //22 Monster "A"
+	{557, 1}, //23 Monster "B"
+	{571, 1}, //24 Go-Kart
+	{573, 1}, //25 Dune
+	{574, 1}, //26 Sweeper
+	{578, 1}, //27 DFT-30
+	{583, 1}, //28 Tug
+	{485, 1}, //29 Baggage
+	{459, 1}, //30 Topfun Van (Berkley's RC)
+	{457, 1}, //31 Caddy
+	{456, 1}, //32 Yankee (ciê¿arówka)
+	{455, 1}, //33 Flatbed (ciê¿arówka)
+	{442, 1}, //34 Romero (karawan)
+	{433, 1}, //35 Barracks
+	{428, 1}, //36 Securicar
+	{408, 1}, //37 Trashmaster (œmieciarka)
+	{552, 1} //38 Utility Van
 };
 
 new SkinyPremium[MAX_PREMIUM_SKINS][eSkinyPremium] =

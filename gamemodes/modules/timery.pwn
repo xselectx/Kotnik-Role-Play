@@ -2219,6 +2219,19 @@ public JednaSekundaTimer()
         GetPlayerPos(i, x, y, z);
 		GetPlayerArmour(i, pancerzyy);
 
+		if(PlayerInfo[i][pJob] == 8)
+		{
+			if(OldPayCheck[i]+35000 < PlayerInfo[i][pPayCheck])
+			{
+				new str[128];
+				format(str, sizeof(str), "%s[%d] zosta³ wyrzucony z powodu czitowania pracy ochroniarza [4 wariant]", GetNick(i, true), i);
+				CzitLog(str);
+				printf("%s", str);
+				KickEx(i);
+			}
+			OldPayCheck[i] = PlayerInfo[i][pPayCheck];
+		}
+
         vehicleid = GetPlayerVehicleID(i);
 		if(State == PLAYER_STATE_DRIVER || State == PLAYER_STATE_PASSENGER && !ToggleSpeedo[i])
 		{
