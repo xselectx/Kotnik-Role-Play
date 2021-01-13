@@ -45,14 +45,15 @@ public DCC_OnMessageCreate(DCC_Message:message)
 		
 		new command[32], params[128];
 		
-		guild_name = DCC_FindGuildById("760578155806982205");
+		//guild_name = DCC_FindGuildById("760578155806982205");
 
 		new DCC_Role:admin_role = DCC_FindRoleById("760578445783597089");
 
-		
-		DCC_GetChannelGuild(channel, guild_name);
+		if(!DCC_GetMessageChannel(message, channel))
+			print("DCC_GetMessageChannel error");
+		if(!DCC_GetChannelGuild(channel, guild_name))
+			print("DCC_GetChannelGuild error");
 
-		DCC_GetMessageChannel(message, channel);
 		DCC_GetChannelId(channel, channelid);
 		DCC_GetMessageAuthor(message, author);
 		DCC_IsUserBot(author, is_bot);
@@ -66,7 +67,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 		if(!isnull(text) && text[0] != '\\')
 		{
 			sscanf(text, "s[32]s[128]", command, params);
-			if(DC_AntySpam <= 0)
+			if(DC_AntySpam <= 0 && !is_bot)
 			{
 
 				new bool:hasRole;
@@ -91,7 +92,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 					}
 				}
 
-				if(!strcmp(command, ">kotnik", true) || !strcmp(command, ">samp") || !strcmp(command, "kotnik", true) || !strcmp(command, "samp"))
+				if(!strcmp(command, ">kotnik", true) || !strcmp(command, ">samp") || !strcmp(command, "kotnik", true) || !strcmp(command, "samp")  || !strcmp(command, "players", true) || !strcmp(command, "gracze"))
 				{
 					new ilosc = 0;
 					for(new i = 0; i<MAX_PLAYERS; i++)
@@ -112,6 +113,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 					{
 						if(IsPlayerConnected(i))
 						{
+							
 							if(PlayerInfo[i][pAdmin] >= 5000 && PlayerInfo[i][pAdmin] != 5555)
 							{
 								ilosc++;
@@ -122,6 +124,11 @@ public DCC_OnMessageCreate(DCC_Message:message)
 								ilosc++;
 								format(admin_list, sizeof(admin_list), "%s\n%d. Admin %s [%d] %d@LVL", admin_list, ilosc, GetNick(i), i, PlayerInfo[i][pAdmin]);
 							}
+							else if(PlayerInfo[i][pNewAP] == 6)
+            				{
+            					ilosc++;
+            				    format(admin_list, sizeof(admin_list), "%s\n%d. Gamemaster %s [%d]", admin_list, ilosc, GetNick(i), i);
+            				}
 							else if(PlayerInfo[i][pNewAP] == 5)
 							{
 								ilosc++;
@@ -138,6 +145,28 @@ public DCC_OnMessageCreate(DCC_Message:message)
 					DCC_SendChannelMessage(channel, admin_list);
 					DC_AntySpam = DC_SPAM_LIMIT;
 				}
+				if(!strcmp(command, "pracownicy", true) || !strcmp(command, ">pracownicy"))
+				{
+					new DCC_Guild:guild_lspd, pracownicy[512], guild_lspd_id[DCC_ID_SIZE], guild_name_id[DCC_ID_SIZE];
+					//guild_lspd = DCC_FindGuildById(DiscordFractionChannels[1][2]);
+					DCC_GetGuildId(guild_name, guild_name_id);
+					//DCC_GetGuildId(guild_lspd, guild_lspd_id);
+					strcat(pracownicy, "Pracownicy online:");
+					printf("%s | %s", guild_name_id, DiscordFractionChannels[1][2]);
+					if(!strcmp(guild_name_id, DiscordFractionChannels[1][2], true))
+					{
+						foreach(Player, i)
+						{
+						    if(GetPlayerFraction(i) == 1)
+						    {
+						        format(pracownicy, sizeof(pracownicy), "%s\n%s [%d] ranga %d", pracownicy, GetNick(i, true), i, PlayerInfo[i][pRank]);
+						        if(OnDuty[i] == 1) strcat(pracownicy, " - sluzba");
+						        printf("%s", pracownicy);
+						    }
+						}
+						DCC_SendChannelMessage(channel, pracownicy);
+					}
+				}
 			}
 		}
 	
@@ -152,7 +181,8 @@ public DCC_OnMessageCreate(DCC_Message:message)
 				{					
 					ReturnPolish(text);
 					format(string, sizeof(string), "*%s: %s", nickname, text);
-					SendAdminMessage(0xFFC0CB, string);
+					//SendAdminMessage(0xFFC0CB, string);
+					SendAdminMessage(0x7AA1C9FF, string);
 					printf("@DC: %s", string);
 				}
 			}

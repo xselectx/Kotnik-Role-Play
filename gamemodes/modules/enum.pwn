@@ -10,7 +10,7 @@ new PlayerSkins[MAX_PLAYERS][SkinEnum];*/
 new DiscordFractionChannels[][][128] = 
 {
     {"brak","brak", "brak", "brak"}, // id 0 - BRAK
-    {"771330265078562816","776563993892093982","784537147583234048","784759347723894804"}, // Kotnik Role Play - #lspd + LSPD #logi-radio
+    {"771330265078562816","776563993892093982","789056463368618044","790736977389158430"}, // Kotnik Role Play - #lspd + LSPD #kanal-frakcyjny-ooc
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
@@ -21,6 +21,31 @@ new DiscordFractionChannels[][][128] =
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"}, // 10
     {"771330265078562816", "776729456747741215", "brak", "brak"}, // Kotnik Role Play - #rzad
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // 15
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}  // 20
+};
+
+new DiscordFractionICChannels[][][128] = 
+{
+    {"brak","brak", "brak", "brak"}, // id 0 - BRAK
+    {"771330265078562816","776563993892093982","789056463368618044","790737002077224990"}, // Kotnik Role Play - #lspd + LSPD #kanal-frakcyjny-ic
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // 5
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // Kotnik Role Play - #bor
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"},
+    {"brak", "brak", "brak", "brak"}, // 10
+    {"brak", "brak", "brak", "brak"}, // Kotnik Role Play - #rzad
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
     {"brak", "brak", "brak", "brak"},
@@ -1420,6 +1445,7 @@ enum pSpec
     sPvw,
 	sLocal,
 	sCam,
+    sSkinID
 };
 
 new Unspec[MAX_PLAYERS][pSpec];
@@ -1606,6 +1632,7 @@ enum pInfo
   	pSpawn,
  	pBW,
     pBWType,
+    pWEBCode,
  	pNatrasiejest,
 	pDrzwibusazamkniete,
 	pPrawojazdypytania[3],
@@ -1664,6 +1691,13 @@ enum pHaul
 };
 
 new PlayerHaul[150][pHaul];
+
+enum e_STATE
+{
+    e_STATE_UPDATING,
+    e_STATE_NONE,
+    e_STATE_CONNECTED
+};
 
 enum Wyscigi
 {
@@ -2810,7 +2844,3 @@ new VehicleColoursTableRGBA[256] = {
 0x561A28FF, 0x4E0E27FF, 0x706C67FF, 0x3B3E42FF, 0x2E2D33FF, 0x7B7E7DFF, 0x4A4442FF, 0x28344EFF
 };
 //EOF
-
-new AllowedDriveBy[] = {
-    22, 28, 29, 30, 32
-};

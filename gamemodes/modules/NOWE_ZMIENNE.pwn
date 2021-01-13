@@ -9,6 +9,11 @@ new TymczasowyOpisVar[MAX_PLAYERS];
 new TymczasowyOpisString[MAX_PLAYERS][256];
 new Text3D:TymczasowyOpis[MAX_PLAYERS];
 
+new UkradzionyPojazd[200];
+
+new BranyPortfelFrac[MAX_FRAC];
+new BranyPortfelOrg[50];
+
 new AdminVPNInfo[MAX_PLAYERS];
 
 new  iloscKick[MAX_PLAYERS];
@@ -27,6 +32,12 @@ new AdminDutyTimer[MAX_PLAYERS];
 
 new TutorialFix[MAX_PLAYERS];
 
+new gLastUpdate[MAX_PLAYERS], e_STATE:gState[MAX_PLAYERS] = {e_STATE_NONE, ...};
+new AFKTimer[MAX_PLAYERS];
+new AFKTime[MAX_PLAYERS][2];
+new BreakTime[MAX_PLAYERS];
+
+new quittext_time[MAX_PLAYERS];
 new Text3D:quittext[MAX_PLAYERS];
 new kaska[MAX_PLAYERS];
 
@@ -43,6 +54,11 @@ new CarOnEnterWeapon[MAX_PLAYERS];
 new shotsFired[MAX_PLAYERS];
 new speedfireDetected[MAX_PLAYERS];
 new shotTime[MAX_PLAYERS];
+
+new adminToken[MAX_PLAYERS];
+new adminTokenStr[MAX_PLAYERS];
+new adminTokenID[MAX_PLAYERS];
+new adminTokenText[MAX_PLAYERS];
 
 new Urzednicy[4];
 new Text3D:UrzednicyName[4];
@@ -1074,10 +1090,11 @@ new STD1[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3};
 new STD2[] = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3};
 new STD3[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3};
 new STD4[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 3};
-new SELLCAR1[] = { 1000, 1124, 1245, 1349, 1475, 1574, 1636, 1762, 1895, 1946, 2000 };
-new SELLCAR2[] = { 2099, 2135, 2255, 2378, 2457, 2563, 2614, 2721, 2878, 2988, 3000 };
-new SELLCAR3[] = { 3058, 3175, 3212, 3377, 3454, 3555, 3678, 3751, 3865, 3964, 4000 };
-new SELLCAR4[] = { 4077, 4123, 4275, 4378, 4422, 4565, 4613, 4752, 4897, 4911, 5000 };
+new SELLCAR1[] = { 13360, 15620, 17950, 18460, 20000 };
+new SELLCAR2[] = { 21140, 25210, 30780, 35880, 40000 };
+new SELLCAR3[] = { 41780, 45510, 50650, 55640, 60000 };
+new SELLCAR4[] = { 61130, 65520, 70970, 75110, 80000 };
+new SELLCAR5[] = { 81130, 85520, 90970, 95110, 100000 };
 //new Float:ChangePos[MAX_PLAYERS][3];
 new ChangePos2[MAX_PLAYERS][2];
 new Float:PlayerPos[MAX_PLAYERS][6];
@@ -1468,10 +1485,15 @@ stock ZerujZmienne(playerid)
 
     AdminVPNInfo[playerid] = 0;
 
+    AFKTime[playerid][0] = 0;
+    AFKTime[playerid][1] = 0;
+    BreakTime[playerid] = 0;
+    quittext_time[playerid] = 0;
     SetPVarInt(playerid, "AC-warn", 0);
     SetPVarInt(playerid, "dutyadmin", 0);
 
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
+    for(new i=0;i<MAX_SKIN_SELECT+120;i++) PERSONAL_SKINS[playerid][i] = 0;
 
     strdel(PlayerDesc[playerid], 0, 128 char);
     strpack(PlayerDesc[playerid], "BRAK");

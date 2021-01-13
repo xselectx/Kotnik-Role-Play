@@ -100,6 +100,7 @@ Zaladuj3DTexty()
 {
 	//wybory
 	//CreateDynamic3DTextLabel("Urna wyborcza", 0x33CCFFAA, 1304.1296, -1299.9874, 35.6941, 25.0);
+	CreateDynamic3DTextLabel("Urz¹d Pracy\nLos Santos Goverment\n(/praca)", 0x9ACD32AA, 1498.4562,-1582.0427,13.5498, 15.0);
 	CreateDynamic3DTextLabel("Motel Market", COLOR_WHITE, 849.2945, -1336.3616, 13.5690, 15.0);
     CreateDynamic3DTextLabel("Motel Idlewood", COLOR_WHITE, 2178.3113, -1770.5784, 13.5451, 15.0);
 	//okienko[0] = CreateDynamic3DTextLabel("Urz¹d Miasta Los Santos\n{0080FF}Okienko 1 \n {FF0000}Nieczynne",COLOR_WHITE,1090.3307,1057.3446,-15.8397,9,INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50);
@@ -115,23 +116,23 @@ Zaladuj3DTexty()
 	//CreateDynamic3DTextLabel("Oczysczanie z zarzutow", 0x33CCFFAA, 246.3568,120.3933,1003.2682, 10.0); //Clear icon in Police Station
 	CreateDynamic3DTextLabel("Urz¹d Miasta", 0x9ACD32AA, 1481.1531,-1770.0277,18.7958, 50.0); //City Hall
 	//CreateDynamic3DTextLabel("Urz¹d Miasta - zaplecze", 0x9ACD32AA, 1412.3348388672, -1790.5777587891, 15.370599746704, 10.0); //City Hall
-	CreateDynamic3DTextLabel("Praca £owcy Nagród", 0xFFA500AA, 322.3034,317.0233,999.1484, 30.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Detective Registration
-	CreateDynamic3DTextLabel("Praca Prawnika", 0xFFA500AA, 310.3626,-1503.3282,13.8096, 30.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Lawyer Registration
-	CreateDynamic3DTextLabel("Praca Dziwki", 0xFFA500AA, 1215.1304,-11.8431,1000.9219, 15.0); //Whore Registration
+	//CreateDynamic3DTextLabel("Praca £owcy Nagród", 0xFFA500AA, 322.3034,317.0233,999.1484, 30.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Detective Registration
+	//CreateDynamic3DTextLabel("Praca Prawnika", 0xFFA500AA, 310.3626,-1503.3282,13.8096, 30.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1); //Lawyer Registration
+	//CreateDynamic3DTextLabel("Praca Dziwki", 0xFFA500AA, 1215.1304,-11.8431,1000.9219, 15.0); //Whore Registration
 	CreateDynamic3DTextLabel("Praca Dilera Dragow", 0xFFA500AA, 2166.3772,-1675.3829,15.0859, 30.0); //DrugDealer Registration
-	CreateDynamic3DTextLabel("Praca Zlodzieja Aut", 0xFFA500AA, 1109.3318,-1796.3042,16.5938, 30.0); //CarJacker Registration 7
-	CreateDynamic3DTextLabel("Praca Mechanika", 0xFFA500AA, -1932.3859,276.2117,41.0391,30.0); //CarMechanic Registration
-	CreateDynamic3DTextLabel("Praca Mechanika", 0xFFA500AA, 2769.8376,-1610.7819,10.9219,30.0); //CarMechanic Registration
-	CreateDynamic3DTextLabel("Praca Ochroniarza", 0xFFA500AA, 2226.1716,-1718.1792,13.5165, 30.0); //BodyGuard Registration
+	//CreateDynamic3DTextLabel("Praca Zlodzieja Aut", 0xFFA500AA, 1109.3318,-1796.3042,16.5938, 30.0); //CarJacker Registration 7
+	//CreateDynamic3DTextLabel("Praca Mechanika", 0xFFA500AA, -1932.3859,276.2117,41.0391,30.0); //CarMechanic Registration
+	//CreateDynamic3DTextLabel("Praca Mechanika", 0xFFA500AA, 2769.8376,-1610.7819,10.9219,30.0); //CarMechanic Registration
+	//CreateDynamic3DTextLabel("Praca Ochroniarza", 0xFFA500AA, 2226.1716,-1718.1792,13.5165, 30.0); //BodyGuard Registration
 	CreateDynamic3DTextLabel("Praca Dilera Broni", 0xFFA500AA, 1366.4325,-1275.2096,13.5469, 30.0); //ArmsDealer Registration
 	//CreateDynamic3DTextLabel("Praca Dilera Aut", 0xFFA500AA, 531.7930,-1292.4044,17.2422, 30.0); //CarDealer Registration 12
-	CreateDynamic3DTextLabel("Praca Boksera", 0xFFA500AA, 766.0804,14.5133,1000.7004, 30.0); //Boxer Registration
+	//CreateDynamic3DTextLabel("Praca Boksera", 0xFFA500AA, 766.0804,14.5133,1000.7004, 30.0); //Boxer Registration
 	//CreateDynamic3DTextLabel("Praca Kierowcy Autobusu", 0xFFA500AA, 1154.2208,-1770.8203,16.5992, 10.0); //BusDriver Registration
 	//CreateDynamic3DTextLabel("Praca Taksówkarza\nMo¿liwoœc podjêcia tej\npracy zosta³a wy³¹czona\nna czas nieokreœlony.", 0xFFA500AA, 1750.7670,-1944.7601,13.5655, 20.0); //BusDriver Registration
 	//CreateDynamic3DTextLabel("Praca Truckera", 0xFFA500AA, -77.7288,-1136.3896,1.0781, 30.0); //Trucker Registration
 	CreateDynamic3DTextLabel("Melina Dragowa", 0xFFA500AA, 323.0342,1118.5804,1083.8828, 30.0); //Getting Drugs for DrugDealers 17
     CreateDynamic3DTextLabel("Paczka z zio³em\n/get drugs", 0xFFA500AA, -1022.34930420,-2158.46484375,33.91813278, 30.0);
-	CreateDynamic3DTextLabel("Helvetica Cargo Ltd.", 0xAA3333AA, 597.1277,-1248.6479,18.2734, 50.0);
+	CreateDynamic3DTextLabel("Hosford Cargo AG.", 0xAA3333AA, 597.1277,-1248.6479,18.2734, 50.0);
 	CreateDynamic3DTextLabel("Fabryka Broni", 0xAA3333AA, -2119.5469,-178.5679,35.3203, 50.0); //Factory SF
 	CreateDynamic3DTextLabel("Baza HA", 0xAA3333AA, -50,-269,6.599999, 30.0); //Hitman Agency entrance
 	CreateDynamic3DTextLabel("Koœció³", COLOR_NEWS, 2254.8652,-1334.2078,23.9922, 30.0); //Koœció³
@@ -153,7 +154,7 @@ Zaladuj3DTexty()
     //CreateDynamic3DTextLabel("Sala posiedzeñ", COLOR_BLUE, -778.3271484375,496.4326171875,1368.5303955078, 5.0);
     CreateDynamic3DTextLabel("Zaklad Bukmaherski", COLOR_BLUE, 1631.7883300781,-1171.4095458984,24.078125, 15.0);
     //CreateDynamic3DTextLabel("Gabinet Oyabuna", COLOR_BLUE, 368.3667,193.8689,1008.3828, 5.0);
-    CreateDynamic3DTextLabel("Studio tatua¿u", COLOR_BLUE, 2292.3088,-1723.3538,13.5469, 10.0);
+    CreateDynamic3DTextLabel("Los Santos Radio Station", COLOR_BLUE, 2292.3088,-1723.3538,13.5469, 10.0);
     //CreateDynamic3DTextLabel("Stare studio tatua¿u", COLOR_BLUE, 1975.9598388672,-2036.7775878906,13.546875, 5.0);
     CreateDynamic3DTextLabel("Bank\n Oddzia³ Los Santos", COLOR_BLUE, 1462.395751,-1012.391174,26.843799, 10.0);
     CreateDynamic3DTextLabel("Bank\n Oddzia³ Palomino Creek", COLOR_BLUE, 2302.7798,-15.9637,26.4844, 10.0);
