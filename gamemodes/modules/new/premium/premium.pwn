@@ -224,7 +224,6 @@ premium_loadForPlayer(playerid)
         mysql_free_result();
         sscanf(qr, "p<|>ddddd", kpMC, kpEnds, kpStarted, kpLastLogin, kpActive);
 
-
         if(kpActive)
         {
         	new shouldEnd = kpEnds-(gettime()+3600);
@@ -236,10 +235,8 @@ premium_loadForPlayer(playerid)
 			}
 			else
 			{
-
 				if(GetPVarInt(playerid, "kp_readd") == 1)
                 {
-
                     new bantime, unbantime;
                     unbantime = MRP_CheckLastBlock(playerid, bantime);
                     new logintime, ip[16];
@@ -254,21 +251,26 @@ premium_loadForPlayer(playerid)
                         else
                         {
                             format(qr, 128, "Przed³u¿ono Twoje premium o %d dni i %d godzin.", floatround(floatdiv(unbantime, 86400), floatround_floor), floatround(floatdiv(unbantime, 3600), floatround_floor)%24);
-
                             _MruAdmin(playerid, qr);
-
                             PremiumInfo[playerid][pKP] = 1;
-
                             format(qr, sizeof(qr), "UPDATE `mru_premium` SET `p_LastCheck`=FROM_UNIXTIME(%d) WHERE `p_charUID`='%d'", kpLastLogin+unbantime, PlayerInfo[playerid][pUID]);
                             mysql_query(qr);
                         }
+                    }
+                    else {
+                    	new lVal = kpEnds-gettime();
+                		if(lVal > 0)
+                		{
+                			format(qr, 170, "Twoje konto premium wygasa za %d dni i %d godzin.", floatround(floatdiv(lVal, 86400), floatround_floor), floatround(floatdiv(lVal, 3600), floatround_floor)%24);
+							_MruAdmin(playerid, qr);
+                		}
+						PremiumInfo[playerid][pKP] = 1;
                     }
                     SetPVarInt(playerid, "kp_readd", 0);
                 }
                 else
                 {
                 	new lVal = kpEnds-gettime();
-
                 	if(lVal > 0)
                 	{
                 		format(qr, 170, "Twoje konto premium wygasa za %d dni i %d godzin.", floatround(floatdiv(lVal, 86400), floatround_floor), floatround(floatdiv(lVal, 3600), floatround_floor)%24);

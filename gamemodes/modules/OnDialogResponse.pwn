@@ -129,10 +129,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			case 6:
 			{
 				if(!response) return 1;
-				ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA_URL, DIALOG_STYLE_INPUT, "W³asne MP3", "Wprowadz adres URL do radia/piosenki.", "Start", "Anuluj");
+				StopAudioStreamForPlayer(playerid);
+				PlayAudioStreamForPlayer(playerid, "http://energy2000.radioparty.pl:8005/");
 				return 1;
 			}
 			case 7:
+			{
+				if(!response) return 1;
+				ShowPlayerDialogEx(playerid, DIALOGID_MUZYKA_URL, DIALOG_STYLE_INPUT, "W³asne MP3", "Wprowadz adres URL do radia/piosenki.", "Start", "Anuluj");
+				return 1;
+			}
+			case 8:
 			{
 			    if(!response) return 1;
 				GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~r~MP3 Off", 5000, 5);
@@ -1189,6 +1196,237 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         }
         format(VINYL_Stream, 128, "%s",inputtext);
     }
+    // ----------------------------------------------------------------------------------------------------
+    else if(dialogid == D_JOB_CENTER_DIALOG)
+    {
+		if(!response) return 1;
+	    switch(listitem)
+	    {
+	    	case 0: ShowPlayerDialogEx(playerid, D_JOBTYPE_LOWCA, DIALOG_STYLE_MSGBOX, "Kotnik-RP » £owca nagród", "Twoje zadanie polega na œciganiu przestêpców i oferowania im poddania siê\nW przypadku odmowy stosuje siê bardziej radykalne metody\nWynagrodzenie zale¿y od wysokoœci WL oraz sposobu zatrzymania (za ¿ywego dostaje siê wiêcej)\nWy¿szy skill pozwala na d³u¿sze namierzanie, dostêp do bardziej niebezpiecznych przestêpców i lepszych pojazdów.\nDobry ³owca nagród mo¿e zarobiæ ponad 50k w godzinê. Pocz¹tkuj¹cy jakieœ 6k-10k. Minus koszty broni. Pieni¹dze wyp³acamy od razu.\nJe¿eli masz trochê kasy na broñ, masz nerwy ze stali, mnóstwo sprytu i cierpliwoœci to ta wymagaj¹ca praca jest dla Ciebie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³acz", "Anuluj");
+	    	case 1: ShowPlayerDialogEx(playerid, D_JOBTYPE_PRAWNIK, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Prawnik", "Do twoich zadañ nale¿y wyci¹ganie ludzi z wiêzienia (za kaucj¹ lub bez)\nCzyszczenia im kartotek i obni¿ania poziomów poszukiwania\nPraca jest legalna jednak w LS dobry prawnik to taki który zna sporo skorumpowanych gliniarzy lub ma znajomego w policji\nJako pocz¹tkuj¹cy prawnik w g³ownej mierze bêdziesz zajmowa³ siê drobnymi z³odziejaszkami, zarobki równie¿ nie sa wysokie a o klienta trudno.\ny¿szy skill umo¿liwia zbijanie wy¿szych poziomów WL, uwlanianie groŸniejszych przestêpców oraz zmniejsza koszty ³apówek.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 2: ShowPlayerDialogEx(playerid, D_JOBTYPE_MECHANIK, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Mechanik", "Naprawiaj, tankuj, tunninguj, odbieraj zlecenia z terenu\nTo przede wszytkim robi mechanik.\nZarobki nie s¹ na pocz¹tku osza³amiaj¹ce, jakieœ 3k-7k co godzinê\nJednak zdobywa siê je doœæ ³atwo i przyjemnie. Pracy dla mechaników nigdy nie brakuje.\nWy¿szy skill pozwala siê poruszaæ specjalnymi pojazdami.\n Oraz umo¿liwia tunningowanie pojazdów, ktore jest bardziej dochodowe ni¿ ich serwisowanie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 3: ShowPlayerDialogEx(playerid, D_JOBTYPE_OCHRONIARZ, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Ochroniarz", "Mo¿esz ochraniaæ ludzi, jednak jest to tylko przykrywka dla sprzedawania pancerzy\nPraca jest doœæ monotonna gdy¿ praktycznie polega na wciskaniu wszytkim kamizelki kuloodpornej.\nPodobno niektórzy przy du¿ym szczêœciu potrafia zarobiæ nawet 90k-130k. Jednak norm¹ jest 10k a przy du¿ym pechu 2k.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 4: ShowPlayerDialogEx(playerid, D_JOBTYPE_PIZZABOY, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Pizzaboy", "Praca polega na rozwo¿eniu pizzy do g³odnych klientów.\nW tej pracy zarabiasz miêdzy innymi na napiwkach.\nNapiwki zale¿ne s¹ od tego jak szybko dostarczysz pizzê.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 5: ShowPlayerDialogEx(playerid, D_JOBTYPE_BOX, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Trener boksu", "Jako bokser bierzesz udzia³ w galach boksu, toczysz za pieni¹dze sparingi z innymi i uczysz nowych technik walki.\nJednak prawda jest taka, ¿e gale s¹ bardzo rzadko, za sparingi ma³o kto chce p³aciæ i tak naprawdê pe³nisz rolê nauczyciela.\nZarobki s¹ bardzo zró¿nicowane i zale¿¹ od skilla. Zazwyczaj jest to ok. 30k ale nie jest to zarobek regularny.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	   		case 6: sendTipMessage(playerid, "Ta praca jest wy³¹czona!");
+	    }   
+	}
+	else if (dialogid == D_JOBTYPE_LOWCA)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+		if(PlayerInfo[playerid][pGunLic] == 0) return sendTipMessage(playerid, "B£AD: Do tej pracy potrzebujesz licencji na broñ!");
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ³owcy nagród! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 1;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_PRAWNIK)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response)
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy prawnika! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 2;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_MECHANIK)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy mechanika! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 7;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_OCHRONIARZ)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ochroniarza! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 8;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_PIZZABOY)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy pizzaboya! Pod /pomoc znajdziesz potrzebne komendy");
+				PlayerInfo[playerid][pJob] = 17;
+			}
+			else return 1;
+	}
+	else if (dialogid == D_JOBTYPE_BOX)
+	{
+		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
+			if(response) 
+			{
+				sendTipMessage(playerid, "Zmieni³y siê przepisy, aby zostaæ nauczycielem boksu musisz aplikowaæ przez stronê rz¹du (forum)");
+				//sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy trenera boksu! Pod /pomoc znajdziesz potrzebne komendy");
+				//PlayerInfo[playerid][pJob] = 12;
+			}
+			else return 1;
+	}
+	// ----------------------------------------------------------------------------------------------------------
+	else if(dialogid == DIALOG_POMOC_NEW)
+	{
+		new string[556];
+		if(!response) return sendTipMessage(playerid, "Wiêcej informacji odnoœnie komend i zasad panuj¹cych na serwerze znajdziesz na naszej stronie: https://kotnik-rp.pl");
+		switch(listitem)
+		{
+			case 0: {
+				format(string, sizeof(string), "/zasady /stats /nextlevel /ulepszenia\n/plac /datek /czas /kup /wyrzucbronie /dajklucz \
+				\n/zmienklucz /id /pij /muzyka /pokazlicencje /ubranie\n/resetulepszen(100k) /skill \
+				\n/laptop /licencje /lotto /zmienspawn /stopani /pobij /wyscigi\n/report /anuluj /akceptuj \
+				\n/wezdragi /kontrakt /tankuj /oczysc /wezwij /rodziny /wepchnij");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Podstawowe komendy", string, "Zamknij", "");
+			}
+			case 1: {
+				format(string, sizeof(string), "(/w)iadomosc (/o)oc (/k)rzyk (/s)zept (/l)ocal (/b) (/og)loszenie (/f)amily /me (/n)ewbie /sprobuj");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Czaty", string, "Zamknij", "");
+			}
+			case 2: {
+				format(string, sizeof(string), "/togooc /tognews /togdepo /togfam /togw /togtel /toglicznik /tognewbie /togadmin");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Blokada czatów", string, "Zamknij", "");
+			}
+			case 3: {
+				format(string, sizeof(string), "/dr /zp /wywal /lock /kanister /kogut");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy pojazdu", string, "Zamknij", "");
+			}
+			case 4: {
+				format(string, sizeof(string), "/dom /dominfo");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy domu", string, "Zamknij", "");
+			}
+			case 5: {
+				format(string, sizeof(string), "/przelew /teczka /pay /plac");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy bankowe", string, "Zamknij", "");
+			}
+			case 6: {
+				if(PlayerInfo[playerid][pJob] == 1) {
+					format(string, sizeof(string), "/namierz /wanted /poddajsie /zlecenie (/m)egafon");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» £owca nagród", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 2) {
+					format(string, sizeof(string), "/uwolnij /oczyscmdc /zbijwl /kamera-wiezienna /wanted");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Prawnik", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 3) {
+					format(string, sizeof(string), "/sex");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Prostytutka", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 4) {
+					format(string, sizeof(string), "/sprzedajdragi /get drugs /wywaldragi");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Diler dragów", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 5) {
+					format(string, sizeof(string), "/ukradnij");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Z³odziej aut", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 7) {
+					format(string, sizeof(string), "/napraw /tankowanie /sluzba /sprawdzneon");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Mechanik", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 8) {
+					format(string, sizeof(string), "/ochrona");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Ochroniarz", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 9) {
+					format(string, sizeof(string), "/materialy /wywalmaterialy /sprzedajbron");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Diler broni", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 12) {
+					format(string, sizeof(string), "/walka /boxstats /naucz");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Bokser", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pJob] == 12) {
+					format(string, sizeof(string), "/walka /boxstats /naucz");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Bokser", string, "Zamknij", "");
+				}
+				else sendTipMessage(playerid, "Nie posiadasz ¿adnej pracy!");
+			}
+			case 7: {
+				if(IsACop(playerid)) {
+					format(string, sizeof(string), "przeszukaj /zabierz /mandat (/gov) /stanowe /camera /wywaz /obezwladnij \
+					\n/gps /dgps /red /odznaka /pacholek /barierka /kolczatka /skuj /rozkuj /mdc /aresztuj \
+					\n /sluzba /poszukiwani /tazer /cywil (/r)adio (/d)epartment (/m)egafon (/su)spect \
+					\n /ro(radiooc) /depo(departamentooc) /pd(wiadomosc) /cela /togcrime /poscig NEW: /pozwolenie \n\n{FFFFFF}# Federalne \
+					\n/zmienskin /namierz /fbi /federalne /cela /gps /dgps /red");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» S³u¿by mundurowe", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pMember] == 4 || PlayerInfo[playerid][pLider] == 4 || PlayerInfo[playerid][pMember] == 17 || PlayerInfo[playerid][pLider] == 17) {
+					format(string, sizeof(string), "(/r)adio (/d)epartment /ulecz /sluzba /apteczka /zastrzyk /szpital-info /zmienplec \
+					\n/sprzedajapteczke /gps /dgps /red /straz /megafon /ro /r /duty /czysc /gps /dgps /red");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» S³u¿by ratunkowe", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pMember] == 9 || PlayerInfo[playerid][pLider] == 9) {
+					format(string, sizeof(string), "/napisz /gazety /wywiad /news [text] /reflektor /studia /glosnik /calllive /radiostacja \
+					\nP³atny numer SMS - /sms [od 100 do 150], dostajesz tyle stówek ile jest po 1 (nr. 125 - 25 * 100 = 2500$) \
+					\n/zamknijlinie /otworzlinie /linie");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» San News", string, "Zamknij", "");
+				}	
+				else if(PlayerInfo[playerid][pMember] == 15||PlayerInfo[playerid][pLider] == 15) {
+					format(string, sizeof(string), "/sprzedajneon /napraw /tankowanie /nitro /hydraulika /maluj /felga /zderzak \
+					\n/kolory /malunki /felgi /sluzba /stworzwyscig /wyscigi /wyscig /wyscig-start /wyscig-stop /cp /cp-usun /meta \
+					\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Szajka zmotoryzowana", string, "Zamknij", "");
+				}
+				else if(PlayerInfo[playerid][pMember] == 8 || PlayerInfo[playerid][pLider] == 8) {
+					format(string, sizeof(string), "/laptop /zmienskin /reklama /namierz \
+					\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Hitman Agency", string, "Zamknij", "");
+				} else sendTipMessage(playerid, "Nie jesteœ w ¿adnej organizacji b¹dŸ twoja organizacja nie ma dedykowanych komend!");
+			}
+			case 8:
+			{
+				if(IsAPrzestepca(playerid)) {
+					format(string, sizeof(string), "/laptop /zmienskin /reklama /namierz \
+						\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
+						ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Przestêpcze", string, "Zamknij", "");
+				} else sendTipMessage(playerid, "Nie jesteœ w organizacji przestêpczej!");
+			}
+			case 9:
+			{
+				format(string, sizeof(string), "/animhelp /zapytaj /mecz (koszykowka)");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Inne", string, "Zamknij", "");
+			}
+		}
+	}
+	else if(dialogid == DIALOG_ADMIN_PM_TOKEN)
+	{
+		if(!response) return sendTipDialogMessage(playerid, "Anulowa³eœ wysy³anie wiadomoœci do Administratora!");
+		valstr(adminTokenStr[playerid], adminToken[playerid]);
+		if(strlen(inputtext) <= 0) return sendTipDialogMessage(playerid, "Nie mo¿esz wys³aæ pustej wiadomoœci!");
+		if(strcmp(inputtext, adminTokenStr[playerid], false) == 0)
+		{
+			SetPVarInt(playerid, "admintoken", 1);
+			PlayerPlaySound(playerid, 1058, 0.0, 0.0, 0.0);
+       		PlayerPlaySound(adminTokenID[playerid], 1057, 0.0, 0.0, 0.0);
+			//sendTipMessage(playerid, sprintf("%s[%d]%s"));
+			format(C_STRING, sizeof(C_STRING), "»» %s (%d): %s", GetNick(playerid), playerid, adminTokenText[playerid]);
+            SendClientMessage(playerid, COLOR_YELLOW, C_STRING);
+
+			format(C_STRING, sizeof(C_STRING), "»» %s (%d): %s", GetNick(playerid), playerid, adminTokenText[playerid]);
+            SendClientMessage(adminTokenID[playerid], COLOR_NEWS, C_STRING);
+            return 1;
+		} else sendErrorDialogMessage(playerid, "B³êdnie przepisa³eœ kod TOKEN");
+	} 
+	else if(dialogid == DIALOG_GAMEMASTER)
+	{
+		if(!response) return 1;
+		switch(listitem)
+		{
+			case 1: {
+				ShowPlayerDialogEx(playerid, DIALOG_GAMEMASTER_ROB_TIME, DIALOG_STYLE_INPUT,"{8FCB04}Kotnik-RP{FFFFFF} » Czas napadu" , "WprowadŸ nowy czas napadu", "Ok", "Zamknij");
+			}
+		}
+	}
+	// ----------------------------------------------------------------------------------------------------------
 	else if(dialogid == 7420)
 	{
 	    if(response)
@@ -2036,7 +2274,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    else if(dialogid == 112)
 	    {
            if(!response) return 1;
-            switch(listitem)
+           switch(listitem)
             {
                 case 0:
                 {
@@ -9323,15 +9561,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					}
 					case 1://Zbrojownia
 					{
-					    ShowPlayerDialogEx(playerid, 1231, DIALOG_STYLE_MSGBOX, "Zablokowane", "Ta opcja jest na razie w fazie produkcji", "Wróæ", "Wróæ");
-					    /*if(Dom[dom][hZbrojownia] == 0)
+					    //ShowPlayerDialogEx(playerid, 1231, DIALOG_STYLE_MSGBOX, "Zablokowane", "Ta opcja jest na razie w fazie produkcji", "Wróæ", "Wróæ");
+					    if(Dom[dom][hZbrojownia] == 0)
 					    {
 					    	ShowPlayerDialogEx(playerid, 8281, DIALOG_STYLE_MSGBOX, "Kupowanie Zbrojowni", "Zbrojownia - pozwala przechowywaæ broñ w domu.\nNa pocz¹tku kupujesz pomnieszczenie zbrojowni, potem mo¿esz przystosowaæ j¹ do przechowywania ró¿nych rodzajów broni, na co bêdziesz musia³ wydaæ dodakowe pieni¹dze.\nKoszt pomieszczenia zbrojowni to 1 000 000$, wymagane jest posiadanie licencji na broñ. Po kupieniu bêdziesz móg³ przystosowywaæ j¹ do swoich potrzeb.", "KUP!", "Cofnij");
 						}
 						else if(Dom[dom][hZbrojownia] == 1)
 						{
 						    DialogZbrojowni(playerid);
-						}*/
+						}
 					}
 					case 2://Gara¿
 					{
@@ -12782,7 +13020,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                         }
                     }
                 }
-                else if(strfind(inputtext, "Radio SAN2") != -1)
+                else if(strfind(inputtext, "Radio LSRS") != -1)
                 {
                     if(RadioSANDos[0] != EOF)
                     {
@@ -12850,7 +13088,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     format(komunikat, sizeof(komunikat), "%s\nNeony (%s)", komunikat, taknieNeo);
 				}
                 //
-                format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio SAN2\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
+                format(komunikat, sizeof(komunikat), "%s\nRadio SAN1\nRadio LSRS\nWlasny Stream\nWy³¹cz radio", komunikat); //+ 35char
                 //
                 if(!dont_override) ShowPlayerDialogEx(playerid, 666, DIALOG_STYLE_LIST, "Deska rozdzielcza", komunikat, "Wybierz", "Anuluj");
 		    }
@@ -15425,7 +15663,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         }
         return 1;
     }
-     else if(dialogid == D_EDIT_ORG_SKINS)
+    else if(dialogid == D_EDIT_ORG_SKINS)
     {
     	if(!response) return cmd_edytuj(playerid);
     	new id = GetPVarInt(playerid, "edit_org");
@@ -15444,7 +15682,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         		ShowPlayerDialogEx(playerid, D_EDIT_ORG_SKINS_ADD, DIALOG_STYLE_INPUT, "Skiny organizacji (dodawanie)", "Wpisz poni¿ej id skina, który chcesz dodaæ", "Ok", "Wróæ");
         	}
         }
-
     }
     else if(dialogid == D_EDIT_ORG_SKINS_SHOW)
     {
@@ -15499,39 +15736,35 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     {
     	if(!response) return ShowPlayerDialogEx(playerid, D_EDIT_ORG_SKINS, DIALOG_STYLE_LIST, "Edycja skinów", "Poka¿ skiny\nUsuñ skiny\nDodaj Skin\n", "Wybierz", "Wróæ");
     	new id = GetPVarInt(playerid, "edit_org");
-    	//new skin = strval(inputtext);
-    	//if(skin != 0)
-    	//{
-    		new query[256], skiny[256];
-    		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '0' AND `id` = '%d'", id);
-   			mysql_query(query);
-   			mysql_store_result();
-	
-   			if(mysql_fetch_row_format(query, "|"))
-   			{
-   				mysql_free_result();
-   			    sscanf(query, "p<|>s[128]", skiny);
+		new query[256], skiny[256];
+		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '0' AND `id` = '%d'", id);
+		mysql_query(query);
+		mysql_store_result();
 
-   			    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
-   			    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '0' AND `id` = '%d'", skiny, id);
-   		   		mysql_query(query);
-	
-   		   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
-   		   		{
-   		   			FAM_SKINS[id][i] = 0;
-   		   		}
-   		   		WczytajSkiny();
+		if(mysql_fetch_row_format(query, "|"))
+		{
+			mysql_free_result();
+		    sscanf(query, "p<|>s[128]", skiny);
 
-   		   		_MruGracz(playerid, "Skin dodano!");
-   		   		return 1;
-   			} else {
-   				mysql_free_result();
-   				format(query, sizeof(query), "INSERT INTO `mru_skins`(`typ`, `ID`, `skins`) VALUES ('0','%d','%s')", id, inputtext);
-   				mysql_query(query);
-   				_MruGracz(playerid, "Skin dodano!");
-   				return 1;
-   			}
-    	//} else return sendErrorMessage(playerid, "Skin nie mo¿e wynosiæ 0");
+		    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
+		    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '0' AND `id` = '%d'", skiny, id);
+	   		mysql_query(query);
+
+	   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
+	   		{
+	   			FAM_SKINS[id][i] = 0;
+	   		}
+	   		WczytajSkiny();
+
+	   		_MruGracz(playerid, "Skin dodano!");
+	   		return 1;
+		} else {
+			mysql_free_result();
+			format(query, sizeof(query), "INSERT INTO `mru_skins`(`typ`, `ID`, `skins`) VALUES ('0','%d','%s')", id, inputtext);
+			mysql_query(query);
+			_MruGracz(playerid, "Skin dodano!");
+			return 1;
+		}
     }
     else if(dialogid == D_EDIT_ORG_TYP)
     {
@@ -15722,39 +15955,34 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     {
     	if(!response) return ShowPlayerDialogEx(playerid, D_EDIT_FRAC_SKINS, DIALOG_STYLE_LIST, "Edycja skinów", "Poka¿ skiny\nUsuñ skiny\nDodaj Skin\n", "Wybierz", "Wróæ");
     	new id = GetPVarInt(playerid, "edit_frac");
-    	//new skin = strval(inputtext);
-    	//if(skin != 0)
-    	//{
-    		new query[256], skiny[256];
-    		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '1' AND `id` = '%d'", id);
-   			mysql_query(query);
-   			mysql_store_result();
-	
-   			if(mysql_fetch_row_format(query, "|"))
-   			{
-   				mysql_free_result();
-   			    sscanf(query, "p<|>s[128]", skiny);
+		new query[256], skiny[256];
+		format(query, sizeof(query), "SELECT `skins` FROM `mru_skins` WHERE `typ` = '1' AND `id` = '%d'", id);
+		mysql_query(query);
+		mysql_store_result();
+		if(mysql_fetch_row_format(query, "|"))
+		{
+			mysql_free_result();
+		    sscanf(query, "p<|>s[128]", skiny);
 
-   			    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
-   			    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '1' AND `id` = '%d'", skiny, id);
-   		   		mysql_query(query);
-	
-   		   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
-   		   		{
-   		   			FRAC_SKINS[id][i] = 0;
-   		   		}
-   		   		WczytajSkiny();
+		    format(skiny, sizeof(skiny), "%s, %s", skiny, inputtext);
+		    format(query, sizeof(query), "UPDATE `mru_skins` SET `skins` = '%s' WHERE `typ` = '1' AND `id` = '%d'", skiny, id);
+	   		mysql_query(query);
 
-   		   		_MruGracz(playerid, "Skin dodano!");
-   		   		return 1;
-   			} else {
-   				mysql_free_result();
-   				format(query, sizeof(query), "INSERT INTO `mru_skins` (`typ`, `ID`, `skins`) VALUES ('1','%d','%s')", id, inputtext);
-   				mysql_query(query);
-   				_MruGracz(playerid, "Skin dodano!");
-   				return 1;
-   			}
-    	//} else return sendErrorMessage(playerid, "Skin nie mo¿e wynosiæ 0");
+	   		for(new i = 0; i<MAX_SKIN_SELECT; i++)
+	   		{
+	   			FRAC_SKINS[id][i] = 0;
+	   		}
+	   		WczytajSkiny();
+
+	   		_MruGracz(playerid, "Skin dodano!");
+	   		return 1;
+		} else {
+			mysql_free_result();
+			format(query, sizeof(query), "INSERT INTO `mru_skins` (`typ`, `ID`, `skins`) VALUES ('1','%d','%s')", id, inputtext);
+			mysql_query(query);
+			_MruGracz(playerid, "Skin dodano!");
+			return 1;
+		}
     }
     else if(dialogid == D_EDIT_FRAC_NAME)
     {
@@ -16401,10 +16629,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     	if(!response) return 1;
     	if(strcmp(inputtext, "Poprzednia strona", true) == 0) return ShowKody(playerid, 1);
 
-    	SetPVarInt(playerid, "ac_edit", listitem+30);
+    	SetPVarInt(playerid, "ac_edit", listitem+28);
     	SetPVarInt(playerid, "ac_page", 2);
 
-    	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", listitem+30), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec)\nBANICJA", "Wybierz", "Wróæ");
+    	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", listitem+28), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec)\nBANICJA", "Wybierz", "Wróæ");
     }
     else if(dialogid == D_ANTYCHEAT+2)
     {
@@ -16577,31 +16805,34 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			case 0:
 			{
-				if(IsAPrzestepca(playerid))
+				if(IsAPrzestepca(playerid) || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
 				{
 					if(GetPlayerWeapon(playerid) == WEAPON_SPRAYCAN)
 					{
-						if(GetPlayerGraffitis(playerid) < 5)
+						if(GetPlayerGraffitis(playerid) < 5 || PlayerInfo[playerid][pNewAP] == 6 || PlayerInfo[playerid][pAdmin] >= 5000)
 						{
 							if(graffitiNum < 490)
 							{
-								new frac = GetPlayerFraction(playerid);
-								new org = GetPlayerOrg(playerid);
-								new zonekontrol = ZoneControl[GetPVarInt(playerid, "zoneid")];
-								SetPVarInt(playerid, "graffiti_zoneid", GetPVarInt(playerid, "zoneid"));
-								if(zonekontrol > 100)
+								if(PlayerInfo[playerid][pNewAP] != 6 && PlayerInfo[playerid][pAdmin] < 5000)
 								{
-									if(zonekontrol-100 == org)
+									new frac = GetPlayerFraction(playerid);
+									new org = GetPlayerOrg(playerid);
+									new zonekontrol = ZoneControl[GetPVarInt(playerid, "zoneid")];
+									SetPVarInt(playerid, "graffiti_zoneid", GetPVarInt(playerid, "zoneid"));
+								
+									if(zonekontrol > 100)
 									{
-										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
+										if(zonekontrol-100 == org)
+										{
+											return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
+										} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
+									} else {
+										if(zonekontrol == frac)
+										{
+											return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
+										} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
 									}
-								} else {
-									if(zonekontrol == frac)
-									{
-										return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
-									} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
-								}
-								return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz byæ na swojej strefie!");
+								} else return ShowPlayerDialogEx(playerid, D_GRAFFITI, DIALOG_STYLE_INPUT, "Graffiti (tekst)", "Wpisz tekst jaki ma siê pojawiæ na graffiti\nWpisz ^ ¿eby stworzyæ now¹ liniê\nAby pokolorowaæ tekst wpisz kolor w formacie RGB w nawiasach, przyk³ad (FF0000)", "OK", "Anuluj");
 							} else return SendClientMessage(playerid, 0xE9E9E9E9, "W mieœcie jest ju¿ za du¿o graffiti!");
 						} else return SendClientMessage(playerid, 0xE9E9E9E9, "Stworzy³eœ ju¿ za du¿o graffiti!");
 					} else return SendClientMessage(playerid, 0xE9E9E9E9, "Musisz trzymaæ puszkê spreju!");
@@ -16945,9 +17176,18 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		    sendErrorMessage(playerid, "Coœ posz³o nie tak! (sprzeda¿)");
 		}
 	}
+	else if(dialogid == D_CREATE_BRAMA)
+	{
+		if(!response) 
+		{
+			if(brama_editing[playerid] == 3) DestroyDynamicObject(brama_create[playerid]);
+			else {
+				SetDynamicObjectPos(bramy[brama_id[playerid]][b_obiekt], bramy[brama_id[playerid]][b_x1], bramy[brama_id[playerid]][b_y1], bramy[brama_id[playerid]][b_z1]);
+				SetDynamicObjectRot(bramy[brama_id[playerid]][b_obiekt], bramy[brama_id[playerid]][b_rx1], bramy[brama_id[playerid]][b_ry1], bramy[brama_id[playerid]][b_rz1]);
+			}
+			return sendErrorMessage(playerid, "Anulowano edycjê bramy!");
+		}
 
-<<<<<<< Updated upstream
-=======
 		switch(listitem)
 		{
 			case 0:
@@ -17070,10 +17310,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(!response) return 1;
 		ShowPowiazania(playerid, GetPVarInt(playerid, "powiazania_id"), listitem);
 	}
-
-
->>>>>>> Stashed changes
 	return 0;
-
 }
 //ondialogresponse koniec

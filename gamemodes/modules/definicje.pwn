@@ -2,12 +2,19 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v1.0.3"
+#define VERSION "v1.1.DEV"
 
 #define DEBUG 2   // 2 - off  /  1 - on
 #define NULL 0
 native SendClientCheck(clientid, actionid, arg1= 0x00000000, arg2= 0x0000, bytes= 0x0004); // int32, int8, int32, int16, int16 
 
+native gpci(playerid, serial[], len);
+
+// globalny string
+new C_STRING[2048];
+//
+
+#define MAX_AFK_TIME 3000
 
 #define BODY_PART_TORSO 3
 #define BODY_PART_GROIN 4
@@ -44,7 +51,12 @@ new VehicleIDChangeTime[MAX_PLAYERS];
 
 new acstr[128];
 
+#if !defined gpci
+    native gpci(playerid, serial[], len);
+#endif
+
 //Makra:
+#define GetDynamicObjectModel(%0) Streamer_GetIntData(STREAMER_TYPE_OBJECT, %0, E_STREAMER_MODEL_ID)
 #define GetPlayerWeather(%1) GetPVarInt(%1, "Weather")
 #define Distance3D(%1,%2,%3,%4,%5,%6) (VectorSize(%1-%4,%2-%5,%3-%6))/100)
 #define Distance3D2(%1,%2,%3,%4,%5,%6) (VectorSize(%1-%4,%2-%5,%3-%6))*1000.0)
@@ -219,7 +231,7 @@ new acstr[128];
 #define HYDRA_D 250000
 
 new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, FAMILY_IBIZA = -1,
-    FAMILY_FDU = -1;
+    FAMILY_FDU = -1, FAMILY_GYM = -1;
 
 //2015.09.12
 #define TAJNIAK_FBI		0
@@ -367,6 +379,26 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define D_EDIT_FRAC_SKINS_DELETE 1327
 #define D_EDIT_FRAC_SKINS_ADD 1328
 
+#define D_CREATE_BRAMA 1360
+#define D_CREATE_BRAMA_ID 1361
+#define D_CREATE_BRAMA_TYP 1662
+#define D_CREATE_BRAMA_SPEED 1663
+#define D_CREATE_BRAMA_RANGE 1664
+
+#define D_POWIAZANIA 1700
+#define D_POWIAZANIA_GPCI 1701
+
+#define D_JOB_CENTER_DIALOG 1702
+#define D_JOBTYPE_LOWCA 1703
+#define D_JOBTYPE_PRAWNIK 1704
+#define D_JOBTYPE_MECHANIK 1705
+#define D_JOBTYPE_OCHRONIARZ 1706
+#define D_JOBTYPE_PIZZABOY 1707
+#define D_JOBTYPE_BOX 1708
+#define D_JOBTYPE_KURIER 1709
+
+#define D_PUSTY 3333
+
 #define D_F_PANEL			5000+1
 
 #define D_TRANSPORT         5439
@@ -457,6 +489,12 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define DIALOG_LIDER02 3002
 
 #define DIALOG_APL 4550
+#define DIALOG_POMOC_NEW 4590
+#define DIALOG_ADMIN_PM_TOKEN 4595
+#define DIALOG_ID_NO_RESPONSE 4599
+
+#define DIALOG_GAMEMASTER 4610
+#define DIALOG_GAMEMASTER_ROB_TIME 4611
 
 // sprzedaz apteczek
 
@@ -478,7 +516,7 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define MAX_RANG_LEN    25
 
 //13.07
-#define MAX_SKIN_SELECT     22
+#define MAX_SKIN_SELECT     50
 #define JOB_SKIN_HOVERCOLOR 0x07B5EBFF    //Kolor zaznaczenia skinów
 //22.07
 

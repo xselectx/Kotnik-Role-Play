@@ -189,6 +189,18 @@ sendErrorMessage(id, string:msg[]) {
 	format(_str,128,"»» %s", msg);
 	return SendClientMessage(id, COLOR_LIGHTRED, _str);
 }
+//sqluke
+sendTipDialogMessage(id, string:msg[]) {
+	format(_str,128,"%s", msg);
+	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Informacja", _str, "Zamknij", "");
+	//return SendClientMessage(id, color, _str);
+}
+
+sendErrorDialogMessage(id, string:msg[]) {
+	format(_str,128,"%s", msg);
+	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Wyst¹pi³ b³¹d", _str, "Zamknij", "");
+	//return SendClientMessage(id, color, _str);
+}
 //2.5.2
 
 stock GetMajatek(playerid)
@@ -798,7 +810,7 @@ public CountDown()
 {
 	if (Count > 0)
 	{
-		GameTextForAll( CountText[Count-1], 2500, 1);
+		GameTextForAll( CountText[Count-1], 1000, 1);
 		Count--;
 		SoundForAll(1056);
 		SetTimer("CountDown", 1000, 0);
@@ -1168,9 +1180,15 @@ public udalo3(playerid){
     {
     	new komunikat[128];
     	new nick[MAX_PLAYER_NAME];
+    	new pZone[MAX_ZONE_NAME];
+    	new pojazd = GetPlayerVehicleID(playerid);
+    	new pdinfo[256];
     	GetPlayerName(playerid, nick, sizeof(nick));
     	format(komunikat, sizeof(komunikat),"* %s ³¹czy odpowiednie kabelki i wy³¹czy³ alarm.", nick);
     	ProxDetector(20.0, playerid, komunikat, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+    	GetPlayer2DZone(playerid, pZone, MAX_ZONE_NAME);
+    	format(pdinfo, sizeof(pdinfo), "[911]: Poszukiwany pojazd: %s ostatnio widziany w okolicy: %s ",VehicleNames[GetVehicleModel(pojazd)-400], pZone);
+		SendFamilyMessage(1, COLOR_YELLOW, pdinfo);
     	TogglePlayerControllable(playerid, 1);
     	NieSpamujKradnij[playerid] = 0;
     	SendClientMessage(playerid, COLOR_GRAD2, "Skill z³odzieja aut +1");
@@ -1235,17 +1253,23 @@ public nieudalo3(playerid){
 //alarm siê w³¹cza
     if (GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
     {
+    	new pZone[MAX_ZONE_NAME];
+    	new pojazd = GetPlayerVehicleID(playerid);
+    	new pdinfo[256];
     	new komunikat[128];
     	new nick[MAX_PLAYER_NAME];
     	new vehi = GetPlayerVehicleID(playerid);
     	new engine, lights, alarm, doors, bonnet, boot, objective;
     	GetPlayerName(playerid, nick, sizeof(nick));
+		GetPlayer2DZone(playerid, pZone, MAX_ZONE_NAME);
     	format(komunikat, sizeof(komunikat),"* %s Ÿle ³¹czy kabelki po czym w³¹cza siê alarm.", nick);
     	ProxDetector(20.0, playerid, komunikat, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
         GetVehicleParamsEx(vehi, engine, lights, alarm, doors, bonnet, boot, objective);
         SetVehicleParamsEx(vehi, engine, lights, true, doors, bonnet, boot, objective);
     	SetTimerEx("WylaczAlarm", 90000, false, "d", vehi);
     	SendClientMessage(playerid, COLOR_PANICRED, "Uciekaj! Zaraz tu bêd¹ gliny!");
+    	format(pdinfo, sizeof(pdinfo), "[911]: Zg³oszono próbê kradzie¿y pojazdu %s w okolicy %s ",VehicleNames[GetVehicleModel(pojazd)-400], pZone);
+		SendFamilyMessage(1, COLOR_LIGHTRED, pdinfo);
     	TogglePlayerControllable(playerid, 1);
     	RemovePlayerFromVehicleEx(playerid);
     	KradniecieWozu[playerid] = 0;
@@ -2420,24 +2444,6 @@ IsAKO(playerid)
 	return 0;
 }
 
-<<<<<<< Updated upstream
-=======
-
-
-IsAxSeLeCTx(playerid)
-{
-	if(IsPlayerConnected(playerid))
-	{
-	    new nick[MAX_PLAYER_NAME];
-		GetPlayerName(playerid, nick, sizeof(nick));
-		if(strcmp(nick,"Jayden_Howard", false) == 0 || strcmp(nick,"Yui_Tachibana", false) == 0)
-		{
-		    return 1;
-		}
-	}
-	return 0;
-}
-
 IsAChlor(playerid)
 {
 	if(IsPlayerConnected(playerid))
@@ -2467,7 +2473,6 @@ IsARoad(playerid)
 }
 
 
->>>>>>> Stashed changes
 stock MozePobic(playerid)
 {
 	if(IsPlayerConnected(playerid))
@@ -2661,11 +2666,11 @@ DajBronieFrakcyjne(playerid)
 	        PlayerInfo[playerid][pGun3] = 25; PlayerInfo[playerid][pAmmo3] = 100;
 	        playerWeapons[playerid][weaponLegal4] = 1;
 	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 530;
-	        playerWeapons[playerid][weaponLegal5] = 1;
-	    }
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 530;
+	    //    playerWeapons[playerid][weaponLegal5] = 1;
+	    //}
 	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 500 || PlayerInfo[playerid][pAmmo9] <= 30)
 	    {
 	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 10000;
@@ -2697,31 +2702,31 @@ DajBronieFrakcyjne(playerid)
 	        PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 207;
 	        playerWeapons[playerid][weaponLegal3] = 1;
 	    }
-	    if(PlayerInfo[playerid][pGun3] == 0 || PlayerInfo[playerid][pGun3] == 25 && PlayerInfo[playerid][pAmmo3] < 50 || PlayerInfo[playerid][pAmmo3] <= 5)
-	    {
-	        PlayerInfo[playerid][pGun3] = 25; PlayerInfo[playerid][pAmmo3] = 150;
-	        playerWeapons[playerid][weaponLegal4] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 1030;
-	        playerWeapons[playerid][weaponLegal5] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 31 && PlayerInfo[playerid][pAmmo5] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun5] = 31; PlayerInfo[playerid][pAmmo5] = 730;
-	        playerWeapons[playerid][weaponLegal6] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun6] == 0 || PlayerInfo[playerid][pGun6] == 33 && PlayerInfo[playerid][pAmmo6] < 20  || PlayerInfo[playerid][pAmmo4] <= 5)
-	    {
-	        PlayerInfo[playerid][pGun6] = 33; PlayerInfo[playerid][pAmmo6] = 50;
-	        playerWeapons[playerid][weaponLegal7] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun8] == 0 || PlayerInfo[playerid][pGun8] == 17 && PlayerInfo[playerid][pAmmo8] < 10 || PlayerInfo[playerid][pAmmo8] <= 2)
-	    {
-	        PlayerInfo[playerid][pGun8] = 17; PlayerInfo[playerid][pAmmo8] = 20;
-	        playerWeapons[playerid][weaponLegal9] = 1;
-	    }
+	    //if(PlayerInfo[playerid][pGun3] == 0 || PlayerInfo[playerid][pGun3] == 25 && PlayerInfo[playerid][pAmmo3] < 50 || PlayerInfo[playerid][pAmmo3] <= 5)
+	    //{
+	    //    PlayerInfo[playerid][pGun3] = 25; PlayerInfo[playerid][pAmmo3] = 150;
+	    //    playerWeapons[playerid][weaponLegal4] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 1030;
+	    //    playerWeapons[playerid][weaponLegal5] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 31 && PlayerInfo[playerid][pAmmo5] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun5] = 31; PlayerInfo[playerid][pAmmo5] = 730;
+	    //    playerWeapons[playerid][weaponLegal6] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun6] == 0 || PlayerInfo[playerid][pGun6] == 33 && PlayerInfo[playerid][pAmmo6] < 20  || PlayerInfo[playerid][pAmmo4] <= 5)
+	    //{
+	    //    PlayerInfo[playerid][pGun6] = 33; PlayerInfo[playerid][pAmmo6] = 50;
+	    //    playerWeapons[playerid][weaponLegal7] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun8] == 0 || PlayerInfo[playerid][pGun8] == 17 && PlayerInfo[playerid][pAmmo8] < 10 || PlayerInfo[playerid][pAmmo8] <= 2)
+	    //{
+	    //    PlayerInfo[playerid][pGun8] = 17; PlayerInfo[playerid][pAmmo8] = 20;
+	    //    playerWeapons[playerid][weaponLegal9] = 1;
+	    //}
 	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 500 || PlayerInfo[playerid][pAmmo9] <= 30)
 	    {
 	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 10000;
@@ -2735,31 +2740,31 @@ DajBronieFrakcyjne(playerid)
 	        PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 207;
 	        playerWeapons[playerid][weaponLegal3] = 1;
 	    }
-	    if(PlayerInfo[playerid][pGun3] == 0 || PlayerInfo[playerid][pGun3] == 25 && PlayerInfo[playerid][pAmmo3] < 50 || PlayerInfo[playerid][pAmmo3] <= 5)
-	    {
-	        PlayerInfo[playerid][pGun3] = 25; PlayerInfo[playerid][pAmmo3] = 150;
-	        playerWeapons[playerid][weaponLegal4] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 1030;
-	        playerWeapons[playerid][weaponLegal5] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 31 && PlayerInfo[playerid][pAmmo5] < 200 || PlayerInfo[playerid][pAmmo5] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun5] = 31; PlayerInfo[playerid][pAmmo5] = 730;
-	        playerWeapons[playerid][weaponLegal6] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun6] == 0 || PlayerInfo[playerid][pGun6] == 33 && PlayerInfo[playerid][pAmmo6] < 20 || PlayerInfo[playerid][pAmmo6] <= 5)
-	    {
-	        PlayerInfo[playerid][pGun6] = 33; PlayerInfo[playerid][pAmmo6] = 50;
-	        playerWeapons[playerid][weaponLegal7] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun8] == 0)
-	    {
-	        PlayerInfo[playerid][pGun8] = 16; PlayerInfo[playerid][pAmmo8] = 2;
-	        playerWeapons[playerid][weaponLegal9] = 1;
-	    }
+	    //if(PlayerInfo[playerid][pGun3] == 0 || PlayerInfo[playerid][pGun3] == 25 && PlayerInfo[playerid][pAmmo3] < 50 || PlayerInfo[playerid][pAmmo3] <= 5)
+	    //{
+	    //    PlayerInfo[playerid][pGun3] = 25; PlayerInfo[playerid][pAmmo3] = 150;
+	    //    playerWeapons[playerid][weaponLegal4] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 1030;
+	    //    playerWeapons[playerid][weaponLegal5] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 31 && PlayerInfo[playerid][pAmmo5] < 200 || PlayerInfo[playerid][pAmmo5] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun5] = 31; PlayerInfo[playerid][pAmmo5] = 730;
+	    //    playerWeapons[playerid][weaponLegal6] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun6] == 0 || PlayerInfo[playerid][pGun6] == 33 && PlayerInfo[playerid][pAmmo6] < 20 || PlayerInfo[playerid][pAmmo6] <= 5)
+	    //{
+	    //    PlayerInfo[playerid][pGun6] = 33; PlayerInfo[playerid][pAmmo6] = 50;
+	    //    playerWeapons[playerid][weaponLegal7] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun8] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun8] = 16; PlayerInfo[playerid][pAmmo8] = 2;
+	    //    playerWeapons[playerid][weaponLegal9] = 1;
+	    //}
      	if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 500 || PlayerInfo[playerid][pAmmo9] <= 30)
 	    {
 	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 10000;
@@ -2792,37 +2797,37 @@ DajBronieFrakcyjne(playerid)
 	}
 	else if(PlayerInfo[playerid][pMember] == 5 || PlayerInfo[playerid][pLider] == 5)
 	{
-	    if(PlayerInfo[playerid][pGun0] == 0)
-	    {
-	        PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 24 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 107;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 30 && PlayerInfo[playerid][pAmmo5] < 50 || PlayerInfo[playerid][pAmmo5] <= 20)
-	    {
-	        PlayerInfo[playerid][pGun5] = 30; PlayerInfo[playerid][pAmmo5] = 250;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
+	    //if(PlayerInfo[playerid][pGun0] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 24 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 107;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 30 && PlayerInfo[playerid][pAmmo5] < 50 || PlayerInfo[playerid][pAmmo5] <= 20)
+	    //{
+	    //    PlayerInfo[playerid][pGun5] = 30; PlayerInfo[playerid][pAmmo5] = 250;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
 	}
 	else if(PlayerInfo[playerid][pMember] == 6 || PlayerInfo[playerid][pLider] == 6)
 	{
-	    if(PlayerInfo[playerid][pGun1] == 0)
-	    {
-	        PlayerInfo[playerid][pGun1] = 8; PlayerInfo[playerid][pAmmo1] = 1;
-	    }
-     	if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 24 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 107;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 30 && PlayerInfo[playerid][pAmmo5] < 50 || PlayerInfo[playerid][pAmmo5] <= 20)
-	    {
-	        PlayerInfo[playerid][pGun5] = 30; PlayerInfo[playerid][pAmmo5] = 250;
-	        playerWeapons[playerid][weaponLegal6] = 0;
-	    }
+	    //if(PlayerInfo[playerid][pGun1] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun1] = 8; PlayerInfo[playerid][pAmmo1] = 1;
+	    //}
+     	//if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 24 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 107;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun5] == 0 || PlayerInfo[playerid][pGun5] == 30 && PlayerInfo[playerid][pAmmo5] < 50 || PlayerInfo[playerid][pAmmo5] <= 20)
+	    //{
+	    //    PlayerInfo[playerid][pGun5] = 30; PlayerInfo[playerid][pAmmo5] = 250;
+	    //    playerWeapons[playerid][weaponLegal6] = 0;
+	    //}
 	}
 	else if(PlayerInfo[playerid][pMember] == 7 || PlayerInfo[playerid][pLider] == 7)
 	{
@@ -2835,16 +2840,16 @@ DajBronieFrakcyjne(playerid)
 	        PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 207;
 	        playerWeapons[playerid][weaponLegal3] = 1;
 	    }
-	    if(PlayerInfo[playerid][pGun3] == 0 || PlayerInfo[playerid][pGun3] == 25 && PlayerInfo[playerid][pAmmo3] < 50 || PlayerInfo[playerid][pAmmo3] <= 5)
-	    {
-	        PlayerInfo[playerid][pGun3] = 25; PlayerInfo[playerid][pAmmo3] = 100;
-	        playerWeapons[playerid][weaponLegal4] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 530;
-	        playerWeapons[playerid][weaponLegal5] = 1;
-	    }
+	    //if(PlayerInfo[playerid][pGun3] == 0 || PlayerInfo[playerid][pGun3] == 25 && PlayerInfo[playerid][pAmmo3] < 50 || PlayerInfo[playerid][pAmmo3] <= 5)
+	    //{
+	    //    PlayerInfo[playerid][pGun3] = 25; PlayerInfo[playerid][pAmmo3] = 100;
+	    //    playerWeapons[playerid][weaponLegal4] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 29 && PlayerInfo[playerid][pAmmo4] < 200 || PlayerInfo[playerid][pAmmo4] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 29; PlayerInfo[playerid][pAmmo4] = 530;
+	    //    playerWeapons[playerid][weaponLegal5] = 1;
+	    //}
 	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 500 || PlayerInfo[playerid][pAmmo9] <= 30)
 	    {
 	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 10000;
@@ -2853,164 +2858,164 @@ DajBronieFrakcyjne(playerid)
 	}
 	else if(PlayerInfo[playerid][pMember] == 8 || PlayerInfo[playerid][pLider] == 8)
 	{
-	    if(PlayerInfo[playerid][pGun1] == 0)
-	    {
-	        PlayerInfo[playerid][pGun1] = 4; PlayerInfo[playerid][pAmmo1] = 1;
-	        playerWeapons[playerid][weaponLegal2] = 0;
-
-	    }
-	    if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 24 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 107;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }//HA
+	    //if(PlayerInfo[playerid][pGun1] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun1] = 4; PlayerInfo[playerid][pAmmo1] = 1;
+	    //    playerWeapons[playerid][weaponLegal2] = 0;
+//
+	    //}
+	    //if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 24 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 24; PlayerInfo[playerid][pAmmo2] = 107;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}//HA
 	}
 	else if(PlayerInfo[playerid][pMember] == 9 || PlayerInfo[playerid][pLider] == 9)
 	{
-	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 43 && PlayerInfo[playerid][pAmmo9] < 10 || PlayerInfo[playerid][pAmmo9] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun9] = 43; PlayerInfo[playerid][pAmmo9] = 100;
-	        playerWeapons[playerid][weaponLegal10] = 1;
-	    }
+	    //if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 43 && PlayerInfo[playerid][pAmmo9] < 10 || PlayerInfo[playerid][pAmmo9] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun9] = 43; PlayerInfo[playerid][pAmmo9] = 100;
+	    //    playerWeapons[playerid][weaponLegal10] = 1;
+	    //}
 	}
 	else if(PlayerInfo[playerid][pLider] == 11)
 	{
-	    if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 23 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 23; PlayerInfo[playerid][pAmmo2] = 107;
-	        playerWeapons[playerid][weaponLegal3] = 1;
-	    }
+	    //if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 23 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 23; PlayerInfo[playerid][pAmmo2] = 107;
+	    //    playerWeapons[playerid][weaponLegal3] = 1;
+	    //}
 	}
 	else if(PlayerInfo[playerid][pMember] == 12 || PlayerInfo[playerid][pLider] == 12)
 	{
-	    if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
-	        playerWeapons[playerid][weaponLegal5] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun0] == 0)
-	    {
-	        PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun1] == 0)
-	    {
-	        PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
-	        playerWeapons[playerid][weaponLegal2] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
-	        playerWeapons[playerid][weaponLegal10] = 0;
-	    }
+	    //if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
+	    //    playerWeapons[playerid][weaponLegal5] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun0] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun1] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
+	    //    playerWeapons[playerid][weaponLegal2] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
+	    //    playerWeapons[playerid][weaponLegal10] = 0;
+	    //}
 	}
 	else if(PlayerInfo[playerid][pMember] == 13 || PlayerInfo[playerid][pLider] == 13)
 	{
-	    if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
-	        playerWeapons[playerid][weaponLegal5] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun0] == 0)
-	    {
-	        PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun1] == 0)
-	    {
-	        PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
-	        playerWeapons[playerid][weaponLegal2] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
-	        playerWeapons[playerid][weaponLegal10] = 0;
-	    }
+	    //if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
+	    //    playerWeapons[playerid][weaponLegal5] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun0] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun1] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
+	    //    playerWeapons[playerid][weaponLegal2] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
+	    //    playerWeapons[playerid][weaponLegal10] = 0;
+	    //}
 	}
 	else if(PlayerInfo[playerid][pMember] == 14 || PlayerInfo[playerid][pLider] == 14)
 	{
-	    if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
-	        playerWeapons[playerid][weaponLegal5] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun0] == 0)
-	    {
-	        PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun1] == 0)
-	    {
-	        PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
-	        playerWeapons[playerid][weaponLegal2] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
-	        playerWeapons[playerid][weaponLegal10] = 0;
-	    }
+	    //if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
+	    //    playerWeapons[playerid][weaponLegal5] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun0] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun1] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
+	    //    playerWeapons[playerid][weaponLegal2] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
+	    //    playerWeapons[playerid][weaponLegal10] = 0;
+	    //}
 	}
 	else if(PlayerInfo[playerid][pMember] == 15 || PlayerInfo[playerid][pLider] == 15)//NoA
 	{
-	    if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
-	        playerWeapons[playerid][weaponLegal5] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun0] == 0)
-	    {
-	        PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
-	    }
-	    if(PlayerInfo[playerid][pGun1] == 0)
-	    {
-	        PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
-	        playerWeapons[playerid][weaponLegal2] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
-	        playerWeapons[playerid][weaponLegal10] = 0;
-	    }
+	    //if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 32 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 32; PlayerInfo[playerid][pAmmo4] = 150;
+	    //    playerWeapons[playerid][weaponLegal5] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun0] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
+	    //}
+	    //if(PlayerInfo[playerid][pGun1] == 0)
+	    //{
+	    //    PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 2;
+	    //    playerWeapons[playerid][weaponLegal2] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 1000;
+	    //    playerWeapons[playerid][weaponLegal10] = 0;
+	    //}
 	}
  	else if(PlayerInfo[playerid][pMember] == 16 || PlayerInfo[playerid][pLider] == 16)
 	{
-     	if(PlayerInfo[playerid][pGun0] == 0 )
-	    {
-	        PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
-	        playerWeapons[playerid][weaponLegal1] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 28 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun4] = 28; PlayerInfo[playerid][pAmmo4] = 150;
-	        playerWeapons[playerid][weaponLegal5] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
-	    {
-	        PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
-	        playerWeapons[playerid][weaponLegal3] = 0;
-	    }
-	    if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
-	    {
-	        PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 200;
-	        playerWeapons[playerid][weaponLegal10] = 0;
-	    }
+     	//if(PlayerInfo[playerid][pGun0] == 0 )
+	    //{
+	    //    PlayerInfo[playerid][pGun0] = 1; PlayerInfo[playerid][pAmmo0] = 1;
+	    //    playerWeapons[playerid][weaponLegal1] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun4] == 0 || PlayerInfo[playerid][pGun4] == 28 && PlayerInfo[playerid][pAmmo4] < 25 || PlayerInfo[playerid][pAmmo4] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun4] = 28; PlayerInfo[playerid][pAmmo4] = 150;
+	    //    playerWeapons[playerid][weaponLegal5] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun2] == 0  || PlayerInfo[playerid][pGun2] == 22 && PlayerInfo[playerid][pAmmo2] < 50 || PlayerInfo[playerid][pAmmo2] <= 7)
+	    //{
+	    //    PlayerInfo[playerid][pGun2] = 22; PlayerInfo[playerid][pAmmo2] = 250;
+	    //    playerWeapons[playerid][weaponLegal3] = 0;
+	    //}
+	    //if(PlayerInfo[playerid][pGun9] == 0 || PlayerInfo[playerid][pGun9] == 41 && PlayerInfo[playerid][pAmmo9] < 50 || PlayerInfo[playerid][pAmmo9] <= 30)
+	    //{
+	    //    PlayerInfo[playerid][pGun9] = 41; PlayerInfo[playerid][pAmmo9] = 200;
+	    //    playerWeapons[playerid][weaponLegal10] = 0;
+	    //}
 	}
 	return 1;
 }
@@ -3023,8 +3028,8 @@ DajBronieOganizacji(playerid)
 		{
 			if(PlayerInfo[playerid][pGun1] == 0)
 			{
-				PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 1;
-				playerWeapons[playerid][weaponLegal2] = 1;
+				//PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 1;
+				//playerWeapons[playerid][weaponLegal2] = 1;
 			}
 		}
 	}
@@ -3043,22 +3048,22 @@ DajBroniePracy(playerid)
 				playerWeapons[playerid][weaponLegal2] = 1;
 			}
 		}
-		case JOB_DRAGDEALER:
-		{
-			if(PlayerInfo[playerid][pGun1] == 0)
-			{
-				PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 1;
-				playerWeapons[playerid][weaponLegal2] = 0;
-			}
-		}
-		case JOB_GUNDEALER:
-		{
-			if(PlayerInfo[playerid][pGun1] == 0)
-			{
-				PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 1;
-				playerWeapons[playerid][weaponLegal2] = 0;
-			}
-		}
+		//case JOB_DRAGDEALER:
+		//{
+		//	if(PlayerInfo[playerid][pGun1] == 0)
+		//	{
+		//		PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 1;
+		//		playerWeapons[playerid][weaponLegal2] = 0;
+		//	}
+		//}
+		//case JOB_GUNDEALER:
+		//{
+		//	if(PlayerInfo[playerid][pGun1] == 0)
+		//	{
+		//		PlayerInfo[playerid][pGun1] = 5; PlayerInfo[playerid][pAmmo1] = 1;
+		//		playerWeapons[playerid][weaponLegal2] = 0;
+		//	}
+		//}
 		/*case JOB_LOWCA:
 		{
 			if(PlayerInfo[playerid][pGun2] == 0 || PlayerInfo[playerid][pGun2] == 24 && PlayerInfo[playerid][pAmmo2] < 25 || PlayerInfo[playerid][pAmmo2] <= 7)
@@ -3902,8 +3907,6 @@ CanUseCar(playerid, newcar)
 		return 1;
 	} 
 
-	if(PlayerInfo[playerid][pBW] > 0) return 0;
-
 	if(IsACopCar(newcar))
 	{
 	    if(IsACop(playerid))
@@ -4078,7 +4081,7 @@ CanUseCar(playerid, newcar)
 	{
 		if(PlayerInfo[playerid][pCarLic] != 1)
 		{
-			if(!IsABike(newcar))
+			if(!IsARower(newcar))
 			{
 				sendTipMessageEx(playerid, COLOR_GREY, "Nie masz prawa jazdy, postanawiasz opuœciæ pojazd!");
 				if(PlayerInfo[playerid][pAdmin] >= 5000 || Uprawnienia(playerid, ACCESS_EDITCAR)) return 1;
@@ -4784,8 +4787,6 @@ stock AdminDutyLog(text[])
 	Log(plik, text);
 }
 
-<<<<<<< Updated upstream
-=======
 stock DeathLog(text[])
 {
 	new plik[32] = "logi/death.log";
@@ -4797,11 +4798,6 @@ stock DMLog(text[])
 	new plik[32] = "logi/dm2.log";
 	Log(plik, text);
 }
-stock DM_ZLog(text[])
-{
-	new plik[32] = "logi/dm2_z.log";
-	Log(plik, text);
-}
 
 stock SMSLog(text[])
 {
@@ -4809,8 +4805,12 @@ stock SMSLog(text[])
 	Log(plik, text);
 }
 
+stock RobLog(text[])
+{
+	new plik[32] = "logi/napad.log";
+	Log(plik, text);
+}
 
->>>>>>> Stashed changes
 stock Log(plik[], text[])
 {
 	new File:file = fopen(plik, io_append);
@@ -5190,7 +5190,7 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GREEN,"_______________________________________");
 		format(coordsstring, sizeof(coordsstring),"*** %s ({8FCB04}UID: %d{FFFFFF}) ***",name, PlayerInfo[targetid][pUID]);
 		SendClientMessage(playerid, COLOR_WHITE,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,health, cash, account, pnumber);
+		format(coordsstring, sizeof(coordsstring), "Level:[%d] P³eæ:[%s] Wiek:[%d] Pochodzenie:[%s] Zdrowie:[%.1f] Kasa:[$%d] Bank:[$%d] Telefon:[%d]", level,atext,age,otext,50+shealth, cash, account, pnumber);
 		SendClientMessage(playerid, COLOR_GRAD1,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Konto Premium:[%s] Œlub z:[%s] On-Line:[%d] LottoNr:[%d] Praca:[%s] Punkty karne:[%d]", drank,PlayerInfo[targetid][pMarriedTo],ptime,lotto,jtext, PlayerInfo[targetid][pPK]);
 		SendClientMessage(playerid, COLOR_GRAD2,coordsstring);
@@ -5200,11 +5200,11 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GRAD4,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Drugs:[%d] Mats:[%d] Frakcja:[%s] Ranga:[%s] Warny:[%d] Dostêpnych zmian nicków:[%d]",drugs,mats,ftext,rtext,PlayerInfo[targetid][pWarns],znick);
 		SendClientMessage(playerid, COLOR_GRAD5,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Skin:[%d] Uniform:[%d] Apteczki:[%d] Zestawy:[%d]",PlayerInfo[targetid][pModel], PlayerInfo[targetid][pSkin], PlayerInfo[targetid][pApteczki]);
+		format(coordsstring, sizeof(coordsstring), "Skin:[%d] Uniform:[%d] Apteczki:[%d] KotnikCoins:[%d]",PlayerInfo[targetid][pModel], PlayerInfo[targetid][pSkin], PlayerInfo[targetid][pApteczki],PremiumInfo[targetid][pMC]);
 		SendClientMessage(playerid, COLOR_GRAD5,coordsstring);
 		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5 || PlayerInfo[playerid][pNewAP] == 1)
 		{
-			format(coordsstring, sizeof(coordsstring), "Dom:[%d] Klucz Wozu:[%d] KotnikCoins:[%d]", housekey,PlayerInfo[targetid][pKluczeAuta],PremiumInfo[targetid][pMC]);
+			format(coordsstring, sizeof(coordsstring), "Dom:[%d] Klucz Wozu:[%d] ", housekey,PlayerInfo[targetid][pKluczeAuta]);
 			SendClientMessage(playerid, COLOR_GRAD6,coordsstring);
 		}
 		SendClientMessage(playerid, COLOR_GREEN,"_______________________________________");
@@ -5221,20 +5221,13 @@ SetPlayerToTeamColor(playerid)
 			return 1;
 		}
 
-<<<<<<< Updated upstream
-=======
 		if(GetPVarInt(playerid, "gmduty") == 1)
 		{
 			SetPlayerColor(playerid, COLOR_PURPLE);
 			return 1;
 		}
-		if(GetPVarInt(playerid, "supportduty") == 1)
-		{
-			SetPlayerColor(playerid, COLOR_BLUE);
-			return 1;
-		}
-        
->>>>>>> Stashed changes
+
+
 	    if(PlayerInfo[playerid][pMember] == 1 || PlayerInfo[playerid][pLider] == 1)
 		{
 		    if(OnDuty[playerid] && OnDutyCD[playerid] == 0)
@@ -5467,7 +5460,7 @@ stock fracLoad()
     	format(FractionNames[lID], 64, "%s", FracInfo[lID][frac_Name]);
 		lID++;
     }
-    printf("%d | Wczytano informacje frakcji", lID);
+    printf("[K:RP][FRAKCJE]: Wczytano: %d frakcji ", lID);
 }
 
 stock fracSave(lID)
@@ -5522,7 +5515,7 @@ stock orgLoad()
         //printf("%d: [%d] %s, typ: %d", lID, OrgInfo[lID][o_UID], OrgInfo[lID][o_Name], OrgInfo[lID][o_Type]);
         lID++;
     }
-    printf("%d | Wczytano organizacje", lID);
+    printf("[K:RP][GRUPY]: Wczytano %d grup/organizacji", lID);
 }
 
 stock orgSave(lID, savetype)
@@ -5816,7 +5809,7 @@ ZaladujTrasy()
 		}
 	}
 	e = GetTickCount();
-	printf("DINI1: LADOWANIE TRAS czas wykonania: %d", e-s);
+	printf("[K:RP][TRASY]: Inicjalizacja tras, czas wykonania: %d", e-s);
 	return 1;
 }
 
@@ -5843,7 +5836,6 @@ ZapiszTrase(trasa)
     }
 	return 1;
 }
-
 
 public MRP_ShopPurchaseCar(playerid, model, cena)
 {
@@ -7798,30 +7790,25 @@ DeWu(const string[], level)
 	return 1;
 }
 
+
 ABroadCast(color,const string[],level)
 {
-	foreach(Player, i)
+	for(new i = 0; i<MAX_PLAYERS;i++)
 	{
 		if(IsPlayerConnected(i))
 		{
-			if(GetPVarInt(i, "dutyadmin") == 1)
+			if (PlayerInfo[i][pAdmin] >= level)
 			{
-				if (PlayerInfo[i][pAdmin] >= level)
-				{
-					SendClientMessage(i, color, string);
-				}
-				else if (PlayerInfo[i][pNewAP] >= level)
-				{
-					SendClientMessage(i, color, string);
-				}
-				else if (PlayerInfo[i][pZG] >= level)
-				{
-					SendClientMessage(i, color, string);
-				}
+				SendClientMessage(i, color, string);
 			}
-			else
-			//printf("[DEBUG]: admin has not duty, warnings not show");
-			return 1;
+			else if (PlayerInfo[i][pNewAP] >= level)
+			{
+				SendClientMessage(i, color, string);
+			}
+			else if (PlayerInfo[i][pZG] >= level)
+			{
+				SendClientMessage(i, color, string);
+			}
 		}
 	}
 	printf("%s", string);
@@ -7830,7 +7817,7 @@ ABroadCast(color,const string[],level)
 
 ABroadCast2(color,const string[],level)
 {
-	foreach(Player, i)
+	for(new i = 0; i<MAX_PLAYERS;i++)
 	{
 		if(IsPlayerConnected(i))
 		{
@@ -7908,7 +7895,7 @@ OOCNews(color,const string[])
 	}
 }
 
-Ogloszenie(color,playerid,string[])
+Ogloszenie(color,pid,string[])
 {
 	foreach(Player, i)
 	{
@@ -7917,8 +7904,8 @@ Ogloszenie(color,playerid,string[])
 		    if(!gNews[i])
 		    {
 		    	new str[128];
-		    	if(PlayerInfo[i][pAdmin] > 0 || PlayerInfo[i][pNewAP] > 0) format(str, sizeof(str), "Og³oszenie: %s, Kontakt: %d [%s]", string, PlayerInfo[playerid][pPnumber], GetNick(playerid, true));
-				else format(str, sizeof(str), "Og³oszenie: %s, Kontakt: %d", string, PlayerInfo[playerid][pPnumber]);
+		    	if(GetPVarInt(i, "dutyadmin") == 1) format(str, sizeof(str), "Og³oszenie: %s, Kontakt: %d [%s]", string, PlayerInfo[pid][pPnumber], GetNick(pid, true));
+				else format(str, sizeof(str), "Og³oszenie: %s, Kontakt: %d", string, PlayerInfo[pid][pPnumber]);
 				SendClientMessage(i, color, str);
 			}
 		}
@@ -8146,7 +8133,7 @@ SendAdminMessage(color, string[])
 	{
 		if(IsPlayerConnected(i))
 		{
-		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1)
+		    if(PlayerInfo[i][pAdmin] >= 1 || PlayerInfo[i][pNewAP] >= 1 || PlayerInfo[i][pZG] >= 1)
 		    {
 				SendClientMessage(i, color, string);
 			}
@@ -8221,6 +8208,19 @@ SendZGMessage(color, string[])
 			}
 		}
 	}
+}
+
+//token
+
+forward GenerujToken(playerid);
+public GenerujToken(playerid)
+{
+	new tokenid;
+	tokenid = PlayerInfo[playerid][pUID]+PlayerInfo[playerid][pSex]+PlayerInfo[playerid][pPnumber]+PlayerInfo[playerid][pAge]+PlayerInfo[playerid][pConnectTime];
+	printf("[TOKEN] GID: %d | result: %d", PlayerInfo[playerid][pUID], tokenid);
+	PlayerInfo[playerid][pWEBCode] = tokenid;
+	printf("TOKEN: %d", PlayerInfo[playerid][pWEBCode]);
+	return tokenid;
 }
 
 //-----------------------[koniec chaty]------------------------------
@@ -9149,7 +9149,7 @@ stock LoadConfig()
 
     format(VINYL_Stream, 128, "%s",RadioSANDos);
 
-    print("Wczytano podstawow¹ konfiguracjê");
+    print("[K:RP]: Wczytano podstawow¹ konfiguracjê");
     mysql_free_result();
 }
 
@@ -9180,19 +9180,19 @@ stock WczytajRangi()
         }
     }
     mysql_free_result();
-    print("Wczytano rangi");
+    print("[K:RP]: Wczytano rangi organizacji");
 }
 
 stock WczytajSkiny()
 {
-    new query[256], id, typ, skiny[256],skin[MAX_SKIN_SELECT];
+    new query[1024], id, typ, skiny[512],skin[MAX_SKIN_SELECT];
     mysql_query("SELECT * FROM `mru_skins`");
     mysql_store_result();
 
     while(mysql_fetch_row_format(query, "|"))
     {
-        sscanf(query, "p<|>dds[128]", typ, id, skiny);
-        sscanf(skiny, "p<,>A<d>(0)[22]", skin);
+        sscanf(query, "p<|>dds[512]", typ, id, skiny);
+        sscanf(skiny, "p<,>A<d>(0)[50]", skin);
 
         if(typ == 1)
         {
@@ -9210,7 +9210,7 @@ stock WczytajSkiny()
         }
     }
     mysql_free_result();
-    print("Wczytano skiny");
+    print("[K:RP]: Pomyslnie wczytano skiny");
 }
 
 stock Config_FamilyScript()
@@ -9224,9 +9224,9 @@ stock Config_FamilyScript()
         if(strcmp(nazwa, "FAMILY_SAD") == 0)
         {
             FAMILY_SAD = id;
-            printf("FAMILY_SAD = %d", FAMILY_SAD);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_SAD = %d", FAMILY_SAD);
         }
-        if(strcmp(nazwa, "FAMILY_RSC") == 0)
+        if(strcmp(nazwa, "[K:RP][RODZINA_SKRYPT]: FAMILY_RSC") == 0)
         {
             FAMILY_RSC = id;
             printf("FAMILY_RSC = %d", FAMILY_RSC);
@@ -9234,22 +9234,27 @@ stock Config_FamilyScript()
         if(strcmp(nazwa, "FAMILY_ALHAMBRA") == 0)
         {
             FAMILY_ALHAMBRA = id;
-            printf("FAMILY_ALHAMBRA = %d", FAMILY_ALHAMBRA);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_ALHAMBRA = %d", FAMILY_ALHAMBRA);
         }
         if(strcmp(nazwa, "FAMILY_VINYL") == 0)
         {
             FAMILY_VINYL = id;
-            printf("FAMILY_VINYL = %d", FAMILY_VINYL);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_VINYL = %d", FAMILY_VINYL);
         }
         if(strcmp(nazwa, "FAMILY_IBIZA") == 0)
         {
             FAMILY_IBIZA = id;
-            printf("FAMILY_IBIZA = %d", FAMILY_IBIZA);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_IBIZA = %d", FAMILY_IBIZA);
         }
         if(strcmp(nazwa, "FAMILY_FDU") == 0)
         {
             FAMILY_FDU = id;
-            printf("FAMILY_FDU = %d", FAMILY_FDU);
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_FDU = %d", FAMILY_FDU);
+        }
+        if(strcmp(nazwa, "FAMILY_GYM") == 0)
+        {
+            FAMILY_FDU = id;
+            printf("[K:RP][RODZINA_SKRYPT]: FAMILY_FDU = %d", FAMILY_GYM);
         }
     }
     mysql_free_result();
@@ -9739,6 +9744,7 @@ stock ProceedSkinSelection(playerid, index, typ)
 
     new ilosc = SkinSelection_GetNumber(typ, index), Float:calibrate;
     if(ilosc == 0) return 0;
+    if(ilosc >= 22) ilosc = 22;
     TogglePlayerControllable(playerid, 0);
     if(ilosc <= 11)
     {
@@ -9813,7 +9819,7 @@ stock ProceedSkinSelection(playerid, index, typ)
         x=xstart+margin;
         y=ystart+margin+h+margin;
 
-        for(new i=11;i<MAX_SKIN_SELECT;i++)
+        for(new i=11;i<22;i++)
         {
             switch(typ)
             {
@@ -11657,10 +11663,10 @@ stock Oil_Destroy(lID)
         TextDrawHideForPlayer(i, OilTXD_BG[0]);
         TextDrawHideForPlayer(i, OilTXD_BG[1]);
         ApplyAnimation(i, "BOMBER", "BOM_Plant_Crouch_Out", 4.0, 0, 0, 0, 0, -1);
-        SendClientMessage(i, COLOR_WHITE, "[LSFD] Usun¹³eœ plamê oleju! Otrzymujesz 2 500$! [LSFD]");
-        DajKase(i, 2500);
-        SendFamilyMessage(17, COLOR_GREEN, "[LSFD] Stra¿ak usun¹³ plamê oleju! Na konto frakcji wp³ywa 2 500$! [LSFD]");
-        Sejf_Add(17, 2500);
+        SendClientMessage(i, COLOR_WHITE, "[LSFD] Usun¹³eœ plamê oleju! Otrzymujesz 15 000$! [LSFD]");
+        DajKase(i, 15000);
+        SendFamilyMessage(4, COLOR_GREEN, "[LSFD] Stra¿ak usun¹³ plamê oleju! Na konto frakcji wp³ywa 15 000$! [LSFD]");
+        Sejf_Add(4, 15000);
     }
 }
 
@@ -12915,6 +12921,7 @@ LoadScriptableObjects()
 
 LoadBramy()
 {
+	LoadBramy_MySQL();
 	new brama, tmpobjid;
 	// ----- [ PARKING LSPD ] ---- //
 
@@ -13115,6 +13122,18 @@ LoadBramy()
 	DodajBrame(brama, 1114.682006, -1291.378784, 14.225424, 0.000000, 0.000007, 1.000000, 1124.682006, -1291.378784, 14.225424, 0.000000, 0.000007, 1.000000, 4, 15, BRAMA_UPR_TYPE_FRACTION, 4);
 	brama = CreateDynamicObject(975, 1143.470947, -1347.417968, 14.405426, 0.000000, 0.000007, 0.000000, -1, -1, -1, 300.00, 300.00); 
 	DodajBrame(brama, 1143.470947, -1347.417968, 14.405426, 0.000000, 0.000007, 0.000000, 1153.470947, -1347.417968, 14.405426, 0.000000, 0.000007, 0.000000, 4, 15, BRAMA_UPR_TYPE_FRACTION, 4);
+
+
+	// ---- [ LCN ] ---- //
+
+	brama = CreateDynamicObject(1569, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 0.000000, 255, 0, -1, 300.00, 300.00); // biura
+	DodajBrame(brama, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 0.000000, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, 5);
+
+	brama = CreateDynamicObject(1569, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 0.000000, 255, 0, -1, 300.00, 300.00); 
+	DodajBrame(brama, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 0.000000, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, 5);
+
+	brama = CreateDynamicObject(1569, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 0.000000, 255, 0, -1, 300.00, 300.00); 
+	DodajBrame(brama, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 0.000000, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, 5);
 }
 
 
@@ -13205,7 +13224,11 @@ DoAnimation(playerid, text[])
 forward DestroyQuitText(playerid);
 public DestroyQuitText(playerid)
 {
-	Delete3DTextLabel(quittext[playerid]);
+	if(quittext_time[playerid] == 1)
+	{
+		Delete3DTextLabel(quittext[playerid]);
+		quittext_time[playerid] = 0;
+	}
 }
 
 forward Wybieralka_Delay(playerid);
@@ -13316,8 +13339,6 @@ OnCheatDetected(playerid, ip_address[], type, code)
         case 52:    format(code_decoded, sizeof(code_decoded), "Anti-NOPs");
         case 53:    format(code_decoded, sizeof(code_decoded), "Speedfire");
         case 54:    format(code_decoded, sizeof(code_decoded), "Omijanie AFK");
-        case 55:    format(code_decoded, sizeof(code_decoded), "Fake Wanted");
-        case 56: 	format(code_decoded, sizeof(code_decoded), "Fake Kill (2)");
         default:    format(code_decoded, sizeof(code_decoded), "Inne");
         
     }
@@ -13333,15 +13354,15 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		case 1: // omijanie samouczka
     		{
     			format(code_decoded, sizeof(code_decoded), "Omijanie logowania (1)"); 
-    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
     			SendAdminMessage(0x9ACD32AA, string);
     			BanLog(string);
-    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ skickowany. | Kod: %d.", code);
+    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
     			SendClientMessage(playerid, 0x9ACD32AA, string);
-    			//SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    			SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
     			//MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-    			BlockIpAddress(plrIP, 60 * 1000);
-    			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod: 101");
+
+    			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod 101");
     			SetPlayerVirtualWorld(playerid, 7777);
 				KickEx(playerid);
     		}
@@ -13351,7 +13372,9 @@ OnCheatDetected(playerid, ip_address[], type, code)
 
     if(code == 40)
     {
-    	BlockIpAddress(plrIP, 60 * 1000);
+    	new cmd[128];
+    	format(cmd, 128, "rcon banip %s", plrIP);
+    	SendRconCommand(cmd);
     }
 
     if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
@@ -13732,7 +13755,7 @@ LoadActors()
 {
 	// DMV
 	Urzednicy[0] = CreateDynamicActor(59, 1478.8176,-1813.0219,135.4223,45.4494, 1, 10, 50, 0); //facet
-	UrzednicyName[0] = CreateDynamic3DTextLabel("Bruce_Langley\n({e0a73d}/kuplicencje{FFFFFF})", COLOR_WHITE, 1478.8176,-1813.0219,135.4223+1.1, 15, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50, 0);
+	UrzednicyName[0] = CreateDynamic3DTextLabel("Wesley_Iglesias\n(kierownik)\n({e0a73d}/kuplicencje{FFFFFF})", COLOR_WHITE, 1478.8176,-1813.0219,135.4223+1.1, 15, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50, 0); //ku czci serinho by³ego kierownika KO [*]
 	Urzednicy[1] = CreateDynamicActor(141, 1481.5709,-1813.7225,135.4271,291.1050, 1, 10, 50, 0); //kobieta
 	UrzednicyName[1] = CreateDynamic3DTextLabel("Kristin_Dinkins\n({e0a73d}/kuplicencje{FFFFFF})", COLOR_WHITE, 1481.5709,-1813.7225,135.4271+1.1, 15, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 50, 0);
 	Urzednicy[2] = CreateDynamicActor(60, 1479.6134,-1815.8400,135.4237,162.2274, 1, 10, 50, 0); //facet 2
@@ -13871,8 +13894,7 @@ GetXYInFrontOfPlayer(playerid, &Float:x, &Float:y, Float:distance)
 	y += (distance * floatcos(-a, degrees));
 }
 
-forward Float:GetDistanceBetweenGraffiti(playerid,objectid);
-public Float:GetDistanceBetweenGraffiti(playerid,objectid)
+Float:GetDistanceBetweenGraffiti(playerid,objectid)
 {
     new Float:x1,Float:y1,Float:z1,Float:x2,Float:y2,Float:z2;
     if(!IsPlayerConnected(playerid)) {
@@ -14628,18 +14650,16 @@ public VPNCheck(playerid, response_code, data[])
 	if(!strcmp(ip, "127.0.0.1",true)) return 1;
 	if(response_code == 200)
 	{	
-		if(strfind(data, "yes", true) != -1)
-		//if(data[0] == 'Y')
+		if(data[0] == 'Y')
 		{
 			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
-			printf("%s", string);
 			SendRconCommand(sprintf("banip %s", ip));
 	    	SendVPNAdminMessage( 0xFF0000FF, string);
 	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
 	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
 	    	KickEx(playerid);
 		}
-		if(strfind(data, "error", true) != -1)
+		if(data[0] == 'X' || data[0] == 'E')
 		{
 			printf("WRONG IP FORMAT");
 		}	
@@ -14716,8 +14736,6 @@ public SprzedajMatsTimer(playerid,giveplayerid)
 		sendErrorMessage(playerid, "Sprzeda¿ mats zosta³a anulowana!");
 	}
 	return 1;
-<<<<<<< Updated upstream
-=======
 }
 
 forward PAUSE_CheckPlayer(playerid);
@@ -14888,174 +14906,4 @@ public BranyPortfelTimer(typ, org)
 {
 	if(typ == 0) BranyPortfelFrac[org] = 0;
 	if(typ == 1) BranyPortfelOrg[org] = 0;
-}
-
-AntyFakeWL(playerid, killerid, reason)
-{
-	if(AntyFakeKillVar[playerid] >= 1)
-	{
-		OnCheatDetected(playerid, "", 1, 55);
-		return 1;
-	}
-	if(GetDistanceBetweenPlayers(playerid, killerid) > 500)
-	{
-		print("distance");
-		AntyFakeKillVar[playerid]++;
-		return 1;
-	}
-	if(CheckPlayerWeapon(killerid, reason) == 0)
-	{
-		print("weap");
-		AntyFakeKillVar[playerid]++;
-		return 1;
-	}
-	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
-	{
-		print("state");
-		AntyFakeKillVar[playerid]++;
-		return 1;
-	}
-	if(TutTime[playerid] > 0 && TutTime[playerid] < 114)
-	{
-		print("tut");
-		OnCheatDetected(playerid, "", 1, 55);
-		return 1;
-	}
-	if(gPlayerLogged[playerid] == 0)
-	{
-		print("logged");
-		OnCheatDetected(playerid, "", 1, 55);
-		return 1;
-	}
-	return 0;
-}
-
-CheckPlayerWeapon(playerid, weapid)
-{
-	new weapons[13][2];
-	for (new i = 0; i <= 12; i++)
-	{
-	    GetPlayerWeaponData(playerid, i, weapons[i][0], weapons[i][1]);
-	    if(weapons[i][0] == weapid) return 1;
-	}
-	return 0;
-}
-
-PrintDamageLog(playerid, typ, id)
-{
-	new string[256];
-	if(typ == 0)
-	{
-		for(new i = 0; i<10; i++)
-		{
-			if(DamageLog[id][i][dmg_amount] != 0)
-			{
-				format(string, sizeof(string), "» %s | %s zada³ %s %.02f obra¿eñ z %s", 
-					DamageLog[id][i][dmg_time], 
-					GetNick(DamageLog[id][i][dmg_playerid]), 
-					GetNick(DamageLog[id][i][dmg_damagedid]),
-					DamageLog[id][i][dmg_amount],
-					DamageLogNames[DamageLog[id][i][dmg_weaponid]]);
-				SendClientMessage(playerid, COLOR_YELLOW, string);
-			}
-		}
-	}
-	return 1;
-}
-
-SortDamageLog(playerid, damagedid, Float:amount, weaponid, bodypart)
-{
-
-	new hour, minute, second, time[64];
-	gettime(hour, minute, second);
-	FixHour(hour);
-	hour = shifthour;
-	format(time, sizeof(time), "%02d:%02d:%02d", hour, minute, second);
-
-	for(new i = 0; i<10; i++)
-	{
-		if(DamageLog[playerid][i][dmg_amount] == 0)
-		{
-			DamageLog[playerid][i][dmg_playerid]  = playerid;
-			DamageLog[playerid][i][dmg_damagedid] = damagedid;
-			DamageLog[playerid][i][dmg_amount]    = amount;
-			DamageLog[playerid][i][dmg_weaponid]  = weaponid;
-			DamageLog[playerid][i][dmg_bodypart]  = bodypart;
-			strdel(DamageLog[playerid][i][dmg_time], 0, 64);
-			strins(DamageLog[playerid][i][dmg_time], time, 0);
-			return 1;
-		}
-	}
-
-	for(new i = 0; i<9; i++)
-	{
-		DamageLog[playerid][i+1][dmg_playerid] 	= 	DamageLog[playerid][i][dmg_playerid];
-		DamageLog[playerid][i+1][dmg_damagedid] = 	DamageLog[playerid][i][dmg_damagedid];
-		DamageLog[playerid][i+1][dmg_amount] 	= 	DamageLog[playerid][i][dmg_amount];
-		DamageLog[playerid][i+1][dmg_weaponid] 	= 	DamageLog[playerid][i][dmg_weaponid];
-		DamageLog[playerid][i+1][dmg_bodypart] 	= 	DamageLog[playerid][i][dmg_bodypart];
-	}
-
-	DamageLog[playerid][0][dmg_playerid] = playerid;
-	DamageLog[playerid][0][dmg_damagedid] = damagedid;
-	DamageLog[playerid][0][dmg_amount] = amount;
-	DamageLog[playerid][0][dmg_weaponid] = weaponid;
-	DamageLog[playerid][0][dmg_bodypart] = bodypart;
-	strdel(DamageLog[playerid][0][dmg_time], 0, 64);
-	strins(DamageLog[playerid][0][dmg_time], time, 0);
-	return 1;
-}
-
-ClearDamageLog(playerid)
-{
-	for(new i = 0; i<10; i++)
-	{
-		DamageLog[playerid][i][dmg_playerid]  = 0;
-		DamageLog[playerid][i][dmg_damagedid] = 0;
-		DamageLog[playerid][i][dmg_amount]    = 0;
-		DamageLog[playerid][i][dmg_weaponid]  = 0;
-		DamageLog[playerid][i][dmg_bodypart]  = 0;
-	}
-	return 1;
-}
-
-public OnReverseDNS(ip[], host[], extra)
-{
-	SetTimerEx("OnReverseDNS_Two", 150, false, "ssd", ip, host, extra); 
-    return 1;
-    
-}
-forward OnReverseDNS_Two(ip[], host[], extra);
-public OnReverseDNS_Two(ip[], host[], extra)
-{
-	new msg[256];
-    format(msg, 256, "{33AA33}IP:{FFFFFF} %s\n{33AA33}Host:{FFFFFF} %s",ip, host);
-    ShowPlayerDialogEx(extra, 9324, DIALOG_STYLE_MSGBOX, "DNS", msg, "OK", "Anuluj");
-}
-
-public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
-{
-	new string[128];
-	if(faketype == 2)
-	{
-		format(string, sizeof(string), "[FakeKill] %s[%d] u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
-		SendCommandLogMessage(string);
-		OnCheatDetected(playerid, "", 1, 56);
-	}
-	else
-	{
-		format(string, sizeof(string), "[FakeKill] %s[%d] prawdopodobnie u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
-		SendCommandLogMessage(string);
-	}
-}
-
-
-CheckAdminGodMode(pid1, pid2)
-{
-	if(PlayerInfo[pid1][pBW] > 0 || GetPVarInt(pid2, "dutyadmin") == 1 || GetPVarInt(pid2, "supportduty") == 1)
-    {
-    	return 1;
-    }
-    return 0;
->>>>>>> Stashed changes
 }
