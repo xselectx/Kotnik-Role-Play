@@ -1405,14 +1405,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(strcmp(inputtext, adminTokenStr[playerid], false) == 0)
 		{
 			SetPVarInt(playerid, "admintoken", 1);
-			PlayerPlaySound(playerid, 1058, 0.0, 0.0, 0.0);
+			format(C_STRING, sizeof(C_STRING), "%d %s", adminTokenID[playerid], adminTokenText[playerid]);
+			cmd_wiadomosc(playerid, C_STRING);
+			/*PlayerPlaySound(playerid, 1058, 0.0, 0.0, 0.0);
        		PlayerPlaySound(adminTokenID[playerid], 1057, 0.0, 0.0, 0.0);
 			//sendTipMessage(playerid, sprintf("%s[%d]%s"));
 			format(C_STRING, sizeof(C_STRING), "»» %s (%d): %s", GetNick(playerid), playerid, adminTokenText[playerid]);
             SendClientMessage(playerid, COLOR_YELLOW, C_STRING);
 
 			format(C_STRING, sizeof(C_STRING), "»» %s (%d): %s", GetNick(playerid), playerid, adminTokenText[playerid]);
-            SendClientMessage(adminTokenID[playerid], COLOR_NEWS, C_STRING);
+            SendClientMessage(adminTokenID[playerid], COLOR_NEWS, C_STRING);*/
             return 1;
 		} else sendErrorDialogMessage(playerid, "B³êdnie przepisa³eœ kod TOKEN");
 	} 
@@ -16056,7 +16058,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 CarData[car][c_HP] = 1000.0;
                 if(CarData[car][c_ID] != 0)
                 {
-                    SetVehicleHealth(CarData[car][c_ID], 1000.0);
+                    SetVehicleHealthEx(CarData[car][c_ID], 1000.0);
                 }
                 Car_Save(car, CAR_SAVE_STATE);
             }
@@ -16629,10 +16631,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     	if(!response) return 1;
     	if(strcmp(inputtext, "Poprzednia strona", true) == 0) return ShowKody(playerid, 1);
 
-    	SetPVarInt(playerid, "ac_edit", listitem+28);
+    	SetPVarInt(playerid, "ac_edit", listitem+30);
     	SetPVarInt(playerid, "ac_page", 2);
 
-    	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", listitem+28), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec)\nBANICJA", "Wybierz", "Wróæ");
+    	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", listitem+30), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec)\nBANICJA", "Wybierz", "Wróæ");
     }
     else if(dialogid == D_ANTYCHEAT+2)
     {

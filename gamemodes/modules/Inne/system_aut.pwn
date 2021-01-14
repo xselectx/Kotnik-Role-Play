@@ -120,7 +120,7 @@ stock Car_Create(model, Float:x, Float:y, Float:z, Float:angle, color1, color2)
         CarData[idx][c_Int] = -1;
         CarData[idx][c_VW] = -1;
 		CarData[idx][c_Siren] = 0;
-
+        VehicleHealth[CarData[idx][c_ID]] = 1000;
         SetVehicleParamsEx(CarData[idx][c_ID], 0, 0, 0, 0, 0, 0, 0);
 
         VehicleUID[CarData[idx][c_ID]][vUID] = idx;
@@ -554,7 +554,7 @@ stock Car_Spawn(lUID, bool:onload=false, bool:loaddesc=true)
     VehicleUID[vehicleid][vUID] = lUID;
 
     new rejestracja[32];
-    if(isnull(CarData[lUID][c_Rejestracja]))
+    if(isnull(CarData[lUID][c_Rejestracja]) || !strcmp(CarData[lUID][c_Rejestracja], "0")) 
 		format(rejestracja, sizeof(rejestracja), "LS%06d", CarData[lUID][c_UID]);
 	else
 		format(rejestracja, sizeof(rejestracja), "%s", CarData[lUID][c_Rejestracja]);
@@ -567,7 +567,7 @@ stock Car_Spawn(lUID, bool:onload=false, bool:loaddesc=true)
 
 	if(!onload) printf("Pojazd nr %d zespawnowany!", vehicleid);
 
-	SetVehicleHealth(vehicleid, CarData[lUID][c_HP]);
+	SetVehicleHealthEx(vehicleid, CarData[lUID][c_HP]);
 
     UpdateVehicleDamageStatus(vehicleid, 0, 0, 0, CarData[lUID][c_Tires]);
 

@@ -5,6 +5,10 @@ new GMX;
 new DC_AntySpam;
 new LOCALHOST = 0;
 
+new AntyFakeKillVar[MAX_PLAYERS];
+new Float:VehicleHealth[MAX_VEHICLES];
+new OldPayCheck[MAX_PLAYERS];
+
 new TymczasowyOpisVar[MAX_PLAYERS];
 new TymczasowyOpisString[MAX_PLAYERS][256];
 new Text3D:TymczasowyOpis[MAX_PLAYERS];
@@ -44,9 +48,8 @@ new kaska[MAX_PLAYERS];
 new CzasInformacyjnego[MAX_PLAYERS];
 //new bramki_sasd[18];  WARNINGI DO POPRAWY
 //new bool:bramki_sasd_state[18];
-
-new KodyAC[55];
-new KodyACDelay[MAX_PLAYERS][55];
+new KodyAC[57];
+new KodyACDelay[MAX_PLAYERS][57];
 
 new AmmoWarn[MAX_PLAYERS];
 new CarOnEnterWeapon[MAX_PLAYERS];
@@ -1491,6 +1494,11 @@ stock ZerujZmienne(playerid)
     quittext_time[playerid] = 0;
     SetPVarInt(playerid, "AC-warn", 0);
     SetPVarInt(playerid, "dutyadmin", 0);
+    SetPVarInt(playerid, "suportduty", 0);
+
+    AntyFakeKillVar[playerid] = 0;
+    OldPayCheck[playerid] = 0;
+    ClearDamageLog(playerid);
 
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
     for(new i=0;i<MAX_SKIN_SELECT+120;i++) PERSONAL_SKINS[playerid][i] = 0;

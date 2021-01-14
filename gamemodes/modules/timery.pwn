@@ -2216,6 +2216,19 @@ public JednaSekundaTimer()
         GetPlayerPos(i, x, y, z);
 		GetPlayerArmour(i, pancerzyy);
 
+		if(PlayerInfo[i][pJob] == 8)
+		{
+			if(OldPayCheck[i]+35000 < PlayerInfo[i][pPayCheck])
+			{
+				new str[128];
+				format(str, sizeof(str), "%s[%d] zostal wyrzucony z powodu czitowania pracy ochroniarza [4 wariant]", GetNick(i, true), i);
+				CzitLog(str);
+				printf("%s", str);
+				KickEx(i);
+			}
+			OldPayCheck[i] = PlayerInfo[i][pPayCheck];
+		}
+
 		if(repairTimerVar[i] > 0)
 		{
 			if(GetPVarInt(i, "botnaprawia") == 1) {
@@ -2261,6 +2274,15 @@ public JednaSekundaTimer()
         }
 
         vehicleid = GetPlayerVehicleID(i);
+        if(State == PLAYER_STATE_DRIVER)
+        {
+        	new Float:vehhp;
+        	GetVehicleHealth(vehicleid, vehhp);
+        	if(vehhp > VehicleHealth[vehicleid])
+        	{
+				OnCheatDetected(i, "", 99, 11);
+        	}
+        }
 		if(State == PLAYER_STATE_DRIVER || State == PLAYER_STATE_PASSENGER && !ToggleSpeedo[i])
 		{
 			VehicleModel = GetVehicleModel(vehicleid);
@@ -2270,7 +2292,7 @@ public JednaSekundaTimer()
 
     			if(VehicleModel==509||VehicleModel==481||VehicleModel==510)
     			{
-    				SetVehicleHealth(vehicleid, 1000.0);
+    				SetVehicleHealthEx(vehicleid, 1000.0);
     				Gas[vehicleid] = 100;
     			}
     			if(VehicleModel==520||VehicleModel==476||VehicleModel==593||VehicleModel==553||VehicleModel==513||VehicleModel==512||VehicleModel==577||VehicleModel==592||VehicleModel==511||VehicleModel==539||VehicleModel==464||VehicleModel==519)
@@ -3672,12 +3694,12 @@ public VehicleUpdate()
         {
             if(Car_GetOwner(i) == JOB_TRUCKER && Car_GetOwnerType(i) == CAR_OWNER_JOB && GetVehicleModel(i) == 530)
             {
-                SetVehicleHealth(i, 1000.0);
+                SetVehicleHealthEx(i, 1000.0);
                 Gas[i] = 100;
             }
             else
             {
-                SetVehicleHealth(i, 250.0);
+                SetVehicleHealthEx(i, 250.0);
                 if(VehicleUID[i][vUID] != 0)
                     CarData[VehicleUID[i][vUID]][c_HP] = 250.0;
                 GetVehicleParamsEx(i, engine, lights, alarm, doors, bonnect, boot, objective);

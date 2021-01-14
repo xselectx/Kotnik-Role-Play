@@ -647,7 +647,7 @@ public MruMySQL_LoadAcocount(playerid)
         mysql_fetch_row_format(lStr, "|");
         mysql_free_result();
 
-        sscanf(lStr, "p<|>s[24]ddddddddddddddddddddddddddddddd",
+        sscanf(lStr, "p<|>s[32]ddddddddddddddddddddddddddddd",
         PlayerInfo[playerid][pMarriedTo],
 		PlayerInfo[playerid][pCB],
 		PlayerInfo[playerid][pWL],
@@ -677,11 +677,23 @@ public MruMySQL_LoadAcocount(playerid)
         PlayerInfo[playerid][pCarSlots],
         PlayerInfo[playerid][pApteczki],
         PlayerInfo[playerid][pDomWKJ],
-		PlayerInfo[playerid][pDomT],
-		PlayerInfo[playerid][pBPojazd],
+		PlayerInfo[playerid][pDomT]);
+
+        lStr = "`pBPojazd`, `pBBron`";
+
+        format(lStr, 1024, "SELECT %s FROM `mru_konta` WHERE `Nick`='%s'", lStr, GetNick(playerid));
+    	mysql_query(lStr);
+    	mysql_store_result();
+        if(mysql_num_rows()) id++;
+        mysql_fetch_row_format(lStr, "|");
+        mysql_free_result();
+
+        sscanf(lStr, "p<|>dd",
+        PlayerInfo[playerid][pBPojazd],
 		PlayerInfo[playerid][pBBron]);
 	}
 
+	
 	// Pozycje kamizelki
 
 	loadKamiPos(playerid);
@@ -724,20 +736,21 @@ public MruMySQL_LoadAcocount(playerid)
 		db_free_result(db_query(db_handle, lStr));
 	}
 
-	if(PlayerInfo[playerid][pLider] == 14) 
-	{
-		gPlayerOrgLeader[playerid] = true;
-	}
-	if(PlayerInfo[playerid][pMember] == 14)
-	{
-		PlayerInfo[playerid][pOrg] = 22;
-	}
+	//if(PlayerInfo[playerid][pLider] == 14) 
+	//{
+	//	gPlayerOrgLeader[playerid] = true;
+	//}
+	//if(PlayerInfo[playerid][pMember] == 14)
+	//{
+	//	PlayerInfo[playerid][pOrg] = 22;
+	//}
 
     MruMySQL_LoadAccess(playerid);
     premium_loadForPlayer(playerid);
     //prezenty_Load(playerid);
     //MruMySQL_WczytajOpis(playerid, PlayerInfo[playerid][pUID], 1);
-	if(id != 4) return false;
+    OldPayCheck[playerid] = PlayerInfo[playerid][pPayCheck];
+	if(id != 5) return false;
 	return true;
 }
 
@@ -1242,7 +1255,7 @@ bool:MruMySQL_SprawdzBany(playerid)
         }
 	}
 
-	format(query, sizeof(query), "SELECT `typ`, `nadal_uid`, `nadal`, `powod`, `czas`, `dostal`, `dostal_uid`, `IP` FROM `mru_bany` WHERE `GPCI` = '%s' ORDER BY `czas` DESC LIMIT 1", ReturnGPCI(playerid));
+	/*format(query, sizeof(query), "SELECT `typ`, `nadal_uid`, `nadal`, `powod`, `czas`, `dostal`, `dostal_uid`, `IP` FROM `mru_bany` WHERE `GPCI` = '%s' ORDER BY `czas` DESC LIMIT 1", ReturnGPCI(playerid));
 	mysql_query(query);
 	mysql_store_result();
 
@@ -1274,7 +1287,7 @@ bool:MruMySQL_SprawdzBany(playerid)
 		return true;
 	}
 
-	mysql_free_result();
+	mysql_free_result();*/
 
 	return false;
 }

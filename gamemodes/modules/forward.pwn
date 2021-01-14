@@ -94,7 +94,7 @@ forward ElevatorTravelEND(playerid); //09.06.2014 - Teleportacja wind w LSMC
 forward LSMCElevatorFree(); //09.06.2014 - Zwolnienie wind LSMC - ponowne otwarcie.
 forward NG_OpenGateWithKey(playerid);  //Stanowe otwieranie bramy
 forward StandUp(playerid); //Timer do wstania po HS
-forward OnPlayerFakeKill(playerid);
+//forward OnPlayerFakeKill(playerid);
 //15.06
 forward OPCLogin(playerid); //Kamera po polaczeniu, przeciw wczytywaniu kamery, synchro.
 forward PrzeniesKonto(playerid);

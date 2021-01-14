@@ -945,6 +945,8 @@ new BlinkOffset[][eBO] = {
     //END GTA CARS
 };
 
+
+
 new GunNames[47][] = {
 	"Brak",//0
 	"Kastet",//1
@@ -993,6 +995,64 @@ new GunNames[47][] = {
 	"Nightvision Goggle",//44
 	"Thermal Goggles",//45
 	"Spadochron"//46
+};
+
+new DamageLogNames[][] = {
+    "piêœci",//0
+    "kastetu",//1
+    "kija golfowego",//2
+    "pa³ki policyjnej",//3
+    "no¿a",//4
+    "kij baseballowego",//5
+    "³opaty",//6
+    "kij bilardowego",//7
+    "katany",//8
+    "pi³y mechanicznek",//9
+    "fioletowego dildo",//10
+    "ma³ego bia³ego wibratora",//11
+    "du¿ego bia³ego wibratora",//12
+    "srebrnego wibratora",//13
+    "kwiatów",//14
+    "laski",//15
+    "granata",//16
+    "gazu ³zawi¹cego",//17
+    "koktajlu mo³otowa",//18
+    "B³¹d",//19
+    "B³¹d",//20
+    "B³¹d",//21
+    "pistoletu 9mm",//22
+    "pistoletu z t³umikiem",//23
+    "Desert Eagle",//24
+    "shotguna",//25
+    "obrzyna",//26
+    "Spas-12",//27
+    "UZI",//28
+    "MP5",//29
+    "AK-47",//30
+    "M4",//31
+    "TEC-9",//32
+    "gwintówki",//33
+    "snajperki",//34
+    "RPG",//35
+    "wyrzutni rakiet",//36
+    "ogniomiotacza",//37
+    "minigun",//38
+    "C4",//39
+    "detonatora",//40
+    "spreja",//41
+    "gaœnicy",//42
+    "aparatu",//43
+    "Nightvision Goggle",//44
+    "Thermal Goggles",//45
+    "spadochronu",//46
+    "B³¹d",//47
+    "B³¹d",//48
+    "pojazdu",//49
+    "helikoptera",//50
+    "eksplozji",//51
+    "B³¹d",//52
+    "utoniêcia",//53
+    "upadku"//54
 };
 
 new NiggaNames[9][] = {
@@ -2365,7 +2425,9 @@ new KodyACName[][128] =
     "Anti-DOS",
     "Anti-NOPs", // 52
     "Speedfire", 
-    "Omijanie AFK" // 54
+    "Omijanie AFK", // 54
+    "FakeWL", // 55
+    "FakeKill (2)" // 56
 };
 
 enum PrzystankiEnum
@@ -2845,4 +2907,74 @@ new VehicleColoursTableRGBA[256] = {
 0x8A653AFF, 0x732617FF, 0x319490FF, 0x56941DFF, 0x59163DFF, 0x1B8A2FFF, 0x38160BFF, 0x041804FF, 0x355D8EFF, 0x2E3F5BFF,
 0x561A28FF, 0x4E0E27FF, 0x706C67FF, 0x3B3E42FF, 0x2E2D33FF, 0x7B7E7DFF, 0x4A4442FF, 0x28344EFF
 };
+
+enum DamageLogEnum
+{
+    dmg_playerid,
+    dmg_damagedid,
+    Float:dmg_amount,
+    dmg_weaponid,
+    dmg_bodypart,
+    dmg_time[64]
+}
+new DamageLog[MAX_PLAYERS][10][DamageLogEnum];
+
+new Float:s_WeaponDamage[] = {
+    1.0, // 0 - Fist
+    1.0, // 1 - Brass knuckles
+    1.0, // 2 - Golf club
+    1.0, // 3 - Nitestick
+    1.0, // 4 - Knife
+    1.0, // 5 - Bat
+    1.0, // 6 - Shovel
+    1.0, // 7 - Pool cue
+    1.0, // 8 - Katana
+    1.0, // 9 - Chainsaw
+    1.0, // 10 - Dildo
+    1.0, // 11 - Dildo 2
+    1.0, // 12 - Vibrator
+    1.0, // 13 - Vibrator 2
+    1.0, // 14 - Flowers
+    1.0, // 15 - Cane
+    82.5, // 16 - Grenade
+    0.0, // 17 - Teargas
+    1.0, // 18 - Molotov
+    9.9, // 19 - Vehicle M4 (custom)
+    46.2, // 20 - Vehicle minigun (custom)
+    0.0, // 21
+    8.25, // 22 - Colt 45
+    13.2, // 23 - Silenced
+    46.2, // 24 - Deagle
+    3.3, // 25 - Shotgun
+    3.3, // 26 - Sawed-off
+    4.95, // 27 - Spas
+    6.6, // 28 - UZI
+    8.25, // 29 - MP5
+    9.9, // 30 - AK47
+    9.9, // 31 - M4
+    6.6, // 32 - Tec9
+    24.75, // 33 - Cuntgun
+    41.25, // 34 - Sniper
+    82.5, // 35 - Rocket launcher
+    82.5, // 36 - Heatseeker
+    1.0, // 37 - Flamethrower
+    46.2, // 38 - Minigun
+    82.5, // 39 - Satchel
+    0.0, // 40 - Detonator
+    0.33, // 41 - Spraycan
+    0.33, // 42 - Fire extinguisher
+    0.0, // 43 - Camera
+    0.0, // 44 - Night vision
+    0.0, // 45 - Infrared
+    0.0, // 46 - Parachute
+    0.0, // 47 - Fake pistol
+    2.64, // 48 - Pistol whip (custom)
+    9.9, // 49 - Vehicle
+    330.0, // 50 - Helicopter blades
+    82.5, // 51 - Explosion
+    1.0, // 52 - Car park (custom)
+    1.0, // 53 - Drowning
+    165.0  // 54 - Splat
+};
+
 //EOF

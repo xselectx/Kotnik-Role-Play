@@ -2482,6 +2482,20 @@ IsAKO(playerid)
 	return 0;
 }
 
+IsAxSeLeCTx(playerid)
+{
+	if(IsPlayerConnected(playerid))
+	{
+	    new nick[MAX_PLAYER_NAME];
+		GetPlayerName(playerid, nick, sizeof(nick));
+		if(strcmp(nick,"Jayden_Howard", false) == 0 || strcmp(nick,"Yui_Tachibana", false) == 0)
+		{
+		    return 1;
+		}
+	}
+	return 0;
+}
+
 IsAChlor(playerid)
 {
 	if(IsPlayerConnected(playerid))
@@ -3945,6 +3959,14 @@ CanUseCar(playerid, newcar)
 		return 1;
 	} 
 
+	if(PlayerInfo[playerid][pBPojazd] > 0)
+	{
+        sendErrorDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê prowadzenia pojazdów. Pozosta³o: %dh", PlayerInfo[playerid][pBPojazd]));
+        return 0;
+    }
+
+	if(PlayerInfo[playerid][pBW] > 0) return 0;
+
 	if(IsACopCar(newcar))
 	{
 	    if(IsACop(playerid))
@@ -4837,6 +4859,12 @@ stock DMLog(text[])
 	Log(plik, text);
 }
 
+stock DM_ZLog(text[])
+{
+	new plik[32] = "logi/dm2_z.log";
+	Log(plik, text);
+}
+
 stock SMSLog(text[])
 {
 	new plik[32] = "logi/sms-call.log";
@@ -5262,6 +5290,12 @@ SetPlayerToTeamColor(playerid)
 		if(GetPVarInt(playerid, "gmduty") == 1)
 		{
 			SetPlayerColor(playerid, COLOR_PURPLE);
+			return 1;
+		}
+
+		if(GetPVarInt(playerid, "supportduty") == 1)
+		{
+			SetPlayerColor(playerid, COLOR_BLUE);
 			return 1;
 		}
 
@@ -5920,7 +5954,7 @@ public MRP_ShopPurchaseCar(playerid, model, cena)
     //Assign
     Car_MakePlayerOwner(playerid, carid);
 	
-	//ZabierzMC(playerid, cena);
+	ZabierzMC(playerid, cena);
 
     //Info
     format(komunikat, sizeof(komunikat), "Kupi³eœ unikatowy %s za %d MC. Komendy auta znajdziesz w /auto. Gratulujemy zakupu!",VehicleNames[model-400], cena);
@@ -8330,6 +8364,200 @@ ProxDetector(Float:radi, playerid, string[],col1,col2,col3,col4,col5)
 	return 1;
 }
 
+forward ProxDetectorEx(Float:radi, playerid, string[],col1,col2,col3,col4,col5);
+public ProxDetectorEx(Float:radi, playerid, string[],col1,col2,col3,col4,col5)
+{
+    if(IsPlayerConnected(playerid))
+    {
+        new Float:posx, Float:posy, Float:posz;
+        new Float:oldposx, Float:oldposy, Float:oldposz;
+        new Float:tempposx, Float:tempposy, Float:tempposz;
+        new oldString[256];
+        format(oldString, sizeof(oldString), "%s", string);
+        GetPlayerPos(playerid, oldposx, oldposy, oldposz);
+
+        new x = -1, j = -1;
+        new color1[16], color2[16], color3[16], color4[16], color5[16];
+
+        format(color1, sizeof(color1), "{%x}", col1);
+        format(color2, sizeof(color2), "{%x}", col2);
+        format(color3, sizeof(color3), "{%x}", col3);
+        format(color4, sizeof(color4), "{%x}", col4);
+        format(color5, sizeof(color5), "{%x}", col5);
+
+        strdel(color1, strlen(color1)-3, strlen(color1)-1);
+        strdel(color2, strlen(color2)-3, strlen(color2)-1);
+        strdel(color3, strlen(color3)-3, strlen(color3)-1);
+        strdel(color4, strlen(color4)-3, strlen(color4)-1);
+        strdel(color5, strlen(color5)-3, strlen(color5)-1);
+
+        new color = 0;
+        new cont = 0;
+        new pos = 0;
+
+        for(new l = 0; l<strlen(string)-1; l++)
+        {
+        	strreplace(string, "  ", "", true, 0, -1, 256);
+        }
+
+        if(strfind(string, "mówi: ", true) == -1)
+        {
+        	strreplace(string, "mówi:", "mówi: ", true, 0, -1, 256);
+        }
+
+        if(strcount(string, "*", true) < 24)
+        {
+        	for(new l = 0; l<strlen(string)-4; l++)
+        	{
+        		x = strfind(string, "**",false, l);
+        		j = strfind(string, "**", false, x+2);
+        		if(x != -1 && j != -1)
+        		{
+        			new mark_1 = strfind(string, "}", true, x-2);
+        			new mark_2 = strfind(string, "{-", true, x-2);
+        			//printf("[%c] x: %d | j: %d | mark_1: %d | mark_2: %d", string[l], x, j, mark_1, string[mark_1], mark_2, string[mark_2]);
+        			if(x != mark_1+1 && j != mark_2-2)
+        			{
+        				new mark_3 = strfind(string, "{-", true, l);
+        				new mark_4 = strfind(string, "}", true, l);
+        				//printf("mark_3: %d | mark_4: %d", mark_3, mark_4);
+        				if((mark_3 > 0 && mark_4 != -1 ) || (mark_3 == -1 && (mark_4 == -1 || mark_4 == 0)))
+        				{
+        				    strins(string, "{C2A2DA}", x, strlen(string));
+        				    x = strfind(string, "**",false, l);
+        				    j = strfind(string, "**", false, x+2);
+        				    strins(string, "{-", j+2, strlen(string));
+        				    cont = 1;
+        				    //printf("j: %d", j);
+        				    if(strlen(string) > 100)
+        				    {
+        				    	pos = strfind(string, " ", true, 100);
+        				    	if(pos != -1)
+        				    	{
+									if(j > pos && x < pos) color = 1;
+								}
+							}
+        				    //printf("%s", string);
+        				}
+        	        }
+        	    }  
+        	}
+    	}
+        new text[256];
+        new text2[128];
+		strins(text, string, 0);
+        if(color == 1)
+        {
+        	//new pos = strfind(text, " ", true, strlen(text) / 2);
+        	if(pos != -1)
+        	{
+         		strmid(text2, text, pos + 1, strlen(text));
+         		strdel(text, pos, strlen(text));
+
+         		format(text, sizeof(text), "%s [..]", text);
+         		format(text2, sizeof(text2), "{C2A2DA}[..] %s", text2);
+         	}
+        }
+    	else
+    	{
+    		if(strlen(string) > 100)
+    		{
+    			pos = strfind(string, " ", true, 100);
+    			if(pos != -1)
+    			{
+    	 			strmid(text2, text, pos + 1, strlen(text));
+    	 			strdel(text, pos, strlen(text));
+		
+    	 			format(text, sizeof(text), "%s [..]", text);
+    	 			format(text2, sizeof(text2), "[..] %s", text2);
+    	 			color = 1;
+    	 		}
+    	 	}
+    	}
+
+        //printf("%s", text);
+        //printf("%s", text2);
+
+
+        for(new i = 0; i < MAX_PLAYERS; i++)
+        {     
+            if(IsPlayerConnected(i))
+            {
+            	new text_2[256];
+            	new text_22[128];
+            	strins(text_2, text, 0);
+            	strins(text_22, text2, 0);
+                format(string, 256, "%s", oldString);
+                GetPlayerPos(i, posx, posy, posz);
+                tempposx = (oldposx -posx);
+                tempposy = (oldposy -posy);
+                tempposz = (oldposz -posz);
+
+                if(GetPlayerVirtualWorld(playerid) == GetPlayerVirtualWorld(i) && GetPlayerInterior(playerid) == GetPlayerInterior(i))
+                {
+                    if (((tempposx < radi/16) && (tempposx > -radi/16)) && ((tempposy < radi/16) && (tempposy > -radi/16)) && ((tempposz < radi/16) && (tempposz > -radi/16)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color1);
+                        	strreplace(text_22, "{-", color1);
+                        }
+
+                        SendClientMessage(i, col1, text_2);
+                        if(color == 1) SendClientMessage(i, col1, text_22);
+                    }
+                    else if (((tempposx < radi/8) && (tempposx > -radi/8)) && ((tempposy < radi/8) && (tempposy > -radi/8)) && ((tempposz < radi/8) && (tempposz > -radi/8)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color2);
+                        	strreplace(text_22, "{-", color2);
+                        }
+
+                        SendClientMessage(i, col2, text_2);
+                        if(color == 1) SendClientMessage(i, col2, text_22);
+                    }
+                    else if (((tempposx < radi/4) && (tempposx > -radi/4)) && ((tempposy < radi/4) && (tempposy > -radi/4)) && ((tempposz < radi/4) && (tempposz > -radi/4)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color3);
+                        	strreplace(text_22, "{-", color3);
+                        }
+
+                        SendClientMessage(i, col3, text_2);
+                        if(color == 1) SendClientMessage(i, col3, text_22);
+                    }
+                    else if (((tempposx < radi/2) && (tempposx > -radi/2)) && ((tempposy < radi/2) && (tempposy > -radi/2)) && ((tempposz < radi/2) && (tempposz > -radi/2)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color4);
+                        	strreplace(text_22, "{-", color4);
+                        }
+
+                        SendClientMessage(i, col4, text_2);
+                        if(color == 1) SendClientMessage(i, col4, text_22);
+                    }
+                    else if (((tempposx < radi) && (tempposx > -radi)) && ((tempposy < radi) && (tempposy > -radi)) && ((tempposz < radi) && (tempposz > -radi)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color5);
+                        	strreplace(text_22, "{ ", color5);
+                        }
+
+                        SendClientMessage(i, col5, text_2);
+                        if(color == 1) SendClientMessage(i, col5, text_22);
+                    }
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+
 CrimInRange(Float:radi, playerid,copid)
 {
 	if(IsPlayerConnected(playerid)&&IsPlayerConnected(copid))
@@ -8447,6 +8675,24 @@ stock IsVehicleInUse(vehicleid)
 	}
 	if(temp > 0)return true;
     else return false;
+}
+
+stock CheckDriver(vehicleid)
+{
+	for(new i = 0; i<MAX_PLAYERS; i++)
+	{
+		if(IsPlayerConnected(i))
+		{
+			if(IsPlayerInVehicle(i, vehicleid))
+			{
+				if(GetPlayerState(i) == PLAYER_STATE_DRIVER)
+				{
+					return i;
+				}
+			}
+		}
+	}
+	return INVALID_PLAYER_ID;
 }
 
 stock SetCamBack(playerid)
@@ -12042,7 +12288,7 @@ stock TJD_JobEnd(playerid, bool:quiter=false)
     SendClientMessage(playerid, 0x99311EFF, str);
     DajKase(playerid, money);
 
-    SetVehicleHealth(veh, 1000.0);
+    SetVehicleHealthEx(veh, 1000.0);
     Gas[veh] = 100;
 
     PlayerInfo[playerid][pTruckSkill]=clamp(PlayerInfo[playerid][pTruckSkill]+floatround(ile/5, floatround_floor), 0, 500);
@@ -13377,6 +13623,8 @@ OnCheatDetected(playerid, ip_address[], type, code)
         case 52:    format(code_decoded, sizeof(code_decoded), "Anti-NOPs");
         case 53:    format(code_decoded, sizeof(code_decoded), "Speedfire");
         case 54:    format(code_decoded, sizeof(code_decoded), "Omijanie AFK");
+        case 55:    format(code_decoded, sizeof(code_decoded), "Fake Wanted");
+        case 56: 	format(code_decoded, sizeof(code_decoded), "Fake Kill (2)");
         default:    format(code_decoded, sizeof(code_decoded), "Inne");
         
     }
@@ -13392,12 +13640,12 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		case 1: // omijanie samouczka
     		{
     			format(code_decoded, sizeof(code_decoded), "Omijanie logowania (1)"); 
-    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
     			SendAdminMessage(0x9ACD32AA, string);
     			BanLog(string);
-    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
+    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ skickowany. | Kod: %d.", code);
     			SendClientMessage(playerid, 0x9ACD32AA, string);
-    			SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    			//SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
     			//MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
 
     			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod 101");
@@ -13410,9 +13658,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
 
     if(code == 40)
     {
-    	new cmd[128];
-    	format(cmd, 128, "rcon banip %s", plrIP);
-    	SendRconCommand(cmd);
+    	BlockIpAddress(plrIP, 60 * 1000);
     }
 
     if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
@@ -13422,6 +13668,19 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		switch(KodyAC[code])
     		{
     			// 0 = off
+    			case 0:
+    			{
+    				if(code == 11 && type == 99)
+    				{
+    					format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    				 	SendAdminMessage(0x9ACD32AA, string);
+    				 	format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
+    				 	SendClientMessage(playerid, 0x9ACD32AA, string);
+    				 	KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
+    				 	SetPlayerVirtualWorld(playerid, 7777);
+    				 	KickEx(playerid);
+    				}
+    			}
     			case 1: // w³aczony, kick
     			{
     				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
@@ -13892,6 +14151,7 @@ public CarDamage(playerid, vehicleid)
             }
         }
         oldCarHP[playerid] = health2;
+        VehicleHealth[vehicleid] = health;
         KillTimer(CarTimer[playerid]);
         CarTimer[playerid] = SetTimerEx("CarDamage", 1500, false, "dd", playerid, vehicleid);
     } 
@@ -14688,16 +14948,17 @@ public VPNCheck(playerid, response_code, data[])
 	if(!strcmp(ip, "127.0.0.1",true)) return 1;
 	if(response_code == 200)
 	{	
-		if(data[0] == 'Y')
+		if(strfind(data, "yes", true) != -1)
 		{
 			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
+			printf("%s", string);
 			SendRconCommand(sprintf("banip %s", ip));
 	    	SendVPNAdminMessage( 0xFF0000FF, string);
 	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
 	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
 	    	KickEx(playerid);
 		}
-		if(data[0] == 'X' || data[0] == 'E')
+		if(strfind(data, "error", true) != -1)
 		{
 			printf("WRONG IP FORMAT");
 		}	
@@ -14931,7 +15192,7 @@ ShowPowiazania(playerid, id, typ)
 
 SaveIPGPCI(playerid)
 {
-	new query[128];
+	new query[256];
 	new plrIP[16];
     GetPlayerIp(playerid, plrIP, sizeof(plrIP));
 
@@ -14944,4 +15205,205 @@ public BranyPortfelTimer(typ, org)
 {
 	if(typ == 0) BranyPortfelFrac[org] = 0;
 	if(typ == 1) BranyPortfelOrg[org] = 0;
+}
+
+AntyFakeWL(playerid, killerid, reason)
+{
+	if(AntyFakeKillVar[playerid] >= 1)
+	{
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	if(GetDistanceBetweenPlayers(playerid, killerid) > 500)
+	{
+		print("distance");
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(CheckPlayerWeapon(killerid, reason) == 0)
+	{
+		print("weap");
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
+	{
+		print("state");
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(TutTime[playerid] > 0 && TutTime[playerid] < 114)
+	{
+		print("tut");
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	if(gPlayerLogged[playerid] == 0)
+	{
+		print("logged");
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	return 0;
+}
+
+CheckPlayerWeapon(playerid, weapid)
+{
+	new weapons[13][2];
+	for (new i = 0; i <= 12; i++)
+	{
+	    GetPlayerWeaponData(playerid, i, weapons[i][0], weapons[i][1]);
+	    if(weapons[i][0] == weapid) return 1;
+	}
+	return 0;
+}
+
+PrintDamageLog(playerid, typ, id)
+{
+	new string[256];
+	if(typ == 0)
+	{
+		for(new i = 0; i<10; i++)
+		{
+			if(DamageLog[id][i][dmg_amount] != 0)
+			{
+				format(string, sizeof(string), "» %s | %s zada³ %s %.02f obra¿eñ z %s", 
+					DamageLog[id][i][dmg_time], 
+					GetNick(DamageLog[id][i][dmg_playerid]), 
+					GetNick(DamageLog[id][i][dmg_damagedid]),
+					DamageLog[id][i][dmg_amount],
+					DamageLogNames[DamageLog[id][i][dmg_weaponid]]);
+
+				SendClientMessage(playerid, COLOR_YELLOW, string);
+			}
+		}
+	}
+	return 1;
+}
+
+SortDamageLog(playerid, damagedid, Float:amount, weaponid, bodypart)
+{
+
+	new hour, minute, second, time[64];
+	gettime(hour, minute, second);
+	FixHour(hour);
+	hour = shifthour;
+	format(time, sizeof(time), "%02d:%02d:%02d", hour, minute, second);
+
+	for(new i = 0; i<10; i++)
+	{
+		if(DamageLog[playerid][i][dmg_amount] == 0)
+		{
+			DamageLog[playerid][i][dmg_playerid]  = playerid;
+			DamageLog[playerid][i][dmg_damagedid] = damagedid;
+			DamageLog[playerid][i][dmg_amount]    = amount;
+			DamageLog[playerid][i][dmg_weaponid]  = weaponid;
+			DamageLog[playerid][i][dmg_bodypart]  = bodypart;
+			strdel(DamageLog[playerid][i][dmg_time], 0, 64);
+			strins(DamageLog[playerid][i][dmg_time], time, 0);
+			return 1;
+		}
+	}
+
+	for(new i = 0; i<9; i++)
+	{
+		DamageLog[playerid][i+1][dmg_playerid] 	= 	DamageLog[playerid][i][dmg_playerid];
+		DamageLog[playerid][i+1][dmg_damagedid] = 	DamageLog[playerid][i][dmg_damagedid];
+		DamageLog[playerid][i+1][dmg_amount] 	= 	DamageLog[playerid][i][dmg_amount];
+		DamageLog[playerid][i+1][dmg_weaponid] 	= 	DamageLog[playerid][i][dmg_weaponid];
+		DamageLog[playerid][i+1][dmg_bodypart] 	= 	DamageLog[playerid][i][dmg_bodypart];
+		strdel(DamageLog[playerid][i+1][dmg_time], 0, 64);
+		strins(DamageLog[playerid][i+1][dmg_time], DamageLog[playerid][i][dmg_time], 0);
+	}
+
+	DamageLog[playerid][0][dmg_playerid] = playerid;
+	DamageLog[playerid][0][dmg_damagedid] = damagedid;
+	DamageLog[playerid][0][dmg_amount] = amount;
+	DamageLog[playerid][0][dmg_weaponid] = weaponid;
+	DamageLog[playerid][0][dmg_bodypart] = bodypart;
+	strdel(DamageLog[playerid][0][dmg_time], 0, 64);
+	strins(DamageLog[playerid][0][dmg_time], time, 0);
+	return 1;
+}
+
+ClearDamageLog(playerid)
+{
+	for(new i = 0; i<10; i++)
+	{
+		DamageLog[playerid][i][dmg_playerid]  = 0;
+		DamageLog[playerid][i][dmg_damagedid] = 0;
+		DamageLog[playerid][i][dmg_amount]    = 0;
+		DamageLog[playerid][i][dmg_weaponid]  = 0;
+		DamageLog[playerid][i][dmg_bodypart]  = 0;
+	}
+	return 1;
+}
+
+
+public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
+{
+	new string[128];
+	if(faketype == 2)
+	{
+		format(string, sizeof(string), "[FakeKill] %s[%d] u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
+		SendCommandLogMessage(string);
+		OnCheatDetected(playerid, "", 1, 56);
+	}
+	else
+	{
+		format(string, sizeof(string), "[FakeKill] %s[%d] prawdopodobnie u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
+		SendCommandLogMessage(string);
+	}
+}
+
+
+CheckAdminGodMode(pid1, pid2)
+{
+	if(PlayerInfo[pid1][pBW] > 0 || GetPVarInt(pid2, "dutyadmin") == 1 || GetPVarInt(pid2, "supportduty") == 1 || GetPVarInt(pid2, "gmduty") == 1)
+    {
+    	return 1;
+    }
+    return 0;
+}
+
+ReturnEmote(source[], dest[])
+{
+	strreplace(source, ":D", "**œmieje siê**", false, 0, -1, 256);
+    strreplace(source, ":d", "**wystawia jêzyk**", false, 0, -1, 256);
+    strreplace(source, ":P", "**wystawia jêzyk**", true, 0, -1, 256);
+    strreplace(source, "XD", "**wybucha œmiechem**", true, 0, -1, 256);
+    strreplace(source, "X-D", "**wybucha œmiechem**", true, 0, -1, 256);
+    strreplace(source, "X_D", "**wybucha œmiechem**", true, 0, -1, 256);
+    strreplace(source, ":)", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, "=D", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, "8)", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, "c:", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, ":]", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, ";)", "**puszcza oczko**", false, 0, -1, 256);
+    strreplace(source, ":/", "**krzywi siê**", false, 0, -1, 256);
+    strreplace(source, ";/", "**krzywi siê**", false, 0, -1, 256);
+    strreplace(source, ":o", "**dziwi siê**", true, 0, -1, 256);
+    strreplace(source, ":3", "**robi s³odk¹ minê**", false, 0, -1, 256);
+    strreplace(source, ":*", "**wysy³a buziaka**", false, 0, -1, 256);
+    strreplace(source, ":x", "**milczy**", true, 0, -1, 256);
+    strreplace(source, ";*", "**puszcza oczko i buziaka**", false, 0, -1, 256);
+    strreplace(source, ":(", "**smuci siê**", false, 0, -1, 256);
+    strreplace(source, ";(", "**smuci siê i puszcza ³ezkê**", false, 0, -1, 256);
+    strreplace(source, ":c", "**smuci siê**", true, 0, -1, 256);
+    strreplace(source, ":<", "**smuci siê**", true, 0, -1, 256);
+    strreplace(source, ":[", "**smuci siê**", true, 0, -1, 256);
+    strreplace(source, ">:[", "**robi wnerwion¹ minê**", true, 0, -1, 256);
+    strreplace(source, ">:)", "**robi z³owrog¹ minê**", false, 0, -1, 256);
+    strreplace(source, ">;)", "**robi z³owrog¹ minê**", false, 0, -1, 256);
+    strreplace(source, ":E", "**robi grymas**", true, 0, -1, 256);
+
+    strins(dest, source, 0, 256);
+    return 1;
+	//return dest;
+}
+
+SetVehicleHealthEx(vehicleid, Float:health)
+{
+	VehicleHealth[vehicleid] = health;
+	SetVehicleHealth(vehicleid, Float:health);
 }

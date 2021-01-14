@@ -131,9 +131,9 @@ CMD:obrabuj(playerid, params[])
 	if(!IsAPrzestepca(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ z organizacji przestêpczej!!");
 	if(IsPlayerInRangeOfPoint(playerid, 2, NPCPosition[0][0], NPCPosition[0][1], NPCPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 2, NPCPosition[1][0], NPCPosition[1][1], NPCPosition[1][2]) || IsPlayerInRangeOfPoint(playerid, 2, NPCPosition[2][0], NPCPosition[2][1], NPCPosition[2][2])) {
 		if(CheckMembersFromOrg(playerid) < MIN_ORG_ONLINE) return sendTipDialogMessage(playerid, "Nie ma w pobli¿u Ciebie cz³onków twojej organizacji (min. 3 osoby)"); 
-			if(!GetPlayerWeapon(playerid)) return sendErrorDialogMessage(playerid, "Nie trzymasz ¿adnej broni w rêce!");
-				CheckCopPlayers(playerid);
-				return 1;
+		if(!GetPlayerWeapon(playerid)) return sendErrorDialogMessage(playerid, "Nie trzymasz ¿adnej broni w rêce!");
+		CheckCopPlayers(playerid);
+		return 1;
 	} 
 	else sendErrorDialogMessage(playerid, "Nie jesteœ w pobli¿u sprzedawcy!");
 	return 1;

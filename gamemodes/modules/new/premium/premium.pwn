@@ -33,7 +33,7 @@
 //#include "modules/new/premium/premium.hwn"
 
 #define PREMIUM_DIALOG(%0) (_:%0+7450)
-#define MAX_PREMIUM_VEHICLES 41
+#define MAX_PREMIUM_VEHICLES 36
 #define MAX_PREMIUM_SKINS 26
 
 //Cennik
@@ -106,47 +106,42 @@ new bool:UniqueSkins[MAX_PLAYERS][MAX_PREMIUM_SKINS];
 new PremiumInfo[MAX_PLAYERS][ePremiumInfo];
 new PojazdyPremium[MAX_PREMIUM_VEHICLES][ePojazdyPremium] =
 {
-	{476, 1}, //1 Rustler
-	{447, 1}, //2 Seasparrow
-	{443, 1}, //3 Packer
-	{588, 1}, //4 Hotdog
-	{423, 1}, //5 Lodziarnia
-	{531, 1}, //6 Traktor
-	{494, 1}, //7 Hotring Racer
-	{502, 1}, //8 Hotring Racer
-	{503, 1}, //9 Hotring Racer
-	{503, 1}, //10 Hotring Racer
-	{504, 1}, //11 Bloodring Banger
-	{498, 1}, //12 Boxville
-	{461, 1}, //13 PCJ-600
-	{481, 1}, //14 BMX
-	{509, 1}, //15 Rower
-	{510, 1}, //16 Rower górski
-	{515, 1}, //17 Roadtrain
-	{514, 1}, //18 Tir
-	{403, 1}, //19 Linerunner (TIR)
-	{525, 1}, //20 Holownik
-	{524, 1}, //21 Betoniarka
-	{530, 1}, //22 Wózek wid³owy
-	{532, 1}, //23 Kombajn
-	{548, 1}, //24 Cargobob
-	{556, 1}, //25 Monster "A"
-	{557, 1}, //26 Monster "B"
-	{571, 1}, //27 Go-Kart
-	{573, 1}, //28 Dune
-	{574, 1}, //29 Sweeper
-	{578, 1}, //30 DFT-30
-	{583, 1}, //31 Tug
-	{485, 1}, //32 Baggage
-	{459, 1}, //33 Topfun Van (Berkley's RC)
-	{457, 1}, //34 Caddy
-	{456, 1}, //35 Yankee (ciê¿arówka)
-	{455, 1}, //36 Flatbed (ciê¿arówka)
-	{442, 1}, //37 Romero (karawan)
-	{433, 1}, //38 Barracks
-	{428, 1}, //39 Securicar
-	{408, 1}, //40 Trashmaster (œmieciarka)
-	{552, 1} //41 Utility Van
+	{443, 30000}, //1 Packer
+	{588, 30000}, //2 Hotdog
+	{423, 30000}, //3 Lodziarnia
+	{531, 20000}, //4 Traktor
+	{494, 10000}, //5 Hotring Racer
+	{502, 10000}, //6 Hotring Racer
+	{503, 10000}, //7 Hotring Racer
+	{504, 10000}, //8 Bloodring Banger
+	{498, 5000}, //9 Boxville
+	{461, 10000}, //10 PCJ-600
+	{481, 1000}, //11 BMX
+	{509, 1000}, //12 Rower
+	{510, 1000}, //13 Rower górski
+	{515, 10000}, //14 Roadtrain
+	{514, 10000}, //15 Tir
+	{403, 10000}, //16 Linerunner (TIR)
+	{525, 40000}, //17 Holownik
+	{524, 30000}, //18 Betoniarka
+	{530, 20000}, //19 Wózek wid³owy
+	{532, 30000}, //20 Kombajn
+	{548, 70000}, //21 Cargobob
+	{571, 10000}, //23 Go-Kart
+	{573, 35000}, //24 Dune
+	{574, 25000}, //25 Sweeper
+	{578, 25000}, //26 DFT-30
+	{583, 10000}, //27 Tug
+	{485, 10000}, //28 Baggage
+	{459, 10000}, //29 Topfun Van (Berkley's RC)
+	{457, 4000}, //30 Caddy
+	{456, 5000}, //31 Yankee (ciê¿arówka)
+	{455, 5000}, //32 Flatbed (ciê¿arówka)
+	{442, 15000}, //33 Romero (karawan)
+	{433, 30000}, //34 Barracks
+	{428, 20000}, //35 Securicar
+	{408, 15000}, //36 Trashmaster (œmieciarka)
+	{552, 30000} //37 Utility Van
 };
 
 new SkinyPremium[MAX_PREMIUM_SKINS][eSkinyPremium] =
@@ -455,13 +450,20 @@ KupPojazdPremium(playerid, id)
 		return DialogPojazdyPremium(playerid);
 	}
 
-	new string[128];
-	MRP_ShopPurchaseCar(playerid, PojazdyPremium[id][Model], PojazdyPremium[id][Cena]);
-	format(string, sizeof(string), "%s kupil pojazd premium %s za %d MC", GetNick(playerid), VehicleNames[PojazdyPremium[id][Model]-400], PojazdyPremium[id][Cena]);
-	PremiumLog(string);
-
-	premium_printMcQuantity(playerid);
-
+	if(PlayerToPoint(10.0, playerid, 2132.0371,-1149.7332,24.2372))
+    {
+        if(IsPlayerInAnyVehicle(playerid)) return SendClientMessage(playerid, COLOR_GRAD2, "WyjdŸ z pojazdu.");
+        new string[128];
+		MRP_ShopPurchaseCar(playerid, PojazdyPremium[id][Model], PojazdyPremium[id][Cena]);
+		format(string, sizeof(string), "%s kupil pojazd premium %s za %d MC", GetNick(playerid), VehicleNames[PojazdyPremium[id][Model]-400], PojazdyPremium[id][Cena]);
+		PremiumLog(string);
+	
+		premium_printMcQuantity(playerid);
+	}
+	else
+	{
+	    sendTipMessage(playerid, "Nie jesteœ przy salonie aut.");
+	}
 	return 1;
 }
 
@@ -797,7 +799,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				case 8:
 				{
-					//_MruGracz(playerid, "Pamiêtaj, ¿e aby kupiæ pojazd unikatowy musisz znajdowaæ siê przy salonie aut.");
+					_MruGracz(playerid, "Pamiêtaj, ¿e aby kupiæ pojazd unikatowy musisz znajdowaæ siê przy salonie aut.");
 					DialogPojazdyPremium(playerid);
 				}
 				case 10:
@@ -860,12 +862,12 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(response)
 		{
-			//KupPojazdPremium(playerid, listitem);
-			DialogMenuDotacje(playerid);
+			KupPojazdPremium(playerid, listitem);
+			//DialogMenuDotacje(playerid);
 		}
 		else
 		{
-			DialogMenuDotacje(playerid);
+			//DialogMenuDotacje(playerid);
 		}
 	}
 	else if(dialogid == PREMIUM_DIALOG(PRZEDMIOTY))
@@ -1070,19 +1072,19 @@ static DialogLicytacje(playerid)
 stock DialogPojazdyPremium(playerid)
 {
 
-	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", 
+	/*ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", 
 		"W budowie"\
 		"",
-	"Wybierz", "Wróæ");
+	"Wybierz", "Wróæ");*/
 
-	/*new string[1590];
+	new string[1590];
 	for(new i; i<MAX_PREMIUM_VEHICLES; i++)
 	{
 		if(PojazdyPremium[i][Model] != 0)
 			format(string, sizeof(string), "%s%s - "INCOLOR_GREEN"%d Kotnik Coins\n", string, VehicleNames[PojazdyPremium[i][Model]-400], PojazdyPremium[i][Cena]);
 	}
 	string[strlen(string)-1] = '\0';
-	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", string,"Kup", "Wróæ");*/
+	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", string,"Kup", "Wróæ");
 	return 1;
 }
 
