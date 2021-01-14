@@ -2695,15 +2695,10 @@ CMD:bbron(playerid, params[])//blokada pisania
                 {
                     sendTipMessage(playerid, "Czas od 0 do 8");
                 }
-            }
-        }
-    }
-    else
-    {
-        new string[64];
-        format(string, sizeof(string), "%d jest nieaktywny.", giveplayerid);
-        sendErrorDialogMessage(playerid, string);
-    }
+            } else return sendErrorDialogMessage(playerid, sprintf("%d jest nieaktywny.", giveplayerid));
+        } else return sendErrorDialogMessage(playerid, sprintf("%d jest nieaktywny.", giveplayerid));
+    } else return noAccessMessage(playerid);
+    
     return 1;
 }
 
@@ -2740,15 +2735,10 @@ CMD:bpojazd(playerid, params[])//blokada pisania
                 {
                     sendTipMessage(playerid, "Czas od 0 do 8");
                 }
-            }
-        }
-    }
-    else
-    {
-        new string[64];
-        format(string, sizeof(string), "%d jest nieaktywny.", giveplayerid);
-        sendErrorDialogMessage(playerid, string);
-    }
+            } else return sendErrorDialogMessage(playerid, sprintf("%d jest nieaktywny.", giveplayerid));
+        } else return sendErrorDialogMessage(playerid, sprintf("%d jest nieaktywny.", giveplayerid));
+    } else return noAccessMessage(playerid);
+
     return 1;
 }
 
