@@ -48,8 +48,8 @@ new kaska[MAX_PLAYERS];
 new CzasInformacyjnego[MAX_PLAYERS];
 //new bramki_sasd[18];  WARNINGI DO POPRAWY
 //new bool:bramki_sasd_state[18];
-new KodyAC[57];
-new KodyACDelay[MAX_PLAYERS][57];
+new KodyAC[sizeof(KodyACName)];
+new KodyACDelay[MAX_PLAYERS][sizeof(KodyACName)];
 
 new AmmoWarn[MAX_PLAYERS];
 new CarOnEnterWeapon[MAX_PLAYERS];
@@ -1499,6 +1499,13 @@ stock ZerujZmienne(playerid)
     AntyFakeKillVar[playerid] = 0;
     OldPayCheck[playerid] = 0;
     ClearDamageLog(playerid);
+
+    RakNet_SaveWeapons[playerid] = 0;
+    for(new i=0;i<13;i++) 
+    {
+        RakNet_PlayerWeapons[playerid][i][0] = 0;
+        RakNet_PlayerWeapons[playerid][i][1] = 0;
+    }
 
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
     for(new i=0;i<MAX_SKIN_SELECT+120;i++) PERSONAL_SKINS[playerid][i] = 0;

@@ -468,6 +468,10 @@ stock MruMySQL_SaveAccount(playerid, bool:forcegmx = false, bool:forcequit = fal
 
     if(!mysql_query(query)) fault=false;
 
+    if(RakNet_SaveWeapons[playerid] == 1)
+    {
+    	RestoreOldWeapons(playerid, GetNick(playerid));
+    }
 
     //Zapis MruCoinow
     //premium_saveMc(playerid);  DO POPRAWY

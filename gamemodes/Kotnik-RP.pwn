@@ -230,7 +230,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		MaTazer[playerid] = 0;
         return 0;
 		//PlayerInfo[playerid][pGun2] = 24;
-		//GivePlayerWeapon(playerid, 24, PlayerInfo[playerid][pAmmo2]);
+		//GivePlayerWeaponEx(playerid, 24, PlayerInfo[playerid][pAmmo2]);
 		//RemovePlayerAttachedObject(playerid, 9);
 	}
     if(MaTazer[playerid] == 1 && (GetPlayerWeapon(playerid) == 23 || GetPlayerWeapon(playerid) == 24) && TazerAktywny[hitid] == 0 && GetDistanceBetweenPlayers(playerid,hitid) < 11 && hittype == 1)
@@ -249,7 +249,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
         ProxDetector(30.0, hitid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
         MaTazer[playerid] = 0;
         //PlayerInfo[issuerid][pGun2] = 24;
-        //GivePlayerWeapon(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
+        //GivePlayerWeaponEx(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
         //RemovePlayerAttachedObject(issuerid, 9);
         PlayerPlaySound(playerid, 6300, 0.0, 0.0, 0.0);
         PlayerPlaySound(hitid, 6300, 0.0, 0.0, 0.0);
@@ -265,7 +265,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
         MaTazer[playerid] = 0;
         return 0;
         //PlayerInfo[issuerid][pGun2] = 24;
-        //GivePlayerWeapon(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
+        //GivePlayerWeaponEx(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
         //RemovePlayerAttachedObject(issuerid, 9);
     }
 
@@ -293,26 +293,33 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
                 SetPlayerHealth(damagedid, health-s_WeaponDamage[weaponid]);
                 if(health-s_WeaponDamage[weaponid] <= 0 && GetPVarInt(damagedid, "IsDead") == 0) OnPlayerDeath(damagedid, playerid, weaponid);
             }
+            return 0;
         }
     }
-    if(hittype == BULLET_HIT_TYPE_VEHICLE)
+    /*if(hittype == BULLET_HIT_TYPE_VEHICLE)
     {
         new id = CheckDriver(hitid);
         if(id != INVALID_PLAYER_ID)
         {
             new Float:health;
             GetVehicleHealth(hitid, Float:health);
-            if(health > 230)
+
+            if(health-(s_WeaponDamage[weaponid]*3) <= 250)
             {
-                if(health-s_WeaponDamage[weaponid] >= 230)
-                {
-                    SetVehicleHealth(hitid, health-s_WeaponDamage[weaponid]);
-                } else SetVehicleHealth(hitid, 250);
+                SetVehicleHealth(hitid, 250);
+            } else 
+            {
+                new panels, doors, lights, tires;
+                GetVehicleDamageStatus(hitid, panels, doors, lights, tires);
+                printf("before %d", tires);
+                SetTimerEx("CheckVehicleTiresGod", 100, false, "ddf", hitid, tires, health-(s_WeaponDamage[weaponid]*3));
             }
+            return 1;
         }
     }
+    */
 
-    return 0;
+    return 1;
 }
 
 public OnPlayerClickTextDraw(playerid, Text:clickedid)
@@ -724,7 +731,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 	return 1;
 }
 
-/*public OnVehicleDamageStatusUpdate(vehicleid, playerid)
+/* public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 {
     return 1;
 } */
@@ -1949,7 +1956,7 @@ public OnPlayerSpawn(playerid) //Przebudowany
     if(PlayerInfo[playerid][pBBron] > 0)
     {
         sendTipDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[playerid][pBBron]));
-        ResetPlayerWeapons(playerid);
+        ResetPlayerWeaponsEx(playerid);
         UsunBron(playerid);
     }
 
@@ -2140,7 +2147,7 @@ SetPlayerSpawnPos(playerid)
 	    GetPlayerName(playerid, sendername, sizeof(sendername));
 		format(string, sizeof(string), "Zosta³eœ uwieziony w Admin Jailu przez Admina Marcepan_Marks. Powod: /q podczas akcji");
 		_MruGracz(playerid, string);
-		ResetPlayerWeapons(playerid);
+		ResetPlayerWeaponsEx(playerid);
 		UsunBron(playerid);
 		PlayerInfo[playerid][pJailed] = 3;
 		PlayerInfo[playerid][pJailTime] = 15*60;
@@ -2162,8 +2169,8 @@ SetPlayerSpawnPos(playerid)
 	//Paintball
     else if(PlayerPaintballing[playerid] != 0)
 	{
-	    ResetPlayerWeapons(playerid);
-  		GivePlayerWeapon(playerid, 29, 999);
+	    ResetPlayerWeaponsEx(playerid);
+  		GivePlayerWeaponEx(playerid, 29, 999);
 	    new rand = random(sizeof(PaintballSpawns));
 		SetPlayerPosEx(playerid, PaintballSpawns[rand][0], PaintballSpawns[rand][1], PaintballSpawns[rand][2]);
 		SetCameraBehindPlayer(playerid);
@@ -2572,7 +2579,7 @@ SetPlayerSpawnWeapon(playerid)
         SetPVarInt(playerid, "mozeUsunacBronie", 0);
         return 1;
     }
-    ResetPlayerWeapons(playerid);
+    ResetPlayerWeaponsEx(playerid);
 
      //Dawanie spawnowych broni
 	if(GetPlayerFraction(playerid))
@@ -6170,7 +6177,7 @@ public OnPlayerUpdate(playerid)
         if(GetPlayerWeapon(playerid)) {
             ABroadCast(COLOR_YELLOW, sprintf("[Blokady]: Gracz %s [%d] próbuje omijaæ blokadê posiadania bronii", GetNick(playerid), playerid), 1);
             sendTipDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[playerid][pBBron]));
-            ResetPlayerWeapons(playerid);
+            ResetPlayerWeaponsEx(playerid);
             UsunBron(playerid);
         }
     }
@@ -7308,7 +7315,7 @@ public OnVehicleSpawn(vehicleid)
 	    VehicleUID[vehicleid][vSiren] = 0;
 	}
     if(Car_GetOwnerType(vehicleid) == CAR_OWNER_FRACTION || Car_GetOwnerType(vehicleid) == CAR_OWNER_FAMILY || Car_GetOwnerType(vehicleid) == CAR_OWNER_JOB) {
-        RepairVehicle(vehicleid); // 
+        RepairVehicleEx(vehicleid); // 
 
     }
 	#if DEBUG == 1

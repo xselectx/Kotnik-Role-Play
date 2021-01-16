@@ -2995,7 +2995,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						    GameTextForPlayer(playerid, "~r~-$5000", 5000, 1);
 							PlayerInfo[playerid][pGun9] = 43;
 							PlayerInfo[playerid][pAmmo9] += 100;
-						    GivePlayerWeapon(playerid, 43, 100);
+						    GivePlayerWeaponEx(playerid, 43, 100);
 							SendClientMessage(playerid, COLOR_GRAD4, "Aparat zakupiony! Mo¿esz nim teraz robiæ zdjêcia!");
 							return 1;
 						}
@@ -3011,7 +3011,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							GameTextForPlayer(playerid, "~r~-$15000", 5000, 1);
 							PlayerInfo[playerid][pGun1] = 5;
 							PlayerInfo[playerid][pAmmo1] = 1;
-						    GivePlayerWeapon(playerid, 5, 1);
+						    GivePlayerWeaponEx(playerid, 5, 1);
 							SendClientMessage(playerid, COLOR_GRAD4, " Bejsbol zakupiony!");
 						}
 					}
@@ -4940,7 +4940,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						PlayerInfo[playerid][pGun0] = 0;
 						PlayerInfo[playerid][pAmmo0] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój kastet zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -4949,7 +4949,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun1] = 0;
 						PlayerInfo[playerid][pAmmo1] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twoja broñ bia³a zosta³a usniêta");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -4958,7 +4958,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun2] = 0;
 						PlayerInfo[playerid][pAmmo2] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój pistolet zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -4967,7 +4967,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	                    PlayerInfo[playerid][pGun3] = 0;
 						PlayerInfo[playerid][pAmmo3] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twoja strzelba zosta³a usuniêta");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -4976,7 +4976,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	                    PlayerInfo[playerid][pGun4] = 0;
 						PlayerInfo[playerid][pAmmo4] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój pistolet maszynowy zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -4985,7 +4985,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun5] = 0;
 						PlayerInfo[playerid][pAmmo5] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój karabin maszynowy zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -4994,7 +4994,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun6] = 0;
 						PlayerInfo[playerid][pAmmo6] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twoja snajperka zosta³a usuniêta");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -5003,7 +5003,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun7] = 0;
 						PlayerInfo[playerid][pAmmo7] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój ogniomiotacz zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -5014,7 +5014,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						PlayerInfo[playerid][pGun12] = 0;
 						PlayerInfo[playerid][pAmmo12] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twoje C4 zosta³o usuniête");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -5023,7 +5023,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun9] = 0;
 						PlayerInfo[playerid][pAmmo9] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój sprej/aparat/gaœnica zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -5032,7 +5032,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun10] = 0;
 						PlayerInfo[playerid][pAmmo10] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twoje kwiaty/laska/dildo zosta³o usuniête");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -5041,7 +5041,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun11] = 0;
 						PlayerInfo[playerid][pAmmo11] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój spadochron zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -5050,7 +5050,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            PlayerInfo[playerid][pGun12] = 0;
 						PlayerInfo[playerid][pAmmo12] = 0;
 						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twój detonator zosta³ usuniêty");
-						ResetPlayerWeapons(playerid);
+						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");
 			        }
@@ -5119,7 +5119,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			 		{
 	        			if(kaska[playerid] > 25000)
 						{
-					        GivePlayerWeapon(playerid, 10, 1);
+					        GivePlayerWeaponEx(playerid, 10, 1);
 					        PlayerInfo[playerid][pGun10] = 10;
 							PlayerInfo[playerid][pAmmo10] = 1;
 							DajKase(playerid, -25000);
@@ -5135,7 +5135,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 	        			if(kaska[playerid] > 7500)
 	  	 				{
-					        GivePlayerWeapon(playerid, 11, 1);
+					        GivePlayerWeaponEx(playerid, 11, 1);
 					        PlayerInfo[playerid][pGun10] = 11;
 							PlayerInfo[playerid][pAmmo10] = 1;
 							DajKase(playerid, -7500);
@@ -5151,7 +5151,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 	        			if(kaska[playerid] > 20000)
 						{
-					        GivePlayerWeapon(playerid, 12, 1);
+					        GivePlayerWeaponEx(playerid, 12, 1);
 					        PlayerInfo[playerid][pGun10] = 12;
 							PlayerInfo[playerid][pAmmo10] = 1;
 							DajKase(playerid, -20000);
@@ -5167,7 +5167,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 	        			if(kaska[playerid] > 12000)
 		  	 			{
-					        GivePlayerWeapon(playerid, 13, 1);
+					        GivePlayerWeaponEx(playerid, 13, 1);
 					        PlayerInfo[playerid][pGun10] = 13;
 							PlayerInfo[playerid][pAmmo10] = 1;
 							DajKase(playerid, -12000);
@@ -5183,7 +5183,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 	        			if(kaska[playerid] > 1500)
 		  	 			{
-					        GivePlayerWeapon(playerid, 15, 1);
+					        GivePlayerWeaponEx(playerid, 15, 1);
 					        PlayerInfo[playerid][pGun10] = 15;
 							PlayerInfo[playerid][pAmmo10] = 1;
 							DajKase(playerid, -1500);
@@ -5199,7 +5199,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 	        			if(kaska[playerid] > 500)
 		  	 			{
-					        GivePlayerWeapon(playerid, 14, 1);
+					        GivePlayerWeaponEx(playerid, 14, 1);
 					        PlayerInfo[playerid][pGun10] = 14;
 							PlayerInfo[playerid][pAmmo10] = 1;
 							DajKase(playerid, -500);
@@ -5235,7 +5235,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[22][0])+(CenaBroni[playerid]*40))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 30, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 30, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun5] = 30;
 					PlayerInfo[playerid][pAmmo5] = CenaBroni[playerid];
 					DajKase(playerid, -(GunPrice[22][0]));
@@ -5361,7 +5361,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 400)
 		                {
-	                     	GivePlayerWeapon(playerid, 2, 1);
+	                     	GivePlayerWeaponEx(playerid, 2, 1);
 	                     	PlayerInfo[playerid][pGun1] = 2;
 	                     	PlayerInfo[playerid][pAmmo1] = 1;
 	                     	DajKase(playerid, -400);
@@ -5376,7 +5376,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 300)
 		                {
-	                     	GivePlayerWeapon(playerid, 3, 1);
+	                     	GivePlayerWeaponEx(playerid, 3, 1);
 	                     	PlayerInfo[playerid][pGun1] = 3;
 	                     	PlayerInfo[playerid][pAmmo1] = 1;
 	                     	DajKase(playerid, -300);
@@ -5391,7 +5391,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 700)
 		                {
-	                     	GivePlayerWeapon(playerid, 5, 1);
+	                     	GivePlayerWeaponEx(playerid, 5, 1);
 	                     	PlayerInfo[playerid][pGun1] = 5;
 	                     	PlayerInfo[playerid][pAmmo1] = 1;
 	                     	DajKase(playerid, -700);
@@ -5406,7 +5406,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 300)
 		                {
-	                     	GivePlayerWeapon(playerid, 6, 1);
+	                     	GivePlayerWeaponEx(playerid, 6, 1);
 	                     	PlayerInfo[playerid][pGun1] = 6;
 	                     	PlayerInfo[playerid][pAmmo1] = 1;
 	                     	DajKase(playerid, -300);
@@ -5421,7 +5421,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 100)
 		                {
-	                     	GivePlayerWeapon(playerid, 7, 1);
+	                     	GivePlayerWeaponEx(playerid, 7, 1);
 	                     	PlayerInfo[playerid][pGun1] = 7;
 	                     	PlayerInfo[playerid][pAmmo1] = 1;
 	                     	DajKase(playerid, -100);
@@ -5436,7 +5436,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 200)
 		                {
-	                     	GivePlayerWeapon(playerid, 14, 1);
+	                     	GivePlayerWeaponEx(playerid, 14, 1);
 	                     	PlayerInfo[playerid][pGun10] = 14;
 	                     	PlayerInfo[playerid][pAmmo10] = 1;
 	                     	DajKase(playerid, -200);
@@ -5451,7 +5451,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 600)
 		                {
-	                     	GivePlayerWeapon(playerid, 15, 1);
+	                     	GivePlayerWeaponEx(playerid, 15, 1);
 	                     	PlayerInfo[playerid][pGun10] = 15;
 	                     	PlayerInfo[playerid][pAmmo10] = 1;
 	                     	DajKase(playerid, -600);
@@ -5466,7 +5466,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 50)
 		                {
-	                     	GivePlayerWeapon(playerid, 1, 1);
+	                     	GivePlayerWeaponEx(playerid, 1, 1);
 	                     	PlayerInfo[playerid][pGun0] = 1;
 	                     	PlayerInfo[playerid][pAmmo0] = 1;
 	                     	DajKase(playerid, -50);
@@ -5494,7 +5494,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                if(kaska[playerid] > 500)
 		                {
-	                     	GivePlayerWeapon(playerid, 46, 1);
+	                     	GivePlayerWeaponEx(playerid, 46, 1);
 	                     	PlayerInfo[playerid][pGun11] = 46;
 	                     	PlayerInfo[playerid][pAmmo11] = 1;
 	                     	DajKase(playerid, -500);
@@ -5704,7 +5704,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			    {
 	          		new komunikat[256];
 	          		//new cenabronia = (GunPrice[13][0])+(CenaBroni[playerid]*25);
-			        GivePlayerWeapon(playerid, 22, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 22, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun2] = 22;
 					PlayerInfo[playerid][pAmmo2] = CenaBroni[playerid];
 					//DajKase(playerid, -cenabronia);
@@ -5731,7 +5731,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[14][0])+(CenaBroni[playerid]*25))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 23, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 23, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun2] = 23;
 					PlayerInfo[playerid][pAmmo2] = CenaBroni[playerid];
 	    			ZabierzKase(playerid, (GunPrice[14][0]));
@@ -5757,7 +5757,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[15][0])+(CenaBroni[playerid]*25))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 24, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 24, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun2] = 24;
 					PlayerInfo[playerid][pAmmo2] = CenaBroni[playerid];
 	    			ZabierzKase(playerid, (GunPrice[15][0]));
@@ -5783,7 +5783,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[19][0])+(CenaBroni[playerid]*40))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 25, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 25, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun3] = 25;
 					PlayerInfo[playerid][pAmmo3] = CenaBroni[playerid];
 					ZabierzKase(playerid, (GunPrice[19][0]));
@@ -5809,7 +5809,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[18][0])+(CenaBroni[playerid]*25))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 29, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 29, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun4] = 29;
 					PlayerInfo[playerid][pAmmo4] = CenaBroni[playerid];
 					ZabierzKase(playerid, (GunPrice[18][0]));
@@ -5835,7 +5835,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[23][0])+(CenaBroni[playerid]*40))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 31, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 31, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun5] = 31;
 					PlayerInfo[playerid][pAmmo5] = CenaBroni[playerid];
 					ZabierzKase(playerid, (GunPrice[23][0]));
@@ -5861,7 +5861,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[22][0])+(CenaBroni[playerid]*40))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 30, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 30, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun5] = 30;
 					PlayerInfo[playerid][pAmmo5] = CenaBroni[playerid];
 					ZabierzKase(playerid, (GunPrice[22][0]));
@@ -5887,7 +5887,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	      		if(kaska[playerid] > (GunPrice[24][0])+(CenaBroni[playerid]*50))
 			    {
 	          		new komunikat[256];
-			        GivePlayerWeapon(playerid, 33, CenaBroni[playerid]);
+			        GivePlayerWeaponEx(playerid, 33, CenaBroni[playerid]);
 			        PlayerInfo[playerid][pGun6] = 33;
 					PlayerInfo[playerid][pAmmo6] = CenaBroni[playerid];
 					ZabierzKase(playerid, (GunPrice[24][0]));
@@ -7967,7 +7967,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					    SetPlayerPosEx(playerid, 1581.8731689453,5490.7412109375,329.73870849609);
 						TogglePlayerControllable(playerid, 0);
 						SetPlayerInterior(playerid, 0);
-						GivePlayerWeapon(playerid, 46, 1);
+						GivePlayerWeaponEx(playerid, 46, 1);
                         Wchodzenie(playerid);
 		                ShowPlayerDialogEx(playerid, 999, DIALOG_STYLE_MSGBOX, "Wie¿a spadochroniarska", "Nale¿y odpowiednio przeprowadziæ atak z powietrza\n Zadanie polega na wyl¹dowaniu na specjalnej tarczy, iloœc przyznawanych punktów jest zale¿na od precyzji l¹dowania\n Dla zaawansowanych agentów przewidziano równie¿ trening p³ywacki\n nale¿y przep³yn¹æ przez rurê znajduj¹c¹ sie pod wod¹ i wyp³yn¹æ na powierzchniê.", "Rozpocznij", "WyjdŸ");//spadochrin wejœcie œrodek
 					}
@@ -10974,7 +10974,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_G0] = 0;
 							PlayerInfo[playerid][pGun0] = Dom[dom][hS_G0];
 							PlayerInfo[playerid][pAmmo0] = 1;
-							GivePlayerWeapon(playerid, 1, 1);
+							GivePlayerWeaponEx(playerid, 1, 1);
 						    SendClientMessage(playerid, COLOR_NEWS, "Wyj¹³eœ kastet ze zbrojowni.");
 	                        WyjmijBron(playerid);
 						}
@@ -10995,7 +10995,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A1] = 0;
 							PlayerInfo[playerid][pGun1] = Dom[dom][hS_G1];
 							PlayerInfo[playerid][pAmmo1] = 1;
-							GivePlayerWeapon(playerid, Dom[dom][hS_G1], 1);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G1], 1);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G1]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11025,7 +11025,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A2] = 0;
 							PlayerInfo[playerid][pGun2] = Dom[dom][hS_G2];
 							PlayerInfo[playerid][pAmmo2] = Dom[dom][hS_A2];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G2], Dom[dom][hS_A2]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G2], Dom[dom][hS_A2]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G2]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11055,7 +11055,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A3] = 0;
 	                        PlayerInfo[playerid][pGun3] = Dom[dom][hS_G3];
 							PlayerInfo[playerid][pAmmo3] = Dom[dom][hS_A3];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G3], Dom[dom][hS_A3]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G3], Dom[dom][hS_A3]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G3]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11085,7 +11085,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A4] = 0;
 							PlayerInfo[playerid][pGun4] = Dom[dom][hS_G4];
 							PlayerInfo[playerid][pAmmo4] = Dom[dom][hS_A4];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G4], Dom[dom][hS_A4]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G4], Dom[dom][hS_A4]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G4]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11115,7 +11115,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A5] = 0;
 							PlayerInfo[playerid][pGun5] = Dom[dom][hS_G5];
 							PlayerInfo[playerid][pAmmo5] = Dom[dom][hS_A5];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G5], Dom[dom][hS_A5]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G5], Dom[dom][hS_A5]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G5]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11145,7 +11145,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A6] = 0;
 							PlayerInfo[playerid][pGun6] = Dom[dom][hS_G6];
 							PlayerInfo[playerid][pAmmo6] = Dom[dom][hS_A6];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G6], Dom[dom][hS_A6]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G6], Dom[dom][hS_A6]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G6]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11175,7 +11175,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A7] = 0;
 							PlayerInfo[playerid][pGun7] = Dom[dom][hS_G7];
 							PlayerInfo[playerid][pAmmo7] = Dom[dom][hS_A7];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G7], Dom[dom][hS_A7]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G7], Dom[dom][hS_A7]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G7]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11205,7 +11205,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A8] = 0;
 							PlayerInfo[playerid][pGun8] = Dom[dom][hS_G8];
 							PlayerInfo[playerid][pAmmo8] = Dom[dom][hS_A8];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G8], Dom[dom][hS_A8]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G8], Dom[dom][hS_A8]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G8]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11235,7 +11235,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A9] = 0;
 							PlayerInfo[playerid][pGun9] = Dom[dom][hS_G9];
 							PlayerInfo[playerid][pAmmo9] = Dom[dom][hS_A9];
-							GivePlayerWeapon(playerid, Dom[dom][hS_G9], Dom[dom][hS_A9]);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G9], Dom[dom][hS_A9]);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G9]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11257,7 +11257,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A10] = 0;
 							PlayerInfo[playerid][pGun10] = Dom[dom][hS_G10];
 							PlayerInfo[playerid][pAmmo10] = 1;
-							GivePlayerWeapon(playerid, Dom[dom][hS_G10], 1);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G10], 1);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G10]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11279,7 +11279,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							Dom[dom][hS_A11] = 0;
 							PlayerInfo[playerid][pGun11] = Dom[dom][hS_G11];
 							PlayerInfo[playerid][pAmmo11] = 1;
-							GivePlayerWeapon(playerid, Dom[dom][hS_G11], 1);
+							GivePlayerWeaponEx(playerid, Dom[dom][hS_G11], 1);
 							format(brondef, sizeof(brondef), "Wyj¹³eœ %s ze zbrojowni", GunNames[Dom[dom][hS_G11]]);
 						    SendClientMessage(playerid, COLOR_NEWS, brondef);
 	                        WyjmijBron(playerid);
@@ -11317,7 +11317,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_G0] = 1;
 								PlayerInfo[playerid][pGun0] = 0;
 								PlayerInfo[playerid][pAmmo0] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 				            }
@@ -11346,7 +11346,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A1] = 1;
 								PlayerInfo[playerid][pGun1] = 0;
 								PlayerInfo[playerid][pAmmo1] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11383,7 +11383,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A2] = PlayerInfo[playerid][pAmmo2];
 								PlayerInfo[playerid][pGun2] = 0;
 								PlayerInfo[playerid][pAmmo2] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11420,7 +11420,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A3] = PlayerInfo[playerid][pAmmo3];
 								PlayerInfo[playerid][pGun3] = 0;
 								PlayerInfo[playerid][pAmmo3] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 							  	SchowajBron(playerid);
 							}
@@ -11457,7 +11457,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A4] = PlayerInfo[playerid][pAmmo4];
 								PlayerInfo[playerid][pGun4] = 0;
 								PlayerInfo[playerid][pAmmo4] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11494,7 +11494,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A5] = PlayerInfo[playerid][pAmmo5];
 								PlayerInfo[playerid][pGun5] = 0;
 								PlayerInfo[playerid][pAmmo5] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11531,7 +11531,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A6] = PlayerInfo[playerid][pAmmo6];
 								PlayerInfo[playerid][pGun6] = 0;
 								PlayerInfo[playerid][pAmmo6] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11568,7 +11568,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A7] = PlayerInfo[playerid][pAmmo7];
 								PlayerInfo[playerid][pGun7] = 0;
 								PlayerInfo[playerid][pAmmo7] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11605,7 +11605,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A8] = PlayerInfo[playerid][pAmmo8];
 								PlayerInfo[playerid][pGun8] = 0;
 								PlayerInfo[playerid][pAmmo8] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11642,7 +11642,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A9] = PlayerInfo[playerid][pAmmo9];
 								PlayerInfo[playerid][pGun9] = 0;
 								PlayerInfo[playerid][pAmmo9] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11671,7 +11671,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A10] = 1;
 								PlayerInfo[playerid][pGun10] = 0;
 								PlayerInfo[playerid][pAmmo10] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 							}
@@ -11700,7 +11700,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    			Dom[dom][hS_A11] = 1;
 								PlayerInfo[playerid][pGun11] = 0;
 								PlayerInfo[playerid][pAmmo11] = 0;
-				                ResetPlayerWeapons(playerid);
+				                ResetPlayerWeaponsEx(playerid);
 				                PrzywrocBron(playerid);
 				                SchowajBron(playerid);
 				            }
@@ -11960,7 +11960,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	                Dom[dom][hS_A11] = 0;
 		        }
 	            WyjmijBron(playerid);
-	            ResetPlayerWeapons(playerid);
+	            ResetPlayerWeaponsEx(playerid);
 		        PrzywrocBron(playerid);
 		    }
 		    if(!response)
@@ -11978,7 +11978,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		        if(IDBroniZbrojownia[playerid] == 2)
 		        {
 		   			PlayerInfo[playerid][pAmmo2] += Dom[dom][hS_A2];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], Dom[dom][hS_A2]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], Dom[dom][hS_A2]);
 		      		Dom[dom][hS_G2] = 0;
 					Dom[dom][hS_A2] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo2], GunNames[PlayerInfo[playerid][pGun2]]);
@@ -11987,7 +11987,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IDBroniZbrojownia[playerid] == 3)
 		        {
 		   			PlayerInfo[playerid][pAmmo3] += Dom[dom][hS_A3];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun3], Dom[dom][hS_A3]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun3], Dom[dom][hS_A3]);
 		      		Dom[dom][hS_G3] = 0;
 					Dom[dom][hS_A3] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo3], GunNames[PlayerInfo[playerid][pGun3]]);
@@ -11996,7 +11996,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IDBroniZbrojownia[playerid] == 4)
 		        {
 		   			PlayerInfo[playerid][pAmmo4] += Dom[dom][hS_A4];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun4], Dom[dom][hS_A4]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun4], Dom[dom][hS_A4]);
 		      		Dom[dom][hS_G4] = 0;
 					Dom[dom][hS_A4] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo4], GunNames[PlayerInfo[playerid][pGun4]]);
@@ -12005,7 +12005,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IDBroniZbrojownia[playerid] == 5)
 		        {
 		   			PlayerInfo[playerid][pAmmo5] += Dom[dom][hS_A5];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun5], Dom[dom][hS_A5]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun5], Dom[dom][hS_A5]);
 		      		Dom[dom][hS_G5] = 0;
 					Dom[dom][hS_A5] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo5], GunNames[PlayerInfo[playerid][pGun5]]);
@@ -12014,7 +12014,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IDBroniZbrojownia[playerid] == 6)
 		        {
 		   			PlayerInfo[playerid][pAmmo6] += Dom[dom][hS_A6];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun6], Dom[dom][hS_A6]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun6], Dom[dom][hS_A6]);
 		      		Dom[dom][hS_G6] = 0;
 					Dom[dom][hS_A6] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo6], GunNames[PlayerInfo[playerid][pGun6]]);
@@ -12023,7 +12023,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IDBroniZbrojownia[playerid] == 7)
 		        {
 		   			PlayerInfo[playerid][pAmmo7] += Dom[dom][hS_A7];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun7], Dom[dom][hS_A7]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun7], Dom[dom][hS_A7]);
 		      		Dom[dom][hS_G7] = 0;
 					Dom[dom][hS_A7] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo7], GunNames[PlayerInfo[playerid][pGun7]]);
@@ -12032,7 +12032,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IDBroniZbrojownia[playerid] == 8)
 		        {
 		   			PlayerInfo[playerid][pAmmo8] += Dom[dom][hS_A8];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun8], Dom[dom][hS_A8]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun8], Dom[dom][hS_A8]);
 		      		Dom[dom][hS_G8] = 0;
 					Dom[dom][hS_A8] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo8], GunNames[PlayerInfo[playerid][pGun8]]);
@@ -12041,7 +12041,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IDBroniZbrojownia[playerid] == 9)
 		        {
 		   			PlayerInfo[playerid][pAmmo9] += Dom[dom][hS_A9];
-		      		GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun9], Dom[dom][hS_A9]);
+		      		GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun9], Dom[dom][hS_A9]);
 		      		Dom[dom][hS_G9] = 0;
 					Dom[dom][hS_A9] = 0;
 		            format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo9], GunNames[PlayerInfo[playerid][pGun9]]);
@@ -12061,7 +12061,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A2] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo2] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo2], GunNames[PlayerInfo[playerid][pGun2]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12079,7 +12079,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A3] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo3] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun3], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun3], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo3], GunNames[PlayerInfo[playerid][pGun3]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12097,7 +12097,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A4] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo4] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun4], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun4], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo4], GunNames[PlayerInfo[playerid][pGun4]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12115,7 +12115,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A5] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo5] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun5], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun5], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo5], GunNames[PlayerInfo[playerid][pGun5]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12133,7 +12133,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A6] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo6] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun6], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun6], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo6], GunNames[PlayerInfo[playerid][pGun6]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12151,7 +12151,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A7] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo7] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun7], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun7], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo7], GunNames[PlayerInfo[playerid][pGun7]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12169,7 +12169,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A8] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo8] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun8], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun8], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo8], GunNames[PlayerInfo[playerid][pGun8]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12187,7 +12187,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            {
 			                Dom[dom][hS_A9] -= strval(inputtext);
 			                PlayerInfo[playerid][pAmmo9] += strval(inputtext);
-			                GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun9], strval(inputtext));
+			                GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun9], strval(inputtext));
 			                format(brondef, sizeof(brondef), "Masz teraz %d naboi w swoim %s", PlayerInfo[playerid][pAmmo9], GunNames[PlayerInfo[playerid][pGun9]]);
 	            			SendClientMessage(playerid, COLOR_NEWS, brondef);
 			            }
@@ -12368,7 +12368,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			       	format(brondef, sizeof(brondef), "W zbrojowni znajduje siê teraz %s", GunNames[Dom[dom][hS_G11]]);
 					SendClientMessage(playerid, COLOR_NEWS, brondef);
 				}
-				ResetPlayerWeapons(playerid);
+				ResetPlayerWeaponsEx(playerid);
 				PrzywrocBron(playerid);
 	            SchowajBron(playerid);
 			}
@@ -12447,7 +12447,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			       	format(brondef, sizeof(brondef), "W zbrojowni znajduje siê teraz %s z %d nabojami", GunNames[Dom[dom][hS_G9]], Dom[dom][hS_A9]);
 					SendClientMessage(playerid, COLOR_NEWS, brondef);
 		        }
-		        ResetPlayerWeapons(playerid);
+		        ResetPlayerWeaponsEx(playerid);
 				PrzywrocBron(playerid);
 	            SchowajBron(playerid);
 			}
@@ -12593,7 +12593,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			            	return 1;
 			            }
 			        }
-			        ResetPlayerWeapons(playerid);
+			        ResetPlayerWeaponsEx(playerid);
 					PrzywrocBron(playerid);
 		            SchowajBron(playerid);
 				}
@@ -16618,24 +16618,27 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     else if(dialogid == D_ANTYCHEAT)
     {
     	if(!response) return 1;
-    	if(strcmp(inputtext, "Nastêpna strona", true) == 0) return ShowKody(playerid, 2);
+    	if(strcmp(inputtext, "»»", true) == 0) return ShowKody(playerid, GetPVarInt(playerid, "ac_page")+1);
+    	if(strcmp(inputtext, "««", true) == 0) return ShowKody(playerid, GetPVarInt(playerid, "ac_page")-1);
 
-    	SetPVarInt(playerid, "ac_edit", listitem);
-    	SetPVarInt(playerid, "ac_page", 1);
+    	new kod = listitem + (GetPVarInt(playerid, "ac_page")-1)*SHOWKODY_PER_PAGE;
 
-    	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", listitem), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec\nBANICJA", "Wybierz", "Wróæ");
+    	SetPVarInt(playerid, "ac_edit", kod);
+    	//SetPVarInt(playerid, "ac_page", 1);
+
+    	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", kod), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec\nBANICJA", "Wybierz", "Wróæ");
 
     }
-    else if(dialogid == D_ANTYCHEAT+1)
-    {
-    	if(!response) return 1;
-    	if(strcmp(inputtext, "Poprzednia strona", true) == 0) return ShowKody(playerid, 1);
-
-    	SetPVarInt(playerid, "ac_edit", listitem+30);
-    	SetPVarInt(playerid, "ac_page", 2);
-
-    	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", listitem+30), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec)\nBANICJA", "Wybierz", "Wróæ");
-    }
+    //else if(dialogid == D_ANTYCHEAT+1)
+    //{
+    //	if(!response) return 1;
+    //	if(strcmp(inputtext, "Poprzednia strona", true) == 0) return ShowKody(playerid, 1);
+//
+    //	SetPVarInt(playerid, "ac_edit", listitem+sizeof(KodyAC)/2);
+    //	SetPVarInt(playerid, "ac_page", 2);
+//
+    //	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+2, DIALOG_STYLE_LIST, sprintf("Edycja kodu %d", listitem+sizeof(KodyAC)/2), "Wy³aczony\nW³¹czony\nAdmWarning\nWarn\nAdmWarnin + Warn\nAdmWarning + Warn (1sec)\nBANICJA", "Wybierz", "Wróæ");
+    //}
     else if(dialogid == D_ANTYCHEAT+2)
     {
     	if(!response) return ShowKody(playerid, GetPVarInt(playerid, "ac_page"));

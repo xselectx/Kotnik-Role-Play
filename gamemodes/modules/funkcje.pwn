@@ -41,7 +41,6 @@ stock saveLegale(playerid) {
 	db_free_result(db_query(db_handle, lStr));
 }
 
-
 stock loadKamiPos(playerid)
 {
 	new lStr[256];
@@ -764,8 +763,8 @@ public StartPaintball()
 	    {
 	        if(PlayerPaintballing[i] != 0)
 	        {
-	            ResetPlayerWeapons(i);
-	            GivePlayerWeapon(i, 29, 999);
+	            ResetPlayerWeaponsEx(i);
+	            GivePlayerWeaponEx(i, 29, 999);
             	PlayerInfo[i][pGun1] = 29;
             	PlayerInfo[i][pAmmo1] = 999;
 	            TogglePlayerControllable(i, 1);
@@ -2085,7 +2084,7 @@ public PaintballEnded()//nowe domy biznes wa¿ne
 	                format(string,sizeof(string), "** %s wygra³ mecz Pintballa z %d trafieniami **",name,PaintballWinnerKills);
 	                SendClientMessage(i, COLOR_WHITE, string);
 	            }
-	            ResetPlayerWeapons(i);
+	            ResetPlayerWeaponsEx(i);
 	            PlayerPaintballing[i] = 0;
 	            SetPlayerPosEx(i, 1310.126586,-1367.812255,13.540800);
 	        }
@@ -2664,7 +2663,7 @@ IsASpojler(vehid)
 
 UsunBron(playerid)
 {
-	ResetPlayerWeapons(playerid);
+	ResetPlayerWeaponsEx(playerid);
 	SetTimerEx("AntySB", 10000, 0, "d", playerid); //by nie kickowa³o timer broni
 	AntySpawnBroni[playerid] = 10;
     if(IsPlayerConnected(playerid))
@@ -3130,58 +3129,58 @@ PrzywrocBron(playerid)
 {
     if(IsPlayerConnected(playerid))
 	{
-	    ResetPlayerWeapons(playerid);
+	    ResetPlayerWeaponsEx(playerid);
 	    if(PlayerInfo[playerid][pGun0] == 1)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun0], PlayerInfo[playerid][pAmmo0]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun0], PlayerInfo[playerid][pAmmo0]);
 		}
 		if(PlayerInfo[playerid][pGun1] >= 2)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
 		}
 		if(PlayerInfo[playerid][pGun2] >= 2 && PlayerInfo[playerid][pAmmo2] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
 		}
 		if(PlayerInfo[playerid][pGun3] >= 2 && PlayerInfo[playerid][pAmmo3] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
 		}
 		if(PlayerInfo[playerid][pGun4] >= 2 && PlayerInfo[playerid][pAmmo4] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
 		}
 		if(PlayerInfo[playerid][pGun5] >= 2 && PlayerInfo[playerid][pAmmo5] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun5], PlayerInfo[playerid][pAmmo5]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun5], PlayerInfo[playerid][pAmmo5]);
 		}
 		if(PlayerInfo[playerid][pGun6] >= 2 && PlayerInfo[playerid][pAmmo6] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun6], PlayerInfo[playerid][pAmmo6]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun6], PlayerInfo[playerid][pAmmo6]);
 		}
 		if((PlayerInfo[playerid][pGun7] >= 35 && PlayerInfo[playerid][pGun7] <= 38) && PlayerInfo[playerid][pAmmo7] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun7], PlayerInfo[playerid][pAmmo7]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun7], PlayerInfo[playerid][pAmmo7]);
 		}
 		if(PlayerInfo[playerid][pGun8] >= 2 && PlayerInfo[playerid][pAmmo8] > 1)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun8], PlayerInfo[playerid][pAmmo8]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun8], PlayerInfo[playerid][pAmmo8]);
 		}
 		if((PlayerInfo[playerid][pGun9] >= 41 && PlayerInfo[playerid][pGun9] <= 43) && PlayerInfo[playerid][pAmmo9] >= 10)
 		{
-            GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun9], PlayerInfo[playerid][pAmmo9]);
+            GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun9], PlayerInfo[playerid][pAmmo9]);
 		}
 		if(PlayerInfo[playerid][pGun10] >= 2)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun10], PlayerInfo[playerid][pAmmo10]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun10], PlayerInfo[playerid][pAmmo10]);
 		}
 		if(PlayerInfo[playerid][pGun11] >= 2  && PlayerInfo[playerid][pAmmo11] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun11], PlayerInfo[playerid][pAmmo11]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun11], PlayerInfo[playerid][pAmmo11]);
 		}
 		if(PlayerInfo[playerid][pGun12] >= 2  && PlayerInfo[playerid][pAmmo12] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun12], PlayerInfo[playerid][pAmmo12]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun12], PlayerInfo[playerid][pAmmo12]);
 		}
 		return 1;
 	}
@@ -5103,33 +5102,33 @@ stock SetPlayerCriminal(playerid,declare,reason[], bool:sendmessage=true)
 {
 	if(IsPlayerConnected(playerid))
 	{
-	    ResetPlayerWeapons(playerid);
+	    ResetPlayerWeaponsEx(playerid);
 	    if(PlayerInfo[playerid][pJailed] < 1)
 	    {
 			if(gTeam[playerid] == 2 || IsACop(playerid))
 			{
-				GivePlayerWeapon(playerid, 41, 500); //spray
+				GivePlayerWeaponEx(playerid, 41, 500); //spray
 				if(OnDuty[playerid] == 1 || PlayerInfo[playerid][pMember] == 2)//Cops & FBI/ATF
 				{
-				    GivePlayerWeapon(playerid, 41, 500); //spray
-					GivePlayerWeapon(playerid, 24, 200);//Deagle
-					GivePlayerWeapon(playerid, 3, 1);
+				    GivePlayerWeaponEx(playerid, 41, 500); //spray
+					GivePlayerWeaponEx(playerid, 24, 200);//Deagle
+					GivePlayerWeaponEx(playerid, 3, 1);
 					if(PlayerInfo[playerid][pChar] == 285)//SWAT
 					{
-					    GivePlayerWeapon(playerid, 25, 100);//Shotgun
-					    GivePlayerWeapon(playerid, 29, 450);//MP5
+					    GivePlayerWeaponEx(playerid, 25, 100);//Shotgun
+					    GivePlayerWeaponEx(playerid, 29, 450);//MP5
 					}
 					else if(PlayerInfo[playerid][pChar] == 287)//Army
 					{
-					    GivePlayerWeapon(playerid, 25, 100);//Shotgun
-					    GivePlayerWeapon(playerid, 31, 500);//M4
+					    GivePlayerWeaponEx(playerid, 25, 100);//Shotgun
+					    GivePlayerWeaponEx(playerid, 31, 500);//M4
 					}
 				}
 				if(PlayerInfo[playerid][pMember] == 3 || PlayerInfo[playerid][pLider] == 3)//National Guard
 				{
-				    GivePlayerWeapon(playerid, 24, 200);//Deagle
-				    GivePlayerWeapon(playerid, 31, 600);//M4
-				    GivePlayerWeapon(playerid, 29, 600);//MP5
+				    GivePlayerWeaponEx(playerid, 24, 200);//Deagle
+				    GivePlayerWeaponEx(playerid, 31, 600);//M4
+				    GivePlayerWeaponEx(playerid, 29, 600);//MP5
 				}
 			}
 			if(gTeam[playerid] >= 3)
@@ -5139,22 +5138,22 @@ stock SetPlayerCriminal(playerid,declare,reason[], bool:sendmessage=true)
 			{
 				if (PlayerInfo[playerid][pGun1] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
 					//PlayerInfo[playerid][pGun1] = 0; PlayerInfo[playerid][pAmmo1] = 0;
 				}
 				if (PlayerInfo[playerid][pGun2] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
 					//PlayerInfo[playerid][pGun2] = 0; PlayerInfo[playerid][pAmmo2] = 0;
 				}
 				if (PlayerInfo[playerid][pGun3] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
 					//PlayerInfo[playerid][pGun3] = 0; PlayerInfo[playerid][pAmmo3] = 0;
 				}
 				if (PlayerInfo[playerid][pGun4] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
 					//PlayerInfo[playerid][pGun4] = 0; PlayerInfo[playerid][pAmmo4] = 0;
 				}
 			}
@@ -5162,12 +5161,12 @@ stock SetPlayerCriminal(playerid,declare,reason[], bool:sendmessage=true)
 			{
 			    if (PlayerInfo[playerid][pGun1] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
 					//PlayerInfo[playerid][pGun1] = 0; PlayerInfo[playerid][pAmmo1] = 0;
 				}
 				if (PlayerInfo[playerid][pGun2] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
 					//PlayerInfo[playerid][pGun2] = 0; PlayerInfo[playerid][pAmmo2] = 0;
 				}
 			}
@@ -8415,12 +8414,10 @@ public ProxDetectorEx(Float:radi, playerid, string[],col1,col2,col3,col4,col5)
         		{
         			new mark_1 = strfind(string, "}", true, x-2);
         			new mark_2 = strfind(string, "{-", true, x-2);
-        			//printf("[%c] x: %d | j: %d | mark_1: %d | mark_2: %d", string[l], x, j, mark_1, string[mark_1], mark_2, string[mark_2]);
         			if(x != mark_1+1 && j != mark_2-2)
         			{
         				new mark_3 = strfind(string, "{-", true, l);
         				new mark_4 = strfind(string, "}", true, l);
-        				//printf("mark_3: %d | mark_4: %d", mark_3, mark_4);
         				if((mark_3 > 0 && mark_4 != -1 ) || (mark_3 == -1 && (mark_4 == -1 || mark_4 == 0)))
         				{
         				    strins(string, "{C2A2DA}", x, strlen(string));
@@ -8437,7 +8434,6 @@ public ProxDetectorEx(Float:radi, playerid, string[],col1,col2,col3,col4,col5)
 									if(j > pos && x < pos) color = 1;
 								}
 							}
-        				    //printf("%s", string);
         				}
         	        }
         	    }  
@@ -13562,99 +13558,17 @@ Wybieralka_Spawn(playerid)
     SetTimerEx("OnPlayerSpawn", 150, false, "i", playerid);
 }
 
-OnCheatDetected(playerid, ip_address[], type, code)
+forward OnCheatDetected(playerid, ip_address[], type, code);
+public OnCheatDetected(playerid, ip_address[], type, code)
 {
 	new code_decoded[32], string[256];
 	format(ip_address, 32, "%s", ip_address);
-    switch(code)
-    {
-        case 0:     format(code_decoded, sizeof(code_decoded), "AirBreak (pieszo)");
-        case 1:     format(code_decoded, sizeof(code_decoded), "AirBreak (pojazd)");
-        case 2:     format(code_decoded, sizeof(code_decoded), "TP (pieszo)");
-        case 3:     format(code_decoded, sizeof(code_decoded), "TP (pojazd)");
-        case 4:     format(code_decoded, sizeof(code_decoded), "TP (do/miedzy auta)");
-        case 5:     format(code_decoded, sizeof(code_decoded), "TP (auto do gracza)");
-        case 6:     format(code_decoded, sizeof(code_decoded), "TP (do pickupow)");
-        case 7:     format(code_decoded, sizeof(code_decoded), "Fly (pieszo)");
-        case 8:     format(code_decoded, sizeof(code_decoded), "Fly (pojazd)");
-        case 9:     format(code_decoded, sizeof(code_decoded), "Speed (pieszo)");
-        case 10:    format(code_decoded, sizeof(code_decoded), "Speed (pojazd)");
-        case 11:    format(code_decoded, sizeof(code_decoded), "HP (pojazd)");
-        case 12:    format(code_decoded, sizeof(code_decoded), "HP (pieszo)");
-        case 13:    format(code_decoded, sizeof(code_decoded), "Kamizelka");
-        case 14:    format(code_decoded, sizeof(code_decoded), "MoneyHack");
-        case 15:    format(code_decoded, sizeof(code_decoded), "WeaponHack");
-        case 16:    format(code_decoded, sizeof(code_decoded), "Dodawanie ammo");
-        case 17:    format(code_decoded, sizeof(code_decoded), "Nieskonczonosc ammo");
-        case 18:    format(code_decoded, sizeof(code_decoded), "AnimHack");
-        case 19:    format(code_decoded, sizeof(code_decoded), "GodMode (pieszo)");
-        case 20:    format(code_decoded, sizeof(code_decoded), "GodMode (pojazd)");
-        case 21:    format(code_decoded, sizeof(code_decoded), "Niewidzialnosc");
-        //case 22:  format(code_decoded, sizeof(code_decoded), "Lagcomp");
-        case 23:    format(code_decoded, sizeof(code_decoded), "TuningHack");
-        case 24:    format(code_decoded, sizeof(code_decoded), "Parkour mod");
-        case 25:    format(code_decoded, sizeof(code_decoded), "Szybkie animki");
-        case 26:    format(code_decoded, sizeof(code_decoded), "Rapidfire");
-        case 27:    format(code_decoded, sizeof(code_decoded), "FakeSpawn");
-        case 28:    format(code_decoded, sizeof(code_decoded), "FakeKill");
-        case 29:    format(code_decoded, sizeof(code_decoded), "Aimbot");
-        case 30:    format(code_decoded, sizeof(code_decoded), "Bieg CJa");
-        case 31:    format(code_decoded, sizeof(code_decoded), "Strzelanie autami");
-        case 32:    format(code_decoded, sizeof(code_decoded), "Kradniecie aut");
-        case 33:    format(code_decoded, sizeof(code_decoded), "Unfreeze");
-        //case 34:  format(code_decoded, sizeof(code_decoded), "AFK-Ghosting");
-        case 35:    format(code_decoded, sizeof(code_decoded), "Aimbot (2)");
-        //case 36:  format(code_decoded, sizeof(code_decoded), "Fake NPC");
-        //case 37:  format(code_decoded, sizeof(code_decoded), "Reconnect");
-        case 38:    format(code_decoded, sizeof(code_decoded), "Wysoki ping");
-        case 39:    format(code_decoded, sizeof(code_decoded), "Czitowanie dialogow");
-        //case 40:  format(code_decoded, sizeof(code_decoded), "Sandbox");
-        case 41:    format(code_decoded, sizeof(code_decoded), "Zla wersja samp");
-        case 42:    format(code_decoded, sizeof(code_decoded), "Rcon-Hack");
-        case 43:    format(code_decoded, sizeof(code_decoded), "Tuning Crasher");
-        case 44:    format(code_decoded, sizeof(code_decoded), "Inv. seat Crasher");
-        case 45:    format(code_decoded, sizeof(code_decoded), "Dialog Crasher");
-        case 46:    format(code_decoded, sizeof(code_decoded), "Dodatki Crasher");
-        case 47:    format(code_decoded, sizeof(code_decoded), "Weapon Crasher");
-        //case 48:  format(code_decoded, sizeof(code_decoded), "flood connect");
-        //case 49:  format(code_decoded, sizeof(code_decoded), "flood callbacks");
-        //case 50:  format(code_decoded, sizeof(code_decoded), "flood change seat");
-        case 51:    format(code_decoded, sizeof(code_decoded), "DDOS");
-        case 52:    format(code_decoded, sizeof(code_decoded), "Anti-NOPs");
-        case 53:    format(code_decoded, sizeof(code_decoded), "Speedfire");
-        case 54:    format(code_decoded, sizeof(code_decoded), "Omijanie AFK");
-        case 55:    format(code_decoded, sizeof(code_decoded), "Fake Wanted");
-        case 56: 	format(code_decoded, sizeof(code_decoded), "Fake Kill (2)");
-        default:    format(code_decoded, sizeof(code_decoded), "Inne");
-        
-    }
+	format(code_decoded, sizeof(code_decoded), "%s", KodyACName[code]);
+
     if(IsPlayerPaused(playerid) && code == 19) return 1;
 
     new plrIP[32];
     GetPlayerIp(playerid, plrIP, sizeof(plrIP));
-
-    if(code == 101) // omijanie logowania
-    {
-    	switch(type) 
-    	{
-    		case 1: // omijanie samouczka
-    		{
-    			format(code_decoded, sizeof(code_decoded), "Omijanie logowania (1)"); 
-    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    			SendAdminMessage(0x9ACD32AA, string);
-    			BanLog(string);
-    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ skickowany. | Kod: %d.", code);
-    			SendClientMessage(playerid, 0x9ACD32AA, string);
-    			//SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
-    			//MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-
-    			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod 101");
-    			SetPlayerVirtualWorld(playerid, 7777);
-				KickEx(playerid);
-    		}
-    		default: format(code_decoded, sizeof(code_decoded), "Omijanie logowania");
-    	}
-    }
 
     if(code == 40)
     {
@@ -13668,19 +13582,6 @@ OnCheatDetected(playerid, ip_address[], type, code)
     		switch(KodyAC[code])
     		{
     			// 0 = off
-    			case 0:
-    			{
-    				if(code == 11 && type == 99)
-    				{
-    					format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    				 	SendAdminMessage(0x9ACD32AA, string);
-    				 	format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
-    				 	SendClientMessage(playerid, 0x9ACD32AA, string);
-    				 	KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
-    				 	SetPlayerVirtualWorld(playerid, 7777);
-    				 	KickEx(playerid);
-    				}
-    			}
     			case 1: // w³aczony, kick
     			{
     				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
@@ -13689,16 +13590,20 @@ OnCheatDetected(playerid, ip_address[], type, code)
     				 SendClientMessage(playerid, 0x9ACD32AA, string);
     				 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
     				 SetPlayerVirtualWorld(playerid, 7777);
+    				 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
     				 KickEx(playerid);
+    				 return 1;
     			}
     			case 2: // AdmWarning
     			{
     				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
     				SendAdminMessage(COLOR3, string);
+    				return 2;
     			}
     			case 3: // Ostrze¿enie (/cziterzy)
     			{
     				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    				return 3;
 	
     			}
     			case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
@@ -13706,6 +13611,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
     				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
     				SendAdminMessage(COLOR3, string);
     				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    				return 4;
     			}
     			case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
     			{
@@ -13716,6 +13622,7 @@ OnCheatDetected(playerid, ip_address[], type, code)
 						SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
     					KodyACDelay[playerid][code] = 1;
     					SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
+    					return 5;
     				}
     			}
     			case 6: // ban
@@ -13729,26 +13636,51 @@ OnCheatDetected(playerid, ip_address[], type, code)
     				 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
     				 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
 					 SetPlayerVirtualWorld(playerid, 7777);
+					 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
 					 KickEx(playerid);
+					 return 6;
     			}
     		}
     	}
 	}
 
-    return 1;
-    //SendMessageToAdmin(string, 0x9ACD32AA);
-   
-    //format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d.", code);
-    //SendClientMessage(playerid, 0x9ACD32AA, string);
+    return 0;
 }
 
-ShowKody(playerid, page)
+ShowKody(playerid, page = 1)
 {
     new string[2048];
     strcat(string, "Kod\tNazwa\tStatus\n");
-    if(page == 1)
+
+    //Float:kodysize_f = sizeof(KodyAC)/2;
+    //new kodysize = floatround(kodysize, floatround_ceil)+1;
+    new pages = floatround(sizeof(KodyAC)/SHOWKODY_PER_PAGE, floatround_ceil)+1;
+    new maxkody;
+    if(sizeof(KodyAC) <= page*SHOWKODY_PER_PAGE) maxkody = sizeof(KodyAC);
+    else maxkody = page*SHOWKODY_PER_PAGE; 
+    for(new i = page*SHOWKODY_PER_PAGE-SHOWKODY_PER_PAGE; i<maxkody; i++)
     {
-    	for(new i = 0; i<sizeof(KodyAC)-27; i++)
+    	 strcat(string, sprintf("%d.\t%s\t", i, KodyACName[i]));
+    	 switch(KodyAC[i])
+    	 {
+    	     case 0: strcat(string, "{FF0000}OFF\n");
+    	     case 1: strcat(string, "{00FF00}ON\n");
+    	     case 2: strcat(string, "{00FF00}AdmWarn\n");
+    	     case 3: strcat(string, "{00FF00}Warn\n");
+    	     case 4: strcat(string, "{00FF00}AdmWarn + Warn\n");
+    	     case 5: strcat(string, "{00FF00}AdmWarn + Warn (1sec)\n");
+    	     case 6: strcat(string, "{00FF00}BAN\n");
+    	 }
+    }
+
+    if(page > 1) strcat(string, "««\t\tPoprzednia strona");
+   	if(sizeof(KodyAC) > (page*SHOWKODY_PER_PAGE)) strcat(string, "\n»»\t\tNastêpna strona");
+   	SetPVarInt(playerid, "ac_page", page);
+   	ShowPlayerDialogEx(playerid, D_ANTYCHEAT, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Antycheat (%d/%d)", page, pages), string, "Zmieñ", "WyjdŸ");
+
+    /*if(page == 1)
+    {
+    	for(new i = 0; i<kodysize; i++)
     	{
     	    strcat(string, sprintf("%d.\t%s\t", i, KodyACName[i]));
     	    switch(KodyAC[i])
@@ -13762,12 +13694,12 @@ ShowKody(playerid, page)
     	        case 6: strcat(string, "{00FF00}BAN\n");
     	    }
     	}
-    	strcat(string, "Nastêpna strona");
+    	
     	ShowPlayerDialogEx(playerid, D_ANTYCHEAT, DIALOG_STYLE_TABLIST_HEADERS, "Antycheat (1/2)", string, "Zmieñ", "WyjdŸ");
 	}
 	else if(page == 2)
 	{
-		for(new i = sizeof(KodyAC)-27; i<sizeof(KodyAC); i++)
+		for(new i = kodysize; i<sizeof(KodyAC); i++)
     	{
     	    strcat(string, sprintf("%d.\t%s\t", i, KodyACName[i]));
     	    //printf("%d", i);
@@ -13786,7 +13718,7 @@ ShowKody(playerid, page)
     	strcat(string, "Poprzednia strona");
     	//printf("%s", string);
     	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+1, DIALOG_STYLE_TABLIST_HEADERS, "Antycheat (2/2)", string, "Zmieñ", "WyjdŸ");
-	}
+	}*/
 	return 1;
 }
 
@@ -14032,14 +13964,24 @@ ZaladujAC()
 
 SaveAC()
 {
-	new string[256], query[128];
+	new query[128];
 	for(new i = 0; i<sizeof(KodyAC); i++)
 	{
-		if(KodyAC[i] == 0) strcat(string, "0\n");
-		else strcat(string, "1\n");
-
-		format(query, sizeof(query), "UPDATE `ac` SET `response` = '%d' WHERE `kod` = '%d'", KodyAC[i], i);
+		format(query, sizeof(query), "SELECT * FROM `ac` WHERE `kod` = '%d'", i);
 		mysql_query(query);
+		mysql_store_result();
+		if(mysql_num_rows()>0)
+		{
+			format(query, sizeof(query), "UPDATE `ac` SET `response` = '%d' WHERE `kod` = '%d'", KodyAC[i], i);
+			mysql_query(query);
+		}	
+		else
+		{
+			format(query, sizeof(query), "INSERT INTO `ac`(`kod`, `response`) VALUES ('%d', '%d')", i, KodyAC[i]);
+			mysql_query(query);
+		}
+		mysql_free_result();
+		
 	}
 	
 	//new File:f = fopen("nex-ac_settings.cfg", io_write);
@@ -15216,31 +15158,26 @@ AntyFakeWL(playerid, killerid, reason)
 	}
 	if(GetDistanceBetweenPlayers(playerid, killerid) > 500)
 	{
-		print("distance");
 		AntyFakeKillVar[playerid]++;
 		return 1;
 	}
 	if(CheckPlayerWeapon(killerid, reason) == 0)
 	{
-		print("weap");
 		AntyFakeKillVar[playerid]++;
 		return 1;
 	}
 	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
 	{
-		print("state");
 		AntyFakeKillVar[playerid]++;
 		return 1;
 	}
 	if(TutTime[playerid] > 0 && TutTime[playerid] < 114)
 	{
-		print("tut");
 		OnCheatDetected(playerid, "", 1, 55);
 		return 1;
 	}
 	if(gPlayerLogged[playerid] == 0)
 	{
-		print("logged");
 		OnCheatDetected(playerid, "", 1, 55);
 		return 1;
 	}
@@ -15402,8 +15339,46 @@ ReturnEmote(source[], dest[])
 	//return dest;
 }
 
-SetVehicleHealthEx(vehicleid, Float:health)
+forward RestoreOldWeapons(playerid, nick[]);
+public RestoreOldWeapons(playerid, nick[])
 {
-	VehicleHealth[vehicleid] = health;
-	SetVehicleHealth(vehicleid, Float:health);
+	new query[256];
+	format(query, sizeof(query), 
+		"UPDATE `mru_konta` SET \
+		`Gun0` = '%d', `Ammo0` = '%d', \
+		`Gun1` = '%d', `Ammo1` = '%d', \
+		`Gun2` = '%d', `Ammo2` = '%d', \
+		`Gun3` = '%d', `Ammo3` = '%d', \
+		`Gun4` = '%d', `Ammo4` = '%d', \
+		`Gun5` = '%d', `Ammo5` = '%d', \
+		`Gun6` = '%d', `Ammo6` = '%d', \
+		`Gun7` = '%d', `Ammo7` = '%d', \
+		`Gun8` = '%d', `Ammo8` = '%d', \
+		`Gun9` = '%d', `Ammo9` = '%d', \
+		`Gun10`= '%d', `Ammo10`= '%d', \
+		`Gun11`= '%d', `Ammo11`= '%d', \
+		`Gun12`= '%d', `Ammo12`= '%d'  \
+		WHERE `nick` = '%s'",
+		RakNet_PlayerWeapons[playerid][0][0], RakNet_PlayerWeapons[playerid][0][1],
+		RakNet_PlayerWeapons[playerid][1][0], RakNet_PlayerWeapons[playerid][1][1],
+		RakNet_PlayerWeapons[playerid][2][0], RakNet_PlayerWeapons[playerid][2][1],
+		RakNet_PlayerWeapons[playerid][3][0], RakNet_PlayerWeapons[playerid][3][1],
+		RakNet_PlayerWeapons[playerid][4][0], RakNet_PlayerWeapons[playerid][4][1],
+		RakNet_PlayerWeapons[playerid][5][0], RakNet_PlayerWeapons[playerid][5][1],
+		RakNet_PlayerWeapons[playerid][6][0], RakNet_PlayerWeapons[playerid][6][1],
+		RakNet_PlayerWeapons[playerid][7][0], RakNet_PlayerWeapons[playerid][7][1],
+		RakNet_PlayerWeapons[playerid][8][0], RakNet_PlayerWeapons[playerid][8][1],
+		RakNet_PlayerWeapons[playerid][9][0], RakNet_PlayerWeapons[playerid][9][1],
+		RakNet_PlayerWeapons[playerid][10][0], RakNet_PlayerWeapons[playerid][10][1],
+		RakNet_PlayerWeapons[playerid][11][0], RakNet_PlayerWeapons[playerid][11][1],
+		RakNet_PlayerWeapons[playerid][12][0], RakNet_PlayerWeapons[playerid][12][1]);
+
+	mysql_query(query);
+
+	//for(new i = 0; i<13; i++)
+	//{
+	//	MruMySQL_SetAccInt(sprintf("Gun%d", i), nick, RakNet_PlayerWeapons[playerid][i][0]);
+	//	MruMySQL_SetAccInt(sprintf("Ammo%d", i), nick, RakNet_PlayerWeapons[playerid][i][1]);
+	//}
+	return 1;
 }

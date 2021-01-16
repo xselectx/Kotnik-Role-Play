@@ -14,6 +14,8 @@ native gpci(playerid, serial[], len);
 new C_STRING[2048];
 //
 
+#define SHOWKODY_PER_PAGE 25
+
 #define MAX_AFK_TIME 3000
 
 #define BODY_PART_TORSO 3

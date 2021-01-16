@@ -1160,8 +1160,8 @@ public Sobeit_Check(playerid)
     new weapon, ammo;
     GetPlayerWeaponData(playerid, 1, weapon, ammo);
     SetPVarInt(playerid, "ac_gun", weapon);
-    ResetPlayerWeapons(playerid);
-    GivePlayerWeapon(playerid, 1, 1);
+    ResetPlayerWeaponsEx(playerid);
+    GivePlayerWeaponEx(playerid, 1, 1);
 
     SetPVarInt(playerid, "ac_checkenter", 1);
     AC_createCar[playerid] = CreateVehicle(457, pPos[0],pPos[1],pPos[2],0.0, 0,0, -1);

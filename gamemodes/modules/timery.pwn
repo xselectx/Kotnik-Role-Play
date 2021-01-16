@@ -965,7 +965,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 2)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -973,7 +973,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 3)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -997,7 +997,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 5)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1005,7 +1005,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 6)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1013,7 +1013,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 7)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1053,7 +1053,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 10)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1061,7 +1061,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 11)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1069,7 +1069,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 12)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1077,7 +1077,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 13)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1085,7 +1085,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 14)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1093,7 +1093,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 15)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1117,7 +1117,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun8] != 17)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1462,7 +1462,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun9] != 43)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1515,7 +1515,7 @@ public Spectator()
 		}
 		else
 		{
-			ResetPlayerWeapons(i);
+			ResetPlayerWeaponsEx(i);
 		}
 	//}
 //---------------------------[/me wyci¹ga broñ ...]---------------------------
@@ -1756,14 +1756,14 @@ public Spectator()
     					{
     						format(string, sizeof(string), "* %s wyci¹ga noktowizor", specNAME);
     						ProxDetector(10.0, i, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-    						ResetPlayerWeapons(i);
+    						ResetPlayerWeaponsEx(i);
     					}
 
     					case 45:
     					{
     						format(string, sizeof(string), "* %s wyci¹ga termowizor.", specNAME);
     						ProxDetector(10.0, i, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-    						ResetPlayerWeapons(i);
+    						ResetPlayerWeaponsEx(i);
     					}
 
     					case 46:
@@ -1787,7 +1787,7 @@ public Spectator()
 			}
 			else
 			{
-				ResetPlayerWeapons(i);
+				ResetPlayerWeaponsEx(i);
 			}
 		 }
 	}
@@ -1977,7 +1977,7 @@ public CustomPickups()
 				{
 				    case 1:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 5000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -1988,7 +1988,7 @@ public CustomPickups()
 					}
 					case 2:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 5000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2000,7 +2000,7 @@ public CustomPickups()
 					}
 					case 3:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 6000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2013,7 +2013,7 @@ public CustomPickups()
 					}
 					case 4:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 6000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2026,7 +2026,7 @@ public CustomPickups()
 					}
 					case 5:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2040,7 +2040,7 @@ public CustomPickups()
 					}
 					case 6:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2054,7 +2054,7 @@ public CustomPickups()
 					}
 					case 7:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 27, 107); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 27, 107); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8500);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2068,7 +2068,7 @@ public CustomPickups()
 					}
 					case 8:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 27, 107); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 27, 107); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8500);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2082,7 +2082,7 @@ public CustomPickups()
 					}
 					case 9:
 					{
-						GivePlayerWeapon(i, 24, 207); GivePlayerWeapon(i, 28, 2030); GivePlayerWeapon(i, 27, 207); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 200);
+						GivePlayerWeaponEx(i, 24, 207); GivePlayerWeaponEx(i, 28, 2030); GivePlayerWeaponEx(i, 27, 207); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 200);
 						DajKase(i, - 10000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 207;
@@ -2096,7 +2096,7 @@ public CustomPickups()
 					}
 					case 10:
 					{
-						GivePlayerWeapon(i, 24, 207); GivePlayerWeapon(i, 28, 2030); GivePlayerWeapon(i, 27, 207); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 200);
+						GivePlayerWeaponEx(i, 24, 207); GivePlayerWeaponEx(i, 28, 2030); GivePlayerWeaponEx(i, 27, 207); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 200);
 						DajKase(i, - 10000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 207;
@@ -2243,7 +2243,7 @@ public JednaSekundaTimer()
         	new vehidx = GetPlayerVehicleID(i);
         	GetVehicleHealth(vehidx, health);
             repairInProgress[i] = 0;
-            RepairVehicle(vehidx);
+            RepairVehicleEx(vehidx);
 			naprawiony[vehidx] = 1;
             TogglePlayerControllable(i, 1);
             SetPVarInt(i, "botnaprawia", 0);
@@ -2274,15 +2274,16 @@ public JednaSekundaTimer()
         }
 
         vehicleid = GetPlayerVehicleID(i);
-        if(State == PLAYER_STATE_DRIVER)
-        {
-        	new Float:vehhp;
-        	GetVehicleHealth(vehicleid, vehhp);
-        	if(vehhp > VehicleHealth[vehicleid])
-        	{
-				OnCheatDetected(i, "", 99, 11);
-        	}
-        }
+        //if(State == PLAYER_STATE_DRIVER)
+        //{
+        //	new Float:vehhp;
+        //	GetVehicleHealth(vehicleid, vehhp);
+        //	if(vehhp > VehicleHealth[vehicleid])
+        //	{
+        //		//SendClientMessageToAll(-1, "hp god");
+		//		//OnCheatDetected(i, "", 99, 11);
+        //	}
+        //}
 		if(State == PLAYER_STATE_DRIVER || State == PLAYER_STATE_PASSENGER && !ToggleSpeedo[i])
 		{
 			VehicleModel = GetVehicleModel(vehicleid);
@@ -2408,7 +2409,7 @@ public JednaSekundaTimer()
 					{
 				        sendTipMessageFormat(i, "Zap³aci³eœ $%d za wizytê w warsztacie", 2500);
 				        ZabierzKase(i, 2500);
-						RepairVehicle(vehicleid);
+						RepairVehicleEx(vehicleid);
 						naprawiony[i] = 1;
 						SetTimerEx("Naprawianie",10000,0,"d",i);
 					}
@@ -2551,7 +2552,7 @@ public JednaSekundaTimer()
         	SetPlayerArmedWeapon(i, 0);
         	MruDialog(i, "Informacja", "Niedawno zosta³es obezw³adniony, nie mo¿esz korzystaæ z broni przez pewien czas!");
         }*/
-        CheckAmmo(i);
+        //CheckAmmo(i);
 		// serce zapisu broni
 		if(State >= 1 && State <= 6)
 		{
@@ -2894,7 +2895,7 @@ public JednaSekundaTimer()
 				{
 					if(GetPlayerState(i) != PLAYER_STATE_SPECTATING) 
 					{
-						OnCheatDetected(i, "", 1, 101);
+						OnCheatDetected(i, "", 1, 57);
 					}
 				}
 			}
@@ -3528,7 +3529,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo0])
 					{
-						//ResetPlayerWeapons(i);
+						//ResetPlayerWeaponsEx(i);
    						//PrzywrocBron(i);
    						//SetPlayerArmedWeapon(i, PlayerInfo[i][pGun0]);
 						//AmmoWarn[i]++;
@@ -3539,7 +3540,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo1])
 					{
-						//ResetPlayerWeapons(i);
+						//ResetPlayerWeaponsEx(i);
    						//PrzywrocBron(i);
    						//SetPlayerArmedWeapon(i, PlayerInfo[i][pGun1]);
 						//AmmoWarn[i]++;
@@ -3550,7 +3551,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo2])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun2]);
 						AmmoWarn[i]++;
@@ -3561,7 +3562,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo3])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun3]);
 						AmmoWarn[i]++;
@@ -3572,7 +3573,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo4])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun4]);
 						AmmoWarn[i]++;
@@ -3583,7 +3584,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo5])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun5]);
 						AmmoWarn[i]++;
@@ -3594,7 +3595,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo6])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun6]);
 						AmmoWarn[i]++;
@@ -3605,7 +3606,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo7])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun7]);
 						AmmoWarn[i]++;
@@ -3616,7 +3617,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo8])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun8]);
 						AmmoWarn[i]++;
@@ -3627,7 +3628,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo9])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun9]);
 						AmmoWarn[i]++;
@@ -3638,7 +3639,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo10])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun10]);
 						AmmoWarn[i]++;
@@ -3649,7 +3650,7 @@ public CheckAmmo(i)
 				{
 					//if(weapons[j][1] > PlayerInfo[i][pAmmo11])
 					//{
-					//	ResetPlayerWeapons(i);
+					//	ResetPlayerWeaponsEx(i);
    					//	PrzywrocBron(i);
    					//	SetPlayerArmedWeapon(i, PlayerInfo[i][pGun11]);
 					//	AmmoWarn[i]++;
@@ -3660,7 +3661,7 @@ public CheckAmmo(i)
 				{
 					//if(weapons[j][1] > PlayerInfo[i][pAmmo12])
 					//{
-					//	ResetPlayerWeapons(i);
+					//	ResetPlayerWeaponsEx(i);
    					//	PrzywrocBron(i);
    					//	SetPlayerArmedWeapon(i, PlayerInfo[i][pGun12]);
 					//	AmmoWarn[i]++;

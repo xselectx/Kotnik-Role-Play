@@ -561,7 +561,7 @@ CMD:items(playerid, params[]) return cmd_p(playerid, params);
 CMD:przedmioty(playerid, params[]) return cmd_p(playerid, params);
 CMD:p(playerid, params[])
 {
-	/*if(IsPlayerConnected(playerid))
+	if(IsPlayerConnected(playerid))
 	{
 		if(PlayerInfo[playerid][pItems] > 0)
 		{
@@ -614,8 +614,8 @@ CMD:p(playerid, params[])
 		} else {
 			sendTipMessage(playerid, "Nie posiadasz ¿adnych przedmiotów!");
 		}
-	}*/
-	return 0;
+	}
+	return 1;
 }
 
 

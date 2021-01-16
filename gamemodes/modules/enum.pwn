@@ -2371,8 +2371,8 @@ new CarSpawns[][eCars] = {
 new KodyACName[][128] =
 {
 
-    "AirBreak (foot)", // 0
-    "AirBreak (car)",
+    "AirBrk (foot)", // 0
+    "AirBrk (car)",
     "TP (foot)",
     "TP (car)",
     "TP (do/miedzy auta)",
@@ -2425,9 +2425,13 @@ new KodyACName[][128] =
     "Anti-DOS",
     "Anti-NOPs", // 52
     "Speedfire", 
-    "Omijanie AFK", // 54
+    "FakeAFK (shoot)", // 54
     "FakeWL", // 55
-    "FakeKill (2)" // 56
+    "FakeKill (2)", // 56
+    "Omijanie logowania", // 57
+    "KRP-AC (Car HP)", // 58
+    "KRP-AC (WeapHack)", // 59
+    "KRP-AC (AmmoHack)" // 60
 };
 
 enum PrzystankiEnum

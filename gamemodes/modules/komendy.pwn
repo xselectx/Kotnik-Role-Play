@@ -2605,7 +2605,7 @@ CMD:wyrzucbronie(playerid)
     		format(string, sizeof(string),"%s wyrzuci³ broñ na ziemiê.", sendername);
     		ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
     		SendClientMessage(playerid, COLOR_WHITE, "   Twoja broñ zostanie przywrócona po œmierci.");
-    		ResetPlayerWeapons(playerid);
+    		ResetPlayerWeaponsEx(playerid);
             SetPVarInt(playerid, "mozeUsunacBronie", 1);
         }
 	}
@@ -2652,7 +2652,7 @@ CMD:uwb(playerid)//usuñ wszystkie bronie
 {
 	if(IsPlayerConnected(playerid))
 	{
-		ResetPlayerWeapons(playerid);
+		ResetPlayerWeaponsEx(playerid);
 		UsunBron(playerid);
 		sendTipMessage(playerid, "Wszystkie bronie usuniête");
 	}
@@ -2684,7 +2684,7 @@ CMD:bbron(playerid, params[])//blokada pisania
                     else KaraTextdraw(sprintf("Blokada broni (%dh)", czas), giveplayer, playerid, text);
                     format(C_STRING, sizeof(C_STRING), "Zosta³eœ ukarany blokad¹ posiadania bronii na %d godzin. Powód nadania kary: %s", czas, text);
                     sendTipDialogMessage(giveplayerid, C_STRING);
-                    ResetPlayerWeapons(playerid);
+                    ResetPlayerWeaponsEx(playerid);
                     UsunBron(playerid);
                    // SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Kotnik-RP.pl");
                     format(string, sizeof(string), "[BBRON]:  %s dostal blokade bronii od %s na %d godzin, z powodem %s", giveplayer, sendername, czas, text);
@@ -18214,11 +18214,11 @@ CMD:swat(playerid)
 					format(string, sizeof(string), "* %s bierze mundur i tarczê SWAT.", sendername);
 					ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
 	    		    SetPlayerSkin(playerid, 285);
-                    /*GivePlayerWeapon(playerid,31,550);
-                    SetPlayerAmmo(playerid, 31, 0);
+                    /*GivePlayerWeaponEx(playerid,31,550);
+                    SetPlayerAmmoEx(playerid, 31, 0);
                     PlayerInfo[playerid][pGun5] = 31;
                     PlayerInfo[playerid][pAmmo5] = 550;
-                    SetPlayerAmmo(playerid, 31, 550);*/
+                    SetPlayerAmmoEx(playerid, 31, 550);*/
 					SetPlayerColor(playerid, 0x000000FF); // czarny
                     SetPlayerArmour(playerid, 90);
 	    		    if(IsPlayerAttachedObjectSlotUsed(playerid, 2))
@@ -20655,7 +20655,7 @@ CMD:wejdz(playerid)
                         SendClientMessage(playerid, COLOR_WHITE, "Nie chcesz k³opotów, wiêc oddajesz swój arsena³ ochronie.");
                         SendClientMessage(playerid, COLOR_PANICRED, "((broñ zostanie przywrócona po œmierci lub ponownym zalogowaniu))");
                         SetPVarInt(playerid, "mozeUsunacBronie", 1);
-                        ResetPlayerWeapons(playerid);
+                        ResetPlayerWeaponsEx(playerid);
                     }
                 }
                 else
@@ -21138,7 +21138,7 @@ CMD:wejdz(playerid)
                 SendClientMessage(playerid, COLOR_WHITE, "Nie chcesz k³opotów, wiêc oddajesz swój arsena³ ochronie.");
                 SendClientMessage(playerid, COLOR_PANICRED, "((broñ zostanie przywrócona po œmierci lub ponownym zalogowaniu))");
                 SetPVarInt(playerid, "mozeUsunacBronie", 1);
-                ResetPlayerWeapons(playerid);
+                ResetPlayerWeaponsEx(playerid);
             }
             return 1;
         }
@@ -23488,7 +23488,7 @@ CMD:adminajail(playerid, params[])
 						_MruAdmin(playerid, string);
 						format(string, sizeof(string), "* Zosta³eœ uwiêziony w Admin Jailu przez Admina %s, Czas: %d. Powod: %s", sendername, money, (result));
 						_MruAdmin(playa, string);
-						ResetPlayerWeapons(playa);
+						ResetPlayerWeaponsEx(playa);
 						PlayerInfo[playa][pJailed] = 3;
 						PlayerInfo[playa][pJailTime] = money*60;
                         format(PlayerInfo[playa][pJailReason], 32, "%s", result);
@@ -23555,7 +23555,7 @@ CMD:jail(playerid, params[])
 					_MruAdmin(playerid, string);
 					format(string, sizeof(string), "* Zosta³eœ uwiêziony przez Admina %s.", sendername);
 					_MruAdmin(playa, string);
-					ResetPlayerWeapons(playa);
+					ResetPlayerWeaponsEx(playa);
 					PoziomPoszukiwania[playa] = 0;
 					PlayerInfo[playa][pJailed] = 1;
 					PlayerInfo[playa][pJailTime] = money*60;
@@ -23987,7 +23987,7 @@ CMD:skydive(playerid)
             GetPlayerPos(playerid, rx, ry, rz);
             if(IsPlayerConnected(playerid))
             {
-                GivePlayerWeapon(playerid, 46, 1);
+                GivePlayerWeaponEx(playerid, 46, 1);
                 SetPlayerPos(playerid,rx, ry, rz+1500);
                 _MruAdmin(playerid, "GO!! GO!! GO!!");
             }
@@ -25797,25 +25797,25 @@ CMD:givegun(playerid, params[])
 		            {
 		            	PlayerInfo[playa][pGun0] = gun;
 		            	PlayerInfo[playa][pAmmo0] = 1;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 		            if(gun >= 2 && gun <= 9)
 		            {
 		            	PlayerInfo[playa][pGun1] = gun;
 		            	PlayerInfo[playa][pAmmo1] = 1;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if(gun >= 10 && gun <= 15)
 					{
 					    PlayerInfo[playa][pGun10] = gun;
 		            	PlayerInfo[playa][pAmmo10] = 1;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if(gun >= 16 && gun <= 18)
 					{
 					    PlayerInfo[playa][pGun8] = gun;
 		            	PlayerInfo[playa][pAmmo8] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if(gun >= 19 && gun <= 21)
 					{
@@ -25825,31 +25825,31 @@ CMD:givegun(playerid, params[])
 					{
 					    PlayerInfo[playa][pGun2] = gun;
 		            	PlayerInfo[playa][pAmmo2] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if(gun >= 25 && gun <= 27)
 					{
 					    PlayerInfo[playa][pGun3] = gun;
 		            	PlayerInfo[playa][pAmmo3] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if(gun == 28 || gun == 29 || gun == 32)
 					{
 					    PlayerInfo[playa][pGun4] = gun;
 		            	PlayerInfo[playa][pAmmo4] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if(gun == 30 || gun == 31)
 					{
 					    PlayerInfo[playa][pGun5] = gun;
 		            	PlayerInfo[playa][pAmmo5] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if(gun == 33 || gun == 34)
 					{
 					    PlayerInfo[playa][pGun6] = gun;
 		            	PlayerInfo[playa][pAmmo6] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if( gun == 39)
 					{
@@ -25857,32 +25857,32 @@ CMD:givegun(playerid, params[])
 		            	PlayerInfo[playa][pAmmo8] += ammo;
 		            	PlayerInfo[playa][pGun12] = 1;
 		            	PlayerInfo[playa][pAmmo12] = 1;
-						GivePlayerWeapon(playa, gun, ammo);
-						GivePlayerWeapon(playa, 40, 1);
+						GivePlayerWeaponEx(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, 40, 1);
 					}
 					else if( gun >= 35 && gun <= 38)
 					{
 					    PlayerInfo[playa][pGun7] = gun;
 		            	PlayerInfo[playa][pAmmo7] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if( gun == 41 || gun == 43)
 					{
 					    PlayerInfo[playa][pGun9] = gun;
 		            	PlayerInfo[playa][pAmmo9] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if( gun == 42)
 					{
 					    PlayerInfo[playa][pGun9] = gun;
 		            	PlayerInfo[playa][pAmmo9] += ammo;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else if( gun == 46)
 					{
 					    PlayerInfo[playa][pGun11] = gun;
 		            	PlayerInfo[playa][pAmmo11] = 1;
-						GivePlayerWeapon(playa, gun, ammo);
+						GivePlayerWeaponEx(playa, gun, ammo);
 					}
 					else
 					{
@@ -26025,7 +26025,7 @@ CMD:fixveh(playerid)
 		if(IsPlayerInAnyVehicle(playerid))
 		{
 		    SetVehicleHealthEx(GetPlayerVehicleID(playerid), 1000.0);
-		    RepairVehicle(GetPlayerVehicleID(playerid));
+		    RepairVehicleEx(GetPlayerVehicleID(playerid));
             CarData[VehicleUID[GetPlayerVehicleID(playerid)][vUID]][c_HP] = 1000.0;
             SendClientMessage(playerid, COLOR_GREY, "Pojazd naprawiony!");
 		}
@@ -26047,7 +26047,7 @@ CMD:fixallveh(playerid)
             if(IsPlayerInAnyVehicle(i))
             {
                 SetVehicleHealthEx(GetPlayerVehicleID(i), 1000.0);
-                RepairVehicle(GetPlayerVehicleID(i));
+                RepairVehicleEx(GetPlayerVehicleID(i));
                 CarData[VehicleUID[GetPlayerVehicleID(i)][vUID]][c_HP] = 1000.0;
             }
         }
@@ -28679,7 +28679,7 @@ CMD:stanowe(playerid, params[])
 						format(string, sizeof(string), "* %s Uwiêzi³ ciê w Wiêzieniu Stanowym i da³ grzywnê %d$, kaucji brak", sendername, pricestan/*PoziomPoszukiwania[giveplayerid]*50000*/);
 						_MruAdmin(giveplayerid, string);
 						JailDeMorgan(giveplayerid);
-						ResetPlayerWeapons(giveplayerid);
+						ResetPlayerWeaponsEx(giveplayerid);
 						UsunBron(giveplayerid);//usun bron
 						//JailPrice[giveplayerid] = PoziomPoszukiwania[giveplayerid]*50000;  
 						if(PoziomPoszukiwania[giveplayerid] == 5)
@@ -29269,7 +29269,7 @@ CMD:zabierz(playerid, params[])
 					        _MruAdmin(giveplayerid, string);
 					        format(string, sizeof(string), "* Oficer %s zabra³ %s broñ.", sendername, giveplayer);
 					        printf(string);
-					        ResetPlayerWeapons(giveplayerid);
+					        ResetPlayerWeaponsEx(giveplayerid);
 					        UsunBron(giveplayerid);
 				        }
 				        else
@@ -32475,7 +32475,7 @@ CMD:sprzedajbron(playerid, params[])
                                 slot = 9;
                                 if(umiejetnosc <= skillz)
                                 {
-                                    GivePlayerWeapon(giveplayerid, 40, 1);
+                                    GivePlayerWeaponEx(giveplayerid, 40, 1);
                                     PlayerInfo[giveplayerid][pGun8] = 39;
                                     PlayerInfo[giveplayerid][pAmmo8] += 10;
                                     PlayerInfo[giveplayerid][pGun12] = 40;
@@ -32547,7 +32547,7 @@ CMD:sprzedajbron(playerid, params[])
                                 format(logstring, sizeof(logstring), "[W_LOG]: Gracz %s wytworzy³ broñ [model: %s | ammo: %d ] dla gracza %s.", sendername, x_weapon, ammo[playerid], giveplayer);
                                 WeaponsLog(logstring);
                                 SendDiscordMessage(DiscordSpecialChannels[2][1], logstring);
-                                GivePlayerWeapon(giveplayerid,weapon[playerid],ammo[playerid]);
+                                GivePlayerWeaponEx(giveplayerid,weapon[playerid],ammo[playerid]);
                                 PlayerInfo[playerid][pMats] -= price[playerid];
                                 new weapons[13][2];
                                 for (new i = 0; i <= 12; i++)
@@ -33137,7 +33137,7 @@ CMD:tazer(playerid, params[])
                 if(GetPVarInt(playerid, "wytazerowany") > 0) return sendErrorDialogMessage(playerid, "Tazer mo¿esz u¿yæ 15s po u¿yciu!");
  				MaTazer[playerid] = 1;
  				//PlayerInfo[playerid][pGun2] = 23;
-				//GivePlayerWeapon(playerid, 23, PlayerInfo[playerid][pAmmo2]);
+				//GivePlayerWeaponEx(playerid, 23, PlayerInfo[playerid][pAmmo2]);
 				//SetPlayerAttachedObject(playerid, 9,18642, 6, 0.09, 0.05, 0.05, 0, 180, 90, 2, 2, 2);
        			format(string, sizeof(string), "* %s odbezpiecza, ³aduje nabój i aktywuje tazer.", sendername);
 				ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
@@ -33146,7 +33146,7 @@ CMD:tazer(playerid, params[])
 			{
 				MaTazer[playerid] = 0;
 				//PlayerInfo[playerid][pGun2] = 24;
-				//GivePlayerWeapon(playerid, 24, PlayerInfo[playerid][pAmmo2]);
+				//GivePlayerWeaponEx(playerid, 24, PlayerInfo[playerid][pAmmo2]);
 				//RemovePlayerAttachedObject(playerid, 9);
 				format(string, sizeof(string), "* %s zabezpiecza i dezaktywuje tazer.", sendername);
 				ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
@@ -34966,7 +34966,7 @@ CMD:akceptuj(playerid, params[])
                             GetPlayerName(playerid, sendername, sizeof(sendername));
                             RepairCar[playerid] = GetPlayerVehicleID(playerid);
                             SetVehicleHealthEx(RepairCar[playerid], 1000.0);
-                            RepairVehicle(RepairCar[playerid]);
+                            RepairVehicleEx(RepairCar[playerid]);
 
                             CarData[VehicleUID[RepairCar[playerid]][vUID]][c_Tires] = 0;
                             CarData[VehicleUID[RepairCar[playerid]][vUID]][c_HP] = 1000.0;
@@ -36828,7 +36828,7 @@ CMD:paka(playerid, params[])
 			     		//DajKase(playerid, moneys);
 			     		format(string, sizeof(string), "Aresztowany przez %s ~n~    grzywna $%d", sendername, moneys);
 			     		GameTextForPlayer(suspect, string, 5000, 5);
-			     		ResetPlayerWeapons(suspect);
+			     		ResetPlayerWeaponsEx(suspect);
 			     		if(PlayerInfo[playerid][pMember]==1||PlayerInfo[playerid][pLider]==1)
 			     		{
 			     			format(string, sizeof(string), "<< Policjant %s aresztowa³ podejrzanego %s >>", sendername, giveplayer);
@@ -36961,7 +36961,7 @@ CMD:aresztuj(playerid, params[])
 									SetPlayerSpecialAction(playa,SPECIAL_ACTION_NONE);
 									RemovePlayerAttachedObject(playa, 0);
 									SkutyGracz[playa] = 0;
-									ResetPlayerWeapons(playa);
+									ResetPlayerWeaponsEx(playa);
 									UsunBron(playa);//usun bron
 
 									if(PlayerInfo[playerid][pMember]==1||PlayerInfo[playerid][pLider]==1)
