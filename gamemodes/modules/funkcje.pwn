@@ -8615,7 +8615,8 @@ ProxDetectorS(Float:radi, playerid, targetid)
 		//printf("DEBUG: X:%f Y:%f Z:%f",posx,posy,posz);
 		if (((tempposx < radi) && (tempposx > -radi)) && ((tempposy < radi) && (tempposy > -radi)) && ((tempposz < radi) && (tempposz > -radi)))
 		{
-			return 1;
+			if(Spectate[targetid] == INVALID_PLAYERID) return 1;
+			else return 0;
 		}
 	}
 	return 0;
