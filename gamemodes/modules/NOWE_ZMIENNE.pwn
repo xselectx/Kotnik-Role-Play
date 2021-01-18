@@ -1499,7 +1499,7 @@ stock ZerujZmienne(playerid)
     AntyFakeKillVar[playerid] = 0;
     OldPayCheck[playerid] = 0;
     ClearDamageLog(playerid);
-
+    CancelTrade(playerid);
     RakNet_SaveWeapons[playerid] = 0;
     for(new i=0;i<13;i++) 
     {

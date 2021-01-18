@@ -68,6 +68,7 @@ new acstr[128];
 	(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 #define HOLDING(%0) \
     ((newkeys & (%0)) == (%0))
+#define PreloadAnimLib(%1,%2)   ApplyAnimation(%1,%2,"null",0.0,0,0,0,0,0)
 
 #define EMERGENCY_NUMBERS -900 
 #define POLICE_NUMBER -901 //old 912
@@ -466,6 +467,14 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 
 #define D_SHOW_ITEMS 1500
 #define D_SHOW_ITEM_MENU 1501
+#define D_DESTROY_ITEM 1502
+#define D_DESTROY_ITEM_CONFIRM 1503
+#define D_OFFER_ITEM 1504
+#define D_OFFER_ITEM_QUANT 1505
+#define D_OFFER_ITEM_PRICE 1506
+#define D_OFFER_ITEM_CONFIRM 1507
+#define D_OFFER_ITEM_CONFIRM2 1508
+#define D_OFFER_ITEM_CANCEL 1509
 
 
 #define D_PHONE_POWER 1499

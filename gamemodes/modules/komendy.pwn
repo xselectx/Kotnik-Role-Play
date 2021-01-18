@@ -15346,7 +15346,7 @@ CMD:teczka(playerid, params[])
 					}
 					else
 					{
-						sendErrorDialogMessage(playerid, "Jesteœ zadaleko od gracza.");
+						sendErrorDialogMessage(playerid, "Jesteœ za daleko od gracza.");
 					}
 				}//invalid id
 			}
@@ -27250,7 +27250,7 @@ CMD:stopanim(playerid)
         {
             new Float:Velocity[3];
             GetPlayerVelocity(playerid, Velocity[0], Velocity[1], Velocity[2]);
-            if(!IsPlayerInAnyVehicle(playerid) && Velocity[2] == 0 && obezwladniony[playerid] == 0)
+            if(!IsPlayerInAnyVehicle(playerid) && Velocity[2] == 0 && obezwladniony[playerid] == 0 && GetPVarInt(playerid, "CanUseItem") == 0)
             {
 	           ClearAnimations(playerid);
 	           SetPlayerSpecialAction(playerid,SPECIAL_ACTION_NONE);
@@ -40338,4 +40338,20 @@ CMD:obrazenia(playerid, params[])
         PrintDamageLog(playerid, 0, id);
     } else return noAccessMessage(playerid);
     return 1;
+}
+
+
+CMD:zmienrot(playerid, params[])
+{
+    if(PlayerInfo[playerid][pAdmin] >= 5000)
+    {
+        new Float:rotX, Float:rotY, Float:rotZ, Float:zoom;
+        if(sscanf(params, "ffff", rotX, rotY, rotZ, zoom)) return sendTipMessage(playerid, "U¿yj: /zmienrot [rotX] [rotY] [rotZ] [zoom]");
+    
+        iRotX = rotX;
+        iRotY = rotY;
+        iRotZ = rotZ;
+        iZoom = zoom;
+        return 1;
+    } else return 0;
 }

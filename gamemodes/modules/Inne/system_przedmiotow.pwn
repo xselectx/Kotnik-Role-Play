@@ -1,4 +1,6 @@
 
+new Float:iRotX, Float:iRotY, Float:iRotZ, Float:iZoom;
+
 new WeaponsInventory[48][8][64] =
 {
 															   //typ ammo
@@ -55,7 +57,7 @@ new WeaponsInventory[48][8][64] =
 	{ "Gaz pieprzowy",			"41",		"365",	"0.1",	"4",	"0",	"0",	"0"}
 };
 
-new ItemsInventory[5][8][64] = 
+new ItemsInventory[6][8][64] = 
 {	
 
 	//nazwa					//type	//model //weight //stats1 //stats2 //stats3 //stats4
@@ -63,7 +65,8 @@ new ItemsInventory[5][8][64] =
 	{"Amunicja (lekka)",		"3",	"2039",	"0.01",	"1",	"0",	"0",	"0"},
 	{"Amunicja (srednia)",		"3",	"2039",	"0.02",	"2",	"0",	"0",	"0"},
 	{"Amunicja (ciezka)",		"3",	"2039",	"0.03",	"3",	"0",	"0",	"0"},
-	{"Amunicja (inna)",			"3",	"2039",	"0",	"4",	"0",	"0",	"0"}
+	{"Amunicja (inna)",			"3",	"2039",	"0",	"4",	"0",	"0",	"0"},
+	{"Burger",					"4",	"2880", "0",	"40",   "0",	"0",	"0"}
 };
 
 
@@ -170,6 +173,22 @@ ShowPlayerInventory(pid, type)
 				{		
 					format(subString, sizeof(subString), "%d\t%s~y~ x%d\n", Inventory[pid][i][iModel], Inventory[pid][i][iName], Inventory[pid][i][iQuant]);					
 				}
+				else
+				{
+					switch(Inventory[pid][i][iModel])
+					{
+						// -49.0 -34.0 -20.0
+						case 2880:
+						{
+							format(subString, sizeof(subString), "%d(0, 175, -220, 1.15)", Inventory[pid][i][iModel]);
+						}
+						default:
+						{
+							format(subString, sizeof(subString), "%d", Inventory[pid][i][iModel]);
+						}
+					}
+					format(subString, sizeof(subString), "%s\t%s~y~ x%d\n", subString,Inventory[pid][i][iName], Inventory[pid][i][iQuant]);
+				}
 				strcat(string, subString);
 			}
 		}
@@ -187,32 +206,12 @@ AddPlayerItem(pid, item[], quant)
 	new a;
 	new fullName[64];
 
-	for(new i = 0; i<strlen(item); i++)
-	{
-		if(item[i] == '_')
-		{
-			item[i] = ' ';
-		}
-	}
-
-
-	/*for(new i = 0; i<sizeof(WeaponsInventory); i++)
-	{
-		if(strfind(WeaponsInventory[i][0], item, true) != -1)
-		{
-			x = i;
-			a = 1;
-			format(fullName, sizeof(fullName), "%s", WeaponsInventory[i][0]);
-			break;
-		} else {
-			x = -1;
-		}
-	}*/
-
+	strreplace(item, "_", "", false, 0, -1, strlen(item));
 	if(x < 0)
 	{
 		for(new i = 0; i<sizeof(ItemsInventory); i++)
 		{
+			//printf("%s | %s", item, ItemsInventory[i][0]);
 			if(strfind(ItemsInventory[i][0], item, true) != -1)
 			{
 				x = i;
@@ -225,6 +224,7 @@ AddPlayerItem(pid, item[], quant)
 		}
 	}
 
+	//printf("x: %d", x);
 
 	if(x >= 0)
 	{
@@ -250,19 +250,6 @@ AddPlayerItem(pid, item[], quant)
 		{
 			if(Inventory[pid][i][iUID] == 0)
 			{
-				/*if(a == 1)
-				{
-					Inventory[pid][i][iOwner] = PlayerInfo[pid][pUID];
-					Inventory[pid][i][iType] = 2;
-					format(Inventory[pid][i][iName], 64, "%s", WeaponsInventory[x][0]);
-					Inventory[pid][i][iModel] = strval(WeaponsInventory[x][2]);
-					Inventory[pid][i][iQuant] = quant;
-					Inventory[pid][i][iWeight] = floatstr(WeaponsInventory[x][3]);
-					Inventory[pid][i][iStats1] = strval(WeaponsInventory[x][4]);
-					Inventory[pid][i][iStats2] = strval(WeaponsInventory[x][5]);
-					Inventory[pid][i][iStats3] = strval(WeaponsInventory[x][6]);
-					Inventory[pid][i][iStats4] = strval(WeaponsInventory[x][7]);
-				}*/
 				if(a == 2)
 				{
 					Inventory[pid][i][iOwner] = PlayerInfo[pid][pUID];
@@ -305,7 +292,59 @@ AddPlayerItem(pid, item[], quant)
 
 RemovePlayerItem(pid, item[], quant)
 {
-	return 1;
+	new x = -1;
+	new fullName[64];
+	strreplace(item, "_", "", false, 0, -1, strlen(item));
+	
+
+
+	if(x < 0)
+	{
+		for(new i = 0; i<sizeof(ItemsInventory); i++)
+		{
+			if(strfind(ItemsInventory[i][0], item, true) != -1)
+			{
+				x = i;
+				format(fullName, sizeof(fullName), "%s", ItemsInventory[i][0]);
+				break;
+			} else {
+				x = -1;
+			}
+		}
+	}
+
+
+	if(x >= 0)
+	{
+		for(new i = 0; i<=PlayerInfo[pid][pItems]; i++)
+		{
+			if(!strcmp(fullName, Inventory[pid][i][iName], true) && !isnull(Inventory[pid][i][iName]))
+			{
+				new query[256];
+				if(quant >= Inventory[pid][i][iQuant])
+				{
+					format(query, sizeof(query), "DELETE FROM `items` WHERE `uID` = '%d'", Inventory[pid][i][iUID]);
+					mysql_query(query);
+
+					if(!strcmp(fullName, "Telefon", true))
+					{
+						PlayerInfo[pid][pPnumber] = 0;
+					}
+
+					ReloadPlayerInventory(pid);
+					return 1;
+				}
+
+				Inventory[pid][i][iQuant]-=quant;
+				format(query, sizeof(query), "UPDATE `items` SET `quant` = '%d' WHERE `uID` = '%d'", Inventory[pid][i][iQuant], Inventory[pid][i][iUID]);
+				mysql_query(query);
+				return 1;
+			}
+
+		}
+	}
+
+	return 0;
 }
 
 ReloadPlayerInventory(playerid)
@@ -325,27 +364,269 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			SetPVarInt(playerid, "itemID", listitem);
 			ShowItemMenu(playerid, listitem, Inventory[playerid][listitem][iType]);
 
-			if(Inventory[playerid][listitem][iType] == 1) // telefon
-			{
-				return 1;
-			} 
-			ShowPlayerInventory(playerid, 0);
+			//if(Inventory[playerid][listitem][iType] == 1) // telefon
+			//{
+			//	return 1;
+			//} 
+			//ShowPlayerInventory(playerid, 0);
 
 		}
 		else return 1;
 	}
-	else if(dialogid == D_SHOW_ITEMS+1)
+	else if(dialogid == D_SHOW_ITEM_MENU)
 	{
 		if(!response) return ShowPlayerInventory(playerid, 0);
 
-		switch(listitem)
+		if(strfind(inputtext, "U¿yj", true) != -1 || strfind(inputtext, "Zjedz", true) != -1) return UseItem(playerid, GetPVarInt(playerid, "itemID"));
+		else if(strfind(inputtext, "Od³ó¿", true) != -1) return PutAwayItem(playerid, GetPVarInt(playerid, "itemID"));
+		else if(strfind(inputtext, "Podaj", true) != -1) return OfferItem(playerid, GetPVarInt(playerid, "itemID"));
+		else if(strfind(inputtext, "Zniszcz", true) != -1) return DestroyItem(playerid, GetPVarInt(playerid, "itemID"));
+		else return ShowPlayerInventory(playerid, 0);
+
+	}
+	else if(dialogid == D_DESTROY_ITEM)
+	{
+		if(!response) return ShowPlayerInventory(playerid, 0);
+		new val = strval(inputtext);
+		if(val <= 0 || val >= Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iQuant]) val = Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iQuant];
+		
+		SetPVarInt(playerid, "DestroyingItemQuant", val);
+		new string[128];
+		format(string, sizeof(string), "Czy na pewno chcesz zniszczyæ %d sztuk {9ACD32}%s {A9C4E4}?", GetPVarInt(playerid, "DestroyingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName]);
+
+		ShowPlayerDialogEx(playerid, D_DESTROY_ITEM_CONFIRM, DIALOG_STYLE_MSGBOX, sprintf("Niszczenie %s (UID: %d)", Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName], Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iUID]), string, "Zniszcz", "Anuluj");
+
+	}
+	else if(dialogid == D_DESTROY_ITEM_CONFIRM)
+	{
+		if(!response) return ShowPlayerInventory(playerid, 0);
+		sendTipMessage(playerid, sprintf("Zniszczono %d sztuk %s (UID: %d)", GetPVarInt(playerid, "DestroyingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName], Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iUID]));
+		
+		new string[128];
+		format(string, sizeof(string), "%s [%d] zniszczyl %dx %s [%d]", GetNick(playerid), PlayerInfo[playerid][pUID], GetPVarInt(playerid, "DestroyingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName], Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iUID]);
+		ItemLog(string);
+
+		RemovePlayerItem(playerid, Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName], GetPVarInt(playerid, "DestroyingItemQuant"));
+	}
+	else if(dialogid == D_OFFER_ITEM)
+	{
+		if(!response)
 		{
-			case 0: UseItem(playerid, GetPVarInt(playerid, "itemID"));
-			case 1: PutAwayItem(playerid, GetPVarInt(playerid, "itemID"));
-			case 2: OfferItem(playerid, GetPVarInt(playerid, "itemID"));
-			case 3: DestroyItem(playerid, GetPVarInt(playerid, "itemID"));
+			CancelTrade(playerid);
+			return ShowPlayerInventory(playerid, 0);
+		}
+		new player[32];
+		new pos = strfind(inputtext, " (", true);
+		if(pos != -1) strmid(player, inputtext, 0, pos);
+		else format(player, sizeof(player), "%s", GetNick(ReturnUser(player)));
+		
+		if(ReturnUser(player) != INVALID_PLAYER_ID)
+		{
+			if(GetDistanceBetweenPlayers(playerid, ReturnUser(player)) <= 10)
+			{
+				if(GetPVarInt(ReturnUser(player), "OfferingItemFrom") != INVALID_PLAYER_ID) 
+				{
+					CancelTrade(playerid);
+					return sendTipDialogMessage(playerid, sprintf("%s ma aktywn¹ ofertê", player));
+				}
+				new string[128], string2[128];
+
+				SetPVarInt(playerid, "OfferingItemTo", ReturnUser(player));
+				SetPVarString(playerid, "OfferingItemToName", player);
+				format(string, sizeof(string), "Oferowanie %s (UID: %d) dla %s (%d)", 
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], 
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iUID],
+					player,
+					ReturnUser(player));
+
+				format(string2, sizeof(string2), "Wpisz poni¿ej ile sztuk {9ACD32}%s{A9C4E4} chcesz oferowaæ graczowi {9ACD32}%s{A9C4E4}:", Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], player);
+
+				ShowPlayerDialogEx(playerid, D_OFFER_ITEM_QUANT, DIALOG_STYLE_INPUT, string, string2, "OK", "Anuluj");
+			} else return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
+		} else return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+	}
+	else if(dialogid == D_OFFER_ITEM_QUANT)
+	{
+		if(!response)
+		{
+			CancelTrade(playerid);
+			return ShowPlayerInventory(playerid, 0);
+		}
+		new giveplayerid = GetPVarInt(playerid, "OfferingItemTo");
+		new player[32];
+		GetPVarString(playerid, "OfferingItemToName", player, 32);
+		if(ReturnUser(player) != INVALID_PLAYER_ID)
+		{
+			if(GetDistanceBetweenPlayers(playerid, ReturnUser(player)) <= 10)
+			{
+				if(GetPVarInt(giveplayerid, "OfferingItemFrom") != INVALID_PLAYER_ID) 
+				{
+					CancelTrade(playerid);
+					return sendTipDialogMessage(playerid, sprintf("%s ma aktywn¹ ofertê", player));
+				}
+				new ilosc = strval(inputtext);
+				if(ilosc < 0 || ilosc >= Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iQuant]) ilosc = Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iQuant];
+				SetPVarInt(playerid, "OfferingItemQuant", ilosc);
+				new string[128];
+				new string2[128];
+				format(string, sizeof(string), "Oferowanie %d sztuk %s (UID: %d) dla %s (%d)", 
+					GetPVarInt(playerid, "OfferingItemQuant"),
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], 
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iUID],
+					player,
+					ReturnUser(player));
+
+				format(string2, sizeof(string2), "Wpisz poni¿ej w jakiej cenie chcesz zaoferowaæ %d sztuk {9ACD32}%s{A9C4E4} graczowi {9ACD32}%s{A9C4E4}:",
+					GetPVarInt(playerid, "OfferingItemQuant"),
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName],
+					player);
+
+				ShowPlayerDialogEx(playerid, D_OFFER_ITEM_PRICE, DIALOG_STYLE_INPUT, string, string2, "OK", "Anuluj");
+
+			} else return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
+		} else return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+	}
+	else if(dialogid == D_OFFER_ITEM_PRICE)
+	{
+		if(!response)
+		{
+			CancelTrade(playerid);
+			return ShowPlayerInventory(playerid, 0);
+		}
+		new giveplayerid = GetPVarInt(playerid, "OfferingItemTo");
+		new player[32];
+		GetPVarString(playerid, "OfferingItemToName", player, 32);
+		if(ReturnUser(player) != INVALID_PLAYER_ID)
+		{
+			if(GetDistanceBetweenPlayers(playerid, ReturnUser(player)) <= 10)
+			{
+				if(GetPVarInt(giveplayerid, "OfferingItemFrom") != INVALID_PLAYER_ID) 
+				{
+					CancelTrade(playerid);
+					return sendTipDialogMessage(playerid, sprintf("%s ma aktywn¹ ofertê", player));
+				}
+				new ilosc = strval(inputtext);
+				if(ilosc < 0) ilosc = 0;
+				if(ilosc > 100000000) ilosc = 100000000;
+
+				SetPVarInt(playerid, "OfferingItemPrice", ilosc);
+				new string[128];
+				new string2[128];
+				format(string, sizeof(string), "Oferowanie %d sztuk %s (UID: %d) za $%d dla %s (%d)", 
+					GetPVarInt(playerid, "OfferingItemQuant"),
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], 
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iUID],
+					GetPVarInt(playerid, "OfferingItemPrice"),
+					player,
+					ReturnUser(player));
+
+				format(string2, sizeof(string2), "Czy na pewno chcesz sprzedaæ %d sztuk {9ACD32}%s{A9C4E4} graczowi {9ACD32}%s{A9C4E4} za {9ACD32}$%d{A9C4E4}?",
+					GetPVarInt(playerid, "OfferingItemQuant"),
+					Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName],
+					player,
+					GetPVarInt(playerid, "OfferingItemPrice"));
+
+				ShowPlayerDialogEx(playerid, D_OFFER_ITEM_CONFIRM, DIALOG_STYLE_MSGBOX, string, string2, "Tak", "Anuluj");
+
+			} else return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
+		} else return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+	}
+	else if(dialogid == D_OFFER_ITEM_CONFIRM)
+	{
+		if(!response)
+		{
+			CancelTrade(playerid);
+			return ShowPlayerInventory(playerid, 0);
+		}
+		new giveplayerid = GetPVarInt(playerid, "OfferingItemTo");
+		new player[32];
+		GetPVarString(playerid, "OfferingItemToName", player, 32);
+		if(ReturnUser(player) != INVALID_PLAYER_ID)
+		{
+			if(GetDistanceBetweenPlayers(playerid, ReturnUser(player)) <= 10)
+			{
+				if(kaska[giveplayerid] >= GetPVarInt(playerid, "OfferingItemPrice"))
+				{
+					if(GetPVarInt(giveplayerid, "OfferingItemFrom") != INVALID_PLAYER_ID) 
+					{
+						CancelTrade(playerid);
+						return sendTipDialogMessage(playerid, sprintf("%s ma aktywn¹ ofertê", player));
+					}
+					new string[128];
+					format(string, sizeof(string), "Zaoferowa³eœ %s kupno %d sztuk %s za $%d\nCzekaj na akceptacjê!", player, GetPVarInt(playerid, "OfferingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], GetPVarInt(playerid, "OfferingItemPrice"));
+					sendTipDialogMessage(playerid, string);
+					SetPVarInt(giveplayerid, "OfferingItemFrom", playerid);
+
+					format(string, sizeof(string), "%s oferuje Ci %d sztuk {9ACD32}%s{A9C4E4} za {9ACD32}$%d{A9C4E4}\nAkceptujesz tê ofertê?", GetNick(playerid), GetPVarInt(playerid, "OfferingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], GetPVarInt(playerid, "OfferingItemPrice"));
+					SetTimerEx("TimeoutTrade", 30000, false, "dd", playerid, giveplayerid);
+					SetPVarInt(playerid, "OfferItemTimeout", 1);
+					SetPVarInt(giveplayerid, "OfferItemTimeout", 1);
+					ShowPlayerDialogEx(giveplayerid, D_OFFER_ITEM_CONFIRM2, DIALOG_STYLE_MSGBOX, sprintf("Oferta od %s", GetNick(playerid)), string, "Akceptuj", "Anuluj");
+				} else return sendTipDialogMessage(playerid, sprintf("%s nie staæ na tê ofertê", player));
+			} else return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
+		} else return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+	}
+	else if(dialogid == D_OFFER_ITEM_CONFIRM2)
+	{
+		new id = GetPVarInt(playerid, "OfferingItemFrom");
+		if(!response)
+		{
+			CancelTrade(id);
+			sendTipDialogMessage(playerid, sprintf("Anulowa³eœ ofertê od %s", GetNick(id)));
+			sendTipDialogMessage(id, sprintf("%s anulowa³ Twoj¹ ofertê", GetNick(playerid)));
+			AntySpam[id] = 1;
+			SetTimerEx("AntySpamTimer",15000,0,"d",id);
+			return 1;
+		}
+		new cena = GetPVarInt(id, "OfferingItemPrice");
+		new ilosc = GetPVarInt(id, "OfferingItemQuant");
+		new itemid = GetPVarInt(id, "OfferingItem");
+		new itemname[64];
+		format(itemname, sizeof(itemname), "%s", Inventory[id][itemid][iName]);
+
+		if(cena == -1)
+		{
+			return sendTipDialogMessage(playerid, "Oferta zosta³a anulowana");
 		}
 
+		if(!IsPlayerConnected(id)) 
+		{
+			CancelTrade(id);
+			return sendTipDialogMessage(playerid, "Gracz któy oferowa³ Ci ofertê wyszed³ z gry");
+		}
+		if(AddPlayerItem(playerid, Inventory[id][itemid][iName], ilosc) == 0) 
+		{
+			sendTipMessage(playerid, "Wyst¹pi³ krytyczny b³¹d z Twoj¹ ofert¹!");
+			sendTipMessage(id, "Wyst¹pi³ krytyczny b³¹d z Twoj¹ ofert¹!");
+			return CancelTrade(id);
+		}
+		if(RemovePlayerItem(id, Inventory[id][itemid][iName], ilosc) == 0)
+		{
+			sendTipMessage(playerid, "Wyst¹pi³ krytyczny b³¹d z Twoj¹ ofert¹!");
+			sendTipMessage(id, "Wyst¹pi³ krytyczny b³¹d z Twoj¹ ofert¹!");
+			return CancelTrade(id);
+		}
+
+		ZabierzKase(playerid, cena);
+		DajKase(id, cena);
+
+		new string[256];
+		format(string, sizeof(string), "Zaakceptowa³eœ ofertê od %s\n%d sztuk %s za $%d", GetNick(id), ilosc, itemname, cena);
+		sendTipDialogMessage(playerid, string);
+		format(string, sizeof(string), "%s zaakceptowa³ Twoj¹ ofertê\n%d sztuk %s za $%d", GetNick(playerid), ilosc, itemname, cena);
+		sendTipDialogMessage(id, string);
+		//SetPVarInt(playerid, "OfferingItemFrom", INVALID_PLAYER_ID);
+		CancelTrade(id);
+
+		format(string, sizeof(string), "%s [%d] da³ %s [%d] %d sztuk %s za $%d", GetNick(id), PlayerInfo[id][pUID], GetNick(playerid), PlayerInfo[playerid][pUID], ilosc, itemname, cena);
+		ItemLog(string);
+		if(cena > 0) PayLog(string);
+
+	}
+	else if(dialogid == D_OFFER_ITEM_CANCEL)
+	{
+		if(!response) return 1;
+		return CancelTrade(playerid);
 	}
 	return 1;
 }
@@ -353,25 +634,124 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 stock UseItem(playerid, itemid)
 {
-	SendClientMessage(playerid, -1, "UseItem");
+	//SendClientMessage(playerid, -1, "UseItem");
+	if(Inventory[playerid][itemid][iType] == 4)
+	{
+		new Float:health;
+		GetPlayerHealth(playerid, Float:health);
+		if(GetPVarInt(playerid, "CanUseItem") == 0)
+		{
+			if((Inventory[playerid][itemid][iStats1] + health) >= 100)
+			{
+				sendTipMessage(playerid, sprintf("Przepe³nisz siê gdy zjesz %s", Inventory[playerid][itemid][iName]));
+				//ShowPlayerInventory(playerid, 0);
+			}
+			else
+			{
+				PreloadAnimLib(playerid, "FOOD");
+				SetPlayerArmedWeapon(playerid, 0);
+
+				sendTipMessage(playerid, sprintf("Zjadasz %s", Inventory[playerid][itemid][iName]));
+				SetPlayerHealth(playerid, health+Inventory[playerid][itemid][iStats1]);
+
+				RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
+				ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, 0, 0, 0, 0, 0, 1);
+
+				SetPVarInt(playerid, "CanUseItem", 1);
+				SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
+
+				AttachEatableObject(playerid, Inventory[playerid][itemid][iModel]);
+				SetPlayerChatBubble(playerid, sprintf("* zjada %s", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+
+			}
+		} else return sendTipMessage(playerid, sprintf("Odczekaj chwilê zanim zjesz %s", Inventory[playerid][itemid][iName]));
+	}
 	return 1;
 }
 
 stock PutAwayItem(playerid, itemid)
 {
-	SendClientMessage(playerid, -1, "PutAwayItem");
+	sendTipMessage(playerid, "Funkcja odk³adania przedmiotów nie jest jeszcze zaimplementowana");
+	//SendClientMessage(playerid, -1, "PutAwayItem");
 	return 1;
 }
 
 stock OfferItem(playerid, itemid)
 {
-	SendClientMessage(playerid, -1, "OfferItem");
+	new string[256];
+	SetPVarInt(playerid, "OfferingItem", itemid);
+
+	for(new i = 0; i<MAX_PLAYERS; i++)
+	{
+		if(playerid != i)
+		{
+			if(IsPlayerConnected(i) && Spectate[i] == INVALID_PLAYER_ID)
+			{
+				if(GetDistanceBetweenPlayers(playerid, i) <= 5)
+				{
+					strcat(string, sprintf("%s (%d)\n", GetNick(i), i));
+				}
+			}
+		}
+	}
+	if(!isnull(string)) ShowPlayerDialogEx(playerid, D_OFFER_ITEM, DIALOG_STYLE_LIST, sprintf("Oferowanie %s (UID: %d)", Inventory[playerid][itemid][iName], Inventory[playerid][itemid][iUID]), string, "Wybierz", "Anuluj");
+	else sendTipDialogMessage(playerid, "Brak graczy w pobli¿u");
 	return 1;
 }
 
 stock DestroyItem(playerid, itemid)
 {
-	SendClientMessage(playerid, -1, "DestroyItem");
+	if(Inventory[playerid][itemid][iQuant] > 1)
+	{
+		new string[128];
+		format(string, sizeof(string), "Wpisz poni¿ej ile sztuk {9ACD32}%s {A9C4E4}chcesz zniszczyæ.\nWpisz 0 by zniszczyæ wszystkie.", Inventory[playerid][itemid][iName]);
+		
+		SetPVarInt(playerid, "DestroyingItem", itemid);
+		ShowPlayerDialogEx(playerid, D_DESTROY_ITEM, DIALOG_STYLE_INPUT, sprintf("Niszczenie %s (UID: %d)", Inventory[playerid][itemid][iName], Inventory[playerid][itemid][iUID]), string, "Zniszcz", "Anuluj");
+	}
+	else
+	{
+		new string[128];
+		SetPVarInt(playerid, "DestroyingItem", itemid);
+		SetPVarInt(playerid, "DestroyingItemQuant", 1);
+		format(string, sizeof(string), "Czy na pewno chcesz zniszczyæ %d sztuk {9ACD32}%s {A9C4E4}?", GetPVarInt(playerid, "DestroyingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName]);
+
+		ShowPlayerDialogEx(playerid, D_DESTROY_ITEM_CONFIRM, DIALOG_STYLE_MSGBOX, sprintf("Niszczenie %s (UID: %d)", Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName], Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iUID]), string, "Zniszcz", "Anuluj");
+
+	}
+	return 1;
+}
+
+forward TimeoutTrade(pid1, pid2);
+public TimeoutTrade(pid1, pid2)
+{
+	if(IsPlayerConnected(pid1) && GetPVarInt(pid1, "OfferItemTimeout") == 1))
+	{
+		sendTipMessage(pid1, "Twoja oferta zosta³a przedawniona.");
+		CancelTrade(pid1);
+	}
+	if(IsPlayerConnected(pid2) && GetPVarInt(pid2, "OfferItemTimeout") == 1)
+	{
+		sendTipMessage(pid2, "Twoja oferta zosta³a przedawniona.");
+		CancelTrade(pid2);
+	}
+	return 1;
+}
+
+stock CancelTrade(playerid)
+{
+	SetPVarInt(playerid, "OfferingItem", -1);
+	SetPVarInt(playerid, "OfferingItemTo", INVALID_PLAYER_ID);
+	SetPVarInt(playerid, "OfferingItemQuant", -1);
+	SetPVarInt(playerid, "OfferingItemPrice", -1);
+	SetPVarString(playerid, "OfferingItemToName", "Brak");
+	for(new i = 0; i<MAX_PLAYERS; i++)
+	{
+		if(IsPlayerConnected(i))
+		{
+			if(GetPVarInt(i, "OfferingItemFrom") == playerid) SetPVarInt(i, "OfferingItemFrom", INVALID_PLAYER_ID);
+		}
+	}
 	return 1;
 }
 
@@ -384,14 +764,18 @@ stock ShowItemMenu(playerid, itemid, type)
 		{
 			format(string, sizeof(string), 
 				"»» U¿yj	\n\
-				 »» Od³ó¿	\n\
 				 »» Podaj	\n\
 				 »» Zniszcz	\n");
-
-			ShowPlayerDialogEx(playerid, D_SHOW_ITEMS+1, DIALOG_STYLE_LIST, sprintf("%s (%d)", Inventory[playerid][itemid][iName], Inventory[playerid][itemid][iUID]), string, "Wybierz", "Anuluj");
-
+		}
+		case 4:
+		{
+			format(string, sizeof(string), 
+				"»» Zjedz	\n\
+				 »» Podaj	\n\
+				 »» Zniszcz	\n");
 		}
 	}
+	ShowPlayerDialogEx(playerid, D_SHOW_ITEM_MENU, DIALOG_STYLE_LIST, sprintf("%s (UID: %d)", Inventory[playerid][itemid][iName], Inventory[playerid][itemid][iUID]), string, "Wybierz", "Anuluj");
 }
 
 
@@ -556,6 +940,52 @@ stock CheckWeaponSlotByName(playerid, name[])
 
 }*/
 
+forward AttachEatableObject(playerid, modelid);
+public AttachEatableObject(playerid, modelid)
+{
+	new Float:oX;
+    new Float:oY;
+    new Float:oZ;
+    new Float:roX;
+    new Float:roY;
+    new Float:roZ;
+    new Float:soX;
+    new Float:soY;
+    new Float:soZ;
+    new bone;
+
+	switch(modelid)
+	{
+		default:
+		{
+			oX = 0.0;
+			oY = 0.0;
+			oZ = 0.0;
+			roX = 0.0;
+			roY = 0.0;
+			roZ = 0.0;
+			soX = 1.0;
+			soY = 1.0;
+			soZ = 1.0;
+			bone = 6;
+		}
+	}
+	SetPlayerAttachedObject(playerid, 6, modelid, bone, oX, oY, oZ, roX, roY, roZ, soX, soY, soZ);
+	SetTimerEx("DetachEatableObject", 3000, false, "d", playerid);
+}
+
+forward DetachEatableObject(playerid);
+public DetachEatableObject(playerid)
+{
+	RemovePlayerAttachedObject(playerid, 6);
+}
+
+forward ItemUseTimer(playerid);
+public ItemUseTimer(playerid)
+{
+	SetPVarInt(playerid, "CanUseItem", 0);
+}
+
 
 CMD:items(playerid, params[]) return cmd_p(playerid, params);
 CMD:przedmioty(playerid, params[]) return cmd_p(playerid, params);
@@ -565,15 +995,23 @@ CMD:p(playerid, params[])
 	{
 		if(PlayerInfo[playerid][pItems] > 0)
 		{
-			new param[128];
-			if(sscanf(params, "s[128]", param))
+			if(GUIExit[playerid] != 0) return sendTipMessage(playerid, "Masz otwarte okno dialogowe!");
+			if(GetPVarInt(playerid, "OfferingItem") != -1 && GetPVarInt(playerid, "OfferingItemTo") != INVALID_PLAYER_ID) return ShowPlayerDialogEx(playerid, D_OFFER_ITEM_CANCEL, DIALOG_STYLE_MSGBOX, "Aktywna oferta", "Masz aktywn¹ ofertê, czy chcesz j¹ anulowaæ?", "Tak", "Nie");
+			new param[256];
+			new var1[32], var2 = -1, var3 = -1;
+			new var1_int = -1;
+			if(sscanf(params, "s[256]", param))
 			{
 				ShowPlayerInventory(playerid, 0);
 				return 1;
 			} else {
 				new item[32];
 				strdel(param, 0, strlen(param));
-				sscanf(params, "s[32]s[128]", item, param);
+				sscanf(params, "s[32]s[256]", item, param);
+				if(!strcmp(item, "Pomoc", true) || !strcmp(item, "Help", true))
+				{
+					return sendTipDialogMessage(playerid, "U¿ycie:\t\t /p [nazwa przedmiotu]\nOferta:\t\t /p [nazwa przedmiotu] podaj (playerid/CzêœæNicku) (iloœæ) (cena)\nNiszczenie:\t /p [nazwa przedmiotu] zniszcz (iloœæ)");
+				}
 				for(new i = 0; i<=PlayerInfo[playerid][pItems]; i++)
 				{
 					if(strfind(Inventory[playerid][i][iName], item, true) != -1)
@@ -584,21 +1022,106 @@ CMD:p(playerid, params[])
 							//Inv_OnDialogResponse(playerid, D_SHOW_ITEMS, 1, i, "");
 						}
 						else {
-							if(!strcmp(param, "U¿yj", true) || !strcmp(param, "Uzyj", true) || !strcmp(param, "Use", true)) 
+							//printf("%d %d %d", var1, var2, var3);
+							sscanf(param, "s[32]S()[32]D(-1)D(-1)", param, var1, var2, var3);
+							//printf("%d %d %d", var1, var2, var3);
+							if(strfind(param, "U¿yj", true) != -1 || strfind(param, "Uzyj", true) != -1 || strfind(param, "Use", true) != -1) 
 							{
 								UseItem(playerid, i);
 							}
-							else if(!strcmp(param, "Od³ó¿", true) || !strcmp(param, "Odloz", true) || !strcmp(param, "Put", true)) 
+							//else if(!strcmp(param, "Od³ó¿", true) || !strcmp(param, "Odloz", true) || !strcmp(param, "Put", true)) 
+							//{
+							//	PutAwayItem(playerid, i);
+							//}
+							else if(strfind(param, "Podaj", true) != -1 || strfind(param, "Daj", true) != -1 || strfind(param, "Give", true) != -1) 
 							{
-								PutAwayItem(playerid, i);
+								if(AntySpam[playerid] == 1) return sendTipDialogMessage(playerid, "Odczekaj 15 sekund zanim ponownie wyœlesz ofertê.");
+								if(GetPVarInt(playerid, "OfferingItem") != -1 && GetPVarInt(playerid, "OfferingItemTo") != INVALID_PLAYER_ID) return ShowPlayerDialogEx(playerid, D_OFFER_ITEM_CANCEL, DIALOG_STYLE_MSGBOX, "Aktywna oferta", "Masz aktywn¹ ofertê, czy chcesz j¹ anulowaæ?", "Tak", "Nie");
+								if(isnull(var1)) OfferItem(playerid, i);
+								else
+								{
+									var1_int = ReturnUser(var1);
+									if(var1_int == INVALID_PLAYER_ID) return OfferItem(playerid, i);
+									if(var1_int >= 0 && var2 == -1)
+									{
+										if(IsPlayerConnected(var1_int))
+										{
+											if(ReturnUser(var1) != INVALID_PLAYER_ID)
+											{
+												if(GetDistanceBetweenPlayers(playerid, ReturnUser(var1)) <= 10 && Spectate[var1_int] == INVALID_PLAYER_ID)
+												{
+													if(playerid == var1_int) return OfferItem(playerid, i);
+													SetPVarInt(playerid, "OfferingItem", i);
+													SetPVarInt(playerid, "OfferingItemTo", ReturnUser(var1));
+													Inv_OnDialogResponse(playerid, D_OFFER_ITEM, 1, 0, sprintf("%s (%d)", GetNick(var1_int), var1_int));
+												} else return OfferItem(playerid, i);
+											} else return OfferItem(playerid, i);
+										} else return OfferItem(playerid, i);
+									}
+									else if(var1_int >= 0 && var2 >= 0 && var3 == -1)
+									{
+										if(IsPlayerConnected(var1_int))
+										{
+											if(ReturnUser(var1) != INVALID_PLAYER_ID)
+											{
+												if(GetDistanceBetweenPlayers(playerid, ReturnUser(var1)) <= 10 && Spectate[var1_int] == INVALID_PLAYER_ID)
+												{
+													if(playerid == var1_int) return OfferItem(playerid, i);
+													SetPVarInt(playerid, "OfferingItem", i);
+													SetPVarInt(playerid, "OfferingItemTo", ReturnUser(var1));
+													if(var2 <= 0 || var2 >= Inventory[playerid][i][iQuant]) var2 = Inventory[playerid][i][iQuant];
+													SetPVarInt(playerid, "OfferingItemQuant", var2);
+													new ilosc[64];
+													format(ilosc, sizeof(ilosc), "%d", var2);
+													Inv_OnDialogResponse(playerid, D_OFFER_ITEM_QUANT, 1, 0, ilosc);
+												} else return OfferItem(playerid, i);
+											} else return OfferItem(playerid, i);
+										} else return OfferItem(playerid, i);
+									}
+									else if(var1_int >= 0 && var2 >= 0 && var3 >= 0)
+									{
+										if(IsPlayerConnected(var1_int))
+										{
+											if(ReturnUser(var1) != INVALID_PLAYER_ID)
+											{
+												if(GetDistanceBetweenPlayers(playerid, ReturnUser(var1)) <= 10 && Spectate[var1_int] == INVALID_PLAYER_ID)
+												{
+													if(playerid == var1_int) return OfferItem(playerid, i);
+													SetPVarInt(playerid, "OfferingItem", i);
+													SetPVarInt(playerid, "OfferingItemTo", ReturnUser(var1));
+													if(var2 <= 0 || var2 >= Inventory[playerid][i][iQuant]) var2 = Inventory[playerid][i][iQuant];
+													SetPVarInt(playerid, "OfferingItemQuant", var2);
+													if(var3 <= 0) var3 = 0;
+													if(var3 >= 100000000) var3 = 100000000;
+													SetPVarInt(playerid, "OfferingItemPrice", var3);
+													new cena[64];
+													format(cena, sizeof(cena), "%d", var3);
+													Inv_OnDialogResponse(playerid, D_OFFER_ITEM_PRICE, 1, 0, cena);
+												} else return OfferItem(playerid, i);
+											} else return OfferItem(playerid, i);
+										} else return OfferItem(playerid, i);
+									}
+								}
+								
 							}
-							else if(!strcmp(param, "Podaj", true) || !strcmp(param, "Daj", true) || !strcmp(param, "Give", true)) 
+							else if(strfind(param, "Zniszcz", true) != -1 || strfind(param, "Wywal", true) != -1 || strfind(param, "Destroy", true) != -1) 
 							{
-								OfferItem(playerid, i);
+								if(isnull(var1)) return DestroyItem(playerid, i);
+								else
+								{
+									var1_int = strval(var1);
+									if(var1_int < 0 || var1_int >= Inventory[playerid][i][iQuant]) var1_int = Inventory[playerid][i][iQuant];
+									new string[128];
+									SetPVarInt(playerid, "DestroyingItem", i);
+									SetPVarInt(playerid, "DestroyingItemQuant", var1_int);
+									format(string, sizeof(string), "Czy na pewno chcesz zniszczyæ %d sztuk {9ACD32}%s {A9C4E4}?", GetPVarInt(playerid, "DestroyingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName]);
+							
+									ShowPlayerDialogEx(playerid, D_DESTROY_ITEM_CONFIRM, DIALOG_STYLE_MSGBOX, sprintf("Niszczenie %s (UID: %d)", Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iName], Inventory[playerid][GetPVarInt(playerid, "DestroyingItem")][iUID]), string, "Zniszcz", "Anuluj");
+								}
 							}
-							else if(!strcmp(param, "Zniszcz", true) || !strcmp(param, "Wywal", true) || !strcmp(param, "Destroy", true)) 
+							else if(strfind(param, "Pomoc", true) != -1 || strfind(param, "Help", true) != -1)
 							{
-								DestroyItem(playerid, i);
+								return sendTipDialogMessage(playerid, "U¿ycie:\t\t /p [nazwa przedmiotu]\nOferta:\t\t /p [nazwa przedmiotu] podaj (playerid/CzêœæNicku) (iloœæ) (cena)\nNiszczenie:\t /p [nazwa przedmiotu] zniszcz (iloœæ)");
 							}
 							else {
 								Inv_OnDialogResponse(playerid, D_SHOW_ITEMS, 1, i, "");
@@ -607,6 +1130,7 @@ CMD:p(playerid, params[])
 						return 1;
 					}
 				}
+
 				ShowPlayerInventory(playerid, 0);
 				return 1;
 			}
@@ -626,7 +1150,7 @@ CMD:additem(playerid, params[])
 		if(PlayerInfo[playerid][pAdmin] >= 1000)
 		{	
 			new pid, item[24], quant;
-			if(sscanf(params, "ds[24]d",pid, item, quant))
+			if(sscanf(params, "k<fix>s[24]d",pid, item, quant))
 			{
 				sendTipMessage(playerid, "U¿yj: /additem [playerid/CzêœæNicku] [nazwa przedmiotu] [iloœæ]! U¿yj '_' zamiast spacji.");
 				return 1;
@@ -654,7 +1178,7 @@ CMD:remitem(playerid, params[])
 		if(PlayerInfo[playerid][pAdmin] >= 1000)
 		{
 			new pid, item[24], quant;
-			if(sscanf(params, "ds[24]d",pid, item, quant))
+			if(sscanf(params, "k<fix>s[24]d",pid, item, quant))
 			{
 				sendTipMessage(playerid, "U¿yj: /remitem [playerid/CzêœæNicku] [nazwa przedmiotu] [iloœæ]! U¿yj '_' zamiast spacji.");
 				return 1;
@@ -672,3 +1196,5 @@ CMD:remitem(playerid, params[])
 	}
 	return 1;
 }
+
+

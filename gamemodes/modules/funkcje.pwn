@@ -177,7 +177,7 @@ noAccessMessage(id) {
     return SendClientMessage(id,COLOR_FADE2,"»» Nie posiadasz dostêpu do tej komendy");
 }
 sendTipMessage(id, string:msg[], color = COLOR_GRAD3) {
-	format(_str,128,"»» %s", msg);
+	format(_str,256,"»» %s", msg);
 	return SendClientMessage(id, color, _str);
 }
 
@@ -185,12 +185,12 @@ sendTipMessageEx(id, color = COLOR_GRAD3, string:msg[]) { //CM do sendclientmess
 	return sendTipMessage(id, msg, color);
 }
 sendErrorMessage(id, string:msg[]) {
-	format(_str,128,"»» %s", msg);
+	format(_str,256,"»» %s", msg);
 	return SendClientMessage(id, COLOR_LIGHTRED, _str);
 }
 //sqluke
 sendTipDialogMessage(id, string:msg[]) {
-	format(_str,128,"%s", msg);
+	format(_str,256,"%s", msg);
 	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Informacja", _str, "Zamknij", "");
 	//return SendClientMessage(id, color, _str);
 }
@@ -4873,6 +4873,12 @@ stock SMSLog(text[])
 stock RobLog(text[])
 {
 	new plik[32] = "logi/napad.log";
+	Log(plik, text);
+}
+
+stock ItemLog(text[])
+{
+	new plik[32] = "logi/items.log";
 	Log(plik, text);
 }
 
@@ -15380,5 +15386,14 @@ public RestoreOldWeapons(playerid, nick[])
 	//	MruMySQL_SetAccInt(sprintf("Gun%d", i), nick, RakNet_PlayerWeapons[playerid][i][0]);
 	//	MruMySQL_SetAccInt(sprintf("Ammo%d", i), nick, RakNet_PlayerWeapons[playerid][i][1]);
 	//}
+	return 1;
+}
+
+forward ApplyDelayedAnimation(playerid, animlib[], animname[], Float:fDelta, loop, lockx, locky, freeze, time, forcesync);
+public ApplyDelayedAnimation(playerid, animlib[], animname[], Float:fDelta, loop, lockx, locky, freeze, time, forcesync)
+{
+	printf("%d | %s | %s | %f | %d | %d | %d | %d | %d | %d", playerid, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync);
+	ApplyAnimation(playerid, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync);
+	print("git");
 	return 1;
 }

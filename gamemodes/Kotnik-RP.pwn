@@ -1023,6 +1023,8 @@ public OnPlayerDisconnect(playerid, reason)
         case 2: codal = "Kick/Ban";
     }
 
+    CancelTrade(playerid);
+
 	GetPlayerPos(playerid, PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z]);
 	PlayerInfo[playerid][pInt] = GetPlayerInterior(playerid);
     PlayerInfo[playerid][pVW] = GetPlayerVirtualWorld(playerid);
@@ -7353,7 +7355,7 @@ public OnPlayerText(playerid, text[])
     format(temptext, sizeof(temptext), "%s", text);
     ReturnEmote(temptext, newtext);
 
-    printf("%c", newtext[strlen(newtext)]);
+    //printf("%c", newtext[strlen(newtext)]);
     if(newtext[strlen(newtext)] != '.' && newtext[strlen(newtext)] != '!' && newtext[strlen(newtext)] != '?' && newtext[strlen(newtext)] != ',' && newtext[strlen(newtext)] != ':' && newtext[strlen(newtext)] != '-')
     {
         strins(newtext, ".", strlen(newtext), strlen(newtext));
