@@ -725,7 +725,7 @@ stock DestroyItem(playerid, itemid)
 forward TimeoutTrade(pid1, pid2);
 public TimeoutTrade(pid1, pid2)
 {
-	if(IsPlayerConnected(pid1) && GetPVarInt(pid1, "OfferItemTimeout") == 1))
+	if(IsPlayerConnected(pid1) && GetPVarInt(pid1, "OfferItemTimeout") == 1)
 	{
 		sendTipMessage(pid1, "Twoja oferta zosta³a przedawniona.");
 		CancelTrade(pid1);

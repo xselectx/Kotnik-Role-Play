@@ -10352,7 +10352,7 @@ CMD:pobij(playerid, params[])
 		{
 			if(playa != INVALID_PLAYER_ID && playa != playerid)
 			{
-	    		if(GetDistanceBetweenPlayers(playerid,playa) < 5)
+	    		if(GetDistanceBetweenPlayers(playerid,playa) < 5 && Spectate[playa] == INVALID_PLAYER_ID)
  				{
  				    if(GetPlayerState(playerid) == 1)
  				    {
@@ -12855,7 +12855,7 @@ CMD:zbijwl(playerid, params[])
 		    {
    				if(playa != INVALID_PLAYER_ID)
 			    {
-				    if(GetDistanceBetweenPlayers(playerid,playa) < 10)
+				    if(GetDistanceBetweenPlayers(playerid,playa) < 10 && Spectate[playa] == INVALID_PLAYER_ID)
 					{
 					    if(PoziomPoszukiwania[playa] >= 1)
 					    {
@@ -15201,7 +15201,7 @@ CMD:plac(playerid, params[])
 						sendTipMessage(playerid, "Jesteœ za daleko od gracza.");
 						return 1;
 					}
-					if (ProxDetectorS(5.0, playerid, giveplayerid))
+					if (ProxDetectorS(5.0, playerid, giveplayerid) && Spectate[giveplayerid] == INVALID_PLAYER_ID)
 					{
 						GetPlayerName(giveplayerid, giveplayer, sizeof(giveplayer));
 						GetPlayerName(playerid, sendername, sizeof(sendername));
@@ -33431,7 +33431,7 @@ CMD:ochrona(playerid, params[])
 	{
 	    if(giveplayerid != INVALID_PLAYER_ID)
 	    {
-	        if(ProxDetectorS(8.0, playerid, giveplayerid))
+	        if(ProxDetectorS(8.0, playerid, giveplayerid) && Spectate[giveplayerid] == INVALID_PLAYER_ID)
 			{
                 if(gettime() < GetPVarInt(playerid, "armoryTimeLimit"))
                 {

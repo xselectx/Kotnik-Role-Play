@@ -9150,6 +9150,11 @@ public OPCLogin(playerid)
 
     //new rand = random(AUDIO_LoginTotal);
     TogglePlayerControllable(playerid, 0);
+
+    new randmus = random(sizeof(PlayerSounds));
+    SetPVarInt(playerid, "SpawnMusic", randmus);
+    PlayerPlaySound(playerid, PlayerSounds[randmus][0], 0, 0, 0);
+    
     // str[128];
     //format(str, 128, "http://Kotnik-loginsound.lqs.pl/game/audio/%s.%s", AUDIO_LoginData[rand], AUDIO_LoginFormat);
     //PlayAudioStreamForPlayer(playerid, str);
@@ -9160,7 +9165,10 @@ public OPCLogin(playerid)
     SetPlayerVirtualWorld(playerid, 1488);
     SetPlayerInterior(playerid, 0);
 
-    TourCamera(playerid, 0);
+
+    TogglePlayerSpectating(playerid, 1);
+
+    TourCamera(playerid, random(6));
 
     //Strefy load
     ZonePTXD_Load(playerid);
@@ -9183,7 +9191,7 @@ public OPCLogin(playerid)
 
     new result;
     result = MruMySQL_DoesAccountExist(nick);
-    TogglePlayerSpectating(playerid, 1);
+    
 	//Sprawdzanie czy konto istnieje:
 	if(result == -1 || result == 1) //logowanie
 	{

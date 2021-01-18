@@ -2981,4 +2981,10 @@ new Float:s_WeaponDamage[] = {
     165.0  // 54 - Splat
 };
 
+new PlayerSounds[][] =
+{
+    {1062, 1076},
+    {1063, 1077}
+};
+
 //EOF

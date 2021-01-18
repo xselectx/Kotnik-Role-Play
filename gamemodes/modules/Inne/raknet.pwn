@@ -30,6 +30,7 @@ const SPECTATING_SYNC = 212;
 const RPC_GIVE_PLAYER_WEAPON = 22;
 const RPC_SET_PLAYER_AMMO = 145;
 const RPC_SET_VEHICLE_HEALTH = 147;
+const RPC_SET_PLAYER_VELOCITY = 90;
 
 // ----------- < Anty Fake Car Despawn > ----------- //
 
@@ -110,6 +111,7 @@ IPacket:WEAPONS_UPDATE_SYNC(playerid, BitStream:bs)
 
     for(new i = 0; i<13; i++) 
     {
+        //printf("old: %d (%d) new %d (%d)", RakNet_PlayerWeapons[playerid][i][0], RakNet_PlayerWeapons[playerid][i][1], weaponsUpdate[PR_slotWeaponId][i], weaponsUpdate[PR_slotWeaponAmmo][i]);
         if(RakNet_PlayerWeapons[playerid][i][0] < weaponsUpdate[PR_slotWeaponId][i])
         {
             if(AllowPlayerPacket[playerid][WEAPONS_UPDATE_SYNC] == 1) RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
@@ -123,8 +125,15 @@ IPacket:WEAPONS_UPDATE_SYNC(playerid, BitStream:bs)
            else CallLocalFunction("OnCheatDetected", "ds[64]dd", playerid,"KRP-AC", 0, 60);
         }
         else RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
+
+        ///if(RakNet_PlayerWeapons[playerid][i][0] != 0)
+        ///{
+        ///    printf("old: %d (%d) new %d (%d)", RakNet_PlayerWeapons[playerid][i][0], RakNet_PlayerWeapons[playerid][i][1], weaponsUpdate[PR_slotWeaponId][i], weaponsUpdate[PR_slotWeaponAmmo][i]);
+        ///}
+
     }
 
+    
     return 1;
 }
 

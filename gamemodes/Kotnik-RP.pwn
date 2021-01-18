@@ -1955,6 +1955,12 @@ public OnPlayerSpawn(playerid) //Przebudowany
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	//if(GetPVarInt(playerid, "class-sel")) DeletePVar(playerid, "class-sel");
 
+    if(GetPVarInt(playerid, "SpawnMusic") != -1)
+    {
+        PlayerPlaySound(playerid, PlayerSounds[GetPVarInt(playerid, "SpawnMusic")][1], 0, 0, 0);
+        SetPVarInt(playerid, "SpawnMusic", -1);
+    }
+
     if(PlayerInfo[playerid][pBBron] > 0)
     {
         sendTipDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[playerid][pBBron]));
@@ -5564,7 +5570,7 @@ public OnGameModeInit()
 
     new srtr[256];
 
-    ReturnEmote(":)", srtr);
+    //ReturnEmote(":)", srtr);
 
     //FabrykaMats::LoadLogic();  DO POPRAWY
     //NowaWybieralka::Init();  DO POPRAWY
