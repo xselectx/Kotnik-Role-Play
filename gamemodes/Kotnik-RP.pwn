@@ -1950,6 +1950,8 @@ public OnPlayerSpawn(playerid) //Przebudowany
 		printf("%s[%d] OnPlayerSpawn - begin", GetNick(playerid), playerid);
 	#endif
     SetPVarInt(playerid, "IsDead", 0);
+    if(PlayerInfo[playerid][pVW] == 7777 || PlayerInfo[playerid][pVW] == 1488) PlayerInfo[playerid][pVW] = 0;
+    if(GetPlayerVirtualWorld(playerid) == 7777 || GetPlayerVirtualWorld(playerid) == 1488) SetPlayerVirtualWorld(playerid, 0);
 	//Czyszczenie zmiennych
     //Update3DTextLabelText(PlayerInfo[playerid][pDescLabel], 0xBBACCFFF, "");
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
@@ -6190,11 +6192,12 @@ public OnPlayerUpdate(playerid)
         }
     }
 
+    new keys, ud, lr;
+    new unused;
+    GetPlayerKeys(playerid, keys, ud, lr);
+
     if(GetPVarInt(playerid, "entering_car") == 1) // pierdoloy samp, ju¿ trzeci raz próbuje usun¹æ ten zjebany pvar...
     {
-        new keys, ud, lr;
-        GetPlayerKeys(playerid, keys, ud, lr);
-
         if(ud == KEY_UP) DeletePVar(playerid, "entering_car");
         else if(ud == KEY_DOWN) DeletePVar(playerid, "entering_car");
         if(lr == KEY_LEFT) DeletePVar(playerid, "entering_car");
@@ -6226,8 +6229,8 @@ public OnPlayerUpdate(playerid)
         new model = GetVehicleModel(veh);
         if(model == 425 || model == 432)
         {
-            new keys, ud, lr;
-            GetPlayerKeys(playerid, keys, ud, lr);
+            //new keys, ud, lr;
+            //GetPlayerKeys(playerid, keys, ud, lr);
             if((keys & KEY_FIRE))
 			{
 				#if DEBUG == 1
@@ -6238,8 +6241,8 @@ public OnPlayerUpdate(playerid)
         }
         else if(model == 520)
         {
-            new keys, ud, lr;
-            GetPlayerKeys(playerid, keys, ud, lr);
+            //new keys, ud, lr;
+            //GetPlayerKeys(playerid, keys, ud, lr);
             if((keys & KEY_ACTION))
 			{
 				#if DEBUG == 1
@@ -6278,8 +6281,8 @@ public OnPlayerUpdate(playerid)
     //
     if(noclipdata[playerid][cameramode] == CAMERA_MODE_FLY)
 	{
-		new keys,ud,lr;
-		GetPlayerKeys(playerid,keys,ud,lr);
+		//new keys,ud,lr;
+		//GetPlayerKeys(playerid,keys,ud,lr);
 
 		if(noclipdata[playerid][mode] && (GetTickCount() - noclipdata[playerid][lastmove] > 100))
 		{
@@ -6315,8 +6318,8 @@ public OnPlayerUpdate(playerid)
 	}
     if(GetPVarInt(playerid, "oil_clear") == 1)
     {
-        new keys, ud,lr;
-        GetPlayerKeys(playerid, keys, ud, lr);
+        //new keys, ud,lr;
+        //GetPlayerKeys(playerid, keys, ud, lr);
         if(ud == KEY_DOWN) Oil_OnPlayerPress(playerid, KEY_DOWN);
         else if(ud == KEY_UP) Oil_OnPlayerPress(playerid, KEY_UP);
         if(lr == KEY_RIGHT) Oil_OnPlayerPress(playerid, KEY_RIGHT*2);

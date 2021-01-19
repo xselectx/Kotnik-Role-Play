@@ -43,11 +43,12 @@ public DCC_OnMessageCreate(DCC_Message:message)
 		new channelid[DCC_ID_SIZE];
 		new nickname[DCC_NICKNAME_SIZE], userid[DCC_ID_SIZE], DCC_User:author, string[128], text[128], bool:is_bot;
 		
-		new command[32], params[128];
+		new command[32], params[512];
 		
 		//guild_name = DCC_FindGuildById("760578155806982205");
-
-		new DCC_Role:admin_role = DCC_FindRoleById("760578445783597089");
+		//770667863061037116
+		//760578445783597089
+		new DCC_Role:admin_role = DCC_FindRoleById("770667863061037116");
 
 		if(!DCC_GetMessageChannel(message, channel))
 			print("DCC_GetMessageChannel error");
@@ -66,7 +67,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 
 		if(!isnull(text) && text[0] != '\\')
 		{
-			sscanf(text, "s[32]s[128]", command, params);
+			sscanf(text, "s[32]s[512]", command, params);
 			if(DC_AntySpam <= 0 && !is_bot)
 			{
 
@@ -76,19 +77,28 @@ public DCC_OnMessageCreate(DCC_Message:message)
 				{
 					if(!strcmp(command, ">cmd", true))
 					{
-						new cmd[32], cmd_params[128];
-						sscanf(params, "s[32]s[128]", cmd, cmd_params);
-						if(!strcmp(cmd, "slap", true) && !isnull(cmd))
-						{
-							new nick[MAX_PLAYER_NAME];
-							format(nick, sizeof(nick), "%d", ReturnUser(cmd_params));
-							if(ReturnUser(cmd_params) != INVALID_PLAYER_ID)
-							{
-								format(string, sizeof(string), "Gracz %s [%d] dostal slapa!", GetNick(strval(nick)), strval(nick));
-								if(DC_Slap(nickname, nick) == 1) DCC_SendChannelMessage(channel, string);
-								else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
-							} else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
-						}
+						new cmd[32], cmd_params[256];
+						sscanf(params, "s[32]s[256]", cmd, cmd_params);
+						new cmd_var[64], nick[64];
+						format(cmd_var, sizeof(cmd_var), "cmd_%s", cmd);
+						gPlayerLogged[999] = 1;
+						PlayerInfo[999][pAdmin] = 5000;
+						format(nick, sizeof(nick), "%s", nickname);
+						format(pName[999], 32, "%s", nickname);
+						format(pNameRp[999], 32, "%s", nickname);
+						//CallLocalFunction(cmd_var, "999 %s", cmd_params);
+						CallLocalFunction(cmd_var, "ds", 999, cmd_params);
+						//if(!strcmp(cmd, "slap", true) && !isnull(cmd))
+						//{
+						//	new nick[MAX_PLAYER_NAME];
+						//	format(nick, sizeof(nick), "%d", ReturnUser(cmd_params));
+						//	if(ReturnUser(cmd_params) != INVALID_PLAYER_ID)
+						//	{
+						//		format(string, sizeof(string), "Gracz %s [%d] dostal slapa!", GetNick(strval(nick)), strval(nick));
+						//		if(DC_Slap(nickname, nick) == 1) DCC_SendChannelMessage(channel, string);
+						//		else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
+						//	} else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
+						//}
 					}
 				}
 

@@ -26,11 +26,15 @@ const AIM_SYNC = 203;
 const WEAPONS_UPDATE_SYNC = 204;
 const PLAYER_SYNC = 207;
 const SPECTATING_SYNC = 212;
+const VEHICLE_SYNC = 200;
+const PASSENGER_SYNC = 211;
 
 const RPC_GIVE_PLAYER_WEAPON = 22;
 const RPC_SET_PLAYER_AMMO = 145;
 const RPC_SET_VEHICLE_HEALTH = 147;
 const RPC_SET_PLAYER_VELOCITY = 90;
+const RPC_SET_PLAYER_POS = 12;
+
 
 // ----------- < Anty Fake Car Despawn > ----------- //
 
@@ -109,6 +113,8 @@ IPacket:WEAPONS_UPDATE_SYNC(playerid, BitStream:bs)
     BS_ReadWeaponsUpdate(bs, weaponsUpdate);
 
 
+    if(GetPlayerVirtualWorld(playerid) == 7777) return 1;
+
     for(new i = 0; i<13; i++) 
     {
         //printf("old: %d (%d) new %d (%d)", RakNet_PlayerWeapons[playerid][i][0], RakNet_PlayerWeapons[playerid][i][1], weaponsUpdate[PR_slotWeaponId][i], weaponsUpdate[PR_slotWeaponAmmo][i]);
@@ -117,19 +123,25 @@ IPacket:WEAPONS_UPDATE_SYNC(playerid, BitStream:bs)
             if(AllowPlayerPacket[playerid][WEAPONS_UPDATE_SYNC] == 1) RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
             else CallLocalFunction("OnCheatDetected", "ds[64]dd", playerid,"KRP-AC", 0, 59);
         }
-        else RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
+        else 
+        {
+            if(weaponsUpdate[PR_slotWeaponId][i] != 0) RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
+        }
 
         if(RakNet_PlayerWeapons[playerid][i][1] < weaponsUpdate[PR_slotWeaponAmmo][i])
         {
            if(AllowPlayerPacket[playerid][WEAPONS_UPDATE_SYNC] == 1) RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
            else CallLocalFunction("OnCheatDetected", "ds[64]dd", playerid,"KRP-AC", 0, 60);
         }
-        else RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
+        else 
+        {
+            if(weaponsUpdate[PR_slotWeaponAmmo][i] != 0) RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
+        }
 
-        ///if(RakNet_PlayerWeapons[playerid][i][0] != 0)
-        ///{
-        ///    printf("old: %d (%d) new %d (%d)", RakNet_PlayerWeapons[playerid][i][0], RakNet_PlayerWeapons[playerid][i][1], weaponsUpdate[PR_slotWeaponId][i], weaponsUpdate[PR_slotWeaponAmmo][i]);
-        ///}
+        //if(RakNet_PlayerWeapons[playerid][i][0] != 0)
+        //{
+        //    printf("old: %d (%d) new %d (%d)", RakNet_PlayerWeapons[playerid][i][0], RakNet_PlayerWeapons[playerid][i][1], weaponsUpdate[PR_slotWeaponId][i], weaponsUpdate[PR_slotWeaponAmmo][i]);
+        //}
 
     }
 
@@ -200,6 +212,20 @@ public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
             }
         }
     }
+    /*if(rpcid == 14)
+    {
+        new Float:health;
+        BS_ReadFloat(bs, health);
+
+        printf("%d - health: %.02f", playerid, health);
+    }
+    if(rpcid == 66)
+    {
+        new Float:armour;
+        BS_ReadFloat(bs, armour);
+
+        printf("%d - armour: %.02f", playerid, armour);
+    }*/
     return 1;
 }
 

@@ -3106,9 +3106,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 20)
 						{
-						    if(PlayerInfo[playerid][pPiwo] >= 4)
+						    if(GetItemQuant(playerid, "Piwo") >= 4)
 						    {
-						    	SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Piw, nie udŸwigniesz ju¿ wiêcej !");
+						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Piw, nie udŸwigniesz ju¿ wiêcej !");
 						    }
 						    if(PlayerInfo[playerid][pTraderPerk] > 0)
 					    	{
@@ -3130,11 +3130,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
 							format(string, sizeof(string), "Piwo 'Mruczny Gul; zakupione.");
 							SendClientMessage(playerid, COLOR_GRAD4, string);
-							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /piwo aby wypiæ");
+							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /p aby wypiæ");
 							format(string, sizeof(string), "~r~-$%d", 20);
 							GameTextForPlayer(playerid, string, 5000, 1);
-							PlayerInfo[playerid][pPiwo] += 1;
-							SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_BEER);
+							AddPlayerItem(playerid, "Piwo", 1);
+							//PlayerInfo[playerid][pPiwo] += 1;
+							//SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_BEER);
 							return 1;
 						}
 					}
@@ -3142,9 +3143,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 25)
 						{
-						    if(PlayerInfo[playerid][pWino] >= 4)
+						    if(GetItemQuant(playerid, "Wino") >= 4)
 						    {
-						    	SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Win, nie udŸwigniesz ju¿ wiêcej !");
+						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Win, nie udŸwigniesz ju¿ wiêcej !");
 						    }
 						    if(PlayerInfo[playerid][pTraderPerk] > 0)
 					    	{
@@ -3165,11 +3166,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
 							format(string, sizeof(string), "Wino 'Komandos zakupione'.");
 							SendClientMessage(playerid, COLOR_GRAD4, string);
-							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /komandos aby wypiæ");
+							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /p aby wypiæ");
 							format(string, sizeof(string), "~r~-$%d", 25);
 							GameTextForPlayer(playerid, string, 5000, 1);
-							PlayerInfo[playerid][pWino] += 1;
-							SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_WINE);
+							AddPlayerItem(playerid, "Wino", 1);
+							//PlayerInfo[playerid][pWino] += 1;
+							//SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_WINE);
 							return 1;
 						}
 					}
@@ -3177,9 +3179,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 15)
 						{
-						    if(PlayerInfo[playerid][pSprunk] >= 5)
+						    if(GetItemQuant(playerid, "Sprunk") >= 4)
 						    {
-						    	SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Sprunków, nie udŸwigniesz ju¿ wiêcej !");
+						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Sprunków, nie udŸwigniesz ju¿ wiêcej !");
 						    }
 						    if(PlayerInfo[playerid][pTraderPerk] > 0)
 					    	{
@@ -3199,9 +3201,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
 							format(string, sizeof(string), "Sprunk zakupiony.");
 							SendClientMessage(playerid, COLOR_GRAD4, string);
-							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /sprunk aby wypiæ sprunka");
-							SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_SPRUNK);
-							PlayerInfo[playerid][pSprunk] += 1;
+							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /p aby wypiæ sprunka");
+							AddPlayerItem(playerid, "Sprunk", 1);
+							//SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_SPRUNK);
+							//PlayerInfo[playerid][pSprunk] += 1;
 							return 1;
 						}
 					}
@@ -3236,9 +3239,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 200)
 						{
-						    if(PlayerInfo[playerid][pCygaro] >= 1)
+						    if(GetItemQuant(playerid, "Papierosy") >= 10)
 						    {
-						    	SendClientMessage(playerid, COLOR_GREY, "   Masz ju¿ cygara, po co ci nastêpne?");
+						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz ju¿ papierosy, po co ci nastêpne?");
 						    }
 						    if(PlayerInfo[playerid][pTraderPerk] > 0)
 					    	{
@@ -3256,11 +3259,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 								GameTextForPlayer(playerid, string, 5000, 1);
 							}
 							PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
-							format(string, sizeof(string), "Paczka 5 cygar zakupiona.");
+							format(string, sizeof(string), "Paczka 5 papierosów zakupiona.");
 							SendClientMessage(playerid, COLOR_GRAD4, string);
-							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /cygaro aby zapaliæ");
-							PlayerInfo[playerid][pCygaro] = 5;
-							SetPlayerSpecialAction(playerid, SPECIAL_ACTION_SMOKE_CIGGY);
+							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /p aby zapaliæ");
+							AddPlayerItem(playerid, "Papierosy", 5);
+							//PlayerInfo[playerid][pCygaro] = 5;
+							//SetPlayerSpecialAction(playerid, SPECIAL_ACTION_SMOKE_CIGGY);
 							return 1;
 						}
 						else
@@ -4948,7 +4952,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			        {
 			            PlayerInfo[playerid][pGun1] = 0;
 						PlayerInfo[playerid][pAmmo1] = 0;
-						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twoja broñ bia³a zosta³a usniêta");
+						SendClientMessage(playerid, COLOR_LIGHTBLUE, "Twoja broñ bia³a zosta³a usuniêta");
 						ResetPlayerWeaponsEx(playerid);
 						SetTimerEx("UsuwanieBroniReset", 1000, 0, "d", playerid);
 						ShowPlayerDialogEx(playerid, 876, DIALOG_STYLE_LIST, "Usuwanie broni", "Kastet\nBroñ bia³a\nPistolet\nStrzelba\nPistolet maszynowy\nKarabin\nSnajperka\nOgniomiotacz\nC4\nAparat/Sprej\nKwiaty/Laska/Dildo\nSpadochron\nDetonator", "Usuñ", "WyjdŸ");

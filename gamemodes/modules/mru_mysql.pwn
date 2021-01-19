@@ -461,9 +461,11 @@ stock MruMySQL_SaveAccount(playerid, bool:forcegmx = false, bool:forcequit = fal
     format(query, sizeof(query), "UPDATE `mru_konta` SET \
 	`JailReason`='%s', \
 	`BWType`='%d' \
+	`pFishTimer`='%d' \
 	 WHERE `UID`='%d'",
 	PlayerInfo[playerid][pJailReason],
 	PlayerInfo[playerid][pBWType],
+	PlayerInfo[playerid][pFishTimer],
 	PlayerInfo[playerid][pUID]);
 
     if(!mysql_query(query)) fault=false;
@@ -683,7 +685,7 @@ public MruMySQL_LoadAcocount(playerid)
         PlayerInfo[playerid][pDomWKJ],
 		PlayerInfo[playerid][pDomT]);
 
-        lStr = "`pBPojazd`, `pBBron`";
+        lStr = "`pBPojazd`, `pBBron`, `pFishTimer`";
 
         format(lStr, 1024, "SELECT %s FROM `mru_konta` WHERE `Nick`='%s'", lStr, GetNick(playerid));
     	mysql_query(lStr);
@@ -692,9 +694,10 @@ public MruMySQL_LoadAcocount(playerid)
         mysql_fetch_row_format(lStr, "|");
         mysql_free_result();
 
-        sscanf(lStr, "p<|>dd",
+        sscanf(lStr, "p<|>ddd",
         PlayerInfo[playerid][pBPojazd],
-		PlayerInfo[playerid][pBBron]);
+		PlayerInfo[playerid][pBBron],
+		PlayerInfo[playerid][pFishTimer]);
 	}
 
 	
@@ -748,6 +751,8 @@ public MruMySQL_LoadAcocount(playerid)
 	//{
 	//	PlayerInfo[playerid][pOrg] = 22;
 	//}
+
+	if(PlayerInfo[playerid][pVW] == 7777 || PlayerInfo[playerid][pVW] == 1488) PlayerInfo[playerid][pVW] = 0;
 
     MruMySQL_LoadAccess(playerid);
     premium_loadForPlayer(playerid);

@@ -9592,7 +9592,7 @@ CMD:blok(playerid, params[])
             return 1;
         }
 
-		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pZG] >= 2 || PlayerInfo[playerid][pNewAP] >= 1 && PlayerInfo[playerid][pNewAP] <= 3 || PlayerInfo[playerid][pNewAP] == 5)
+		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pZG] >= 2 || PlayerInfo[playerid][pNewAP] >= 1 && PlayerInfo[playerid][pNewAP] <= 6 || PlayerInfo[playerid][pNewAP] == 5)
 		{
 		    if(AntySpam[playerid] == 1)
 		    {
@@ -10242,7 +10242,7 @@ CMD:zmienskin(playerid)
 //-------------------------------[Special Action]------------------------------------------------------------
 
 
-CMD:piwo(playerid)
+/*CMD:piwo(playerid)
 {
     if(PlayerInfo[playerid][pPiwo] >= 1)
     {
@@ -10254,11 +10254,11 @@ CMD:piwo(playerid)
 	    SendClientMessage(playerid, COLOR_LIGHTBLUE, "Musisz kupiæ piwo aby móc je piæ, idŸ do baru lub 24/7");
 	}
 	return 1;
-}
+}*/
 
 
 
-CMD:wino(playerid) return cmd_komandos(playerid);
+/*CMD:wino(playerid) return cmd_komandos(playerid);
 CMD:komandos(playerid)
 {
     if(PlayerInfo[playerid][pWino] >= 1)
@@ -10271,10 +10271,10 @@ CMD:komandos(playerid)
 	    SendClientMessage(playerid, COLOR_LIGHTBLUE, "Musisz kupiæ wino aby móc je piæ, idŸ do baru lub 24/7");
 	}
 	return 1;
-}
+}*/
 
 
-CMD:sprunk(playerid)
+/*CMD:sprunk(playerid)
 {
 	if(PlayerInfo[playerid][pSprunk] >= 1)
     {
@@ -10301,7 +10301,7 @@ CMD:cygaro(playerid)
 	    SendClientMessage(playerid, COLOR_LIGHTBLUE, "Musisz kupiæ cygaro aby móc je paliæ, idŸ do dilera lub 24/7");
 	}
 	return 1;
-}
+}*/
 
 
 CMD:skret(playerid)
@@ -18798,16 +18798,20 @@ CMD:wiadomosc(playerid, params[])
 
         if(((PlayerInfo[giveplayerid][pAdmin] >= 1000) || (PlayerInfo[giveplayerid][pAdmin] == 7 && GetPVarInt(giveplayerid, "dutyadmin") == 1)) && GetPVarInt(playerid, "admintoken") == 0) 
         {
-            new tokenid = random(10000000000);
-            adminTokenID[playerid] = giveplayerid;
-            adminToken[playerid] = tokenid;
-            //adminTokenText[playerid] = text;
-            format(adminTokenText[playerid], 128, "%s", text);
-            printf("%s", adminTokenText[playerid]);
-
-            format(C_STRING, sizeof(C_STRING), "Aby wys³aæ wiadomoœæ do Administratora: %s [%d]\nMusisz przepisaæ token: {8FCB04}%d", GetNick(giveplayerid), giveplayerid, adminToken[playerid]);
-            ShowPlayerDialogEx(playerid, DIALOG_ADMIN_PM_TOKEN, DIALOG_STYLE_INPUT, "{8FCB04}Kotnik-RP{FFFFFF} » Token wiadomoœci", C_STRING, "Wyœlij", "Anuluj");
-            return 1;
+            if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
+            {
+                new tokenid = random(10000000000);
+                adminTokenID[playerid] = giveplayerid;
+                adminToken[playerid] = tokenid;
+                //adminTokenText[playerid] = text;
+                format(adminTokenText[playerid], 128, "%s", text);
+                printf("%s", adminTokenText[playerid]);
+    
+                format(C_STRING, sizeof(C_STRING), "Aby wys³aæ wiadomoœæ do Administratora: %s [%d]\nMusisz przepisaæ token: {8FCB04}%d", GetNick(giveplayerid), giveplayerid, adminToken[playerid]);
+                ShowPlayerDialogEx(playerid, DIALOG_ADMIN_PM_TOKEN, DIALOG_STYLE_INPUT, "{8FCB04}Kotnik-RP{FFFFFF} » Token wiadomoœci", C_STRING, "Wyœlij", "Anuluj");
+            
+                return 1;
+            }
         }
         if(HidePM[giveplayerid] > 0)
         {
@@ -31051,9 +31055,9 @@ CMD:zlap(playerid)
 
     if(IsPlayerConnected(playerid))
     {
-        if(PlayerInfo[playerid][pFishes] >= 5)
+        if(PlayerInfo[playerid][pFishTimer] > 0)
         {
-            sendTipMessageEx(playerid, COLOR_GREY, "Odczekaj 10-15 minut zanim znowu zaczniesz ³owiæ!");
+            sendTipMessageEx(playerid, COLOR_GREY, sprintf("Odczekaj %d minut zanim znowu zaczniesz ³owiæ!", PlayerInfo[playerid][pFishTimer]));
             return 1;
         }
         if(Fishes[playerid][pWeight1] > 0 && Fishes[playerid][pWeight2] > 0 && Fishes[playerid][pWeight3] > 0 && Fishes[playerid][pWeight4] > 0 && Fishes[playerid][pWeight5] > 0)
@@ -31226,6 +31230,7 @@ CMD:zlap(playerid)
 				Fishes[playerid][pLastFish] = 5;
 				Fishes[playerid][pFid5] = rand;
 				Fishes[playerid][pFishID] = rand;
+                PlayerInfo[playerid][pFishTimer] = 5;
 				if(Caught > PlayerInfo[playerid][pBiggestFish])
 				{
 				    format(string, sizeof(string), "* Twój stary rekord wynosi³ %d kg, zosta³ on pobity i twój rekord wynosi teraz: %d KG.", PlayerInfo[playerid][pBiggestFish], Caught);

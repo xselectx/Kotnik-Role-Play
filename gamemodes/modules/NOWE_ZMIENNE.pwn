@@ -5,6 +5,8 @@ new GMX;
 new DC_AntySpam;
 new LOCALHOST = 0;
 
+new FishTimer[MAX_PLAYERS];
+
 new AntyFakeKillVar[MAX_PLAYERS];
 new Float:VehicleHealth[MAX_VEHICLES];
 new OldPayCheck[MAX_PLAYERS];
@@ -1389,6 +1391,7 @@ stock ZerujZmienne(playerid)
     PlayerInfo[playerid][pItems] = 0;
     PlayerInfo[playerid][pWeight] = 0;
 	PlayerInfo[playerid][pKluczeAuta] = 0;
+    PlayerInfo[playerid][pFishTimer] = 0;
 	ClearFishes(playerid);
 	ClearCooking(playerid);
 	ClearGroceries(playerid);
@@ -1501,12 +1504,18 @@ stock ZerujZmienne(playerid)
     ClearDamageLog(playerid);
     CancelTrade(playerid);
     RakNet_SaveWeapons[playerid] = 0;
+    FishTimer[playerid] = 0;
+
     for(new i=0;i<13;i++) 
     {
         RakNet_PlayerWeapons[playerid][i][0] = 0;
         RakNet_PlayerWeapons[playerid][i][1] = 0;
     }
-
+    for(new i = 0; i<300; i++)
+    {
+        AllowPlayerRPC[playerid][i] = 0;
+        AllowPlayerPacket[playerid][i] = 0;
+    }
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
     for(new i=0;i<MAX_SKIN_SELECT+120;i++) PERSONAL_SKINS[playerid][i] = 0;
 

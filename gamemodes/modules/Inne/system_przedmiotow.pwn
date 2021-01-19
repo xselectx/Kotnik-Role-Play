@@ -57,16 +57,19 @@ new WeaponsInventory[48][8][64] =
 	{ "Gaz pieprzowy",			"41",		"365",	"0.1",	"4",	"0",	"0",	"0"}
 };
 
-new ItemsInventory[6][8][64] = 
+new ItemsInventory[10][8][64] = 
 {	
-
 	//nazwa					//type	//model //weight //stats1 //stats2 //stats3 //stats4
 	{"Telefon",					"1",	"330",	"0.1",	"0",	"0",	"0",	"100"},
 	{"Amunicja (lekka)",		"3",	"2039",	"0.01",	"1",	"0",	"0",	"0"},
 	{"Amunicja (srednia)",		"3",	"2039",	"0.02",	"2",	"0",	"0",	"0"},
 	{"Amunicja (ciezka)",		"3",	"2039",	"0.03",	"3",	"0",	"0",	"0"},
 	{"Amunicja (inna)",			"3",	"2039",	"0",	"4",	"0",	"0",	"0"},
-	{"Burger",					"4",	"2880", "0",	"40",   "0",	"0",	"0"}
+	{"Burger",					"4",	"2880", "0",	"40",   "0",	"0",	"0"},
+	{"Piwo",					"5",	"1486", "0",	"10",   "1",	"0",	"0"},
+	{"Wino",					"5",	"1520", "0",	"15",   "2",	"0",	"0"},
+	{"Sprunk",					"6",	"13562", "0",	"10",   "0",	"0",	"0"},
+	{"Papierosy",				"7",	"19897", "0",	"0",   	"0",	"0",	"0"}
 };
 
 
@@ -328,13 +331,14 @@ RemovePlayerItem(pid, item[], quant)
 
 					if(!strcmp(fullName, "Telefon", true))
 					{
+						cmd_wywaltelefon(pid);
 						PlayerInfo[pid][pPnumber] = 0;
 					}
 
 					ReloadPlayerInventory(pid);
 					return 1;
 				}
-
+				
 				Inventory[pid][i][iQuant]-=quant;
 				format(query, sizeof(query), "UPDATE `items` SET `quant` = '%d' WHERE `uID` = '%d'", Inventory[pid][i][iQuant], Inventory[pid][i][iUID]);
 				mysql_query(query);
@@ -377,7 +381,7 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(!response) return ShowPlayerInventory(playerid, 0);
 
-		if(strfind(inputtext, "U¿yj", true) != -1 || strfind(inputtext, "Zjedz", true) != -1) return UseItem(playerid, GetPVarInt(playerid, "itemID"));
+		if(strfind(inputtext, "U¿yj", true) != -1 || strfind(inputtext, "Zjedz", true) != -1 || strfind(inputtext, "Wypij", true) != -1) return UseItem(playerid, GetPVarInt(playerid, "itemID"));
 		else if(strfind(inputtext, "Od³ó¿", true) != -1) return PutAwayItem(playerid, GetPVarInt(playerid, "itemID"));
 		else if(strfind(inputtext, "Podaj", true) != -1) return OfferItem(playerid, GetPVarInt(playerid, "itemID"));
 		else if(strfind(inputtext, "Zniszcz", true) != -1) return DestroyItem(playerid, GetPVarInt(playerid, "itemID"));
@@ -442,8 +446,17 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				format(string2, sizeof(string2), "Wpisz poni¿ej ile sztuk {9ACD32}%s{A9C4E4} chcesz oferowaæ graczowi {9ACD32}%s{A9C4E4}:", Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], player);
 
 				ShowPlayerDialogEx(playerid, D_OFFER_ITEM_QUANT, DIALOG_STYLE_INPUT, string, string2, "OK", "Anuluj");
-			} else return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
-		} else return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+			} else 
+			{
+				CancelTrade(playerid);
+				return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
+			}
+		} 
+		else 
+		{
+			CancelTrade(playerid);
+			return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+		}
 	}
 	else if(dialogid == D_OFFER_ITEM_QUANT)
 	{
@@ -483,8 +496,17 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 				ShowPlayerDialogEx(playerid, D_OFFER_ITEM_PRICE, DIALOG_STYLE_INPUT, string, string2, "OK", "Anuluj");
 
-			} else return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
-		} else return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+			} else 
+			{
+				CancelTrade(playerid);
+				return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
+			}
+		} 
+		else 
+		{
+			CancelTrade(playerid);
+			return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+		}
 	}
 	else if(dialogid == D_OFFER_ITEM_PRICE)
 	{
@@ -528,8 +550,18 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 				ShowPlayerDialogEx(playerid, D_OFFER_ITEM_CONFIRM, DIALOG_STYLE_MSGBOX, string, string2, "Tak", "Anuluj");
 
-			} else return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
-		} else return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+			} 
+			else 
+			{
+				CancelTrade(playerid);
+				return sendTipDialogMessage(playerid, sprintf("%s jest za daleko", player));
+			}
+		} 
+		else 
+		{
+			CancelTrade(playerid);
+			return sendTipDialogMessage(playerid, sprintf("%s nie jest ju¿ dostêpny", player));
+		}
 	}
 	else if(dialogid == D_OFFER_ITEM_CONFIRM)
 	{
@@ -552,6 +584,19 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						CancelTrade(playerid);
 						return sendTipDialogMessage(playerid, sprintf("%s ma aktywn¹ ofertê", player));
 					}
+
+					new type = Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iType];
+					new max_ilosc = 5;
+					if(type == 5 || type == 6 || type == 7)
+					{
+						if(type == 7) max_ilosc = 10;
+						new quant = GetItemQuant(giveplayerid, Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName]);
+						new string[128];
+						format(string, sizeof(string), "%s ma za duzo %s wiêc nie mo¿esz tego zaoferowaæ. (Max: %d)", GetNick(giveplayerid), Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], max_ilosc);
+						if(quant + GetPVarInt(playerid, "OfferingItemQuant") > max_ilosc) return sendTipMessage(playerid, string);
+					}
+					
+
 					new string[128];
 					format(string, sizeof(string), "Zaoferowa³eœ %s kupno %d sztuk %s za $%d\nCzekaj na akceptacjê!", player, GetPVarInt(playerid, "OfferingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], GetPVarInt(playerid, "OfferingItemPrice"));
 					sendTipDialogMessage(playerid, string);
@@ -617,7 +662,8 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		sendTipDialogMessage(id, string);
 		//SetPVarInt(playerid, "OfferingItemFrom", INVALID_PLAYER_ID);
 		CancelTrade(id);
-
+		SetPVarInt(id, "OfferItemTimeout", 0);
+		SetPVarInt(playerid, "OfferItemTimeout", 0);
 		format(string, sizeof(string), "%s [%d] da³ %s [%d] %d sztuk %s za $%d", GetNick(id), PlayerInfo[id][pUID], GetNick(playerid), PlayerInfo[playerid][pUID], ilosc, itemname, cena);
 		ItemLog(string);
 		if(cena > 0) PayLog(string);
@@ -654,17 +700,97 @@ stock UseItem(playerid, itemid)
 				sendTipMessage(playerid, sprintf("Zjadasz %s", Inventory[playerid][itemid][iName]));
 				SetPlayerHealth(playerid, health+Inventory[playerid][itemid][iStats1]);
 
-				RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
+				
 				ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, 0, 0, 0, 0, 0, 1);
 
 				SetPVarInt(playerid, "CanUseItem", 1);
 				SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
 
 				AttachEatableObject(playerid, Inventory[playerid][itemid][iModel]);
-				SetPlayerChatBubble(playerid, sprintf("* zjada %s", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+				SetPlayerChatBubble(playerid, sprintf("* zjada %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+
+				RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
 
 			}
 		} else return sendTipMessage(playerid, sprintf("Odczekaj chwilê zanim zjesz %s", Inventory[playerid][itemid][iName]));
+	}
+	else if(Inventory[playerid][itemid][iType] == 5)
+	{
+		new Float:health;
+		GetPlayerHealth(playerid, Float:health);
+		if(GetPVarInt(playerid, "CanUseItem") == 0)
+		{
+			if((health - Inventory[playerid][itemid][iStats1]) <= 0)
+			{
+				sendTipMessage(playerid, sprintf("Nie pij na pusty ¿o³¹dek! Zgnijesz gdy wypijesz %s", Inventory[playerid][itemid][iName]));
+				//ShowPlayerInventory(playerid, 0);
+			}
+			else
+			{
+				switch(Inventory[playerid][itemid][iStats2])
+				{
+					case 2: SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_WINE);
+					case 3: SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_SPRUNK);
+					default: SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_BEER);
+				}
+				SetPlayerHealth(playerid, health-Inventory[playerid][itemid][iStats1]);
+
+				sendTipMessage(playerid, sprintf("Pijesz %s", Inventory[playerid][itemid][iName]));
+				SetPVarInt(playerid, "CanUseItem", 1);
+				SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
+
+				SetPlayerChatBubble(playerid, sprintf("* pije %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+
+				RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
+
+			}
+		} else return sendTipMessage(playerid, sprintf("Odczekaj chwilê zanim wypijesz %s", Inventory[playerid][itemid][iName]));
+	}
+	else if(Inventory[playerid][itemid][iType] == 6)
+	{
+		new Float:health;
+		GetPlayerHealth(playerid, Float:health);
+		if(GetPVarInt(playerid, "CanUseItem") == 0)
+		{
+			if((health - Inventory[playerid][itemid][iStats1]) <= 0)
+			{
+				sendTipMessage(playerid, sprintf("Przepe³nisz siê gdy wypijesz %s", Inventory[playerid][itemid][iName]));
+				//ShowPlayerInventory(playerid, 0);
+			}
+			else
+			{
+				switch(Inventory[playerid][itemid][iStats2])
+				{
+					default: SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_SPRUNK);
+				}
+				SetPlayerHealth(playerid, health+Inventory[playerid][itemid][iStats1]);
+
+				sendTipMessage(playerid, sprintf("Pijesz %s", Inventory[playerid][itemid][iName]));
+				SetPVarInt(playerid, "CanUseItem", 1);
+				SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
+
+				SetPlayerChatBubble(playerid, sprintf("* pije %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+
+				RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
+
+			}
+		} else return sendTipMessage(playerid, sprintf("Odczekaj chwilê zanim wypijesz %s", Inventory[playerid][itemid][iName]));
+	}
+	else if(Inventory[playerid][itemid][iType] == 7)
+	{
+		if(GetPVarInt(playerid, "CanUseItem") == 0)
+		{
+			SetPlayerSpecialAction(playerid, SPECIAL_ACTION_SMOKE_CIGGY);
+
+			sendTipMessage(playerid, sprintf("Odpala %s", Inventory[playerid][itemid][iName]));
+			SetPVarInt(playerid, "CanUseItem", 1);
+			SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
+
+			SetPlayerChatBubble(playerid, sprintf("* podpala %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+
+			RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
+
+		}
 	}
 	return 1;
 }
@@ -745,11 +871,16 @@ stock CancelTrade(playerid)
 	SetPVarInt(playerid, "OfferingItemQuant", -1);
 	SetPVarInt(playerid, "OfferingItemPrice", -1);
 	SetPVarString(playerid, "OfferingItemToName", "Brak");
+	SetPVarInt(playerid, "OfferItemTimeout", 0);
 	for(new i = 0; i<MAX_PLAYERS; i++)
 	{
 		if(IsPlayerConnected(i))
 		{
-			if(GetPVarInt(i, "OfferingItemFrom") == playerid) SetPVarInt(i, "OfferingItemFrom", INVALID_PLAYER_ID);
+			if(GetPVarInt(i, "OfferingItemFrom") == playerid) 
+			{
+				SetPVarInt(i, "OfferingItemFrom", INVALID_PLAYER_ID);
+				SetPVarInt(i, "OfferItemTimeout", 0);
+			}
 		}
 	}
 	return 1;
@@ -764,13 +895,26 @@ stock ShowItemMenu(playerid, itemid, type)
 		{
 			format(string, sizeof(string), 
 				"»» U¿yj	\n\
-				 »» Podaj	\n\
 				 »» Zniszcz	\n");
 		}
 		case 4:
 		{
 			format(string, sizeof(string), 
 				"»» Zjedz	\n\
+				 »» Podaj	\n\
+				 »» Zniszcz	\n");
+		}
+		case 5, 6:
+		{
+			format(string, sizeof(string), 
+				"»» Wypij	\n\
+				 »» Podaj	\n\
+				 »» Zniszcz	\n");
+		}
+		default:
+		{
+			format(string, sizeof(string), 
+				"»» U¿yj	\n\
 				 »» Podaj	\n\
 				 »» Zniszcz	\n");
 		}
@@ -974,6 +1118,36 @@ public AttachEatableObject(playerid, modelid)
 	SetTimerEx("DetachEatableObject", 3000, false, "d", playerid);
 }
 
+stock GetItemQuant(playerid, item[])
+{
+	new x = -1;
+	new fullName[64];
+
+	for(new i = 0; i<sizeof(ItemsInventory); i++)
+	{
+		if(strfind(ItemsInventory[i][0], item, true) != -1)
+		{
+			x = i;
+			format(fullName, sizeof(fullName), "%s", ItemsInventory[i][0]);
+			break;
+		} else {
+			x = -1;
+		}
+	}
+
+	if(x != -1)
+	{
+		for(new i = 0; i<PlayerInfo[playerid][pItems]; i++)
+		{
+			if(!strcmp(fullName, Inventory[playerid][i][iName], true))
+			{
+				return Inventory[playerid][i][iQuant];
+			}
+		}
+	}
+	return 0;
+}
+
 forward DetachEatableObject(playerid);
 public DetachEatableObject(playerid)
 {
@@ -1053,6 +1227,7 @@ CMD:p(playerid, params[])
 													if(playerid == var1_int) return OfferItem(playerid, i);
 													SetPVarInt(playerid, "OfferingItem", i);
 													SetPVarInt(playerid, "OfferingItemTo", ReturnUser(var1));
+													SetPVarString(playerid, "OfferingItemToName", GetNick(var1_int));
 													Inv_OnDialogResponse(playerid, D_OFFER_ITEM, 1, 0, sprintf("%s (%d)", GetNick(var1_int), var1_int));
 												} else return OfferItem(playerid, i);
 											} else return OfferItem(playerid, i);
@@ -1069,6 +1244,7 @@ CMD:p(playerid, params[])
 													if(playerid == var1_int) return OfferItem(playerid, i);
 													SetPVarInt(playerid, "OfferingItem", i);
 													SetPVarInt(playerid, "OfferingItemTo", ReturnUser(var1));
+													SetPVarString(playerid, "OfferingItemToName", GetNick(var1_int));
 													if(var2 <= 0 || var2 >= Inventory[playerid][i][iQuant]) var2 = Inventory[playerid][i][iQuant];
 													SetPVarInt(playerid, "OfferingItemQuant", var2);
 													new ilosc[64];
@@ -1089,6 +1265,7 @@ CMD:p(playerid, params[])
 													if(playerid == var1_int) return OfferItem(playerid, i);
 													SetPVarInt(playerid, "OfferingItem", i);
 													SetPVarInt(playerid, "OfferingItemTo", ReturnUser(var1));
+													SetPVarString(playerid, "OfferingItemToName", GetNick(var1_int));
 													if(var2 <= 0 || var2 >= Inventory[playerid][i][iQuant]) var2 = Inventory[playerid][i][iQuant];
 													SetPVarInt(playerid, "OfferingItemQuant", var2);
 													if(var3 <= 0) var3 = 0;

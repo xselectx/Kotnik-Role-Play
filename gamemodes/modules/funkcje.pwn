@@ -8615,7 +8615,7 @@ ProxDetectorS(Float:radi, playerid, targetid)
 		//printf("DEBUG: X:%f Y:%f Z:%f",posx,posy,posz);
 		if (((tempposx < radi) && (tempposx > -radi)) && ((tempposy < radi) && (tempposy > -radi)) && ((tempposz < radi) && (tempposz > -radi)))
 		{
-			if(Spectate[targetid] == INVALID_PLAYERID) return 1;
+			if(Spectate[targetid] == INVALID_PLAYER_ID) return 1;
 			else return 0;
 		}
 	}
@@ -13589,72 +13589,70 @@ public OnCheatDetected(playerid, ip_address[], type, code)
     {
     	BlockIpAddress(plrIP, 60 * 1000);
     }
+    if(PlayerInfo[playerid][pAdmin] > 0) return 1;
 
-    if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
+    if(GetPlayerVirtualWorld(playerid) != 7777)
     {
-    	if(GetPlayerVirtualWorld(playerid) != 7777)
+    	switch(KodyAC[code])
     	{
-    		switch(KodyAC[code])
+    		// 0 = off
+    		case 1: // w³aczony, kick
     		{
-    			// 0 = off
-    			case 1: // w³aczony, kick
-    			{
-    				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    				 SendAdminMessage(0x9ACD32AA, string);
-    				 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
-    				 SendClientMessage(playerid, 0x9ACD32AA, string);
-    				 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
-    				 SetPlayerVirtualWorld(playerid, 7777);
-    				 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
-    				 KickEx(playerid);
-    				 return 1;
-    			}
-    			case 2: // AdmWarning
+    			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			 SendAdminMessage(0x9ACD32AA, string);
+    			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
+    			 SendClientMessage(playerid, 0x9ACD32AA, string);
+    			 if(PlayerInfo[playerid][pNewAP] == 0) KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
+    			 SetPlayerVirtualWorld(playerid, 7777);
+    			 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
+    			 KickEx(playerid);
+    			 return 1;
+    		}
+    		case 2: // AdmWarning
+    		{
+    			format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
+    			SendAdminMessage(COLOR3, string);
+    			return 2;
+    		}
+    		case 3: // Ostrze¿enie (/cziterzy)
+    		{
+    			SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    			return 3;
+
+    		}
+    		case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
+    		{
+    			format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
+    			SendAdminMessage(COLOR3, string);
+    			SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    			return 4;
+    		}
+    		case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
+    		{
+    			if(KodyACDelay[playerid][code] == 0)
     			{
     				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
     				SendAdminMessage(COLOR3, string);
-    				return 2;
+					SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    				KodyACDelay[playerid][code] = 1;
+    				SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
+    				return 5;
     			}
-    			case 3: // Ostrze¿enie (/cziterzy)
-    			{
-    				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
-    				return 3;
-	
-    			}
-    			case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
-    			{
-    				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
-    				SendAdminMessage(COLOR3, string);
-    				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
-    				return 4;
-    			}
-    			case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
-    			{
-    				if(KodyACDelay[playerid][code] == 0)
-    				{
-    					format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
-    					SendAdminMessage(COLOR3, string);
-						SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
-    					KodyACDelay[playerid][code] = 1;
-    					SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
-    					return 5;
-    				}
-    			}
-    			case 6: // ban
-    			{
-    				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    				 SendAdminMessage(0x9ACD32AA, string);
-    				 BanLog(string);
-    				 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
-    				 SendClientMessage(playerid, 0x9ACD32AA, string);
-    				 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
-    				 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-    				 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
-					 SetPlayerVirtualWorld(playerid, 7777);
-					 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
-					 KickEx(playerid);
-					 return 6;
-    			}
+    		}
+    		case 6: // ban
+    		{
+    			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			 SendAdminMessage(0x9ACD32AA, string);
+    			 BanLog(string);
+    			 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
+    			 SendClientMessage(playerid, 0x9ACD32AA, string);
+    			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+    			 if(PlayerInfo[playerid][pNewAP] == 0) KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
+				 SetPlayerVirtualWorld(playerid, 7777);
+				 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
+				 KickEx(playerid);
+				 return 6;
     		}
     	}
 	}
@@ -15395,14 +15393,5 @@ public RestoreOldWeapons(playerid, nick[])
 	//	MruMySQL_SetAccInt(sprintf("Gun%d", i), nick, RakNet_PlayerWeapons[playerid][i][0]);
 	//	MruMySQL_SetAccInt(sprintf("Ammo%d", i), nick, RakNet_PlayerWeapons[playerid][i][1]);
 	//}
-	return 1;
-}
-
-forward ApplyDelayedAnimation(playerid, animlib[], animname[], Float:fDelta, loop, lockx, locky, freeze, time, forcesync);
-public ApplyDelayedAnimation(playerid, animlib[], animname[], Float:fDelta, loop, lockx, locky, freeze, time, forcesync)
-{
-	printf("%d | %s | %s | %f | %d | %d | %d | %d | %d | %d", playerid, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync);
-	ApplyAnimation(playerid, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync);
-	print("git");
 	return 1;
 }

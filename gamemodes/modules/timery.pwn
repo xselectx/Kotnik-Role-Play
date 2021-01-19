@@ -1868,7 +1868,7 @@ public Production()
 {
 	foreach(Player, i)
 	{
-		if(PlayerInfo[i][pFishes] >= 5) { if(FishCount[i] >= 3) { PlayerInfo[i][pFishes] = 0; } else { FishCount[i] += 1; } }
+		//if(PlayerInfo[i][pFishes] >= 5) { if(FishCount[i] >= 3) { PlayerInfo[i][pFishes] = 0; } else { FishCount[i] += 1; } }
 		if(PlayerDrunk[i] > 0) { PlayerDrunkTime[i] = 0; GameTextForPlayer(i, "~p~Jestes mniej pijany~n~~r~Pijaku", 3500, 1); }
 		if(GetPlayerDrunkLevel(i) < 1999 && PlayerDrunk[i] > 0) { PlayerDrunk[i] = 0; PlayerDrunkTime[i] = 0; GameTextForPlayer(i, "~p~Wytrzezwiales~n~~r~Pijaku", 3500, 1); }
 		if(PlayerInfo[i][pPayDay] < 6 && !IsPlayerPaused(i)) { PlayerInfo[i][pPayDay] += 1; } //+ 5 min to PayDay anti-abuse
@@ -2215,6 +2215,23 @@ public JednaSekundaTimer()
         State = GetPlayerState(i);
         GetPlayerPos(i, x, y, z);
 		GetPlayerArmour(i, pancerzyy);
+
+		if(pancerzyy >= 100)
+		{
+			MruMySQL_Banuj(i, "ArmorHack");
+			KaraTextdrawSystem("Banicja", GetNick(i), "ANTYCHEAT", "ArmorHack");
+			KickEx(i);
+		}
+
+		if(PlayerInfo[i][pFishTimer] > 0)
+		{
+			if(FishTimer[i] >= 60) 
+			{
+				PlayerInfo[i][pFishTimer]--; 
+				FishTimer[i] = 0;
+			}
+			else FishTimer[i]++;
+		}
 
 		if(PlayerInfo[i][pJob] == 8)
 		{

@@ -1724,7 +1724,8 @@ enum pInfo
     Text3D:pDescLabel,
     pDesc[128],
     pItems,
-    pWeight
+    pWeight,
+    pFishTimer
 };
 
 new PlayerInfo[MAX_PLAYERS][pInfo];
