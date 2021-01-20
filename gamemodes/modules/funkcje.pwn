@@ -13560,10 +13560,8 @@ public Wybieralka_Delay(playerid)
 {
 	if(GetPVarInt(playerid, "Wybieralka_AntyBug") == 1)
 	{
-		print("if wybieralki");
 		if(!IsPlayerPaused(playerid))
 		{
-			print("juz nie jest afk");
 			SetPVarInt(playerid, "Wybieralka_AntyBug", 0);
 		}
 		else return SetTimerEx("Wybieralka_Delay", 500, false, "i", playerid);
@@ -13601,6 +13599,7 @@ Wybieralka_Setup(playerid)
 Wybieralka_Exit(playerid)
 {
 	Wybieralka[playerid] = 0;
+	SetPVarInt(playerid, "wyborPierwszego", 0);
 	//TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Right);
 	//TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Left);
 	//TextDrawHideForPlayer(playerid, Wybieralka_Confirm);
@@ -15440,6 +15439,7 @@ public RestoreOldWeapons(playerid, nick[])
 
 ShowUbrania(playerid, type, first = 0)
 {
+	first = GetPVarInt(playerid, "wyborPierwszego");
 	if(type == 0)
 	{
 		new subString[32];
@@ -15448,7 +15448,8 @@ ShowUbrania(playerid, type, first = 0)
         {
             for(new i = 0; i < sizeof(SkinyCiuchyMeskie); i++)
             {
-                format(subString, sizeof(subString), "%d\n", SkinyCiuchyMeskie[i][0]);
+                if(GetPVarInt(playerid, "wyborPierwszego") == 1) format(subString, sizeof(subString), "%d\n", SkinyCiuchyMeskie[i][0]);
+                else format(subString, sizeof(subString), "%d\t~g~$%d\n", SkinyCiuchyMeskie[i][0], SkinyCiuchyMeskie[i][1]);
                 strcat(string, subString);
             }
             SetPVarInt(playerid, "ShowUbraniaType", 1);
@@ -15464,7 +15465,8 @@ ShowUbrania(playerid, type, first = 0)
         {
             for(new i = 0; i < sizeof(SkinyCiuchyDamskie); i++)
             {
-                format(subString, sizeof(subString), "%d\n", SkinyCiuchyDamskie[i][0]);
+                if(GetPVarInt(playerid, "wyborPierwszego") == 1)format(subString, sizeof(subString), "%d\n", SkinyCiuchyDamskie[i][0]);
+                else format(subString, sizeof(subString), "%d\t~g~$%d\n", SkinyCiuchyDamskie[i][0], SkinyCiuchyDamskie[i][1]);
                 strcat(string, subString);
             }
             SetPVarInt(playerid, "ShowUbraniaType", 2);

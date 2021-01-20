@@ -460,7 +460,7 @@ stock MruMySQL_SaveAccount(playerid, bool:forcegmx = false, bool:forcequit = fal
 
     format(query, sizeof(query), "UPDATE `mru_konta` SET \
 	`JailReason`='%s', \
-	`BWType`='%d' \
+	`BWType`='%d', \
 	`pFishTimer`='%d' \
 	 WHERE `UID`='%d'",
 	PlayerInfo[playerid][pJailReason],

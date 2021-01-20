@@ -6,7 +6,8 @@ new DC_AntySpam;
 new LOCALHOST = 0;
 
 new FishTimer[MAX_PLAYERS];
-
+new repairTimerVar[MAX_PLAYERS];
+new repairInProgress[MAX_PLAYERS];
 new AntyFakeKillVar[MAX_PLAYERS];
 new Float:VehicleHealth[MAX_VEHICLES];
 new OldPayCheck[MAX_PLAYERS];
@@ -1505,6 +1506,9 @@ stock ZerujZmienne(playerid)
     CancelTrade(playerid);
     RakNet_SaveWeapons[playerid] = 0;
     FishTimer[playerid] = 0;
+    
+    repairTimerVar[playerid] = 0;
+    repairInProgress[playerid] = 0;
 
     for(new i=0;i<13;i++) 
     {

@@ -1961,6 +1961,8 @@ public OnPlayerSpawn(playerid) //Przebudowany
     //Update3DTextLabelText(PlayerInfo[playerid][pDescLabel], 0xBBACCFFF, "");
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	//if(GetPVarInt(playerid, "class-sel")) DeletePVar(playerid, "class-sel");
+    if(PlayerInfo[playerid][pReg] == 1) Wybieralka[playerid] = 0;
+    
     StopAudioStreamForPlayer(playerid);  
   /*  if(GetPVarInt(playerid, "SpawnMusic") != -1)
     {
@@ -7098,11 +7100,11 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
     {
         new Float:carhealth, engine, unused;
         GetVehicleHealth(GetPlayerVehicleID(playerid), carhealth);
-           if(IsPlayerInRangeOfPoint(playerid, 2, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
-           || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
+           if(IsPlayerInRangeOfPoint(playerid, 4, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
+           || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
            {
             GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine , unused , unused, unused, unused, unused, unused);
-                if(kaska[playerid] <= 49999) return sendTipDialogMessage(playerid, "Nie staæ Ciê na naprawê pojazdu u mechanika"); 
+                if(kaska[playerid] < MECHS_COST_REPAIR) return sendTipDialogMessage(playerid, sprintf("Nie staæ Ciê na naprawê pojazdu u mechanika ($%d)", MECHS_COST_REPAIR)); 
                 if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
                 if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  {
                 if(carhealth < 500.0)
@@ -7368,12 +7370,13 @@ public OnPlayerText(playerid, text[])
     new newtext[256], temptext[256];
     format(temptext, sizeof(temptext), "%s", text);
     ReturnEmote(temptext, newtext);
-
+    strcat(newtext, " ");
     //printf("%c", newtext[strlen(newtext)]);
-    if(newtext[strlen(newtext)] != '.' && newtext[strlen(newtext)] != '!' && newtext[strlen(newtext)] != '?' && newtext[strlen(newtext)] != ',' && newtext[strlen(newtext)] != ':' && newtext[strlen(newtext)] != '-')
+    if(newtext[strlen(newtext)-1] != '.' && newtext[strlen(newtext)-1] != '!' && newtext[strlen(newtext)-1] != '?' && newtext[strlen(newtext)-1] != ',' && newtext[strlen(newtext)-1] != ':' && newtext[strlen(newtext)-1] != '-')
     {
-        strins(newtext, ".", strlen(newtext), strlen(newtext));
-    }
+        strtrim(newtext, " ");
+        strcat(newtext, ".");
+    } else strtrim(newtext, " ");
 
     
 

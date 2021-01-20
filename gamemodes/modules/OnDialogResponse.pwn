@@ -17330,7 +17330,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(!response) 
 		{
-			if(Wybieralka[playerid] == 1) ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
+			if(GetPVarInt(playerid, "wyborPierwszego") == 1) ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
 			return 1;
 		}
 		ShowUbrania(playerid, listitem, Wybieralka[playerid]);
@@ -17361,7 +17361,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(!response)
 		{
-			if(Wybieralka[playerid] == 1) ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
+			if(GetPVarInt(playerid, "wyborPierwszego") == 1) ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
 			return 1;
 		}
 		if(GetPVarInt(playerid, "ShowUbraniaType") == 1)

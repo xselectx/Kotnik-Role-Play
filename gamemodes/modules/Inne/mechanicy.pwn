@@ -13,9 +13,8 @@
 */
 					
 #define REPAIR_TIME 50
-#define MECHS_COST_REPAIR 100000
-new repairTimerVar[MAX_PLAYERS] = REPAIR_TIME;
-new repairInProgress[MAX_PLAYERS];
+#define MECHS_COST_REPAIR 45000
+
 new Float:MechPosition[3][3] = {
 	{2770.1890, -1624.6742, 10.9272},
 	{1086.4391,- 1229.3411, 15.8203},
