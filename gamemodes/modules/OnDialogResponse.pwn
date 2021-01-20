@@ -3113,7 +3113,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 20)
 						{
-						    if(GetItemQuant(playerid, "Piwo") >= 4)
+						    if(GetItemQuant(playerid, "Piwo") > GetItemMaxLimit("Piwo"))
 						    {
 						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Piw, nie udŸwigniesz ju¿ wiêcej !");
 						    }
@@ -3150,7 +3150,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 25)
 						{
-						    if(GetItemQuant(playerid, "Wino") >= 4)
+						    if(GetItemQuant(playerid, "Wino") > GetItemMaxLimit("Wino"))
 						    {
 						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Win, nie udŸwigniesz ju¿ wiêcej !");
 						    }
@@ -3186,7 +3186,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 15)
 						{
-						    if(GetItemQuant(playerid, "Sprunk") >= 4)
+						    if(GetItemQuant(playerid, "Sprunk") > GetItemMaxLimit("Sprunk"))
 						    {
 						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz za du¿o Sprunków, nie udŸwigniesz ju¿ wiêcej !");
 						    }
@@ -3246,7 +3246,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						if (kaska[playerid] > 200)
 						{
-						    if(GetItemQuant(playerid, "Papierosy") >= 10)
+						    if(GetItemQuant(playerid, "Papierosy") > GetItemMaxLimit("Papierosy"))
 						    {
 						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz ju¿ papierosy, po co ci nastêpne?");
 						    }

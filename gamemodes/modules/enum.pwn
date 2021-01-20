@@ -1742,7 +1742,8 @@ enum E_INV
     iStats1,
     iStats2,
     iStats3,
-    iStats4
+    iStats4,
+    iLimit
 }
 
 new Inventory[MAX_PLAYERS][100][E_INV];

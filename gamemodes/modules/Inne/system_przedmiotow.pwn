@@ -57,19 +57,20 @@ new WeaponsInventory[48][8][64] =
 	{ "Gaz pieprzowy",			"41",		"365",	"0.1",	"4",	"0",	"0",	"0"}
 };
 
-new ItemsInventory[10][8][64] = 
+new ItemsInventory[11][9][64] = 
 {	
-	//nazwa					//type	//model //weight //stats1 //stats2 //stats3 //stats4
-	{"Telefon",					"1",	"330",	"0.1",	"0",	"0",	"0",	"100"},
-	{"Amunicja (lekka)",		"3",	"2039",	"0.01",	"1",	"0",	"0",	"0"},
-	{"Amunicja (srednia)",		"3",	"2039",	"0.02",	"2",	"0",	"0",	"0"},
-	{"Amunicja (ciezka)",		"3",	"2039",	"0.03",	"3",	"0",	"0",	"0"},
-	{"Amunicja (inna)",			"3",	"2039",	"0",	"4",	"0",	"0",	"0"},
-	{"Burger",					"4",	"2880", "0",	"40",   "0",	"0",	"0"},
-	{"Piwo",					"5",	"1486", "0",	"10",   "1",	"0",	"0"},
-	{"Wino",					"5",	"1520", "0",	"15",   "2",	"0",	"0"},
-	{"Sprunk",					"6",	"13562", "0",	"10",   "0",	"0",	"0"},
-	{"Papierosy",				"7",	"19897", "0",	"0",   	"0",	"0",	"0"}
+	//nazwa					//type	//model //weight //stats1 //stats2 //stats3 //stats4 //limit
+	{"Telefon",					"1",	"330",	"0.1",	"0",	"0",	"0",	"100",	"0"},
+	{"Amunicja (lekka)",		"3",	"2039",	"0.01",	"1",	"0",	"0",	"0",	"0"},
+	{"Amunicja (srednia)",		"3",	"2039",	"0.02",	"2",	"0",	"0",	"0",	"0"},
+	{"Amunicja (ciezka)",		"3",	"2039",	"0.03",	"3",	"0",	"0",	"0",	"0"},
+	{"Amunicja (inna)",			"3",	"2039",	"0",	"4",	"0",	"0",	"0",	"0"},
+	{"Burger",					"4",	"2880", "0",	"40",   "0",	"0",	"0",	"5"},
+	{"Piwo",					"5",	"1486", "0",	"10",   "1",	"0",	"0",	"5"},
+	{"Wino",					"5",	"1520", "0",	"15",   "2",	"0",	"0",	"5"},
+	{"Sprunk",					"6",	"13562", "0",	"10",   "0",	"0",	"0",	"5"},
+	{"Papierosy",				"7",	"19897", "0",	"0",   	"0",	"0",	"0",	"10"},
+	{"E-Papieros",				"7",	"-2000", "0",	"1",   	"0",	"0",	"0",	"3"}
 };
 
 
@@ -80,12 +81,12 @@ LoadPlayerInventory(playerid)
 	new i = 0;
 	new Float:weight;
 	//new string[128];
-	format (query, sizeof(query), "SELECT uID,owner,type,name,model,quant,weight,stats1,stats2,stats3,stats4 FROM items WHERE owner = '%d'", PlayerInfo[playerid][pUID]);
+	format (query, sizeof(query), "SELECT uID,owner,type,name,model,quant,weight,stats1,stats2,stats3,stats4,maxlimit FROM items WHERE owner = '%d'", PlayerInfo[playerid][pUID]);
 	mysql_query(query);
 	mysql_store_result();
 	while(mysql_fetch_row_format(query, "|"))
 	{
-		sscanf(query, "p<|>ddds[64]ddfdddd", 
+		sscanf(query, "p<|>ddds[64]ddfddddd", 
 		Inventory[playerid][i][iUID],
 		Inventory[playerid][i][iOwner],
 		Inventory[playerid][i][iType],
@@ -96,7 +97,8 @@ LoadPlayerInventory(playerid)
 		Inventory[playerid][i][iStats1],
 		Inventory[playerid][i][iStats2],
 		Inventory[playerid][i][iStats3],
-		Inventory[playerid][i][iStats4]);
+		Inventory[playerid][i][iStats4],
+		Inventory[playerid][i][iLimit]);
 		weight = weight + (Inventory[playerid][i][iWeight] * Inventory[playerid][i][iQuant]);
 		i++;
 	}
@@ -121,6 +123,7 @@ UnloadPlayerInventory(playerid)
 		Inventory[playerid][i][iStats2] = 0;
 		Inventory[playerid][i][iStats3] = 0;
 		Inventory[playerid][i][iStats4] = 0;
+		Inventory[playerid][i][iLimit] = 0;
 	}
 	PlayerInfo[playerid][pWeight] = 0;
 	PlayerInfo[playerid][pItems] = 0;
@@ -132,7 +135,7 @@ PrintPlayerInventory(playerid)
 	print("uid, owner, type, name, model, quant, weight, stats1, stats2, stats3, stats4");
 	for(new i = 0; i<PlayerInfo[playerid][pItems]; i++)
 	{
-		printf("%d. %d | %d | %d | %s | %d | %d | %f | %d | %d | %d | %d", i,
+		printf("%d. %d | %d | %d | %s | %d | %d | %f | %d | %d | %d | %d | %d", i,
 		Inventory[playerid][i][iUID],
 		Inventory[playerid][i][iOwner],
 		Inventory[playerid][i][iType],
@@ -143,7 +146,8 @@ PrintPlayerInventory(playerid)
 		Inventory[playerid][i][iStats1],
 		Inventory[playerid][i][iStats2],
 		Inventory[playerid][i][iStats3],
-		Inventory[playerid][i][iStats4]);
+		Inventory[playerid][i][iStats4],
+		Inventory[playerid][i][iLimit]);
 	}
 }
 
@@ -266,27 +270,31 @@ AddPlayerItem(pid, item[], quant)
 					Inventory[pid][i][iStats3] = strval(ItemsInventory[x][6]);
 					Inventory[pid][i][iStats4] = strval(ItemsInventory[x][7]);
 				}
-				PlayerInfo[pid][pItems]++;
-
-				new query[256];
-				format(query, sizeof(query), "INSERT INTO items (owner, type, name, model, quant, weight, stats1, stats2, stats3, stats4) VALUES ('%d', '%d', '%s', '%d', '%d', '%f', '%d', '%d', '%d', '%d')",
-				Inventory[pid][i][iOwner],
-				Inventory[pid][i][iType],
-				Inventory[pid][i][iName],
-				Inventory[pid][i][iModel],
-				Inventory[pid][i][iQuant],
-				Inventory[pid][i][iWeight],
-				Inventory[pid][i][iStats1],
-				Inventory[pid][i][iStats2],
-				Inventory[pid][i][iStats3],
-				Inventory[pid][i][iStats4]);
-				mysql_query(query);
-				//printf("%s", query);
-
-				Inventory[pid][i][iUID] = mysql_insert_id();
-
+				if(PlayerInfo[pid][pItems] < 99)
+				{
+					PlayerInfo[pid][pItems]++;
+	
+					new query[256];
+					format(query, sizeof(query), "INSERT INTO items (owner, type, name, model, quant, weight, stats1, stats2, stats3, stats4, maxlimit) VALUES ('%d', '%d', '%s', '%d', '%d', '%f', '%d', '%d', '%d', '%d', '%d')",
+					Inventory[pid][i][iOwner],
+					Inventory[pid][i][iType],
+					Inventory[pid][i][iName],
+					Inventory[pid][i][iModel],
+					Inventory[pid][i][iQuant],
+					Inventory[pid][i][iWeight],
+					Inventory[pid][i][iStats1],
+					Inventory[pid][i][iStats2],
+					Inventory[pid][i][iStats3],
+					Inventory[pid][i][iStats4],
+					Inventory[pid][i][iLimit]);
+					mysql_query(query);
+					//printf("%s", query);
+	
+					Inventory[pid][i][iUID] = mysql_insert_id();
+					return 1;
+				} else return 0;
 				//PrintPlayerInventory(pid);
-				return 1;
+				
 			}
 		}
 	}
@@ -355,6 +363,57 @@ ReloadPlayerInventory(playerid)
 {
 	UnloadPlayerInventory(playerid);
 	LoadPlayerInventory(playerid);
+	return 1;
+}
+
+forward PlayerEkiepChmura(playerid, stage, chmura);
+public PlayerEkiepChmura(playerid, stage, chmura)
+{
+	if(stage == 1)
+	{
+		new Float:x, Float:y, Float:z;
+		GetPlayerPos(playerid, Float:x, Float:y, Float:z);
+		chmura = CreateDynamicObject(18716, Float:x, Float:y, Float:z-0.5, 0, 0, 0);
+		SetPlayerPos(playerid, Float:x+0.01, Float:y, Float:z);
+		SetTimerEx("PlayerEkiepChmura", 300, false, "ddd", playerid, 2, chmura);
+		SetTimerEx("ChmuraPodazanie", 100, false, "dd", playerid, chmura);
+		SetPVarInt(playerid, "PlayerEkiepChmuraStage", 1);
+	}
+	else if(stage == 2)
+	{
+		DestroyDynamicObject(chmura);
+		SetTimerEx("PlayerEkiepChmura", 2000, false, "ddd", playerid, 3, 0);
+		SetPVarInt(playerid, "PlayerEkiepChmuraStage", 2);
+	}
+	else
+	{
+		SetPVarInt(playerid, "PuszczaChmure", 0);
+	}
+	
+}
+
+forward ChmuraPodazanie(playerid, chmura);
+public ChmuraPodazanie(playerid, chmura)
+{
+	if(GetPVarInt(playerid, "PlayerEkiepChmuraStage") == 1)
+	{
+		new Float:x, Float:y, Float:z;
+		GetPlayerPos(playerid, Float:x, Float:y, Float:z);
+		MoveDynamicObject(chmura, Float:x, Float:y, Float:z-0.5, 10);
+		SetTimerEx("ChmuraPodazanie", 100, false, "dd", playerid, chmura);
+	}
+}
+
+forward Inv_OnPlayerKeyStateChange(playerid,newkeys,oldkeys);
+public Inv_OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
+{
+	if(GetPVarInt(playerid, "UsingEKiep") == 1 && GetPVarInt(playerid, "PuszczaChmure") == 0 && (newkeys == KEY_HANDBRAKE || oldkeys == KEY_HANDBRAKE))
+	{
+		PreloadAnimLib(playerid, "GANGS");
+		ApplyAnimation(playerid, "GANGS", "smkcig_prtl", 4.1, 0, 1, 1, 1, 1, 1);
+		SetPVarInt(playerid, "PuszczaChmure", 1);
+		SetTimerEx("PlayerEkiepChmura", 2000, false, "ddd", playerid, 1, 0);
+	}
 	return 1;
 }
 
@@ -585,17 +644,14 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						return sendTipDialogMessage(playerid, sprintf("%s ma aktywn¹ ofertê", player));
 					}
 
-					new type = Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iType];
-					new max_ilosc = 5;
-					if(type == 5 || type == 6 || type == 7)
+					new quant = Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iQuant];
+					new max_ilosc = Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iLimit];
+					if(quant + GetPVarInt(playerid, "OfferingItemQuant") > max_ilosc)
 					{
-						if(type == 7) max_ilosc = 10;
-						new quant = GetItemQuant(giveplayerid, Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName]);
 						new string[128];
 						format(string, sizeof(string), "%s ma za duzo %s wiêc nie mo¿esz tego zaoferowaæ. (Max: %d)", GetNick(giveplayerid), Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], max_ilosc);
-						if(quant + GetPVarInt(playerid, "OfferingItemQuant") > max_ilosc) return sendTipMessage(playerid, string);
+						return sendTipMessage(playerid, string);
 					}
-					
 
 					new string[128];
 					format(string, sizeof(string), "Zaoferowa³eœ %s kupno %d sztuk %s za $%d\nCzekaj na akceptacjê!", player, GetPVarInt(playerid, "OfferingItemQuant"), Inventory[playerid][GetPVarInt(playerid, "OfferingItem")][iName], GetPVarInt(playerid, "OfferingItemPrice"));
@@ -780,15 +836,41 @@ stock UseItem(playerid, itemid)
 	{
 		if(GetPVarInt(playerid, "CanUseItem") == 0)
 		{
-			SetPlayerSpecialAction(playerid, SPECIAL_ACTION_SMOKE_CIGGY);
-
-			sendTipMessage(playerid, sprintf("Odpala %s", Inventory[playerid][itemid][iName]));
-			SetPVarInt(playerid, "CanUseItem", 1);
-			SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
-
-			SetPlayerChatBubble(playerid, sprintf("* podpala %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
-
-			RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
+			if(Inventory[playerid][itemid][iStats1] == 1)
+			{
+				if(GetPVarInt(playerid, "UsingEKiep") == 0)
+				{
+					sendTipMessage(playerid, sprintf("Bierzesz %s", Inventory[playerid][itemid][iName]));
+					SetPlayerAttachedObject(playerid, 7, -2000, 6, 0.04, 0.0, 0.07);
+					SetPVarInt(playerid, "UsingEKiep", 1);
+					SetPVarInt(playerid, "CanUseItem", 1);
+					SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
+		
+					SetPlayerChatBubble(playerid, sprintf("* bierze %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+				} else
+				{
+					sendTipMessage(playerid, sprintf("Odk³ada %s", Inventory[playerid][itemid][iName]));
+					RemovePlayerAttachedObject(playerid, 7);
+					SetPVarInt(playerid, "UsingEKiep", 0);
+					SetPVarInt(playerid, "CanUseItem", 1);
+					SetPVarInt(playerid, "PuszczaChmure", 0);
+					SetTimerEx("ItemUseTimer", 2500, false, "d", playerid);
+		
+					SetPlayerChatBubble(playerid, sprintf("* odk³ada %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+				}
+			} 
+			else
+			{
+				SetPlayerSpecialAction(playerid, SPECIAL_ACTION_SMOKE_CIGGY);
+	
+				sendTipMessage(playerid, sprintf("Odpalasz %s", Inventory[playerid][itemid][iName]));
+				SetPVarInt(playerid, "CanUseItem", 1);
+				SetTimerEx("ItemUseTimer", 7500, false, "d", playerid);
+	
+				SetPlayerChatBubble(playerid, sprintf("* podpala %s *", Inventory[playerid][itemid][iName]), COLOR_PURPLE, 15.0, 7500);
+	
+				RemovePlayerItem(playerid, Inventory[playerid][itemid][iName], 1);
+			}
 
 		}
 	}
@@ -923,166 +1005,7 @@ stock ShowItemMenu(playerid, itemid, type)
 }
 
 
-stock CheckWeaponSlotByInt(playerid, weap)
-{
-    new weapon_decoded[32];
-    switch(weap)
-    {
-        case 1: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Kastet");
-        case 2: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Kij golfowy");
-        case 3: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Pa³ka policyjna");
-        case 4: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Nó¿");
-        case 5: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Bejsbol");
-        case 6: format(weapon_decoded, sizeof(weapon_decoded), "%s", "£opata");
-        case 7: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Kij bilardowy");
-        case 8: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Katana");
-        case 9: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Pi³a");
-        case 10: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Fioletowe dildo");
-        case 11: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Dildo");
-        case 12: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Wibrator");
-        case 13: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Srebrny wibrator");
-        case 14: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Kwiaty");
-        case 15: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Laska");
-        case 16: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Granat");
-        case 17: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Gaz ³zawi¹cy");
-        case 18: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Koktajl Mo³otowa");
-        case 22: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Pistolet 9mm");
-        case 23: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Pistolet z t³umikiem");
-        case 24: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Desert Eagle");
-        case 25: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Shotgun");
-        case 26: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Dubeltówka");
-        case 27: format(weapon_decoded, sizeof(weapon_decoded), "%s", "SPAS-12");
-        case 28: format(weapon_decoded, sizeof(weapon_decoded), "%s", "UZI");
-        case 29: format(weapon_decoded, sizeof(weapon_decoded), "%s", "MP5");
-        case 30: format(weapon_decoded, sizeof(weapon_decoded), "%s", "AK-47");
-        case 31: format(weapon_decoded, sizeof(weapon_decoded), "%s", "M4");
-        case 32: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Tec-9");
-        case 33: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Rifle");
-        case 34: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Snajperka");
-        case 35: format(weapon_decoded, sizeof(weapon_decoded), "%s", "RPG");
-        case 36: format(weapon_decoded, sizeof(weapon_decoded), "%s", "HS Rocket");
-        case 37: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Miotacz ognia");
-        case 38: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Minigun");
-        case 39: format(weapon_decoded, sizeof(weapon_decoded), "%s", "C4");
-        case 40: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Detonator");
-        case 41: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Spray");
-        case 42: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Gaœnica");
-        case 43: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Aparat");
-        case 44: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Gogle noktowizyjne");
-        case 45: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Gogle termalne");
-        case 46: format(weapon_decoded, sizeof(weapon_decoded), "%s", "Spadochron");
-    }
 
-    if(weap > 0 && weap <= 46)
-    {
-        for(new i = 0; i<=PlayerInfo[playerid][pItems]; i++)
-        {
-            if(!strcmp(weapon_decoded, Inventory[playerid][i][iName], true) || (weap == 41 && ((!strcmp(weapon_decoded, Inventory[playerid][i][iName], true)) || (!strcmp("Gaz pieprzowy", Inventory[playerid][i][iName], true)))))
-            {
-            	return i;
-            }
-        }
-        return -1;
-    }
-
-    return -1;
-}
-
-stock CheckWeaponSlotByName(playerid, name[])
-{
-	new weap = 0;
-   	if(!strcmp("Kastet", name, true)) 						weap = 1;
-	else if(!strcmp("Kij golfowy", name, true)) 			weap = 2;
-	else if(!strcmp("Palka policyjna", name, true)) 		weap = 3;
-	else if(!strcmp("Noz", name, true)) 					weap = 4;
-	else if(!strcmp("Bejsbol", name, true)) 				weap = 5;
-	else if(!strcmp("Lopata", name, true)) 					weap = 6;
-	else if(!strcmp("Kij bilardowy", name, true)) 			weap = 7;
-	else if(!strcmp("Katana", name, true)) 					weap = 8;
-	else if(!strcmp("Pila", name, true)) 					weap = 9;
-	else if(!strcmp("Fioletowe dildo", name, true)) 		weap = 10;
-	else if(!strcmp("Dildo", name, true)) 					weap = 11;
-	else if(!strcmp("Wibrator", name, true)) 				weap = 12;
-	else if(!strcmp("Srebrny wibrator", name, true))		weap = 13;
-	else if(!strcmp("Kwiaty", name, true)) 					weap = 14;
-	else if(!strcmp("Laska", name, true)) 					weap = 15;
-	else if(!strcmp("Granat", name, true)) 					weap = 16;
-	else if(!strcmp("Gaz lzawiacy", name, true)) 			weap = 17;
-	else if(!strcmp("Koktajl Molotowa", name, true)) 		weap = 18;
-	else if(!strcmp("Pistolet 9mm", name, true)) 			weap = 22;
-	else if(!strcmp("Pistolet z tlumikiem", name, true)) 	weap = 23;
-	else if(!strcmp("Desert Eagle", name, true)) 			weap = 24;
-	else if(!strcmp("Shotgun", name, true)) 				weap = 25;
-	else if(!strcmp("Dubeltowka", name, true)) 				weap = 26;
-	else if(!strcmp("SPAS-12", name, true)) 				weap = 27;
-	else if(!strcmp("UZI", name, true)) 					weap = 28;
-	else if(!strcmp("MP5", name, true)) 					weap = 29;
-	else if(!strcmp("AK-47", name, true)) 					weap = 30;
-	else if(!strcmp("M4", name, true)) 						weap = 31;
-	else if(!strcmp("Tec-9", name, true)) 					weap = 32;
-	else if(!strcmp("Rifle", name, true)) 					weap = 33;
-	else if(!strcmp("Snajperka", name, true)) 				weap = 34;
-	else if(!strcmp("RPG", name, true)) 					weap = 35;
-	else if(!strcmp("HS Rocket", name, true)) 				weap = 36;
-	else if(!strcmp("Miotacz ognia", name, true)) 			weap = 37;
-	else if(!strcmp("Minigun", name, true)) 				weap = 38;
-	else if(!strcmp("C4", name, true)) 						weap = 39;
-	else if(!strcmp("Detonator", name, true)) 				weap = 40;
-	else if(!strcmp("Spray", name, true)) 					weap = 41;
-	else if(!strcmp("Gaz pieprzowy", name, true)) 			weap = 41;
-	else if(!strcmp("Gasnica", name, true)) 				weap = 42;
-	else if(!strcmp("Aparat", name, true)) 					weap = 43;
-	else if(!strcmp("Gogle noktowizyjne", name, true)) 		weap = 44;
-	else if(!strcmp("Gogle termalne", name, true))			weap = 45;
-	else if(!strcmp("Spadochron", name, true)) 				weap = 46;
-    if(weap > 0 && weap <= 46)
-    {
-        for(new i = 0; i<=PlayerInfo[playerid][pItems]; i++)
-        {
-            if(!strcmp(name, Inventory[playerid][i][iName], true))
-            {
-            	return i;
-            }
-        }
-        return -1;
-    }
-    return -1;
-}
-
-/*stock CheckAmmo(playerid, slot, ammotype)
-{
-	new ammo;
-	
-	if(ammotype != 0)
-	{
-		for(new i = 0; i<=PlayerInfo[playerid][pItems]; i++)
-		{
-			if(Inventory[playerid][i][iType] == 3)
-			{
-				if(Inventory[playerid][i][iStats1] == ammotype)
-				{
-					if(Inventory[playerid][i][iQuant] > 0)
-					{
-						ammo = Inventory[playerid][i][iQuant];
-					} else {
-						return ammotype - ammotype - ammotype;
-					}
-					break;
-				} else {
-					ammo = ammotype - ammotype - ammotype;
-				}
-			} else {
-				ammo = ammotype - ammotype - ammotype;
-			}
-		}
-	}
-	else {
-		ammo = Inventory[playerid][slot][iQuant];
-	}
-
-	return ammo;
-
-}*/
 
 forward AttachEatableObject(playerid, modelid);
 public AttachEatableObject(playerid, modelid)
@@ -1148,6 +1071,18 @@ stock GetItemQuant(playerid, item[])
 	return 0;
 }
 
+stock GetItemMaxLimit(item[])
+{
+	for(new i = 0; i<sizeof(ItemsInventory); i++)
+	{
+		if(strfind(ItemsInventory[i][0], item, true) != -1)
+		{
+			return strval(ItemsInventory[i][8]);
+		}
+	}
+	return -1;
+}
+
 forward DetachEatableObject(playerid);
 public DetachEatableObject(playerid)
 {
@@ -1171,6 +1106,8 @@ CMD:p(playerid, params[])
 		{
 			if(GUIExit[playerid] != 0) return sendTipMessage(playerid, "Masz otwarte okno dialogowe!");
 			if(GetPVarInt(playerid, "OfferingItem") != -1 && GetPVarInt(playerid, "OfferingItemTo") != INVALID_PLAYER_ID) return ShowPlayerDialogEx(playerid, D_OFFER_ITEM_CANCEL, DIALOG_STYLE_MSGBOX, "Aktywna oferta", "Masz aktywn¹ ofertê, czy chcesz j¹ anulowaæ?", "Tak", "Nie");
+			if(GetItemQuant(playerid, "Telefon") == 0 && PlayerInfo[playerid][pPnumber] > 0) AddPlayerItem(playerid, "Telefon", 1);
+
 			new param[256];
 			new var1[32], var2 = -1, var3 = -1;
 			new var1_int = -1;

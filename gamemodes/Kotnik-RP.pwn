@@ -900,10 +900,14 @@ public OnPlayerConnect(playerid)
 
     if(quittext_time[playerid] == 1) DestroyQuitText(playerid);
 
-	ZerujZmienne(playerid);    
+	ZerujZmienne(playerid);
     PlayAudioStreamForPlayer(playerid, "http://146.59.17.224/download/samp/kotnik-rp.mp3",  0.0, 0.0, 0.0, 50.0, 0);
     ClearChat(playerid);	
 
+    for(new i = 0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++)
+    {
+        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+    }
 
     
 
@@ -5571,10 +5575,6 @@ public OnGameModeInit()
     Streamer_SetVisibleItems(0, 900);
     Streamer_SetTickRate(50);
 
-    new srtr[256];
-
-    //ReturnEmote(":)", srtr);
-
     //FabrykaMats::LoadLogic();  DO POPRAWY
     //NowaWybieralka::Init();  DO POPRAWY
 
@@ -6196,6 +6196,10 @@ public OnPlayerUpdate(playerid)
             UsunBron(playerid);
         }
     }
+    if(GetPVarInt(playerid, "UsingEKiep") == 1 && GetPlayerWeapon(playerid) > 1)
+    {
+        SetPlayerArmedWeapon(playerid, 0);
+    }
 
     new keys, ud, lr;
     new unused;
@@ -6751,7 +6755,7 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerKeyStateChange - begin", GetNick(playerid), playerid);
 	#endif
-
+    Inv_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
     //09.06.2014
     if(Teleturniejstart == 1)
 	{
