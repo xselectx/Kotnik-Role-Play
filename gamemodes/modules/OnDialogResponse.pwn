@@ -2808,7 +2808,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    {
 	        if(response)
 	        {	
-	        	ShowPlayerDialogEx(playerid,12, DIALOG_STYLE_TABLIST_HEADERS, "Sklep 24/7", "Produkt\tCena\nTelefon\t$500\nZdrapka\t$7500\nKsi¹¿ka telefoniczna\t$5000\nKostka\t$500\nAparat Fotograficzny\t$5000\nBejsbol\t$15000\nPrêdkoœciomierz\t$5000\nKondom\t$50\nOdtwarzacz MP3\t$2500\nPiwo Mroczny Gul\t$20\nWino Komandos\t$25\nSprunk\t$15\nCB-Radio\t$2500\nCygara\t$200", "KUP", "WYJD");
+	        	ShowPlayerDialogEx(playerid,12, DIALOG_STYLE_TABLIST_HEADERS, "Sklep 24/7", "Produkt\tCena\nTelefon\t$500\nZdrapka\t$7500\nKsi¹¿ka telefoniczna\t$5000\nKostka\t$500\nAparat Fotograficzny\t$5000\nBejsbol\t$15000\nPrêdkoœciomierz\t$5000\nKondom\t$50\nOdtwarzacz MP3\t$2500\nPiwo Mroczny Gul\t$20\nWino Komandos\t$25\nSprunk\t$15\nCB-Radio\t$2500\nCygara\t$200\nBurger\t$1000\nE-Papieros\t$20000", "KUP", "WYJD");
 				//ShowPlayerDialogEx(playerid,12,DIALOG_STYLE_LIST,"Sklep 24/7","Telefon\t\t\t\t500$\nZdrapka\t\t\t7500$\nKsi¹¿ka telefoniczna\t\t5000$\nKostka\t\t\t\t500$\nAparat Fotograficzny\t\t5000$\nZamek\t\t\t\t10000$\nPrêdkoœciomierz\t\t5000$\nKondom\t\t\t50$\nOdtwarzacz MP3\t\t2500$\nPiwo Mruczny Gul\t\t20$\nWino Komandaos\t\t25$\nSprunk\t\t\t\t15$\nCB-Radio\t\t\t2500$\nCygara\t\t\t\t200$","KUP","WYJD");
 	            new string[256];
 	            switch(listitem)
@@ -3277,6 +3277,66 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						else
 						{
 							SendClientMessage(playerid, COLOR_WHITE, "   Nie masz na to pieniêdzy !");
+						}
+					}
+					case 14:
+					{
+						if (kaska[playerid] > 1000)
+						{
+							if(GetItemQuant(playerid, "Burger") > GetItemMaxLimit("Burger"))
+						    {
+						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz ju¿ burgery, po co ci nastêpne?");
+						    }
+						    if(PlayerInfo[playerid][pTraderPerk] > 0)
+					    	{
+								new skill = 1000 / 100;
+								new price = (skill)*(PlayerInfo[playerid][pTraderPerk]);
+								new payout = 1000 - price;
+								DajKase(playerid, - payout);
+								format(string, sizeof(string), "~r~-$%d", payout);
+								GameTextForPlayer(playerid, string, 5000, 1);
+							}
+							else
+							{
+							    DajKase(playerid, - 1000);
+								format(string, sizeof(string), "~r~-$%d", 200);
+								GameTextForPlayer(playerid, string, 5000, 1);
+							}
+							PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
+							format(string, sizeof(string), "Burger zakupiony.");
+							SendClientMessage(playerid, COLOR_GRAD4, string);
+							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /p aby zjeœæ");
+							AddPlayerItem(playerid, "Burger", 1);
+						}
+					}
+					case 15:
+					{
+						if (kaska[playerid] > 20000)
+						{
+							if(GetItemQuant(playerid, "E-Papieros") > GetItemMaxLimit("E-Papieros"))
+						    {
+						    	return SendClientMessage(playerid, COLOR_GREY, "   Masz ju¿ E-Papierosa, po co ci kolejny?");
+						    }
+						    if(PlayerInfo[playerid][pTraderPerk] > 0)
+					    	{
+								new skill = 20000 / 100;
+								new price = (skill)*(PlayerInfo[playerid][pTraderPerk]);
+								new payout = 20000 - price;
+								DajKase(playerid, - payout);
+								format(string, sizeof(string), "~r~-$%d", payout);
+								GameTextForPlayer(playerid, string, 5000, 1);
+							}
+							else
+							{
+							    DajKase(playerid, - 20000);
+								format(string, sizeof(string), "~r~-$%d", 200);
+								GameTextForPlayer(playerid, string, 5000, 1);
+							}
+							PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
+							format(string, sizeof(string), "E-Papieros zakupiony.");
+							SendClientMessage(playerid, COLOR_GRAD4, string);
+							SendClientMessage(playerid, COLOR_WHITE, "WSKAZÓWKA: Wpisz /p aby zapaliæ");
+							AddPlayerItem(playerid, "E-Papieros", 1);
 						}
 					}
 				}

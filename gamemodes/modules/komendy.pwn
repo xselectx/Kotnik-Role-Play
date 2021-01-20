@@ -19761,7 +19761,7 @@ CMD:kup(playerid)
 		}
 		if(GUIExit[playerid] == 0)
 		{
-            ShowPlayerDialogEx(playerid,12, DIALOG_STYLE_TABLIST_HEADERS, "Sklep 24/7", "Produkt\tCena\nTelefon\t$500\nZdrapka\t$7500\nKsiπøka telefoniczna\t$5000\nKostka\t$500\nAparat Fotograficzny\t$5000\nBejsbol\t$15000\nPrÍdkoúciomierz\t$5000\nKondom\t$50\nOdtwarzacz MP3\t$2500\nPiwo Mroczny Gul\t$20\nWino Komandos\t$25\nSprunk\t$15\nCB-Radio\t$2500\nCygara\t$200", "KUP", "WYJDè");
+            ShowPlayerDialogEx(playerid,12, DIALOG_STYLE_TABLIST_HEADERS, "Sklep 24/7", "Produkt\tCena\nTelefon\t$500\nZdrapka\t$7500\nKsiπøka telefoniczna\t$5000\nKostka\t$500\nAparat Fotograficzny\t$5000\nBejsbol\t$15000\nPrÍdkoúciomierz\t$5000\nKondom\t$50\nOdtwarzacz MP3\t$2500\nPiwo Mroczny Gul\t$20\nWino Komandos\t$25\nSprunk\t$15\nCB-Radio\t$2500\nCygara\t$200\nBurger\t$1000\nE-Papieros\t$20000", "KUP", "WYJDè");
 			//ShowPlayerDialogEx(playerid,12,DIALOG_STYLE_LIST,"Sklep 24/7","Telefon\t\t\t\t500$\nZdrapka\t\t\t7500$\nKsiπøka telefoniczna\t\t5000$\nKostka\t\t\t\t500$\nAparat Fotograficzny\t\t5000$\nBejsbol\t\t\t$15000\nZamek\t\t\t\t10000$\nPrÍdkoúciomierz\t\t5000$\nKondom\t\t\t50$\nOdtwarzacz MP3\t\t2500$\nPiwo Mruczny Gul\t\t20$\nWino Komandaos\t\t25$\nSprunk\t\t\t\t15$\nCB-Radio\t\t\t2500$\nCygara\t\t\t\t200$","KUP","WYJDè");
 		}
 	}

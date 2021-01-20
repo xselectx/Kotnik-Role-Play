@@ -16,9 +16,9 @@
 
 */
 
-#define DEFAULT_ROB_TIME 10
-#define MIN_COP_ONLINE 0
-#define MIN_ORG_ONLINE 1
+#define DEFAULT_ROB_TIME 600
+#define MIN_COP_ONLINE 3
+#define MIN_ORG_ONLINE 3
 
 new robSync;
 new robTimerVar[MAX_PLAYERS];
