@@ -13429,6 +13429,26 @@ LoadBramy()
 
 	brama = CreateDynamicObject(1569, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 0.000000, 255, 0, -1, 300.00, 300.00); 
 	DodajBrame(brama, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 0.000000, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, 5);
+
+	// --- [ AMMU WILLOW ] --- //
+
+	new ammu_gates[3];
+	ammu_gates[0] = CreateDynamicObject(1495, 2401.265136, -1996.072265, 32.496303, 0.000000, 0.000000, 0.000000, 1, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(ammu_gates[0], 0, 10765, "airportgnd_sfse", "white", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[0], 1, 18835, "mickytextures", "metal013", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[0], 2, 1560, "7_11_door", "cj_sheetmetal2", 0x00000000);
+	DodajBrame(ammu_gates[0], 2401.265136, -1996.072265, 32.496303, 0.000000, 0.000000, 0.000000, 2401.265136, -1996.072265, 32.496303, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FAMILY, 22);
+	ammu_gates[1] = CreateDynamicObject(1495, 2390.614990, -1988.792358, 32.496303, 0.000000, 0.000000, 0.000000, 1, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(ammu_gates[1], 0, 10765, "airportgnd_sfse", "white", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[1], 1, 18835, "mickytextures", "metal013", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[1], 2, 1560, "7_11_door", "cj_sheetmetal2", 0x00000000);
+	DodajBrame(ammu_gates[1], 2390.614990, -1988.792358, 32.496303, 0.000000, 0.000000, 0.000000, 2390.614990, -1988.792358, 32.496303, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FAMILY, 22);
+	ammu_gates[2] = CreateDynamicObject(1495, 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, -90.000000, 1, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(ammu_gates[2], 0, 10765, "airportgnd_sfse", "white", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[2], 1, 18835, "mickytextures", "metal013", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[2], 2, 1560, "7_11_door", "cj_sheetmetal2", 0x00000000);
+	DodajBrame(ammu_gates[2], 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, -90.000000, 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, 0.000000, 1, 3, BRAMA_UPR_TYPE_FAMILY, 22);
+
 }
 
 
