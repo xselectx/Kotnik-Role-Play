@@ -13449,6 +13449,15 @@ LoadBramy()
 	SetDynamicObjectMaterial(ammu_gates[2], 2, 1560, "7_11_door", "cj_sheetmetal2", 0x00000000);
 	DodajBrame(ammu_gates[2], 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, -90.000000, 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, 0.000000, 1, 3, BRAMA_UPR_TYPE_FAMILY, 22);
 
+
+	// -- [ SAN NEWS] --- //
+
+	SanDrzwi1 = CreateDynamicObject(3089, 657.57050, -1353.27087, 29.19750,   0.00000, 0.00000, 0.00000,20);//z recepcji
+SanDrzwi2 = CreateDynamicObject(1569, 664.42480, -1341.17322, 28.37660,   0.00000, 0.00000, 90.00000,21);//studio victim
+SanDrzwi3 = CreateDynamicObject(1569, 664.42480, -1338.17200, 28.37660,   0.00000, 0.00000, 270.00000,21);//studio victim
+SanDrzwi4 = CreateDynamicObject(3089, 737.24872, -1373.13220, 33.96040,   0.00000, 0.00000, 0.00000,23);//sale konf
+SanDrzwi5 = CreateDynamicObject(3089, 741.80212, -1368.57654, 33.96040,   0.00000, 0.00000, 270.00000,23);//sale konf
+
 }
 
 

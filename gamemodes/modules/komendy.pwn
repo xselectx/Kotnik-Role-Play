@@ -20529,6 +20529,15 @@ CMD:wejdz(playerid)
             SetPlayerVirtualWorld(playerid, 5);
             Wchodzenie(playerid);
         }
+        else if(IsPlayerInRangeOfPoint(playerid,5,608.19793701172, -1458.9837646484, 14.387271881104))//fbi wejscie
+        {
+            SetPlayerPosEx(playerid,627.1783, -1470.2279, 90.7054);//fbi srodek
+            //GameTextForPlayer(playerid, "~w~Witamy w~y~ Biurach ~b~FBI~n~~r~by Dywan", 5000, 1);
+            TogglePlayerControllable(playerid, 0);
+            Wchodzenie(playerid);
+            SetPlayerVirtualWorld(playerid,10);
+            PlayerInfo[playerid][pLocal] = 212;
+        }
         else if(IsPlayerInRangeOfPoint(playerid,5,618.0215,-1452.7937,90.6158)//przy recepcji
         || IsPlayerInRangeOfPoint(playerid,5,623.6523, -1485.1019, 90.7391)//przy sali przesluchan
         || IsPlayerInRangeOfPoint(playerid,5,610.6687, -1454.7335, 73.9460)//biura
@@ -21658,6 +21667,11 @@ CMD:wyjdz(playerid)
         {
             ShowPlayerDialogEx(playerid,WINDA_LSPD,DIALOG_STYLE_LIST,"Winda","[Poziom -1] Parking Dolny\n[Poziom 0] Parking Górny\n[Poziom 1] Cele\n[Poziom 2] Komisariat\n[Poziom 2.5] Komisariat (górne piêtro)\n[Poziom 3] Pokoje Przes³uchañ\n[Poziom 4] Biura\n[Poziom 5 ]Sale konferencyjne\n[Poziom 6] Dach","Jedz","");
         }
+        else if(IsPlayerInRangeOfPoint(playerid,5,648.9127, -1367.4266, 29.2878))//recepcja wejscie glowne San News
+        {
+            SetPlayerPosEx(playerid, 648.4412, -1357.3232, 13.8579);
+            SetPlayerVirtualWorld(playerid,0);
+        }
         else if(IsPlayerInRangeOfPoint(playerid, 4, 1566.03, -1651.54, 36.15))
         {
             SetPlayerPosEx(playerid, 1581.66, -1678.84, 65.87);
@@ -21700,15 +21714,6 @@ CMD:wyjdz(playerid)
 		{
 			ShowPlayerDialogEx(playerid,19,DIALOG_STYLE_LIST,"Winda FBI","[Poziom -1]Parking podziemny \n[Poziom 0]Parking \n[Poziom 1]Recepcja\n[Poziom 2] Szatnia i Toalety\n[Poziom 3]Centrum szkoleniowe\n[Poziom 4]Sala Konferencyjna\n[Poziom 5]Wiêzienie stanowe\n[Poziom 6]Biura Federalne\n[Poziom 7]Dach FBI","Jedz","Anuluj");
         }
-        else if(IsPlayerInRangeOfPoint(playerid,5,608.19793701172, -1458.9837646484, 14.387271881104))//fbi wejscie
-        {
-            SetPlayerPosEx(playerid,627.1783, -1470.2279, 90.7054);//fbi srodek
-            //GameTextForPlayer(playerid, "~w~Witamy w~y~ Biurach ~b~FBI~n~~r~by Dywan", 5000, 1);
-            TogglePlayerControllable(playerid, 0);
-            Wchodzenie(playerid);
-            SetPlayerVirtualWorld(playerid,10);
-            PlayerInfo[playerid][pLocal] = 212;
-        }
         else if(IsPlayerInRangeOfPoint(playerid, 10.0, 156.85940551758, 1829.7415771484, 17.693145751953))//pokoj widzen fbi srodek
         {
             SetPlayerPosEx(playerid, 213.57328796387, 1811.1787109375, 21.8671875);//pokoj widzen fbi wejscie
@@ -21732,12 +21737,12 @@ CMD:wyjdz(playerid)
 	        StopAudioStreamForPlayer(playerid);
 		}*/
 	
-		/*else if(IsPlayerInRangeOfPoint(playerid, 5.0, 2452.1274, -2117.2329, 32.2572))//biuro KT srodek
+		else if(IsPlayerInRangeOfPoint(playerid, 5.0, 2452.1274, -2117.2329, 32.2572))//biuro KT srodek
 	    {
 	        SetPlayerPosEx(playerid, 2518.0, -2127.0, 13.5);//2458.3215, -2116.7236, 13.5976);//biuro KT exit
 	        GameTextForPlayer(playerid, "~w~Jestesmy najszybsi w miescie!", 3000, 1);
 	        SetPlayerVirtualWorld(playerid, 0);
-	    }*/
+	    }
 		//Lotnisko LS budka wyjscie
 		else if (PlayerToPoint(1.0, playerid,1952.9000244141,-2181,13.5))
 		{
