@@ -26,6 +26,17 @@ SSCANF:fix(string[])
 	return ret;
 }
 
+CMD:tester(playerid, params[])
+{
+    for(new i = 0; i<MAX_CONTACTS; i++)
+    {
+        if(ContactInfo[playerid][i][cUID] != 0)
+        {
+              format(C_STRING, sizeof(C_STRING), "UID: %d | Number OWNER: %d | Nazwa kontaktu: %s | Numer: %d", ContactInfo[playerid][cUID], ContactInfo[playerid][cOwner], ContactInfo[playerid][cName], ContactInfo[playerid][cNumber]);
+              print(C_STRING);
+        }
+    }
+}
 
 CMD:marcepan(playerid, params[])
 {
@@ -3629,6 +3640,13 @@ CMD:maska(playerid)
 		noAccessMessage(playerid);
 	}
 	return 1;
+}
+
+CMD:kontakty(playerid, params[])
+{
+    if(PlayerInfo[playerid][pPnumber] == 0) return sendErrorDialogMessage(playerid, "Nie posiadasz telefonu!");
+        ShowPlayerDialogEx(playerid, DIALOG_KONTAKTY, DIALOG_STYLE_LIST, "{8FCB04}Kotnik-RP{FFFFFF} » Kontakty", "> Lista kontaktów\n> Dodaj kontakt", "Wybierz", "Zamknij");
+    return 1;
 }
 
 
@@ -19623,6 +19641,7 @@ CMD:przelew(playerid, params[])
 				sendTipDialogMessage(playerid, "U¿yj /przelew [playerid/CzêœæNicku] [kwota]");
 				return 1;
 			}
+
 			moneys = FunkcjaK(string);
 
 			if (IsPlayerConnected(giveplayerid) && giveplayerid != playerid)
@@ -21595,6 +21614,7 @@ CMD:wyjdz(playerid)
 {
     if(IsPlayerConnected(playerid))
 	{
+        if(robInProgress[playerid] == 1) return sendTipDialogMessage(playerid, "Jesteœ w trakcie napadu!");
         if(GetPVarInt(playerid, "AC-izolacja") != 0) return sendTipMessageEx(playerid, COLOR_PANICRED, "Jesteœ odizolowany, nie mo¿esz u¿ywaæ tej komendy.");
 		
 		if(SprawdzWejscia(playerid))
@@ -37021,6 +37041,9 @@ CMD:aresztuj(playerid, params[])
 	}
 	return 1;
 }
+
+
+
 
 CMD:contract(playerid, params[]) return cmd_kontrakt(playerid, params);
 CMD:kontrakt(playerid, params[])

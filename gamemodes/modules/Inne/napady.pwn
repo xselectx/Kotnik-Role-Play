@@ -20,6 +20,7 @@
 #define MIN_COP_ONLINE 0
 #define MIN_ORG_ONLINE 1
 
+new robSync;
 new robTimerVar[MAX_PLAYERS];
 new robInProgress[MAX_PLAYERS];
 
@@ -102,6 +103,7 @@ forward StartPlayerRob(playerid);
 public StartPlayerRob(playerid)
 {
 	new string[125];
+	robSync = 1;
 	robTimerVar[playerid] = DEFAULT_ROB_TIME;
 	robInProgress[playerid] = 1;
 
@@ -126,10 +128,11 @@ public StartPlayerRob(playerid)
 
 			//------------------------ <! commands!> ----------------------//
 
-CMD:obrabuj(playerid, params[])
+CMD:napad(playerid, params[])
 {
 	if(!IsAPrzestepca(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ z organizacji przestêpczej!!");
 	if(IsPlayerInRangeOfPoint(playerid, 2, NPCPosition[0][0], NPCPosition[0][1], NPCPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 2, NPCPosition[1][0], NPCPosition[1][1], NPCPosition[1][2]) || IsPlayerInRangeOfPoint(playerid, 2, NPCPosition[2][0], NPCPosition[2][1], NPCPosition[2][2])) {
+		if(robSync >= 1) return sendErrorDialogMessage(playerid, "Ten sklep zosta³ niedawno obrabowany, spróbuj póŸniej");
 		if(CheckMembersFromOrg(playerid) < MIN_ORG_ONLINE) return sendTipDialogMessage(playerid, "Nie ma w pobli¿u Ciebie cz³onków twojej organizacji (min. 3 osoby)"); 
 		if(!GetPlayerWeapon(playerid)) return sendErrorDialogMessage(playerid, "Nie trzymasz ¿adnej broni w rêce!");
 		CheckCopPlayers(playerid);

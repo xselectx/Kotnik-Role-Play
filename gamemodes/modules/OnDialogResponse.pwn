@@ -1397,6 +1397,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 		}
 	}
+	else if(dialogid == DIALOG_KONTAKTY)
+	{
+		if(!response) return 1;
+		switch(listitem) {
+			case 0: sendTipMessage(playerid, "debug 1;");
+		}
+	}
 	else if(dialogid == DIALOG_ADMIN_PM_TOKEN)
 	{
 		if(!response) return sendTipDialogMessage(playerid, "Anulowa³eœ wysy³anie wiadomoœci do Administratora!");
