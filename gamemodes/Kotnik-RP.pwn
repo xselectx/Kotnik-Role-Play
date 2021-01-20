@@ -5575,6 +5575,8 @@ public OnGameModeInit()
     Streamer_SetVisibleItems(0, 900);
     Streamer_SetTickRate(50);
 
+    SendRconCommand("reloadfs boty");
+
     //FabrykaMats::LoadLogic();  DO POPRAWY
     //NowaWybieralka::Init();  DO POPRAWY
 

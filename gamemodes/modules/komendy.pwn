@@ -37741,6 +37741,18 @@ CMD:ibiza(playerid)
 	return 1;
 }
 
+
+CMD:kupbilet(playerid)
+{
+    if(IsPlayerInRangeOfPoint(playerid, 7, 397, -1408, 7) && gPlayerLogged[playerid] == 1) // budka ibizy
+    {
+        new tmp[128];
+        format(tmp, sizeof tmp, "Czy chcesz kupiæ bilet do Ibizy za %d$", IbizaBilet);
+        SetPVarInt(playerid, "IbizaBiletSell", INVALID_PLAYER_ID);
+        ShowPlayerDialogEx(playerid, DIALOG_IBIZA_BILET, DIALOG_STYLE_MSGBOX, "Ibiza Club", tmp, "Kup", "Anuluj");
+    }
+}
+
 CMD:sprzedajbilet(playerid, params[])
 {
 	if(GetPlayerOrg(playerid) == FAMILY_IBIZA) //RANGA
