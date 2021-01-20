@@ -26,7 +26,7 @@ SSCANF:fix(string[])
 	return ret;
 }
 
-CMD:tester(playerid, params[])
+/*CMD:tester(playerid, params[])
 {
     for(new i = 0; i<MAX_CONTACTS; i++)
     {
@@ -36,7 +36,7 @@ CMD:tester(playerid, params[])
               print(C_STRING);
         }
     }
-}
+}*/
 
 CMD:marcepan(playerid, params[])
 {
@@ -17427,6 +17427,18 @@ CMD:megafon(playerid, params[])
 			sendTipDialogMessage(playerid, "U¿yj (/m)egafon [tekst]");
 			return 1;
 		}
+        if(GetPlayerOrg(playerid) == FAMILY_IBIZA && PlayerInfo[playerid][pRank] >= 2)
+        {
+            if(GetPVarInt(playerid, "IbizaWejdz"))
+            {
+                format(string, sizeof(string), "%s (megafon): %s", sendername, params);
+                ProxDetector(60.0, playerid, string,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW,COLOR_YELLOW);
+            }
+            else
+            {
+                return sendTipMessage(playerid, "Mo¿esz u¿ywaæ megafonu tylko w Ibizie!");
+            }
+        }
 		if(PlayerInfo[playerid][pMember] == 1||PlayerInfo[playerid][pLider] == 1)
 		{
 			format(string, sizeof(string), "%s (megafon): %s", sendername, params);

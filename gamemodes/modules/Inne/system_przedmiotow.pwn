@@ -399,6 +399,22 @@ public PlayerEkiepChmura(playerid, stage, chmura)
 	}
 	else
 	{
+		new SpalonaGrzala = random(100);
+		if(SpalonaGrzala == 5)
+		{
+			if(IsPlayerAttachedObjectSlotUsed(playerid, 7)) RemovePlayerAttachedObject(playerid, 7);
+    		SetPVarInt(playerid, "UsingEKiep", 0);
+    		SetPVarInt(playerid, "PuszczaChmure", 0);
+    		new Float:health;
+    		GetPlayerHealth(playerid, Float:health);
+    		if((health - 10) <= 0) SetPlayerHealth(playerid, 1);
+    		else SetPlayerHealth(playerid, health-10);
+    		sendTipMessage(playerid, "Spali³eœ grza³kê.");
+    		SetPlayerChatBubble(playerid, "* spali³ grza³kê *", COLOR_PURPLE, 15.0, 7500);
+			SetPlayerDrunkLevel(playerid, 4000);
+			RemovePlayerItem(playerid, "E-Papieros", 1);
+		}
+		
 		SetPVarInt(playerid, "PuszczaChmure", 0);
 	}
 	

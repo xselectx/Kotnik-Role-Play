@@ -1967,6 +1967,9 @@ public OnPlayerSpawn(playerid) //Przebudowany
         PlayerPlaySound(playerid, PlayerSounds[GetPVarInt(playerid, "SpawnMusic")][1], 0, 0, 0);
         SetPVarInt(playerid, "SpawnMusic", -1);
     }*/
+    if(IsPlayerAttachedObjectSlotUsed(playerid, 7)) RemovePlayerAttachedObject(playerid, 7);
+    SetPVarInt(playerid, "UsingEKiep", 0);
+    SetPVarInt(playerid, "PuszczaChmure", 0);
 
     if(PlayerInfo[playerid][pBBron] > 0)
     {
