@@ -18837,23 +18837,23 @@ CMD:wiadomosc(playerid, params[])
     if (IsPlayerConnected(giveplayerid) && giveplayerid != INVALID_PLAYER_ID)
     {
 
-        if(((PlayerInfo[giveplayerid][pAdmin] >= 1000) || (PlayerInfo[giveplayerid][pAdmin] == 7 && GetPVarInt(giveplayerid, "dutyadmin") == 1)) && GetPVarInt(playerid, "admintoken") == 0) 
-        {
-            if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
-            {
-                new tokenid = random(10000000000);
-                adminTokenID[playerid] = giveplayerid;
-                adminToken[playerid] = tokenid;
-                //adminTokenText[playerid] = text;
-                format(adminTokenText[playerid], 128, "%s", text);
-                printf("%s", adminTokenText[playerid]);
-    
-                format(C_STRING, sizeof(C_STRING), "Aby wys³aæ wiadomoœæ do Administratora: %s [%d]\nMusisz przepisaæ token: {8FCB04}%d", GetNick(giveplayerid), giveplayerid, adminToken[playerid]);
-                ShowPlayerDialogEx(playerid, DIALOG_ADMIN_PM_TOKEN, DIALOG_STYLE_INPUT, "{8FCB04}Kotnik-RP{FFFFFF} » Token wiadomoœci", C_STRING, "Wyœlij", "Anuluj");
-            
-                return 1;
-            }
-        }
+        //if(((PlayerInfo[giveplayerid][pAdmin] >= 1000) || (PlayerInfo[giveplayerid][pAdmin] == 7 && GetPVarInt(giveplayerid, "dutyadmin") == 1)) && GetPVarInt(playerid, "admintoken") == 0) 
+        //{
+        //    if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
+        //    {
+        //        new tokenid = random(10000000000);
+        //        adminTokenID[playerid] = giveplayerid;
+        //        adminToken[playerid] = tokenid;
+        //        //adminTokenText[playerid] = text;
+        //        format(adminTokenText[playerid], 128, "%s", text);
+        //        printf("%s", adminTokenText[playerid]);
+    //
+        //        format(C_STRING, sizeof(C_STRING), "Aby wys³aæ wiadomoœæ do Administratora: %s [%d]\nMusisz przepisaæ token: {8FCB04}%d", GetNick(giveplayerid), giveplayerid, adminToken[playerid]);
+        //        ShowPlayerDialogEx(playerid, DIALOG_ADMIN_PM_TOKEN, DIALOG_STYLE_INPUT, "{8FCB04}Kotnik-RP{FFFFFF} » Token wiadomoœci", C_STRING, "Wyœlij", "Anuluj");
+        //    
+        //        return 1;
+        //    }
+        //}
         if(HidePM[giveplayerid] > 0)
         {
             sendTipMessage(playerid, "Ten gracz blokuje wiadomoœci!");
@@ -33479,7 +33479,7 @@ CMD:ochrona(playerid, params[])
 		return 1;
 	}
 
-	if(money < 50000 || money > 100000) { sendTipMessageEx(playerid, COLOR_GREY, "Cena od 50000 do 100000!"); return 1; }
+	if(money < 15000 || money > 50000) { sendTipMessageEx(playerid, COLOR_GREY, "Cena od 15000 do 50000!"); return 1; }
 	if(IsPlayerConnected(giveplayerid))
 	{
 	    if(giveplayerid != INVALID_PLAYER_ID)
@@ -37779,6 +37779,7 @@ CMD:kupbilet(playerid)
         SetPVarInt(playerid, "IbizaBiletSell", INVALID_PLAYER_ID);
         ShowPlayerDialogEx(playerid, DIALOG_IBIZA_BILET, DIALOG_STYLE_MSGBOX, "Ibiza Club", tmp, "Kup", "Anuluj");
     }
+    return 1;
 }
 
 CMD:sprzedajbilet(playerid, params[])

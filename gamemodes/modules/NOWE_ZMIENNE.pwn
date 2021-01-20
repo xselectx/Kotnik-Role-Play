@@ -1507,6 +1507,8 @@ stock ZerujZmienne(playerid)
     RakNet_SaveWeapons[playerid] = 0;
     FishTimer[playerid] = 0;
     
+    SetPVarInt(playerid, "OfferingItemFrom", INVALID_PLAYER_ID);
+
     repairTimerVar[playerid] = 0;
     repairInProgress[playerid] = 0;
 

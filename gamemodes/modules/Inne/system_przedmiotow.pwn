@@ -281,6 +281,7 @@ AddPlayerItem(pid, item[], quant)
 					Inventory[pid][i][iStats2] = strval(ItemsInventory[x][5]);
 					Inventory[pid][i][iStats3] = strval(ItemsInventory[x][6]);
 					Inventory[pid][i][iStats4] = strval(ItemsInventory[x][7]);
+					Inventory[pid][i][iLimit] = strval(ItemsInventory[x][8]);
 				}
 				if(PlayerInfo[pid][pItems] < 99)
 				{
@@ -1131,11 +1132,12 @@ CMD:p(playerid, params[])
 {
 	if(IsPlayerConnected(playerid))
 	{
+		if(GetItemQuant(playerid, "Telefon") == 0 && PlayerInfo[playerid][pPnumber] > 0) AddPlayerItem(playerid, "Telefon", 1);
 		if(PlayerInfo[playerid][pItems] > 0)
 		{
 			if(GUIExit[playerid] != 0) return sendTipMessage(playerid, "Masz otwarte okno dialogowe!");
 			if(GetPVarInt(playerid, "OfferingItem") != -1 && GetPVarInt(playerid, "OfferingItemTo") != INVALID_PLAYER_ID) return ShowPlayerDialogEx(playerid, D_OFFER_ITEM_CANCEL, DIALOG_STYLE_MSGBOX, "Aktywna oferta", "Masz aktywn¹ ofertê, czy chcesz j¹ anulowaæ?", "Tak", "Nie");
-			if(GetItemQuant(playerid, "Telefon") == 0 && PlayerInfo[playerid][pPnumber] > 0) AddPlayerItem(playerid, "Telefon", 1);
+			
 
 			new param[256];
 			new var1[32], var2 = -1, var3 = -1;
