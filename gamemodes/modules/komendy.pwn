@@ -32200,7 +32200,7 @@ CMD:sprzedajbron(playerid, params[])
                 if(Spectate[giveplayerid] != INVALID_PLAYER_ID) return SendClientMessage(playerid, COLOR_GRAD1, "   Ten gracz jest za daleko !");
                 if(PlayerInfo[giveplayerid][pLevel] >= 2)
                 {
-                    if(PlayerInfo[giveplayerid][pGunLic] == 1 || IsAPrzestepca(giveplayerid) || IsACop(giveplayerid) || IsABOR(giveplayerid) || strcmp(x_weapon,"pistolety",true) == 0)
+                    if(PlayerInfo[giveplayerid][pGunLic] == 1 || IsAPrzestepca(giveplayerid) || IsACop(giveplayerid) || IsABOR(giveplayerid) || strcmp(x_weapon,"pistolety",true) == 0 || IsAPrzestepca(playerid))
                     {
                         if(giveplayerid != INVALID_PLAYER_ID)
                         {
