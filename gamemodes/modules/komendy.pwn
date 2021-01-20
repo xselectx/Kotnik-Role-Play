@@ -37258,7 +37258,7 @@ CMD:zamek(playerid, params[])
 	IsPlayerInRangeOfPoint(playerid, 5.0, 735.2055, -1472.9760, 22.5920) ||
 	IsPlayerInRangeOfPoint(playerid, 5.0, 736.3939, -1472.8465, 22.5920))
     {
-        if(IsPlayerInFraction(playerid, FRAC_LCN, 5000))
+        if(IsPlayerInFraction(playerid, FRAC_YKZ, 5000))
         {
             new nick[MAX_PLAYER_NAME], string[64];
             GetPlayerName(playerid, nick, sizeof(nick));
