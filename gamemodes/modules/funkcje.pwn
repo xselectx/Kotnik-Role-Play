@@ -3710,6 +3710,10 @@ IsAtGasStation(playerid)
 		{
 			return 1;
 		} //nowa stacja by wojcik
+		else if(PlayerToPoint(12.0, playerid,1011.28,-1353.23, 13.35) || PlayerToPoint(12.0, playerid, 1000.49, -1353.06, 13.33))
+		{
+			return 1;
+		}
 	}
 	return 0;
 }
