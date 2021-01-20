@@ -76,6 +76,7 @@
 #include "modules/inne/system_przedmiotow.pwn"
 #include "modules/inne/napady.pwn"
 #include "modules/inne/mechanicy.pwn"
+#include "modules/inne/kontakty.pwn"
 
 #include "modules/forward.pwn"
 #include "modules/funkcje.pwn"
@@ -900,10 +901,10 @@ public OnPlayerConnect(playerid)
     if(quittext_time[playerid] == 1) DestroyQuitText(playerid);
 
 	ZerujZmienne(playerid);    
-
+    PlayAudioStreamForPlayer(playerid, "http://146.59.17.224/download/samp/kotnik-rp.mp3",  0.0, 0.0, 0.0, 50.0, 0);
     ClearChat(playerid);	
 
-    
+
     
 
     // Wy³¹czone na testy
@@ -1024,7 +1025,7 @@ public OnPlayerDisconnect(playerid, reason)
     }
 
     CancelTrade(playerid);
-
+    StopAudioStreamForPlayer(playerid);
 	GetPlayerPos(playerid, PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z]);
 	PlayerInfo[playerid][pInt] = GetPlayerInterior(playerid);
     PlayerInfo[playerid][pVW] = GetPlayerVirtualWorld(playerid);
@@ -1956,12 +1957,12 @@ public OnPlayerSpawn(playerid) //Przebudowany
     //Update3DTextLabelText(PlayerInfo[playerid][pDescLabel], 0xBBACCFFF, "");
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	//if(GetPVarInt(playerid, "class-sel")) DeletePVar(playerid, "class-sel");
-
-    if(GetPVarInt(playerid, "SpawnMusic") != -1)
+    StopAudioStreamForPlayer(playerid);  
+  /*  if(GetPVarInt(playerid, "SpawnMusic") != -1)
     {
         PlayerPlaySound(playerid, PlayerSounds[GetPVarInt(playerid, "SpawnMusic")][1], 0, 0, 0);
         SetPVarInt(playerid, "SpawnMusic", -1);
-    }
+    }*/
 
     if(PlayerInfo[playerid][pBBron] > 0)
     {
@@ -5581,6 +5582,9 @@ public OnGameModeInit()
     //PaniJanina = CreateActor(88, 570.63, -2031.03, 16.2, 180.0);//basen
 	//SetActorVirtualWorld(PaniJanina, 30);
 	//AFK timer
+    //napady
+    robSync = 0;
+    //
 	for(new i; i<MAX_PLAYERS; i++)
 	{
 		AFKTimer[i] = -1;
@@ -6043,6 +6047,7 @@ PayDay()
 					PlayerInfo[i][pPayCheck] = 0;
 					PlayerInfo[i][pConnectTime] += 1;
                     MRP_PremiumHours[i]++;
+                    robSync--;
 					if(PlayerInfo[i][pBP] >= 1)
 					{
 					    PlayerInfo[i][pBP]--;
@@ -6504,22 +6509,13 @@ OnPlayerLogin(playerid, password[])
 
         Car_LoadForPlayer(playerid); //System aut
         LoadPlayerInventory(playerid); // system przedmiotow
+        LoadContactData(playerid); //wiztyuwy
 		//Powitanie:
-		format(string, sizeof(string), "Witaj, %s [UID %d | PID: %d]",nick, PlayerInfo[playerid][pUID], playerid);
+        ClearChat(playerid);    
+		format(string, sizeof(string), "Witaj, %s [UID %d | PID: %d] - ¯yczymy mi³ej gry!",nick, PlayerInfo[playerid][pUID], playerid);
         sendTipMessage(playerid, string);
 		//_MruGracz(playerid,string);
 		printf("%s has logged in.",nick);
-
-        if (PlayerInfo[playerid][pAdmin] > 0)
-        {
-            //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
-            sendTipMessage(playerid, sprintf("Posiadasz uprawnienia: {FF0000}Administrator [%d]", PlayerInfo[playerid][pAdmin]));
-        }
-        if (PlayerInfo[playerid][pZG] > 0)
-        {
-            //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
-            sendTipMessage(playerid, sprintf("Posiadasz uprawnienia: {2396FF}Supporter [%d]", PlayerInfo[playerid][pZG]));
-        }
 		if (PremiumInfo[playerid][pKP] > 0)
 		{
 			//_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
