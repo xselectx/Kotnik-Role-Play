@@ -8603,6 +8603,12 @@ public MRP_ChangeVehicleColor(vehicleid, color1, color2)
 
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
+    if(PlayerInfo[playerid][pAdmin] >= 1)
+    {
+        TeleportDest[playerid][0] = fX;
+        TeleportDest[playerid][1] = fY;
+        TeleportDest[playerid][2] = fZ;
+    }
     return 1;
 }
 
@@ -8708,6 +8714,7 @@ public OnPlayerFinishedDownloading(playerid, virtualworld)
     }
     return 1;
 }
+
 
 //select pies
 //zmiana

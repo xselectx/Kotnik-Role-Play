@@ -25225,7 +25225,7 @@ CMD:gotocar(playerid, params[])
 	return 1;
 }
 
-CMD:mark(playerid)
+/*CMD:mark(playerid)
 {
     if(IsPlayerConnected(playerid))
     {
@@ -25240,7 +25240,7 @@ CMD:mark(playerid)
 		}
 	}
 	return 1;
-}
+}*/
 
 CMD:gotomark(playerid)
 {
@@ -25258,7 +25258,7 @@ CMD:gotomark(playerid)
 				SetPlayerPosEx(playerid, TeleportDest[playerid][0],TeleportDest[playerid][1],TeleportDest[playerid][2]);
 			}
 			_MruAdmin(playerid, "Zosta³eœ teleportowany!");
-			SetPlayerInterior(playerid,0);
+			//SetPlayerInterior(playerid,0);
 		}
 		else
 		{
