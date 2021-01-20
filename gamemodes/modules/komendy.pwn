@@ -30,9 +30,9 @@ CMD:tester(playerid, params[])
 {
     for(new i = 0; i<MAX_CONTACTS; i++)
     {
-        if(ContactInfo[playerid][i][cUID] != 0)
+        if(ContactInfo[playerid][i][cOwner] == PlayerInfo[playerid][pUID])
         {
-              format(C_STRING, sizeof(C_STRING), "UID: %d | Number OWNER: %d | Nazwa kontaktu: %s | Numer: %d", ContactInfo[playerid][cUID], ContactInfo[playerid][cOwner], ContactInfo[playerid][cName], ContactInfo[playerid][cNumber]);
+              format(C_STRING, sizeof(C_STRING), "UID: %d | Number OWNER: %d | Nazwa kontaktu: %s | Numer: %d", ContactInfo[playerid][i][cUID], ContactInfo[playerid][i][cOwner], ContactInfo[playerid][i][cName], ContactInfo[playerid][i][cNumber]);
               print(C_STRING);
         }
     }

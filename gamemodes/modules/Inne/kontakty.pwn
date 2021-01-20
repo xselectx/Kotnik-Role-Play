@@ -4,10 +4,10 @@ enum cInfo
 {
     cUID,
     cOwner,
-    cName[64],
+    cName,
     cNumber
 }
-new ContactInfo[MAX_PLAYERS][MAX_CONTACT][cInfo];
+new ContactInfo[MAX_PLAYERS][MAX_CONTACTS][cInfo];
 
 LoadContactData(playerid)
 {
