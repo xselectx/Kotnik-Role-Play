@@ -31381,7 +31381,7 @@ CMD:sprzedajrybe(playerid, params[])
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 1!");
 			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish1], Fishes[playerid][pWeight1], Fishes[playerid][pWeight1]*190);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight1]*48);
+			DajKase(playerid, Fishes[playerid][pWeight1]*90);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31392,7 +31392,7 @@ CMD:sprzedajrybe(playerid, params[])
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 2!");
 			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish2], Fishes[playerid][pWeight2], Fishes[playerid][pWeight2]*190);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight2]*48);
+			DajKase(playerid, Fishes[playerid][pWeight2]*90);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31403,7 +31403,7 @@ CMD:sprzedajrybe(playerid, params[])
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 3!");
 			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish3], Fishes[playerid][pWeight3], Fishes[playerid][pWeight3]*190);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight3]*48);
+			DajKase(playerid, Fishes[playerid][pWeight3]*90);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31414,7 +31414,7 @@ CMD:sprzedajrybe(playerid, params[])
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 4!");
 			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish4], Fishes[playerid][pWeight4], Fishes[playerid][pWeight4]*190);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight4]*48);
+			DajKase(playerid, Fishes[playerid][pWeight4]*90);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31425,7 +31425,7 @@ CMD:sprzedajrybe(playerid, params[])
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 5!");
 			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish5], Fishes[playerid][pWeight5], Fishes[playerid][pWeight5]*190);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight5]*48);
+			DajKase(playerid, Fishes[playerid][pWeight5]*90);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
