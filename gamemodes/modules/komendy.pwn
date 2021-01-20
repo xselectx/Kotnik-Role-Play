@@ -19584,45 +19584,45 @@ CMD:kolo(playerid)
             GetPlayerName(playerid, sendername, sizeof(sendername));
             if(kolo >= 1 && kolo <= 30)//1
             {
+                format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na: 500$", sendername);
+                SendClientMessage(playerid, COLOR_PURPLE, string);
+                //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
+                DajKase(playerid, 500);
+            }
+            else if(kolo > 30 && kolo <= 45)//2
+            {
                 format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na: 1000$", sendername);
                 SendClientMessage(playerid, COLOR_PURPLE, string);
                 //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
                 DajKase(playerid, 1000);
             }
-            else if(kolo > 30 && kolo <= 45)//2
+            else if(kolo > 45 && kolo <= 53)//5
             {
                 format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na: 2000$", sendername);
                 SendClientMessage(playerid, COLOR_PURPLE, string);
                 //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
                 DajKase(playerid, 2000);
             }
-            else if(kolo > 45 && kolo <= 53)//5
+            else if(kolo > 53 && kolo <= 57)//10
             {
                 format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na: 5000$", sendername);
                 SendClientMessage(playerid, COLOR_PURPLE, string);
                 //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
                 DajKase(playerid, 5000);
             }
-            else if(kolo > 53 && kolo <= 57)//10
-            {
-                format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na: 20000$", sendername);
-                SendClientMessage(playerid, COLOR_PURPLE, string);
-                //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
-                DajKase(playerid, 20000);
-            }
             else if(kolo == 58 || kolo == 59)//20
             {
-                format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na: 50000$", sendername);
+                format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na: 10000$", sendername);
                 SendClientMessage(playerid, COLOR_PURPLE, string);
                 //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
-                DajKase(playerid, 50000);
+                DajKase(playerid, 10000);
             }
             else if(kolo == 60 || kolo == 61)//*
             {
-                format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na gwieŸdzie fortuny (100000$)", sendername);
+                format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na gwieŸdzie fortuny (20000$)", sendername);
                 SendClientMessage(playerid, COLOR_PURPLE, string);
                 //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
-                DajKase(playerid, 100000);
+                DajKase(playerid, 20000);
             }
             DajKase(playerid, -5000);
             sendTipMessageEx(playerid, TEAM_AZTECAS_COLOR, "Kasyno pobiera op³atê za u¿ycie ko³a fortuny (5000$)");
