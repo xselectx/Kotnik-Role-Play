@@ -13529,7 +13529,18 @@ public DestroyQuitText(playerid)
 forward Wybieralka_Delay(playerid);
 public Wybieralka_Delay(playerid)
 {
+	if(GetPVarInt(playerid, "Wybieralka_AntyBug") == 1)
+	{
+		print("if wybieralki");
+		if(!IsPlayerPaused(playerid))
+		{
+			print("juz nie jest afk");
+			SetPVarInt(playerid, "Wybieralka_AntyBug", 0);
+		}
+		else return SetTimerEx("Wybieralka_Delay", 500, false, "i", playerid);
+	}
 	Wybieralka_Setup(playerid);
+	return 1;
 }
 
 Wybieralka_Setup(playerid)
@@ -13539,38 +13550,40 @@ Wybieralka_Setup(playerid)
 	Wybieralka_Skin[playerid] = 0;
 	SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
 	//ForceClassSelection(playerid);
-
+	SetPlayerHealth(playerid, 100);
     SetPlayerCameraPos(playerid, 206.288314, -38.114028, 1002.229675);
 	SetPlayerCameraLookAt(playerid, 208.775955, -34.981678, 1001.929687);
     //TogglePlayerSpectating(playerid, false);
 
 	SetPlayerInterior(playerid, 1);
 	SetPlayerVirtualWorld(playerid, 5000+playerid);
-	SetPlayerPosEx(playerid, 208.775955, -34.981678, 1001.929687);
+	SetPlayerPosEx(playerid, 202.6609,-41.7076,1001.8047);
 	SetPlayerFacingAngle(playerid, 144);
 
+	SendClientMessage(playerid, COLOR_BLUE, "Wybierz interesuj¹cy ciê skin");
+    ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
 
-	TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Right);
-	TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Left);
-	TextDrawShowForPlayer(playerid, Wybieralka_Confirm);
-	SelectTextDraw(playerid, 0xE8E8E8FF);
+	//TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Right);
+	//TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Left);
+	//TextDrawShowForPlayer(playerid, Wybieralka_Confirm);
+	//SelectTextDraw(playerid, 0xE8E8E8FF);
 }
 
 Wybieralka_Exit(playerid)
 {
 	Wybieralka[playerid] = 0;
-	TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Right);
-	TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Left);
-	TextDrawHideForPlayer(playerid, Wybieralka_Confirm);
-	CancelSelectTextDraw(playerid);
-
-	PlayerInfo[playerid][pModel] = Peds[Wybieralka_Skin[playerid]][0];
+	//TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Right);
+	//TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Left);
+	//TextDrawHideForPlayer(playerid, Wybieralka_Confirm);
+	//CancelSelectTextDraw(playerid);
+//
+	//PlayerInfo[playerid][pModel] = Peds[Wybieralka_Skin[playerid]][0];
 	Wybieralka_Spawn(playerid);
 }
 
 Wybieralka_Spawn(playerid)
 {
-    SetTimerEx("OnPlayerSpawn", 150, false, "i", playerid);
+    SpawnPlayer(playerid);
 }
 
 forward OnCheatDetected(playerid, ip_address[], type, code);
@@ -15394,4 +15407,85 @@ public RestoreOldWeapons(playerid, nick[])
 	//	MruMySQL_SetAccInt(sprintf("Ammo%d", i), nick, RakNet_PlayerWeapons[playerid][i][1]);
 	//}
 	return 1;
+}
+
+ShowUbrania(playerid, type, first = 0)
+{
+	if(type == 0)
+	{
+		new subString[32];
+    	new string[sizeof(SkinyCiuchyMeskie) * sizeof(subString)];
+        if(string[0] == EOS) 
+        {
+            for(new i = 0; i < sizeof(SkinyCiuchyMeskie); i++)
+            {
+                format(subString, sizeof(subString), "%d\n", SkinyCiuchyMeskie[i][0]);
+                strcat(string, subString);
+            }
+            SetPVarInt(playerid, "ShowUbraniaType", 1);
+            if(first == 0) return ShowPlayerDialogEx(playerid, D_UBRANIA+1, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+            else return ShowPlayerDialogEx(playerid, D_UBRANIA+2, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+        }
+	}
+	else if(type == 1)
+	{
+		new subString[32];
+    	new string[sizeof(SkinyCiuchyDamskie) * sizeof(subString)];
+        if(string[0] == EOS) 
+        {
+            for(new i = 0; i < sizeof(SkinyCiuchyDamskie); i++)
+            {
+                format(subString, sizeof(subString), "%d\n", SkinyCiuchyDamskie[i][0]);
+                strcat(string, subString);
+            }
+            SetPVarInt(playerid, "ShowUbraniaType", 2);
+            if(first == 0) return ShowPlayerDialogEx(playerid, D_UBRANIA+1, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+            else return ShowPlayerDialogEx(playerid, D_UBRANIA+2, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+        }
+	}
+	return 1;
+}
+
+AddPlayerSkin(playerid, skinid)
+{
+	if(CheckPlayerSkin(playerid, skinid) == 1) return 1;
+	for(new i=0;i<MAX_SKIN_SELECT;i++)
+	{
+		if(PERSONAL_SKINS[playerid][i] == 0)
+		{
+			PERSONAL_SKINS[playerid][i] = skinid;
+			new string[1024];
+			new substr[64];
+			new ilosc;
+			for(new j=0;j<MAX_SKIN_SELECT;j++)
+			{
+				if(PERSONAL_SKINS[playerid][j] > 0)
+				{
+					ilosc++;
+					format(substr, sizeof(substr), "%d, ", PERSONAL_SKINS[playerid][j]);
+					strcat(string, substr);
+				}
+			}
+
+			strdel(string, strlen(string)-2, strlen(string));
+			new query[1224];
+			if(ilosc > 1) format(query, sizeof(query), "UPDATE `mru_personale` SET `skiny` = '%s' WHERE `UID` = '%d'", string, PlayerInfo[playerid][pUID]);
+			else format(query, sizeof(query), "INSERT INTO `mru_personale`(`UID`, `skiny`) VALUES ('%d', '%s')", PlayerInfo[playerid][pUID], string);
+			mysql_query(query);
+			break;
+		}
+	}
+	return 1;
+}
+
+CheckPlayerSkin(playerid, skinid)
+{
+	for(new i=0;i<MAX_SKIN_SELECT;i++)
+	{
+		if(PERSONAL_SKINS[playerid][i] == skinid)
+		{
+			return 1;
+		}
+	}
+	return 0;
 }

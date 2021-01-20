@@ -2769,7 +2769,7 @@ public JednaSekundaTimer()
 		if(TutTime[i] >= 1 && !IsPlayerNPC(i))
 		{
 			TutTime[i] += 1;
-			//TutTime[i] = 125; skip tutoriala
+			//TutTime[i] = 215; //skip tutoriala
 
 
 
@@ -2897,6 +2897,10 @@ public JednaSekundaTimer()
 				//SetPlayerCameraPos(i, 206.288314, -38.114028, 1002.229675);
 				//SetPlayerCameraLookAt(i, 208.775955, -34.981678, 1001.929687);
 
+				if(IsPlayerPaused(i)) 
+				{
+					SetPVarInt(i, "Wybieralka_AntyBug", 1);
+				}
 				SetTimerEx("Wybieralka_Delay", 100, false, "i", i);
 				//Wybieralka_Setup(i);
 				//NowaWybieralka::Setup(i);

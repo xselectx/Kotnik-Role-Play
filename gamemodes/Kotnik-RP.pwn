@@ -572,33 +572,33 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
     {
         if(strlen(ServerInfo) > 1) ShowPlayerDialogEx(playerid, D_SERVERINFO, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Informacja", ServerInfo, "Schowaj", "Zamknij");
     }
-    if(Wybieralka[playerid] == 1)
-    {
-        if(clickedid == Wybieralka_Arrow_Right)
-        {
-            if(Wybieralka_Skin[playerid] == sizeof(Peds))
-            {
-                Wybieralka_Skin[playerid] = 0;
-            } else {
-                Wybieralka_Skin[playerid]++;
-            }
-            SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
-        } 
-        else if(clickedid == Wybieralka_Arrow_Left)
-        {
-            if(Wybieralka_Skin[playerid] == 0)
-            {
-                Wybieralka_Skin[playerid] = sizeof(Peds);
-            } else {
-                Wybieralka_Skin[playerid]--;
-            }
-            SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
-        }
-        else if(clickedid == Wybieralka_Confirm)
-        {
-            Wybieralka_Exit(playerid);
-        }
-    }
+   //if(Wybieralka[playerid] == 1)
+   //{
+   //    if(clickedid == Wybieralka_Arrow_Right)
+   //    {
+   //        if(Wybieralka_Skin[playerid] == sizeof(Peds))
+   //        {
+   //            Wybieralka_Skin[playerid] = 0;
+   //        } else {
+   //            Wybieralka_Skin[playerid]++;
+   //        }
+   //        SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
+   //    } 
+   //    else if(clickedid == Wybieralka_Arrow_Left)
+   //    {
+   //        if(Wybieralka_Skin[playerid] == 0)
+   //        {
+   //            Wybieralka_Skin[playerid] = sizeof(Peds);
+   //        } else {
+   //            Wybieralka_Skin[playerid]--;
+   //        }
+   //        SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
+   //    }
+   //    else if(clickedid == Wybieralka_Confirm)
+   //    {
+   //        Wybieralka_Exit(playerid);
+   //    }
+   //}
     
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerClickTextDraw - end", GetNick(playerid), playerid);
@@ -8720,4 +8720,3 @@ public OnPlayerFinishedDownloading(playerid, virtualworld)
 //zmiana
 
 //Koniec.
-

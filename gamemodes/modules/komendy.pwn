@@ -9144,7 +9144,8 @@ CMD:skinf(playerid)
     }
 }
 
-
+CMD:kupskin(playerid) return cmd_ubranie(playerid);
+CMD:wybierzskin(playerid) return cmd_ubranie(playerid);
 CMD:wybieralka(playerid) return cmd_ubranie(playerid);
 CMD:ubranie(playerid)
 {
@@ -9158,8 +9159,8 @@ CMD:ubranie(playerid)
             //TogglePlayerSpectating(playerid, true);
             //TogglePlayerSpectating(playerid, false);
 			SendClientMessage(playerid, COLOR_BLUE, "Wybierz interesuj¹cy ciê skin");
-
-            Wybieralka_Setup(playerid);
+            ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê", "Ubrania mêskie\nUbrania damskie", "Wybierz", "Anuluj");
+            //Wybieralka_Setup(playerid);
             //NowaWybieralka::Setup(playerid);
 		}
 		else
@@ -17634,6 +17635,7 @@ CMD:rooc(playerid, params[])
 	return 1;
 }
 
+/*CMD:ubranie(playerid, params[]) return cmd_kupskin(playerid, params);
 CMD:wybierzskin(playerid, params[]) return cmd_kupskin(playerid, params);
 CMD:kupskin(playerid, params[])
 {
@@ -17641,41 +17643,50 @@ CMD:kupskin(playerid, params[])
     {
         if(IsAtClothShop(playerid))
         {
-            new lolgf;
-			if( sscanf(params, "d", lolgf))
-			{
-				sendTipDialogMessage(playerid, "U¿yj /wybierzskin [id skinu] (koszt: 5000$)");
-				sendTipMessage(playerid, "ID skinów znajdziesz na: http://wiki.sa-mp.com/wiki/Skins:All");
-				return 1;
-			}
-
-			new dobrze = 0;
-			if(lolgf > 0 && lolgf < 300)
-			{
-				for(new skin = 0; skin<194; skin++)
-				{
-					if(lolgf == Przebierz[skin][0])
-					{
-					    dobrze = 1;
-					}
-				}
-				if(dobrze == 1)
-				{
-				    PlayerInfo[playerid][pModel] = lolgf;
-					SetPlayerSkin(playerid, lolgf);
-					sendTipMessageEx(playerid, COLOR_P@, "Kupi³eœ nowy skin!");
-					DajKase(playerid, -5000);
-					GameTextForPlayer(playerid, "~r~-5000$", 2500, 1);
-				}
-				else
-				{
-				    sendTipMessage(playerid, "Tego skina nie mo¿esz wybraæ!");
-				}
-			}
-			else
-			{
-			    sendTipMessage(playerid, "Skin od 1 do 299!");
-			}
+            new subString[128];
+            new string[8 * sizeof(subString)];
+            if(string[0] == EOS) 
+            {
+                for(new i = 0; i < sizeof(Przebierz); i++)
+                {
+                    format(subString, sizeof(subString), "%d\t~g~ $5000\n", Przebierz[i][0]);
+                }
+            }
+            //new lolgf;
+			//if( sscanf(params, "d", lolgf))
+			//{
+			//	sendTipDialogMessage(playerid, "U¿yj /wybierzskin [id skinu] (koszt: 5000$)");
+			//	sendTipMessage(playerid, "ID skinów znajdziesz na: http://wiki.sa-mp.com/wiki/Skins:All");
+			//	return 1;
+			//}
+//
+			//new dobrze = 0;
+			//if(lolgf > 0 && lolgf < 300)
+			//{
+			//	for(new skin = 0; skin<194; skin++)
+			//	{
+			//		if(lolgf == Przebierz[skin][0])
+			//		{
+			//		    dobrze = 1;
+			//		}
+			//	}
+			//	if(dobrze == 1)
+			//	{
+			//	    PlayerInfo[playerid][pModel] = lolgf;
+			//		SetPlayerSkin(playerid, lolgf);
+			//		sendTipMessageEx(playerid, COLOR_P@, "Kupi³eœ nowy skin!");
+			//		DajKase(playerid, -5000);
+			//		GameTextForPlayer(playerid, "~r~-5000$", 2500, 1);
+			//	}
+			//	else
+			//	{
+			//	    sendTipMessage(playerid, "Tego skina nie mo¿esz wybraæ!");
+			//	}
+			//}
+			//else
+			//{
+			//    sendTipMessage(playerid, "Skin od 1 do 299!");
+			//}
         }
         else
 		{
@@ -17683,7 +17694,7 @@ CMD:kupskin(playerid, params[])
 		}
     }
 	return 1;
-}
+}*/
 
 CMD:dutymoto(playerid) 
 {

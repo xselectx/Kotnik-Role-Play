@@ -17326,6 +17326,57 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(!response) return 1;
 		ShowPowiazania(playerid, GetPVarInt(playerid, "powiazania_id"), listitem);
 	}
+	else if(dialogid == D_UBRANIA)
+	{
+		if(!response) 
+		{
+			if(Wybieralka[playerid] == 1) ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
+			return 1;
+		}
+		ShowUbrania(playerid, listitem, Wybieralka[playerid]);
+	}
+	else if(dialogid == D_UBRANIA+1)
+	{
+		if(!response) return 1;
+		if(GetPVarInt(playerid, "ShowUbraniaType") == 1)
+		{
+			if(kaska[playerid] < SkinyCiuchyMeskie[listitem][1]) return sendTipDialogMessage(playerid, "Nie staæ Ciê na to ubranie.");
+			SetPlayerSkin(playerid, SkinyCiuchyMeskie[listitem][0]);
+			AddPlayerSkin(playerid, SkinyCiuchyMeskie[listitem][0]);
+			PlayerInfo[playerid][pModel] = SkinyCiuchyMeskie[listitem][0];
+			ZabierzKase(playerid, SkinyCiuchyMeskie[listitem][1]);
+			sendTipDialogMessage(playerid, sprintf("Zakupi³eœ nowe ubranie za $%d. Zosta³o one dodane do Twojej szafki w domu (/garderoba)", SkinyCiuchyMeskie[listitem][1]));
+		}
+		else if(GetPVarInt(playerid, "ShowUbraniaType") == 2)
+		{
+			if(kaska[playerid] < SkinyCiuchyDamskie[listitem][1]) return sendTipDialogMessage(playerid, "Nie staæ Ciê na to ubranie.");
+			SetPlayerSkin(playerid, SkinyCiuchyDamskie[listitem][0]);
+			AddPlayerSkin(playerid, SkinyCiuchyDamskie[listitem][0]);
+			PlayerInfo[playerid][pModel] = SkinyCiuchyDamskie[listitem][0];
+			ZabierzKase(playerid, SkinyCiuchyDamskie[listitem][1]);
+			sendTipDialogMessage(playerid, sprintf("Zakupi³eœ nowe ubranie za $%d. Zosta³o one dodane do Twojej szafki w domu (/garderoba)", SkinyCiuchyDamskie[listitem][1]));
+		}
+	}
+	else if(dialogid == D_UBRANIA+2)
+	{
+		if(!response)
+		{
+			if(Wybieralka[playerid] == 1) ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
+			return 1;
+		}
+		if(GetPVarInt(playerid, "ShowUbraniaType") == 1)
+		{
+			SetPlayerSkin(playerid, SkinyCiuchyMeskie[listitem][0]);
+			PlayerInfo[playerid][pModel] = SkinyCiuchyMeskie[listitem][0];
+			Wybieralka_Exit(playerid);
+		}
+		else if(GetPVarInt(playerid, "ShowUbraniaType") == 2)
+		{
+			SetPlayerSkin(playerid, SkinyCiuchyDamskie[listitem][0]);
+			PlayerInfo[playerid][pModel] = SkinyCiuchyDamskie[listitem][0];
+			Wybieralka_Exit(playerid);
+		}
+	}
 	return 0;
 }
 //ondialogresponse koniec

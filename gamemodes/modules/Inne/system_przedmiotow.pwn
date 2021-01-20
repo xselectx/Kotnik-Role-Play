@@ -189,6 +189,18 @@ ShowPlayerInventory(pid, type)
 						{
 							format(subString, sizeof(subString), "%d(0, 175, -220, 1.15)", Inventory[pid][i][iModel]);
 						}
+						case 19897:
+						{
+							format(subString, sizeof(subString), "%d(0, -45, 45, 0.85)", Inventory[pid][i][iModel]);
+						}
+						case -2000:
+						{
+							format(subString, sizeof(subString), "%d(0, 0, 0, 0.1)", Inventory[pid][i][iModel]);
+						}
+						case -2001:
+						{
+							format(subString, sizeof(subString), "%d(0, 0, 0, 0.1)", Inventory[pid][i][iModel]);
+						}
 						default:
 						{
 							format(subString, sizeof(subString), "%d", Inventory[pid][i][iModel]);
@@ -940,6 +952,7 @@ public TimeoutTrade(pid1, pid2)
 	}
 	if(IsPlayerConnected(pid2) && GetPVarInt(pid2, "OfferItemTimeout") == 1)
 	{
+		ShowPlayerDialogEx(pid2, -1, DIALOG_STYLE_MSGBOX, " ", " ", " ", " ");
 		sendTipMessage(pid2, "Twoja oferta zosta³a przedawniona.");
 		CancelTrade(pid2);
 	}
