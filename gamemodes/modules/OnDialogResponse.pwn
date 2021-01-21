@@ -1401,9 +1401,46 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(!response) return 1;
 		switch(listitem) {
-			case 0: sendTipMessage(playerid, "debug 1;");
+			case 0: {
+			  C_STRING = "Nazwa kontaktu\tNumer\n";
+ 			  if(PlayerInfo[playerid][pPnumber] == 0) return sendErrorDialogMessage(playerid, "Nie posiadasz telefonu!");
+ 			  for(new i = 0; i<MAX_CONTACTS; i++)
+ 			  {
+ 			      if(ContactInfo[playerid][i][cOwner] == PlayerInfo[playerid][pUID])
+ 			      {
+ 			          strcat(C_STRING, sprintf("%s \t%d\n", ContactInfo[playerid][i][cName], ContactInfo[playerid][i][cNumber]));
+ 			      }
+ 			  }
+ 			  ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_TABLIST_HEADERS, "{8FCB04}Kotnik-RP{FFFFFF} » Twoje kontakty", C_STRING, "Wybierz", "");
+			}
 		}
 	}
+	else if(dialogid == DIALOG_KONTAKTY_NUMBER)
+	{
+		//sendTipMessage(playerid, sprintf("%d", tempNumber[playerid]));
+		//ShowPlayerDialogEx(playerid, DIALOG_KONTAKTY_TEXT, DIALOG_STYLE_INPUT, "Dodawanie kontaktu", "WprowadŸ nazwê kontaktu:", "Zapisz", "");
+
+		return 1;
+	}
+	/*else if(dialogid == DIALOG_KONTAKTY_VCARD)
+	{
+		new targetid = GetPVarInt(playerid, "vCardTakerID");
+		new offerid = GetPVarInt(playerid, "vCardOfferID");
+		SetPVarInt(playerid, "vCardOffer", 3);
+		if(!response)
+		{
+			sendErrorDialogMessage(targetid, "Odrzuci³eœ ofertê wymiany VCard.");
+			SetPVarInt(playerid, "vCardOffer", -1);
+			SetPVarInt(targetid, "vCardTaker", -1);
+		}
+		//sendTipDialogMessage(offerid, "Gracz zaakceptowa³");
+		//sendTipDialogMessage(targetid, "Zaakcpetowales od gracza");
+		format(C_STRING, sizeof(C_STRING), "Twoja oferta wymiany VCard dla gracza %s [%d] zosta³a zaakceptowana.", RemoveUnderLine(targetid), targetid);
+		sendTipMessage(offerid, C_STRING);
+		format(C_STRING, sizeof(C_STRING), "Zaakceptowa³eœ ofertê wymiany VCard od %s [%d], dodano nowy kontakt (/kontakty lista)", RemoveUnderLine(offerid), offerid);
+		sendTipMessage(targetid, C_STRING);
+		return 1;
+	}*/
 	else if(dialogid == DIALOG_ADMIN_PM_TOKEN)
 	{
 		if(!response) return sendTipDialogMessage(playerid, "Anulowa³eœ wysy³anie wiadomoœci do Administratora!");
