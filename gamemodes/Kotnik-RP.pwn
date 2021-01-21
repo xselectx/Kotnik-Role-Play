@@ -572,33 +572,33 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
     {
         if(strlen(ServerInfo) > 1) ShowPlayerDialogEx(playerid, D_SERVERINFO, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Informacja", ServerInfo, "Schowaj", "Zamknij");
     }
-   //if(Wybieralka[playerid] == 1)
-   //{
-   //    if(clickedid == Wybieralka_Arrow_Right)
-   //    {
-   //        if(Wybieralka_Skin[playerid] == sizeof(Peds))
-   //        {
-   //            Wybieralka_Skin[playerid] = 0;
-   //        } else {
-   //            Wybieralka_Skin[playerid]++;
-   //        }
-   //        SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
-   //    } 
-   //    else if(clickedid == Wybieralka_Arrow_Left)
-   //    {
-   //        if(Wybieralka_Skin[playerid] == 0)
-   //        {
-   //            Wybieralka_Skin[playerid] = sizeof(Peds);
-   //        } else {
-   //            Wybieralka_Skin[playerid]--;
-   //        }
-   //        SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
-   //    }
-   //    else if(clickedid == Wybieralka_Confirm)
-   //    {
-   //        Wybieralka_Exit(playerid);
-   //    }
-   //}
+    if(Wybieralka[playerid] == 1)
+    {
+        if(clickedid == Wybieralka_Arrow_Right)
+        {
+            if(Wybieralka_Skin[playerid] == sizeof(Peds))
+            {
+                Wybieralka_Skin[playerid] = 0;
+            } else {
+                Wybieralka_Skin[playerid]++;
+            }
+            SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
+        } 
+        else if(clickedid == Wybieralka_Arrow_Left)
+        {
+            if(Wybieralka_Skin[playerid] == 0)
+            {
+                Wybieralka_Skin[playerid] = sizeof(Peds);
+            } else {
+                Wybieralka_Skin[playerid]--;
+            }
+            SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
+        }
+        else if(clickedid == Wybieralka_Confirm)
+        {
+            Wybieralka_Exit(playerid);
+        }
+    }
     
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerClickTextDraw - end", GetNick(playerid), playerid);
@@ -900,14 +900,10 @@ public OnPlayerConnect(playerid)
 
     if(quittext_time[playerid] == 1) DestroyQuitText(playerid);
 
-	ZerujZmienne(playerid);
+	ZerujZmienne(playerid);    
     PlayAudioStreamForPlayer(playerid, "http://146.59.17.224/download/samp/kotnik-rp.mp3",  0.0, 0.0, 0.0, 50.0, 0);
     ClearChat(playerid);	
 
-    for(new i = 0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++)
-    {
-        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
-    }
 
     
 
@@ -1961,17 +1957,12 @@ public OnPlayerSpawn(playerid) //Przebudowany
     //Update3DTextLabelText(PlayerInfo[playerid][pDescLabel], 0xBBACCFFF, "");
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	//if(GetPVarInt(playerid, "class-sel")) DeletePVar(playerid, "class-sel");
-    if(PlayerInfo[playerid][pReg] == 1) Wybieralka[playerid] = 0;
-    
     StopAudioStreamForPlayer(playerid);  
   /*  if(GetPVarInt(playerid, "SpawnMusic") != -1)
     {
         PlayerPlaySound(playerid, PlayerSounds[GetPVarInt(playerid, "SpawnMusic")][1], 0, 0, 0);
         SetPVarInt(playerid, "SpawnMusic", -1);
     }*/
-    if(IsPlayerAttachedObjectSlotUsed(playerid, 7)) RemovePlayerAttachedObject(playerid, 7);
-    SetPVarInt(playerid, "UsingEKiep", 0);
-    SetPVarInt(playerid, "PuszczaChmure", 0);
 
     if(PlayerInfo[playerid][pBBron] > 0)
     {
@@ -5580,7 +5571,9 @@ public OnGameModeInit()
     Streamer_SetVisibleItems(0, 900);
     Streamer_SetTickRate(50);
 
-    SendRconCommand("reloadfs boty");
+    new srtr[256];
+
+    //ReturnEmote(":)", srtr);
 
     //FabrykaMats::LoadLogic();  DO POPRAWY
     //NowaWybieralka::Init();  DO POPRAWY
@@ -6203,10 +6196,6 @@ public OnPlayerUpdate(playerid)
             UsunBron(playerid);
         }
     }
-    if(GetPVarInt(playerid, "UsingEKiep") == 1 && GetPlayerWeapon(playerid) > 1)
-    {
-        SetPlayerArmedWeapon(playerid, 0);
-    }
 
     new keys, ud, lr;
     new unused;
@@ -6762,7 +6751,7 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerKeyStateChange - begin", GetNick(playerid), playerid);
 	#endif
-    Inv_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
+
     //09.06.2014
     if(Teleturniejstart == 1)
 	{
@@ -7100,11 +7089,11 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
     {
         new Float:carhealth, engine, unused;
         GetVehicleHealth(GetPlayerVehicleID(playerid), carhealth);
-           if(IsPlayerInRangeOfPoint(playerid, 4, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
-           || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
+           if(IsPlayerInRangeOfPoint(playerid, 2, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
+           || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
            {
             GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine , unused , unused, unused, unused, unused, unused);
-                if(kaska[playerid] < MECHS_COST_REPAIR) return sendTipDialogMessage(playerid, sprintf("Nie staæ Ciê na naprawê pojazdu u mechanika ($%d)", MECHS_COST_REPAIR)); 
+                if(kaska[playerid] <= 49999) return sendTipDialogMessage(playerid, "Nie staæ Ciê na naprawê pojazdu u mechanika"); 
                 if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
                 if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  {
                 if(carhealth < 500.0)
@@ -7370,13 +7359,12 @@ public OnPlayerText(playerid, text[])
     new newtext[256], temptext[256];
     format(temptext, sizeof(temptext), "%s", text);
     ReturnEmote(temptext, newtext);
-    strcat(newtext, " ");
+
     //printf("%c", newtext[strlen(newtext)]);
-    if(newtext[strlen(newtext)-1] != '.' && newtext[strlen(newtext)-1] != '!' && newtext[strlen(newtext)-1] != '?' && newtext[strlen(newtext)-1] != ',' && newtext[strlen(newtext)-1] != ':' && newtext[strlen(newtext)-1] != '-')
+    if(newtext[strlen(newtext)] != '.' && newtext[strlen(newtext)] != '!' && newtext[strlen(newtext)] != '?' && newtext[strlen(newtext)] != ',' && newtext[strlen(newtext)] != ':' && newtext[strlen(newtext)] != '-')
     {
-        strtrim(newtext, " ");
-        strcat(newtext, ".");
-    } else strtrim(newtext, " ");
+        strins(newtext, ".", strlen(newtext), strlen(newtext));
+    }
 
     
 
@@ -8609,12 +8597,6 @@ public MRP_ChangeVehicleColor(vehicleid, color1, color2)
 
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
-    if(PlayerInfo[playerid][pAdmin] >= 1)
-    {
-        TeleportDest[playerid][0] = fX;
-        TeleportDest[playerid][1] = fY;
-        TeleportDest[playerid][2] = fZ;
-    }
     return 1;
 }
 
@@ -8721,8 +8703,8 @@ public OnPlayerFinishedDownloading(playerid, virtualworld)
     return 1;
 }
 
-
 //select pies
 //zmiana
 
 //Koniec.
+
