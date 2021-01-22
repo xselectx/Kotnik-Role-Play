@@ -6269,11 +6269,11 @@ public OnPlayerUpdate(playerid)
             }
         }
 
-        new engine, lights, alarm, doors, bonnet, boot, objective;
-        GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
-        SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
-        SetPVarInt(playerid, "AllowNextTune", 1);
-        SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
+       //new engine, lights, alarm, doors, bonnet, boot, objective;
+       //GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
+       //SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
+       //SetPVarInt(playerid, "AllowNextTune", 1);
+       //SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
     }
 
     if(GetPVarInt(playerid, "entering_car") == 1) // pierdoloy samp, ju¿ trzeci raz próbuje usun¹æ ten zjebany pvar...
@@ -6905,11 +6905,11 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
         }
 
 
-        new engine, lights, alarm, doors, bonnet, boot, objective;
-        GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
-        SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
-        SetPVarInt(playerid, "AllowNextTune", 1);
-        SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
+        //new engine, lights, alarm, doors, bonnet, boot, objective;
+        //GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
+        //SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
+        //SetPVarInt(playerid, "AllowNextTune", 1);
+        //SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
     }
 
     /*if(newkeys & KEY_NO && PhoneUsing[playerid] == 1)
