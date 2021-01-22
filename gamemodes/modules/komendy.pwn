@@ -26,18 +26,6 @@ SSCANF:fix(string[])
 	return ret;
 }
 
-/*CMD:tester(playerid, params[])
-{
-    for(new i = 0; i<MAX_CONTACTS; i++)
-    {
-        if(ContactInfo[playerid][i][cOwner] == PlayerInfo[playerid][pUID])
-        {
-              format(C_STRING, sizeof(C_STRING), "UID: %d | Number OWNER: %d | Nazwa kontaktu: %s | Numer: %d", ContactInfo[playerid][i][cUID], ContactInfo[playerid][i][cOwner], ContactInfo[playerid][i][cName], ContactInfo[playerid][i][cNumber]);
-              print(C_STRING);
-        }
-    }
-}*/
-
 CMD:marcepan(playerid, params[])
 {
     /*
@@ -3641,14 +3629,6 @@ CMD:maska(playerid)
 	}
 	return 1;
 }
-
-CMD:kontakty(playerid, params[])
-{
-    if(PlayerInfo[playerid][pPnumber] == 0) return sendErrorDialogMessage(playerid, "Nie posiadasz telefonu!");
-        ShowPlayerDialogEx(playerid, DIALOG_KONTAKTY, DIALOG_STYLE_LIST, "{8FCB04}Kotnik-RP{FFFFFF} » Kontakty", "> Lista kontaktów\n> Dodaj kontakt", "Wybierz", "Zamknij");
-    return 1;
-}
-
 
 CMD:bandana(playerid)
 {

@@ -93,6 +93,7 @@ new SadWindap4 = 0;//Winda S¹d
 new ServerTime = 14;//Czas
 new ServerWeather = 3;//Pogoda
 
+new vCardOffer[MAX_PLAYERS];
 
 //legal
 new DB:db_handle;
