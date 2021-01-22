@@ -15571,3 +15571,26 @@ CheckPlayerSkin(playerid, skinid)
 	}
 	return 0;
 }
+
+
+ShowPlayerTunePanel(playerid, panel)
+{
+	if(panel == PANEL_FELGI)
+	{
+		CurrentTunePanel[playerid][0] = PANEL_FELGI;
+		CurrentTunePanel[playerid][1] = -1;
+		GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~w~Podglad felg~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~~k~~CONVERSATION_NO~~w~ by wybrac lub anulowac.", 5000, 4);
+	}
+	else if(panel == PANEL_MALUNKI)
+	{
+		CurrentTunePanel[playerid][0] = PANEL_MALUNKI;
+		CurrentTunePanel[playerid][1] = -1;
+		GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~w~Podglad malunkow~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~~k~~CONVERSATION_NO~~w~ by wybrac lub anulowac.", 5000, 4);
+	}
+}
+
+forward AllowNextTunePanelStep(playerid);
+public AllowNextTunePanelStep(playerid)
+{
+	SetPVarInt(playerid, "AllowNextTune", 0);
+}

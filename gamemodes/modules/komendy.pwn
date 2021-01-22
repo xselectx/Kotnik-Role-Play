@@ -11351,6 +11351,161 @@ CMD:felga(playerid, params[])
     return 1;
 }
 
+/*CMD:maluj(playerid, params[]) return cmd_malunek(playerid, params);
+CMD:malunek(playerid, params[])
+{
+    new string[128];
+    if(IsPlayerConnected(playerid))
+    {
+        if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
+        {
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            new playa;
+            if( sscanf(params, "k<fix>", playa))
+            {
+                SendClientMessage(playerid, COLOR_GRAD2, "U¯YJ: /malunek [Nick/ID]");
+                format(string, sizeof(string), "INFORMACJA: Koszt namalowania to: $%d", MALUNEK_CENA);
+                SendClientMessage(playerid, COLOR_GRAD3, string);
+                return 1;
+            }
+
+            if(IsPlayerConnected(playa))
+            {
+                if(playa != INVALID_PLAYER_ID)
+                {
+                    if(GetDistanceBetweenPlayers(playerid,playa) < 10)
+                    {
+                        if(IsPlayerInAnyVehicle(playa))
+                        {
+                            if(kaska[playerid] >= MALUNEK_CENA)
+                            {
+                                if(PlayerInfo[playerid][pMechSkill] >= 100)
+                                {
+                                    new pojazd = GetPlayerVehicleID(playa);
+                                    if(!IsCarOwner(playa, pojazd))
+                                        return SendClientMessage(playerid, COLOR_GRAD2, "Ten pojazd nie nale¿y do tego gracza.");
+
+                                    new model = GetVehicleModel(pojazd);
+                                    if(model == 412 || model >= 534 && model <= 536 || model >= 558 && model <= 562 || model >= 565 && model <= 567 || model == 575 || model == 576 || model == 483)
+                                    {
+                                        SetPVarInt(playa, "TuneWho", playerid);
+                                        ShowPlayerTunePanel(playa, PANEL_MALUNKI);
+                                        format(string, sizeof(string),"* Mechanik %s pokazuje %s panel z ofertami malunków.", GetNick(playerid), GetNick(playa));
+                                        ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                                    }
+                                    else
+                                    {
+                                        format(string, sizeof(string), "Wozu %s nie mo¿na pomalowaæ, wpisz /malunki aby zobaczyæ jakie wozy mo¿na pomalowaæ", VehicleNames[GetVehicleModel(pojazd)-400]);
+                                        SendClientMessage(playerid, COLOR_GRAD4, string);
+                                    }
+                                }
+                                else
+                                {
+                                    SendClientMessage(playerid, COLOR_GRAD4, "Musisz mieæ 3 skill mechanika");
+                                }
+                            }
+                            else
+                            {
+                                SendClientMessage(playerid, COLOR_WHITE, "Nie masz wystarczaj¹cej iloœci pieniêdzy (20 000$)");
+                            }
+                        }
+                        else
+                        {
+                            SendClientMessage(playerid, COLOR_WHITE, "Gracz nie jest w samochodzie");
+                        }
+                    }
+                    else
+                    {
+                        SendClientMessage(playerid, COLOR_WHITE, "Gracz nie jest za daleko");
+                    }
+                }
+                else
+                {
+                    SendClientMessage(playerid, COLOR_WHITE, "Nie ma takiego gracza");
+                }
+            }
+        }
+        else
+        {
+            SendClientMessage(playerid, COLOR_WHITE, "Nie jesteœ mechanikiem");
+        }
+    }
+    return 1;
+}
+
+
+CMD:zmienfelge(playerid, params[]) return cmd_felga(playerid, params);
+CMD:felga(playerid, params[])
+{
+    new string[128];
+    if(IsPlayerConnected(playerid))
+    {
+        if(IsANoA(playerid) || GetPlayerOrg(playerid) == 15 || GetPlayerOrg(playerid) == 16 || GetPlayerOrg(playerid) == 19)//if(PlayerInfo[playerid][pJob] == 7 || IsANoA(playerid))
+        {
+            if(!IsAtWarsztat(playerid)) return sendErrorDialogMessage(playerid, "Nie jesteœ w warsztacie, w którym mo¿na prowadziæ tuning");
+            new playa;
+            if( sscanf(params, "k<fix>", playa))
+            {
+                SendClientMessage(playerid, COLOR_GRAD2, "U¯YJ: /felga [Nick/ID]");
+                format(string, sizeof(string), "INFORMACJA: Koszt tuningu to: $%d", FELGA_CENA);
+                SendClientMessage(playerid, COLOR_GRAD3, string);
+                return 1;
+            }
+
+            if(IsPlayerConnected(playa))
+            {
+                if(playa != INVALID_PLAYER_ID)
+                {
+                    if(GetDistanceBetweenPlayers(playerid,playa) < 10)
+                    {
+                        if(IsPlayerInAnyVehicle(playa))
+                        {
+                            if(kaska[playa] >= FELGA_CENA)
+                            {
+                                if(PlayerInfo[playerid][pMechSkill] >= 100)
+                                {
+                                    new pojazd = GetPlayerVehicleID(playa);
+                                    if(!IsCarOwner(playa, pojazd))
+                                        return SendClientMessage(playerid, COLOR_GRAD2, "Ten pojazd nie nale¿y do tego gracza.");
+                                    SetPVarInt(playa, "TuneWho", playerid);
+                                    ShowPlayerTunePanel(playa, PANEL_FELGI);
+                                    format(string, sizeof(string),"* Mechanik %s pokazuje %s panel z ofertami felg.", GetNick(playerid), GetNick(playa));
+                                    ProxDetector(20.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                                }
+                                else
+                                {
+                                    SendClientMessage(playerid, COLOR_GRAD2, "Musisz mieæ 3 skill mechanika");
+                                }
+                            }
+                            else
+                            {
+                                SendClientMessage(playerid, COLOR_WHITE, sprintf("%s nie ma $%d", GetNick(playa), FELGA_CENA));
+                            }
+                        }
+                        else
+                        {
+                            SendClientMessage(playerid, COLOR_WHITE, "Gracz nie jest w samochodzie");
+                        }
+                    }
+                    else
+                    {
+                        SendClientMessage(playerid, COLOR_WHITE, "Gracz nie jest za daleko");
+                    }
+                }
+                else
+                {
+                    SendClientMessage(playerid, COLOR_WHITE, "Nie ma takiego gracza");
+                }
+            }
+        }
+        else
+        {
+            SendClientMessage(playerid, COLOR_WHITE, "Nie jesteœ mechanikiem");
+        }
+    }
+    return 1;
+}*/
+
 CMD:dajfiltr(playerid, params[])
 {
 	new string[128];
@@ -12488,6 +12643,7 @@ CMD:felgi(playerid)
 	}
 	return 1;
 }
+
 
 CMD:spojlery(playerid) return cmd_spoilery(playerid);
 CMD:spoilery(playerid)
@@ -15074,7 +15230,7 @@ CMD:kogut(playerid)
 								format(string, sizeof(string), "* %s przyczepia kogut na dach samochodu.", sendername);
 								ProxDetector(30.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
 							}
-							sendErrorDialogMessage(playerid, "OSTRZE¯ENIE: Nadu¿ywanie kogutów skutkuje natychmiastowym wyrzuceniem z frakcji.");
+							//sendErrorDialogMessage(playerid, "OSTRZE¯ENIE: Nadu¿ywanie kogutów skutkuje natychmiastowym wyrzuceniem z frakcji.");
 						}
 						else
 						{
@@ -17067,15 +17223,16 @@ CMD:odpal(playerid)
         {
             return 1;
         }
+        if(CurrentTunePanel[playerid][0] > 0) return sendTipDialogMessage(playerid, "Nie mo¿esz odpaliæ silnika gdy przegl¹dasz tuning!");
         //SendClientMessageToAll(-1, sprintf("krd wozu: %d | playerveh:  %d | CAR_End: %d", KradniecieWozu[playerid], GetPlayerVehicleID(playerid), CAR_End));
         if(UkradzioneAuto[playerid] != GetPlayerVehicleID(playerid))
         {
             if(GetPlayerVehicleID(playerid) <= CAR_End) return sendTipMessage(playerid, "Musisz najpierw ukraœæ ten pojazd!");
         } 
 
-        if(Refueling[playerid] == 1) return sendTipMessage(playerid, "Nie mo¿na odpaliæ silnika, gdy pojazd jest tankowany!");
+        if(Refueling[playerid] == 1) return sendTipDialogMessage(playerid, "Nie mo¿na odpaliæ silnika, gdy pojazd jest tankowany!");
 
-        if(Naprawiasie[playerid] == 1) return sendTipMessage(playerid, "Nie mo¿na odpaliæ silnika, gdy pojazd jest naprawiany!");
+        if(Naprawiasie[playerid] == 1) return sendTipDialogMessage(playerid, "Nie mo¿na odpaliæ silnika, gdy pojazd jest naprawiany!");
 
         if(OdpalanieSpam[playerid] == 1)
         {
@@ -20085,7 +20242,8 @@ CMD:sms(playerid, params[])
 								SendClientMessage(i, COLOR_YELLOW, string);
 								format(string, sizeof(string), "P³atny SMS wygenerowa³: %d$, czyli %d$ do sejfu", platny, platny2);
 								SendClientMessage(i, COLOR_YELLOW, string);
-                                Sejf_Add(FRAC_SN, platny2);
+                                Sejf_Add(FRAC_SN, platny2/2);
+                                DajKase(i, (platny2/2)/podzielone);
 								//DajKase(i, platny2);
 							}
 						}
@@ -31396,7 +31554,7 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 1 && Fishes[playerid][pWeight1] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 1!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish1], Fishes[playerid][pWeight1], Fishes[playerid][pWeight1]*190);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish1], Fishes[playerid][pWeight1], Fishes[playerid][pWeight1]*90);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
 			DajKase(playerid, Fishes[playerid][pWeight1]*90);
 			ClearFishID(playerid, fishid);
@@ -31407,7 +31565,7 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 2 && Fishes[playerid][pWeight2] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 2!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish2], Fishes[playerid][pWeight2], Fishes[playerid][pWeight2]*190);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish2], Fishes[playerid][pWeight2], Fishes[playerid][pWeight2]*90);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
 			DajKase(playerid, Fishes[playerid][pWeight2]*90);
 			ClearFishID(playerid, fishid);
@@ -31418,7 +31576,7 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 3 && Fishes[playerid][pWeight3] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 3!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish3], Fishes[playerid][pWeight3], Fishes[playerid][pWeight3]*190);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish3], Fishes[playerid][pWeight3], Fishes[playerid][pWeight3]*90);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
 			DajKase(playerid, Fishes[playerid][pWeight3]*90);
 			ClearFishID(playerid, fishid);
@@ -31429,7 +31587,7 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 4 && Fishes[playerid][pWeight4] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 4!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish4], Fishes[playerid][pWeight4], Fishes[playerid][pWeight4]*190);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish4], Fishes[playerid][pWeight4], Fishes[playerid][pWeight4]*90);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
 			DajKase(playerid, Fishes[playerid][pWeight4]*90);
 			ClearFishID(playerid, fishid);
@@ -31440,7 +31598,7 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 5 && Fishes[playerid][pWeight5] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 5!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish5], Fishes[playerid][pWeight5], Fishes[playerid][pWeight5]*190);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish5], Fishes[playerid][pWeight5], Fishes[playerid][pWeight5]*90);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
 			DajKase(playerid, Fishes[playerid][pWeight5]*90);
 			ClearFishID(playerid, fishid);
@@ -37772,10 +37930,10 @@ CMD:ibiza(playerid)
 
 CMD:kupbilet(playerid)
 {
-    if(IsPlayerInRangeOfPoint(playerid, 7, 397, -1408, 7) && gPlayerLogged[playerid] == 1) // budka ibizy
+    if(IsPlayerInRangeOfPoint(playerid, 7, 397, -1804, 7) && gPlayerLogged[playerid] == 1) // budka ibizy
     {
         new tmp[128];
-        format(tmp, sizeof tmp, "Czy chcesz kupiæ bilet do Ibizy za %d$", IbizaBilet);
+        format(tmp, sizeof tmp, "Czy chcesz kupiæ bilet do Ibizy za {9ACD32$%d{A9C4E4}?", IbizaBilet);
         SetPVarInt(playerid, "IbizaBiletSell", INVALID_PLAYER_ID);
         ShowPlayerDialogEx(playerid, DIALOG_IBIZA_BILET, DIALOG_STYLE_MSGBOX, "Ibiza Club", tmp, "Kup", "Anuluj");
     }

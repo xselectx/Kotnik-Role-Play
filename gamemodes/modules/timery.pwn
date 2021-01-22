@@ -2218,10 +2218,22 @@ public JednaSekundaTimer()
 
 		if(pancerzyy >= 100)
 		{
-			MruMySQL_Banuj(i, "ArmorHack");
-			KaraTextdrawSystem("Banicja", GetNick(i), "ANTYCHEAT", "ArmorHack");
-			KickEx(i);
+			if(PlayerInfo[i][pAdmin] == 0)
+			{
+				MruMySQL_Banuj(i, "ArmorHack");
+				KaraTextdrawSystem("Banicja", GetNick(i), "ANTYCHEAT", "ArmorHack");
+				KickEx(i);
+			}
 		}
+
+		if(PlayerInfo[i][pBBron] > 0) {
+        if(GetPlayerWeapon(i)) {
+            //ABroadCast(COLOR_YELLOW, sprintf("[Blokady]: Gracz %s [%d] próbuje omijaæ blokadê posiadania bronii", GetNick(playerid), playerid), 1);
+            sendTipDialogMessage(i, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[i][pBBron]));
+            ResetPlayerWeaponsEx(i);
+            UsunBron(i);
+        	}
+    	}
 
 		if(PlayerInfo[i][pFishTimer] > 0)
 		{
@@ -2419,18 +2431,21 @@ public JednaSekundaTimer()
 		{
 			if(IsPlayerInRangeOfPoint(i, 7.0, 2064.0703,-1831.3167,13.3853) || IsPlayerInRangeOfPoint(i, 7.0, 1024.8514,-1022.2302,31.9395) || IsPlayerInRangeOfPoint(i, 7.0, 486.9398,-1742.4130,10.9594) || IsPlayerInRangeOfPoint(i, 7.0, -1904.2325,285.3743,40.8843)  || IsPlayerInRangeOfPoint(i, 7.0, 720.0876,-458.3574,16.3359))
 			{
-				if(naprawiony[i] == 0)
-				{
+				//if(naprawiony[i] == 0)
+				//{
 					GetVehicleHealth(vehicleid, health);
-					if(health <= 999)
+					
+					if(health >= 999)
 					{
-				        sendTipMessageFormat(i, "Zap³aci³eœ $%d za wizytê w warsztacie", 2500);
-				        ZabierzKase(i, 2500);
-						RepairVehicleEx(vehicleid);
-						naprawiony[i] = 1;
-						SetTimerEx("Naprawianie",10000,0,"d",i);
+				        SetVehicleHealthEx(vehicleid, VehicleSprayHealth[vehicleid]);
+				        UpdateVehicleDamageStatus(vehicleid, VehicleSprayStatus[vehicleid][0], VehicleSprayStatus[vehicleid][1], VehicleSprayStatus[vehicleid][2], VehicleSprayStatus[vehicleid][3]);
+					} else 
+					{
+						VehicleSprayHealth[vehicleid] = health;
+						GetVehicleDamageStatus(vehicleid, VehicleSprayStatus[vehicleid][0], VehicleSprayStatus[vehicleid][1], VehicleSprayStatus[vehicleid][2], VehicleSprayStatus[vehicleid][3]);
 					}
-				}
+					
+				//}
 			}
 		}
 		if(zakuty[i] == 1)

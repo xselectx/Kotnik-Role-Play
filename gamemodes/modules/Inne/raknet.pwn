@@ -117,25 +117,28 @@ IPacket:WEAPONS_UPDATE_SYNC(playerid, BitStream:bs)
 
     for(new i = 0; i<13; i++) 
     {
-        //printf("old: %d (%d) new %d (%d)", RakNet_PlayerWeapons[playerid][i][0], RakNet_PlayerWeapons[playerid][i][1], weaponsUpdate[PR_slotWeaponId][i], weaponsUpdate[PR_slotWeaponAmmo][i]);
-        if(RakNet_PlayerWeapons[playerid][i][0] < weaponsUpdate[PR_slotWeaponId][i])
+        if(weaponsUpdate[PR_slotWeaponId][i] != 46 && weaponsUpdate[PR_slotWeaponId][i] != 40)
         {
-            if(AllowPlayerPacket[playerid][WEAPONS_UPDATE_SYNC] == 1) RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
-            else CallLocalFunction("OnCheatDetected", "ds[64]dd", playerid,"KRP-AC", 0, 59);
-        }
-        else 
-        {
-            if(weaponsUpdate[PR_slotWeaponId][i] != 0) RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
-        }
-
-        if(RakNet_PlayerWeapons[playerid][i][1] < weaponsUpdate[PR_slotWeaponAmmo][i])
-        {
-           if(AllowPlayerPacket[playerid][WEAPONS_UPDATE_SYNC] == 1) RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
-           else CallLocalFunction("OnCheatDetected", "ds[64]dd", playerid,"KRP-AC", 0, 60);
-        }
-        else 
-        {
-            if(weaponsUpdate[PR_slotWeaponAmmo][i] != 0) RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
+            //printf("old: %d (%d) new %d (%d)", RakNet_PlayerWeapons[playerid][i][0], RakNet_PlayerWeapons[playerid][i][1], weaponsUpdate[PR_slotWeaponId][i], weaponsUpdate[PR_slotWeaponAmmo][i]);
+            if(RakNet_PlayerWeapons[playerid][i][0] < weaponsUpdate[PR_slotWeaponId][i])
+            {
+                if(AllowPlayerPacket[playerid][WEAPONS_UPDATE_SYNC] == 1) RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
+                else CallLocalFunction("OnCheatDetected", "ds[64]dd", playerid,"KRP-AC", 0, 59);
+            }
+            else 
+            {
+                if(weaponsUpdate[PR_slotWeaponId][i] != 0) RakNet_PlayerWeapons[playerid][i][0] = weaponsUpdate[PR_slotWeaponId][i];
+            }
+    
+            if(RakNet_PlayerWeapons[playerid][i][1] < weaponsUpdate[PR_slotWeaponAmmo][i])
+            {
+               if(AllowPlayerPacket[playerid][WEAPONS_UPDATE_SYNC] == 1) RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
+               else CallLocalFunction("OnCheatDetected", "ds[64]dd", playerid,"KRP-AC", 0, 60);
+            }
+            else 
+            {
+                if(weaponsUpdate[PR_slotWeaponAmmo][i] != 0) RakNet_PlayerWeapons[playerid][i][1] = weaponsUpdate[PR_slotWeaponAmmo][i];
+            }
         }
 
         //if(RakNet_PlayerWeapons[playerid][i][0] != 0)
@@ -180,13 +183,14 @@ public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
 {
     if(rpcid == RPC_SET_VEHICLE_HEALTH)
     {
+        new Float:health;
         new vehicleid;
         BS_ReadInt16(bs, vehicleid);
+        GetVehicleHealth(vehicleid, Float:health);
         if(vehicleid != INVALID_VEHICLE_ID)
         {
-            if(AllowVehicleRPC[vehicleid][RPC_SET_VEHICLE_HEALTH] == 0)
+            if(AllowVehicleRPC[vehicleid][RPC_SET_VEHICLE_HEALTH] == 0 && health >= 260)
             {
-
                 if(RakNet_VehicleDriver[vehicleid] == INVALID_PLAYER_ID)
                 {
                     for(new i = 0; i<MAX_PLAYERS; i++)
@@ -212,6 +216,8 @@ public OnOutcomingRPC(playerid, rpcid, BitStream:bs)
             }
         }
     }
+
+    //printf("%d", rpcid);
     /*if(rpcid == 14)
     {
         new Float:health;

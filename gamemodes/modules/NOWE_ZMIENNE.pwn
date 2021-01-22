@@ -4,7 +4,8 @@ new GMX;
 
 new DC_AntySpam;
 new LOCALHOST = 0;
-
+new Float:VehicleSprayHealth[MAX_VEHICLES];
+new VehicleSprayStatus[MAX_VEHICLES][4];
 new FishTimer[MAX_PLAYERS];
 new repairTimerVar[MAX_PLAYERS];
 new repairInProgress[MAX_PLAYERS];
@@ -15,6 +16,11 @@ new OldPayCheck[MAX_PLAYERS];
 new TymczasowyOpisVar[MAX_PLAYERS];
 new TymczasowyOpisString[MAX_PLAYERS][256];
 new Text3D:TymczasowyOpis[MAX_PLAYERS];
+
+new CurrentTunePanel[MAX_PLAYERS][2];
+
+new Menu:FelgiMenu;
+new Menu:FelgiMenu2;
 
 new UkradzionyPojazd[200];
 

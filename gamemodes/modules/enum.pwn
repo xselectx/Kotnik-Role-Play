@@ -3278,4 +3278,26 @@ new PlayerSounds[][] =
     {1063, 1077}
 };
 
+new Felgi[][64] = 
+{
+  {"Domyslne"},
+  {"Shadow"},
+  {"Mega"},
+  {"Metalik"},
+  {"Zakrecone"},
+  {"Klasyczne"},
+  {"Twist"},
+  {"Przecinak"},
+  {"Switch"},
+  {"Grove"},
+  {"Importowane"},
+  {"Dolar"},
+  {"Odlot"},
+  {"Atomowe"},
+  {"Ahab"},
+  {"Virtualne"},
+  {"Access"},
+  {"Terenowe"}
+};
+
 //EOF

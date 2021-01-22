@@ -1028,6 +1028,21 @@ public OnPlayerDisconnect(playerid, reason)
         case 2: codal = "Kick/Ban";
     }
 
+    if(CurrentTunePanel[playerid][0] > 0)
+    {
+        if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+        {
+            if(CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(gLastCar[playerid], CARMODTYPE_WHEELS));
+            else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi]);
+        }
+        else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+        {
+            ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+        }
+        CurrentTunePanel[playerid][0] = 0;
+        CurrentTunePanel[playerid][1] = 0;
+    }
+
     CancelTrade(playerid);
     StopAudioStreamForPlayer(playerid);
 	GetPlayerPos(playerid, PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z]);
@@ -1773,25 +1788,11 @@ public OnPlayerDeath(playerid, killerid, reason)
 			}
 			if(GetPlayerState(killerid) == 2)
 			{
-				SendClientMessage(killerid, COLOR_YELLOW, "DriveBy Jest zakazane, Robi¹c DriveBy mo¿esz zostaæ ukarany przez admina!");
-				if(PlayerInfo[killerid][pLevel] > 1)
-				{
-					format(string, 128, "AdmWarning: %s[%d] zabi³ %s[%d] bêd¹ w aucie (mo¿liwe DB/CK2) [Gun %d]!", killername, killerid, playername, playerid, reason);
-					ABroadCast(COLOR_YELLOW,string,1);
-					WarningLog(string);
-				}
-				else
-				{
-					format(string, 128, "AdmWarning: %s[%d] zabi³ %s[%d] z DB, dosta³ kicka !", killername, killerid, playername, playerid);
-					ABroadCast(COLOR_YELLOW,string,1);
-					WarningLog(string);
-					SendClientMessage(killerid, COLOR_PANICRED, "Dosta³eœ kicka za Drive-By do ludzi.");
-					KickEx(killerid);
-					#if DEBUG == 1
-						printf("%s[%d] OnPlayerDeath - end", GetNick(playerid), playerid);
-					#endif
-					return 1;
-				}
+				//SendClientMessage(killerid, COLOR_YELLOW, "DriveBy Jest zakazane, Robi¹c DriveBy mo¿esz zostaæ ukarany przez admina!");
+
+				format(string, 128, "AdmWarning: %s[%d] zabi³ %s[%d] bêd¹ w aucie (mo¿liwe DB/CK2) [Gun %d]!", killername, killerid, playername, playerid, reason);
+				ABroadCast(COLOR_YELLOW,string,1);
+				WarningLog(string);
 			}
 			if(reason == 38 && GetVehicleModel(GetPlayerVehicleID(killerid)) != 425)
 			{
@@ -4931,11 +4932,6 @@ public OnPlayerPickUpPickup(playerid, pickupid)
 	return 1;
 }
 
-public OnPlayerSelectedMenuRow(playerid, row)
-{
-	return 1;
-}
-
 public OnPlayerExitedMenu(playerid)
 {
 	return 1;
@@ -4959,7 +4955,23 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
         SetPVarInt(playerid, "iLastDrive", gettime());
     } */
     
-
+    if(oldstate == PLAYER_STATE_DRIVER)
+    {
+        if(CurrentTunePanel[playerid][0] > 0)
+        {
+            if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+            {
+                if(CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(gLastCar[playerid], CARMODTYPE_WHEELS));
+                else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi]);
+            }
+            else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+            {
+                ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+            }
+            CurrentTunePanel[playerid][0] = 0;
+            sendTipDialogMessage(playerid, "Wyszed³eœ z panelu tuningowania!");
+        }
+    }
     if(newstate == PLAYER_STATE_ONFOOT) DeletePVar(playerid, "entering_car");
     if(oldstate == PLAYER_STATE_ENTER_VEHICLE_DRIVER || oldstate == PLAYER_STATE_ENTER_VEHICLE_PASSENGER || oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER) DeletePVar(playerid, "entering_car");
 
@@ -5579,7 +5591,6 @@ public OnGameModeInit()
 	SSCANF_Option(OLD_DEFAULT_NAME, 1);
     Streamer_SetVisibleItems(0, 900);
     Streamer_SetTickRate(50);
-
     SendRconCommand("reloadfs boty");
 
     //FabrykaMats::LoadLogic();  DO POPRAWY
@@ -6195,22 +6206,75 @@ public OnPlayerUpdate(playerid)
         KickEx(playerid);
     }*/
 
-    if(PlayerInfo[playerid][pBBron] > 0) {
-        if(GetPlayerWeapon(playerid)) {
-            ABroadCast(COLOR_YELLOW, sprintf("[Blokady]: Gracz %s [%d] próbuje omijaæ blokadê posiadania bronii", GetNick(playerid), playerid), 1);
-            sendTipDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[playerid][pBBron]));
-            ResetPlayerWeaponsEx(playerid);
-            UsunBron(playerid);
-        }
-    }
     if(GetPVarInt(playerid, "UsingEKiep") == 1 && GetPlayerWeapon(playerid) > 1)
     {
         SetPlayerArmedWeapon(playerid, 0);
     }
 
+    
+
     new keys, ud, lr;
-    new unused;
     GetPlayerKeys(playerid, keys, ud, lr);
+
+    if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && GetPVarInt(playerid, "AllowNextTune") == 0)
+    {
+        if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+        {
+            new string[256];
+            if(CurrentTunePanel[playerid][1] == -1) CurrentTunePanel[playerid][1] = 0;
+            else if(lr == KEY_RIGHT)
+            {
+                if((CurrentTunePanel[playerid][1]+1) >= sizeof(Felgi)) CurrentTunePanel[playerid][1] = 0;
+                else CurrentTunePanel[playerid][1]++;
+            }
+            else if(lr == KEY_LEFT)
+            {
+                if((CurrentTunePanel[playerid][1]-1) < 0) CurrentTunePanel[playerid][1] = sizeof(Felgi);
+                else CurrentTunePanel[playerid][1]--;
+            }
+            if(lr == KEY_LEFT || lr == KEY_RIGHT)
+            {
+                format(string, sizeof(string), "~n~~n~~n~~n~~n~~n~~n~~r~%s~w~~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~N~w~ by wybrac lub anulowac.", Felgi[CurrentTunePanel[playerid][1]]);
+                GameTextForPlayer(playerid, string, 5000, 4);
+
+                new pojazd = GetPlayerVehicleID(playerid);
+                new felga = CurrentTunePanel[playerid][1]+1072;
+    
+                if(felga == 1072) RemoveVehicleComponent(pojazd, GetVehicleComponentInSlot(pojazd, CARMODTYPE_WHEELS));
+                else if(felga >= 1073 && felga <= 1085) AddVehicleComponent(pojazd,felga);
+                else if(felga >= 1086 && felga <= 1088) AddVehicleComponent(pojazd,felga+10);
+                else if(CurrentTunePanel[playerid][1] == 17) AddVehicleComponent(pojazd,1025);
+            }
+        }
+        else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+        {
+            new string[256];
+            if(CurrentTunePanel[playerid][1] == -1) CurrentTunePanel[playerid][1] = 3;
+            else if(lr == KEY_RIGHT)
+            {
+                if((CurrentTunePanel[playerid][1]+1) >= 3) CurrentTunePanel[playerid][1] = 0;
+                else CurrentTunePanel[playerid][1]++;
+            }
+            else if(lr == KEY_LEFT)
+            {
+                if((CurrentTunePanel[playerid][1]-1) < 0) CurrentTunePanel[playerid][1] = 3;
+                else CurrentTunePanel[playerid][1]--;
+            }
+            if(lr == KEY_LEFT || lr == KEY_RIGHT)
+            {
+                format(string, sizeof(string), "~n~~n~~n~~n~~n~~n~~n~~w~Podglad malunkow~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~N~w~ by wybrac lub anulowac.", Felgi[CurrentTunePanel[playerid][1]]);
+                GameTextForPlayer(playerid, string, 5000, 4);
+                new pojazd = GetPlayerVehicleID(playerid);
+                ChangeVehiclePaintjob(pojazd, CurrentTunePanel[playerid][1]);
+            }
+        }
+
+        new engine, lights, alarm, doors, bonnet, boot, objective;
+        GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
+        SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
+        SetPVarInt(playerid, "AllowNextTune", 1);
+        SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
+    }
 
     if(GetPVarInt(playerid, "entering_car") == 1) // pierdoloy samp, ju¿ trzeci raz próbuje usun¹æ ten zjebany pvar...
     {
@@ -6793,7 +6857,60 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 		}
 	}
 
+   
+    if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+    {
+        new string[128];
+        if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+        {
+            if(newkeys & KEY_NO)
+            {
+                if(kaska[playerid] >= FELGA_CENA)
+                {
+                    if(GetDistanceBetweenPlayers(playerid,GetPVarInt(playerid, "TuneWho")) < 10)
+                    {
+                        SetPVarInt(playerid, "TunePanel", CurrentTunePanel[playerid][0]);
+                        SetPVarInt(playerid, "TuneVar", CurrentTunePanel[playerid][1]);
+                        format(string, sizeof(string), "Czy chcesz zakupiæ felgi {9ACD32}%s{A9C4E4} za {9ACD32}$%d{A9C4E4}?", Felgi[CurrentTunePanel[playerid][1]], FELGA_CENA);
+                        ShowPlayerDialogEx(playerid, D_TUNEPANEL, DIALOG_STYLE_MSGBOX, "Panel tuningów", string, "Tak", "Nie");
+                    } else sendTipDialogMessage(playerid, "Mechanik jest za daleko!");
+                } else sendTipDialogMessage(playerid, sprintf("Felgi kosztuj¹ $%d, a Ty tyle nie masz.", FELGA_CENA));
 
+                if(CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(gLastCar[playerid], CARMODTYPE_WHEELS));
+                else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi]);
+
+                CurrentTunePanel[playerid][0] = 0;
+                CurrentTunePanel[playerid][1] = 0;
+            }
+        }
+        else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+        {
+            if(newkeys & KEY_NO)
+            {
+                if(kaska[playerid] >= MALUNEK_CENA)
+                {
+                    if(GetDistanceBetweenPlayers(playerid,GetPVarInt(playerid, "TuneWho")) < 10)
+                    {
+                        SetPVarInt(playerid, "TunePanel", CurrentTunePanel[playerid][0]);
+                        SetPVarInt(playerid, "TuneVar", CurrentTunePanel[playerid][1]);
+                        format(string, sizeof(string), "Czy chcesz zakupiæ ten maluenk za {9ACD32}$%d{A9C4E4}?", MALUNEK_CENA);
+                        ShowPlayerDialogEx(playerid, D_TUNEPANEL, DIALOG_STYLE_MSGBOX, "Panel tuningów", string, "Tak", "Nie");
+                    } else sendTipDialogMessage(playerid, "Mechanik jest za daleko!");
+                } else sendTipDialogMessage(playerid, sprintf("Malunki kosztuj¹ $%d, a Ty tyle nie masz.", MALUNEK_CENA));
+
+                ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+                CurrentTunePanel[playerid][0] = 0;
+                CurrentTunePanel[playerid][1] = 0;
+            }
+        }
+
+
+        new engine, lights, alarm, doors, bonnet, boot, objective;
+        GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
+        SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
+        SetPVarInt(playerid, "AllowNextTune", 1);
+        SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
+    }
 
     /*if(newkeys & KEY_NO && PhoneUsing[playerid] == 1)
     {

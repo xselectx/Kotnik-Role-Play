@@ -14,6 +14,15 @@ native gpci(playerid, serial[], len);
 new C_STRING[2048];
 //
 
+#define FELGA_CENA 40000
+#define MALUNEK_CENA 50000
+
+#define PANEL_FELGI 1
+#define PANEL_MALUNKI 2
+#define PANEL_SPOILERY 3
+#define PANEL_ZDERZAKI 4
+
+
 #define SHOWKODY_PER_PAGE 25
 
 #define MAX_AFK_TIME 3000
@@ -389,6 +398,10 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 #define D_CREATE_BRAMA_RANGE 1364
 
 #define D_UBRANIA 1365
+#define D_UBRANIA1 1366
+#define D_UBRANIA2 1367
+
+#define D_TUNEPANEL 1370
 
 #define D_POWIAZANIA 1700
 #define D_POWIAZANIA_GPCI 1701

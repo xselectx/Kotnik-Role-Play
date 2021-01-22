@@ -17437,6 +17437,144 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			Wybieralka_Exit(playerid);
 		}
 	}
+	else if(dialogid == D_TUNEPANEL)
+	{
+		if(GetPVarInt(playerid, "TunePanel") == PANEL_FELGI)
+		{
+			if(!response)
+			{
+                if(CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(gLastCar[playerid], CARMODTYPE_WHEELS));
+                else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi]);
+                return sendTipDialogMessage(playerid, "Anulowa³eœ kupno felg.");
+			}
+			if(IsPlayerInAnyVehicle(playerid) && IsCarOwner(playerid, GetPlayerVehicleID(playerid)))
+			{
+				if(kaska[playerid] >= FELGA_CENA)
+				{
+					new pojazd = GetPlayerVehicleID(playerid);
+					new felga = GetPVarInt(playerid, "TuneVar")+1072;
+        			new who = GetPVarInt(playerid, "TuneWho");
+        			if(GetDistanceBetweenPlayers(playerid,who) < 10)
+        			{
+        				if(felga == 1072)
+        				{
+        					RemoveVehicleComponent(pojazd, GetVehicleComponentInSlot(pojazd, CARMODTYPE_WHEELS));
+        					CarData[VehicleUID[pojazd][vUID]][c_Felgi] = 0;
+        				}
+						else if(felga >= 1073 && felga <= 1085)
+                		{
+                		    AddVehicleComponent(pojazd,felga);
+                		    CarData[VehicleUID[pojazd][vUID]][c_Felgi] = felga;
+                		}
+                		else if(felga >= 1086 && felga <= 1088)
+                		{
+                		    AddVehicleComponent(pojazd,felga+10);
+                		    CarData[VehicleUID[pojazd][vUID]][c_Felgi] = felga+10;
+                		}
+                		else if(GetPVarInt(playerid, "TuneVar") == 17)
+                		{
+                		    AddVehicleComponent(pojazd,1025);
+                		    CarData[VehicleUID[pojazd][vUID]][c_Felgi] = 1025;
+                		}
+	
+                		ZabierzKase(playerid, FELGA_CENA);
+                		DajKase(who, FELGA_CENA);
+						new string[128];
+                    	format(string, sizeof(string), "* Zamontowa³eœ nowe felgi graczowi %s (koszt $%d)",GetNick(playerid), FELGA_CENA);
+                    	SendClientMessage(who, COLOR_LIGHTBLUE, string);
+                    	format(string, sizeof(string), "* Mechanik %s zamontowa³ ci w twoim %s nowe felgi",GetNick(who), VehicleNames[GetVehicleModel(pojazd)-400]);
+                    	SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
+                    	format(string, sizeof(string),"* Mechanik %s wyci¹ga narzêdzia i montuje nowe felgi w %s.", GetNick(who), VehicleNames[GetVehicleModel(pojazd)-400]);
+                    	ProxDetector(20.0, who, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                    	format(string, sizeof(string), "~g~+$%d", FELGA_CENA);
+                    	GameTextForPlayer(who, string, 5000, 1);
+                    	PlayerPlaySound(who, 1133, 0.0, 0.0, 0.0);
+
+                    	if(who != playerid)
+						{
+						    PlayerInfo[who][pMechSkill] ++;
+						    SendClientMessage(who, COLOR_GRAD2, "Skill +1");
+						}
+
+                    }
+                    else
+                    {
+                    	if(CarData[VehicleUID[GetPlayerVehicleID(playerid)][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(GetPlayerVehicleID(playerid), CARMODTYPE_WHEELS));
+                		else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[GetPlayerVehicleID(playerid)][vUID]][c_Felgi]);
+                		return sendTipDialogMessage(playerid, "Mechanik jest za daleko!");
+                    }
+                } 
+                else
+                {
+                	if(CarData[VehicleUID[GetPlayerVehicleID(playerid)][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(GetPlayerVehicleID(playerid), CARMODTYPE_WHEELS));
+                	else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[GetPlayerVehicleID(playerid)][vUID]][c_Felgi]);
+                	return sendTipDialogMessage(playerid, "Nie staæ Ciê na to!");
+                } 
+			}
+		}
+		else if(GetPVarInt(playerid, "TunePanel") == PANEL_MALUNKI)
+		{
+			if(!response)
+			{
+                ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+                return sendTipDialogMessage(playerid, "Anulowa³eœ kupno malunku.");
+			}
+			if(IsPlayerInAnyVehicle(playerid) && IsCarOwner(playerid, GetPlayerVehicleID(playerid)))
+			{
+				if(kaska[playerid] >= MALUNEK_CENA)
+				{
+					new pojazd = GetPlayerVehicleID(playerid);
+        			new who = GetPVarInt(playerid, "TuneWho");
+        			new model = GetVehicleModel(pojazd);
+        			if(model == 412 || model >= 534 && model <= 536 || model >= 558 && model <= 562 || model >= 565 && model <= 567 || model == 575 || model == 576 || model == 483)
+        			{
+        				if(GetDistanceBetweenPlayers(playerid,who) < 10)
+        				{
+        					ChangeVehiclePaintjob(pojazd, GetPVarInt(playerid, "TuneVar"));
+        					CarData[VehicleUID[pojazd][vUID]][c_Malunek] = GetPVarInt(playerid, "TuneVar");
+		
+                			ZabierzKase(playerid, MALUNEK_CENA);
+                			DajKase(who, MALUNEK_CENA);
+							new string[128];
+                    		format(string, sizeof(string), "* Zrobi³eœ graczowi %s nowy malunek (koszt $%d)",GetNick(playerid), MALUNEK_CENA);
+                    		SendClientMessage(who, COLOR_LIGHTBLUE, string);
+                    		format(string, sizeof(string), "* Mechanik %s zrobi³ malnuek na twoim %s",GetNick(who), VehicleNames[model-400]);
+                            SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
+                            format(string, sizeof(string),"* Mechanik %s wyci¹ga sprey i tworzy malunek na %s.", GetNick(who), VehicleNames[model-400]);
+                    		ProxDetector(20.0, who, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+                    		format(string, sizeof(string), "~g~+$%d", MALUNEK_CENA);
+                    		GameTextForPlayer(who, string, 5000, 1);
+                    		PlayerPlaySound(who, 1133, 0.0, 0.0, 0.0);
+	
+                    		if(who != playerid)
+							{
+							    PlayerInfo[who][pMechSkill] ++;
+							    SendClientMessage(who, COLOR_GRAD2, "Skill +1");
+							}
+	
+                    	}
+                    	else
+                    	{
+                    		ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+                			return sendTipDialogMessage(playerid, "Mechanik jest za daleko!");
+                    	}
+                    } 
+                    else 
+                    {
+                    	ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+                    	return sendTipDialogMessage(playerid, "Na tym pojeŸdzie nie mo¿esz mieæ malunku!");
+                    }
+                } 
+                else
+                {
+                	ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+                	return sendTipDialogMessage(playerid, "Nie staæ Ciê na to!");
+                } 
+			}
+		}
+		
+                    
+	}
 	return 0;
 }
 //ondialogresponse koniec
