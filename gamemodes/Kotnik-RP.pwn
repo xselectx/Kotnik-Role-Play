@@ -17,6 +17,9 @@
         |---> LukeSQLY (github.com/LukeSQLY)
 */
 
+// ----- <[ Wy³¹czeni fake warningów ]> ----- //
+#pragma warning disable 238
+#pragma warning disable 208 
 //-------------------------------------------<[ Includy ]>---------------------------------------------------//
 //-                                                                                                         -//
 
@@ -99,7 +102,6 @@
 
 //#include "modules/inne/system_telefonu.pwn"
 
-#pragma warning disable 238
 
 
 //------------------------------------------------------------------------------------------------------
@@ -7217,24 +7219,22 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
     {
         new Float:carhealth, engine, unused;
         GetVehicleHealth(GetPlayerVehicleID(playerid), carhealth);
-           if(IsPlayerInRangeOfPoint(playerid, 4, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
-           || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
-           {
+        if(IsPlayerInRangeOfPoint(playerid, 4, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
+        || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
+        {
             GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine , unused , unused, unused, unused, unused, unused);
-                if(kaska[playerid] < MECHS_COST_REPAIR) return sendTipDialogMessage(playerid, sprintf("Nie staæ Ciê na naprawê pojazdu u mechanika ($%d)", MECHS_COST_REPAIR)); 
-                if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
-                if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  {
-                if(carhealth < 500.0)
-                {
-                    SetPVarInt(playerid, "botnaprawia", 1);
-                    repairTimerVar[playerid] = REPAIR_TIME;
-                    repairInProgress[playerid] = 1;
-                    //SetVehicleHealth(vehid, 1000.0);
-                    //else return sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
-                } else sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
-            }
+            if(kaska[playerid] < MECHS_COST_REPAIR) return sendTipDialogMessage(playerid, sprintf("Nie staæ Ciê na naprawê pojazdu u mechanika ($%d)", MECHS_COST_REPAIR)); 
+            if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
+            if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  
+            if(carhealth < 500.0)
+            {
+                SetPVarInt(playerid, "botnaprawia", 1);
+                repairTimerVar[playerid] = REPAIR_TIME;
+                repairInProgress[playerid] = 1;
+                //SetVehicleHealth(vehid, 1000.0);
+                //else return sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
+            } else sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
         }
-        
     }
     //
 	if(newkeys & KEY_YES && (GetPlayerState(playerid)==PLAYER_STATE_DRIVER))//id 131072

@@ -4,8 +4,6 @@ new GMX;
 
 new DC_AntySpam;
 new LOCALHOST = 0;
-new Float:VehicleSprayHealth[MAX_VEHICLES];
-new VehicleSprayStatus[MAX_VEHICLES][4];
 new FishTimer[MAX_PLAYERS];
 new repairTimerVar[MAX_PLAYERS];
 new repairInProgress[MAX_PLAYERS];
@@ -18,9 +16,6 @@ new TymczasowyOpisString[MAX_PLAYERS][256];
 new Text3D:TymczasowyOpis[MAX_PLAYERS];
 
 new CurrentTunePanel[MAX_PLAYERS][2];
-
-new Menu:FelgiMenu;
-new Menu:FelgiMenu2;
 
 new UkradzionyPojazd[200];
 
@@ -93,7 +88,7 @@ new SadWindap4 = 0;//Winda S¹d
 new ServerTime = 14;//Czas
 new ServerWeather = 3;//Pogoda
 
-new vCardOffer[MAX_PLAYERS];
+// new vCardOffer[MAX_PLAYERS]; // warningi
 
 //legal
 new DB:db_handle;
@@ -1511,7 +1506,7 @@ stock ZerujZmienne(playerid)
     OldPayCheck[playerid] = 0;
     ClearDamageLog(playerid);
     CancelTrade(playerid);
-    RakNet_SaveWeapons[playerid] = 0;
+    rgRakNet_SaveWeapons[playerid] = 0;
     FishTimer[playerid] = 0;
     
     SetPVarInt(playerid, "OfferingItemFrom", INVALID_PLAYER_ID);
@@ -1521,13 +1516,13 @@ stock ZerujZmienne(playerid)
 
     for(new i=0;i<13;i++) 
     {
-        RakNet_PlayerWeapons[playerid][i][0] = 0;
-        RakNet_PlayerWeapons[playerid][i][1] = 0;
+        rgRakNet_PlayerWeapons[playerid][i][0] = 0;
+        rgRakNet_PlayerWeapons[playerid][i][1] = 0;
     }
     for(new i = 0; i<300; i++)
     {
-        AllowPlayerRPC[playerid][i] = 0;
-        AllowPlayerPacket[playerid][i] = 0;
+        rgAllowPlayerRPC[playerid][i] = 0;
+        rgAllowPlayerPacket[playerid][i] = 0;
     }
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
     for(new i=0;i<MAX_SKIN_SELECT+120;i++) PERSONAL_SKINS[playerid][i] = 0;

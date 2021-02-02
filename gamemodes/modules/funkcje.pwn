@@ -1994,8 +1994,6 @@ stock ini_GetValue( line[] )
 	return valRes;
 }
 
-
-
 Float:GetDistanceBetweenPlayers(p1,p2)
 {
 	new Float:x1,Float:y1,Float:z1,Float:x2,Float:y2,Float:z2;
@@ -2335,10 +2333,10 @@ IsASklepZBronia(playerid)
 {
 	if(IsPlayerConnected(playerid))
 	{
-		if((GetPlayerOrg(playerid) == 21 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 22 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 23 && PlayerInfo[playerid][pRank] > 3))
-		{
+		//if((GetPlayerOrg(playerid) == 21 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 22 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 23 && PlayerInfo[playerid][pRank] > 3))
+		//{
 		    return 1;
-		}
+		//}
 	}
 	return 0;
 }
@@ -8277,7 +8275,7 @@ KaraTextdrawSystem(kara[], player[], admin[], reason[])
 	TextDrawShowForAll(Kara_TDraw);
 }
 
-SendZGMessage(color, string[])
+/*SendZGMessage(color, string[]) // warningi
 {
 	foreach(Player, i)
 	{
@@ -8289,7 +8287,7 @@ SendZGMessage(color, string[])
 			}
 		}
 	}
-}
+}*/
 
 //token
 
@@ -13504,10 +13502,10 @@ LoadBramy()
 	// -- [ SAN NEWS] --- //
 
 	SanDrzwi1 = CreateDynamicObject(3089, 657.57050, -1353.27087, 29.19750,   0.00000, 0.00000, 0.00000,20);//z recepcji
-SanDrzwi2 = CreateDynamicObject(1569, 664.42480, -1341.17322, 28.37660,   0.00000, 0.00000, 90.00000,21);//studio victim
-SanDrzwi3 = CreateDynamicObject(1569, 664.42480, -1338.17200, 28.37660,   0.00000, 0.00000, 270.00000,21);//studio victim
-SanDrzwi4 = CreateDynamicObject(3089, 737.24872, -1373.13220, 33.96040,   0.00000, 0.00000, 0.00000,23);//sale konf
-SanDrzwi5 = CreateDynamicObject(3089, 741.80212, -1368.57654, 33.96040,   0.00000, 0.00000, 270.00000,23);//sale konf
+	SanDrzwi2 = CreateDynamicObject(1569, 664.42480, -1341.17322, 28.37660,   0.00000, 0.00000, 90.00000,21);//studio victim
+	SanDrzwi3 = CreateDynamicObject(1569, 664.42480, -1338.17200, 28.37660,   0.00000, 0.00000, 270.00000,21);//studio victim
+	SanDrzwi4 = CreateDynamicObject(3089, 737.24872, -1373.13220, 33.96040,   0.00000, 0.00000, 0.00000,23);//sale konf
+	SanDrzwi5 = CreateDynamicObject(3089, 741.80212, -1368.57654, 33.96040,   0.00000, 0.00000, 270.00000,23);//sale konf
 
 }
 
@@ -13696,7 +13694,7 @@ public OnCheatDetected(playerid, ip_address[], type, code)
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
     			 if(PlayerInfo[playerid][pNewAP] == 0) KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
     			 SetPlayerVirtualWorld(playerid, 7777);
-    			 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
+    			 if(code == 59 || code == 60) rgRakNet_SaveWeapons[playerid] = 1;
     			 KickEx(playerid);
     			 return 1;
     		}
@@ -13742,7 +13740,7 @@ public OnCheatDetected(playerid, ip_address[], type, code)
     			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
     			 if(PlayerInfo[playerid][pNewAP] == 0) KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
 				 SetPlayerVirtualWorld(playerid, 7777);
-				 if(code == 59 || code == 60) RakNet_SaveWeapons[playerid] = 1;
+				 if(code == 59 || code == 60) rgRakNet_SaveWeapons[playerid] = 1;
 				 KickEx(playerid);
 				 return 6;
     		}
@@ -15464,27 +15462,21 @@ public RestoreOldWeapons(playerid, nick[])
 		`Gun11`= '%d', `Ammo11`= '%d', \
 		`Gun12`= '%d', `Ammo12`= '%d'  \
 		WHERE `nick` = '%s'",
-		RakNet_PlayerWeapons[playerid][0][0], RakNet_PlayerWeapons[playerid][0][1],
-		RakNet_PlayerWeapons[playerid][1][0], RakNet_PlayerWeapons[playerid][1][1],
-		RakNet_PlayerWeapons[playerid][2][0], RakNet_PlayerWeapons[playerid][2][1],
-		RakNet_PlayerWeapons[playerid][3][0], RakNet_PlayerWeapons[playerid][3][1],
-		RakNet_PlayerWeapons[playerid][4][0], RakNet_PlayerWeapons[playerid][4][1],
-		RakNet_PlayerWeapons[playerid][5][0], RakNet_PlayerWeapons[playerid][5][1],
-		RakNet_PlayerWeapons[playerid][6][0], RakNet_PlayerWeapons[playerid][6][1],
-		RakNet_PlayerWeapons[playerid][7][0], RakNet_PlayerWeapons[playerid][7][1],
-		RakNet_PlayerWeapons[playerid][8][0], RakNet_PlayerWeapons[playerid][8][1],
-		RakNet_PlayerWeapons[playerid][9][0], RakNet_PlayerWeapons[playerid][9][1],
-		RakNet_PlayerWeapons[playerid][10][0], RakNet_PlayerWeapons[playerid][10][1],
-		RakNet_PlayerWeapons[playerid][11][0], RakNet_PlayerWeapons[playerid][11][1],
-		RakNet_PlayerWeapons[playerid][12][0], RakNet_PlayerWeapons[playerid][12][1]);
+		rgRakNet_PlayerWeapons[playerid][0][0], rgRakNet_PlayerWeapons[playerid][0][1],
+		rgRakNet_PlayerWeapons[playerid][1][0], rgRakNet_PlayerWeapons[playerid][1][1],
+		rgRakNet_PlayerWeapons[playerid][2][0], rgRakNet_PlayerWeapons[playerid][2][1],
+		rgRakNet_PlayerWeapons[playerid][3][0], rgRakNet_PlayerWeapons[playerid][3][1],
+		rgRakNet_PlayerWeapons[playerid][4][0], rgRakNet_PlayerWeapons[playerid][4][1],
+		rgRakNet_PlayerWeapons[playerid][5][0], rgRakNet_PlayerWeapons[playerid][5][1],
+		rgRakNet_PlayerWeapons[playerid][6][0], rgRakNet_PlayerWeapons[playerid][6][1],
+		rgRakNet_PlayerWeapons[playerid][7][0], rgRakNet_PlayerWeapons[playerid][7][1],
+		rgRakNet_PlayerWeapons[playerid][8][0], rgRakNet_PlayerWeapons[playerid][8][1],
+		rgRakNet_PlayerWeapons[playerid][9][0], rgRakNet_PlayerWeapons[playerid][9][1],
+		rgRakNet_PlayerWeapons[playerid][10][0], rgRakNet_PlayerWeapons[playerid][10][1],
+		rgRakNet_PlayerWeapons[playerid][11][0], rgRakNet_PlayerWeapons[playerid][11][1],
+		rgRakNet_PlayerWeapons[playerid][12][0], rgRakNet_PlayerWeapons[playerid][12][1]);
 
 	mysql_query(query);
-
-	//for(new i = 0; i<13; i++)
-	//{
-	//	MruMySQL_SetAccInt(sprintf("Gun%d", i), nick, RakNet_PlayerWeapons[playerid][i][0]);
-	//	MruMySQL_SetAccInt(sprintf("Ammo%d", i), nick, RakNet_PlayerWeapons[playerid][i][1]);
-	//}
 	return 1;
 }
 
@@ -15572,8 +15564,7 @@ CheckPlayerSkin(playerid, skinid)
 	return 0;
 }
 
-
-ShowPlayerTunePanel(playerid, panel)
+/*ShowPlayerTunePanel(playerid, panel) // system podgl¹du i paneli tuningów do 1.1.2
 {
 	if(panel == PANEL_FELGI)
 	{
@@ -15593,4 +15584,4 @@ forward AllowNextTunePanelStep(playerid);
 public AllowNextTunePanelStep(playerid)
 {
 	SetPVarInt(playerid, "AllowNextTune", 0);
-}
+}*/

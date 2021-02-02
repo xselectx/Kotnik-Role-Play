@@ -5,16 +5,15 @@ enum courier
 	c_ammount, 
 	c_price
 }
-new pCourier[MAX_PLAYERS][courier];
+//new pCourier[MAX_PLAYERS][courier]; // warningi
 
-LoadCourier() 
+/*LoadCourier() 
 {
 	print("Praca kuriera zosta³a za³adowana");
-}
+}*/
 
 CMD:paczkawez(playerid) 
 {
-	new veh = GetPlayerVehicleID(playerid);
 	if(PlayerInfo[playerid][pJob] == JOB_TRUCKER) {
 		if(PlayerToPoint(3.0, playerid,1765.4259,-2049.0200,14.0167))
 		{

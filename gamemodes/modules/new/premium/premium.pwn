@@ -467,7 +467,7 @@ KupPojazdPremium(playerid, id)
 	return 1;
 }
 
-KupSkinPremium(playerid, skin)
+/*KupSkinPremium(playerid, skin) // warningi
 {
 
 	new id = -1;
@@ -507,7 +507,7 @@ KupSkinPremium(playerid, skin)
 	premium_printMcQuantity(playerid);
 
 	return 1;
-}
+}*/
 
 KupSlotPojazdu(playerid)
 {
@@ -622,12 +622,12 @@ KupNumerTelefonu(playerid, string:_numer[])
 }
 
 //---< Is >---
-IsPlayerSponsor(playerid)
+/*IsPlayerSponsor(playerid) // warningi
 {
 	if(PremiumInfo[playerid][pSponsor] == 1)
 		return 1;
 	return 0;
-}
+}*/
 
 IsPlayerPremium(playerid)
 {
@@ -636,15 +636,15 @@ IsPlayerPremium(playerid)
 	return 0;
 }
 
-IsAUnikat(modelid)
+/*IsAUnikat(modelid)  // warningi
 {
 	for(new i; i<MAX_PREMIUM_VEHICLES; i++)
 		if(modelid == PojazdyPremium[i][Model])
 			return 1;
 	return 0;
-}
+}*/
 
-PlayerHasSkin(playerid, skinid)
+/*PlayerHasSkin(playerid, skinid) // warningi
 {
 	for(new i; i<MAX_PREMIUM_SKINS; i++)
 	{
@@ -654,7 +654,7 @@ PlayerHasSkin(playerid, skinid)
 		}
 	}
 	return false;
-}
+}*/
 
 
 //-----------------<[ Komendy: ]>-------------------
@@ -1060,14 +1060,14 @@ static DialogDotacje(playerid)
 }
 
 //------- US£UGI PREMIUM ------------------
-static DialogLicytacje(playerid)
+/*static DialogLicytacje(playerid)
 {
 	//zaawansowany system
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(LICYTACJE), DIALOG_STYLE_LIST, "Premium - Us³ugi - Licytacje", 
 		"W budowie"\
 		"",
 	"Wybierz", "Wróæ");
-}
+}*/
 
 stock DialogPojazdyPremium(playerid)
 {
@@ -1124,7 +1124,7 @@ stock DialogSkiny(playerid)
 	return true;
 }
 
-ListPlayerUniqueSkins(playerid)
+/*ListPlayerUniqueSkins(playerid) // warningi
 {
 	DynamicGui_Init(playerid);
 
@@ -1145,7 +1145,7 @@ ListPlayerUniqueSkins(playerid)
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(ZMIENSKIN), DIALOG_STYLE_LIST, "Premium - Twoje Skiny", list, "Ustaw", "WyjdŸ");
 
 	return true;
-}
+}*/
 
 stock DialogTelefon(playerid)
 {

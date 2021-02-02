@@ -8,31 +8,6 @@
 
 
 // --------  < publici > -------- //
-
-DC_Slap(who[], pid[])
-{
-	new playa = strval(pid);
-	if(IsPlayerConnected(playa))
-	{
-	    if(playa != INVALID_PLAYER_ID)
-	    {
-	    	new Float:shealth, Float:slx, Float:sly, Float:slz, string[128];
-			GetPlayerHealth(playa, shealth);
-			SetPlayerHealth(playa, shealth-5);
-			GetPlayerPos(playa, slx, sly, slz);
-			SetPlayerPosEx(playa, slx, sly, slz+5);
-			PlayerPlaySound(playa, 1130, slx, sly, slz+5);
-			printf("AdmCmd: %s da³ klaspa w dupsko %s",who, GetNick(playa));
-			format(string, sizeof(string), "AdmCmd: %s da³ klapsa w dupsko %s", who, GetNick(playa));
-			ABroadCast(COLOR_LIGHTRED,string,1);
-			format(string, sizeof(string), "Dosta³eœ klapsa w dupsko od administratora %s, widocznie zrobi³eœ coœ z³ego :)", who);
-			_MruAdmin(playa, string);
-			return 1;
-		}
-	}
-	return 0;
-}
-
 public DCC_OnMessageCreate(DCC_Message:message)
 {
 	if(LOCALHOST == 0)
@@ -102,15 +77,15 @@ public DCC_OnMessageCreate(DCC_Message:message)
 					}
 				}
 
-				if(!strcmp(command, ">kotnik", true) || !strcmp(command, ">samp") || !strcmp(command, "kotnik", true) || !strcmp(command, "samp")  || !strcmp(command, "players", true) || !strcmp(command, "gracze"))
+				if(!strcmp(command, ">lisek", true) || !strcmp(command, ">samp") || !strcmp(command, "lisek", true) || !strcmp(command, "samp")  || !strcmp(command, "players", true) || !strcmp(command, "gracze"))
 				{
 					new ilosc = 0;
 					for(new i = 0; i<MAX_PLAYERS; i++)
 					{
 						if(IsPlayerConnected(i)) ilosc++;
 					}
-					if(ilosc == 1) DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Kotniku** gra aktualnie %d gracz", userid, ilosc));
-					else DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Kotniku** gra aktualnie %d graczy", userid, ilosc));
+					if(ilosc == 1) DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Lisku** gra aktualnie %d gracz", userid, ilosc));
+					else DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Lisku** gra aktualnie %d graczy", userid, ilosc));
 					DC_AntySpam = DC_SPAM_LIMIT;
 				}
 			
@@ -157,7 +132,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 				}
 				if(!strcmp(command, "pracownicy", true) || !strcmp(command, ">pracownicy"))
 				{
-					new DCC_Guild:guild_lspd, pracownicy[512], guild_lspd_id[DCC_ID_SIZE], guild_name_id[DCC_ID_SIZE];
+					new pracownicy[512], guild_name_id[DCC_ID_SIZE];
 					//guild_lspd = DCC_FindGuildById(DiscordFractionChannels[1][2]);
 					DCC_GetGuildId(guild_name, guild_name_id);
 					//DCC_GetGuildId(guild_lspd, guild_lspd_id);

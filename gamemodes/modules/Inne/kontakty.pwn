@@ -24,7 +24,7 @@ enum cInfo
 }
 new ContactInfo[MAX_PLAYERS][MAX_CONTACTS][cInfo];
 
-LoadContactData(playerid)
+LoadContactData(playerid) // warningi
 {
 	new query[256];
 	new i = 0;
@@ -38,14 +38,14 @@ LoadContactData(playerid)
 			ContactInfo[playerid][i][cOwner],
 			ContactInfo[playerid][i][cName],
 			ContactInfo[playerid][i][cNumber]);
-			i++;
+		i++;
 	}
 	mysql_free_result();
 	printf("[KONTAKTY]: Zaladowano: %d wszystkich kontaktow dla PID:", i, playerid);
 	return 1;
 }
 
-SaveContactData(playerid)
+/*SaveContactData(playerid) // warningi, nie skoñczone
 {
 	new query[256];
 	format(query, sizeof(query), "UPDATE `contacts` SET \
@@ -58,7 +58,7 @@ SaveContactData(playerid)
 	mysql_query(query);
 	mysql_store_result();
 	print(query);
-}
+}*/
 
 /*AddContact(playerid, ctext, cnumber)
 {
@@ -74,7 +74,7 @@ SaveContactData(playerid)
 
 CMD:kontakty(playerid, params[])
 {
-	new var[64], targetid;
+	new var[64];
     if(PlayerInfo[playerid][pPnumber] == 0) return sendErrorDialogMessage(playerid, "Nie posiadasz telefonu!");
     if(sscanf(params, "s[32]I()S()[64]", var)) return sendTipDialogMessage(playerid, "U¿yj /kontakty [lista]");
     if(strcmp(var, "lista", true) == 0) {

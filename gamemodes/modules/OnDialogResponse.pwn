@@ -1215,63 +1215,63 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	{
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
 		if(PlayerInfo[playerid][pGunLic] == 0) return sendTipMessage(playerid, "B£AD: Do tej pracy potrzebujesz licencji na broñ!");
-			if(response) 
-			{
-				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ³owcy nagród! Pod /pomoc znajdziesz potrzebne komendy");
-				PlayerInfo[playerid][pJob] = 1;
-			}
-			else return 1;
+		if(response) 
+		{
+			sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ³owcy nagród! Pod /pomoc znajdziesz potrzebne komendy");
+			PlayerInfo[playerid][pJob] = 1;
+		}
+		else return 1;
 	}
 	else if (dialogid == D_JOBTYPE_PRAWNIK)
 	{
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
-			if(response)
-			{
-				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy prawnika! Pod /pomoc znajdziesz potrzebne komendy");
-				PlayerInfo[playerid][pJob] = 2;
-			}
-			else return 1;
+		if(response)
+		{
+			sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy prawnika! Pod /pomoc znajdziesz potrzebne komendy");
+			PlayerInfo[playerid][pJob] = 2;
+		}
+		else return 1;
 	}
 	else if (dialogid == D_JOBTYPE_MECHANIK)
 	{
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
-			if(response) 
-			{
-				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy mechanika! Pod /pomoc znajdziesz potrzebne komendy");
-				PlayerInfo[playerid][pJob] = 7;
-			}
-			else return 1;
+		if(response) 
+		{
+			sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy mechanika! Pod /pomoc znajdziesz potrzebne komendy");
+			PlayerInfo[playerid][pJob] = 7;
+		}
+		else return 1;
 	}
 	else if (dialogid == D_JOBTYPE_OCHRONIARZ)
 	{
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
-			if(response) 
-			{
-				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ochroniarza! Pod /pomoc znajdziesz potrzebne komendy");
-				PlayerInfo[playerid][pJob] = 8;
-			}
-			else return 1;
+		if(response) 
+		{
+			sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy ochroniarza! Pod /pomoc znajdziesz potrzebne komendy");
+			PlayerInfo[playerid][pJob] = 8;
+		}
+		else return 1;
 	}
 	else if (dialogid == D_JOBTYPE_PIZZABOY)
 	{
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
-			if(response) 
-			{
-				sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy pizzaboya! Pod /pomoc znajdziesz potrzebne komendy");
-				PlayerInfo[playerid][pJob] = 17;
-			}
-			else return 1;
+		if(response) 
+		{
+			sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy pizzaboya! Pod /pomoc znajdziesz potrzebne komendy");
+			PlayerInfo[playerid][pJob] = 17;
+		}
+		else return 1;
 	}
 	else if (dialogid == D_JOBTYPE_BOX)
 	{
 		if(PlayerInfo[playerid][pJob] > 0) return sendTipMessage(playerid, "B£¥D: Wyst¹pi³ powa¿ny b³¹d, zg³oœ to do Administracji!"); 
-			if(response) 
-			{
-				sendTipMessage(playerid, "Zmieni³y siê przepisy, aby zostaæ nauczycielem boksu musisz aplikowaæ przez stronê rz¹du (forum)");
-				//sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy trenera boksu! Pod /pomoc znajdziesz potrzebne komendy");
-				//PlayerInfo[playerid][pJob] = 12;
-			}
-			else return 1;
+		if(response) 
+		{
+			sendTipMessage(playerid, "Zmieni³y siê przepisy, aby zostaæ nauczycielem boksu musisz aplikowaæ przez stronê rz¹du (forum)");
+			//sendTipMessage(playerid, "Podpisa³eœ kontrakt na 5 godzin w pracy trenera boksu! Pod /pomoc znajdziesz potrzebne komendy");
+			//PlayerInfo[playerid][pJob] = 12;
+		}
+		else return 1;
 	}
 	// ----------------------------------------------------------------------------------------------------------
 	else if(dialogid == DIALOG_POMOC_NEW)
@@ -1387,7 +1387,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IsAPrzestepca(playerid)) {
 					format(string, sizeof(string), "/laptop /zmienskin /reklama /namierz \
 						\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
-						ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Przestêpcze", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Przestêpcze", string, "Zamknij", "");
 				} else sendTipMessage(playerid, "Nie jesteœ w organizacji przestêpczej!");
 			}
 			case 9:
@@ -1441,7 +1441,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		sendTipMessage(targetid, C_STRING);
 		return 1;
 	}*/
-	else if(dialogid == DIALOG_ADMIN_PM_TOKEN)
+	else if(dialogid == DIALOG_ADMIN_PM_TOKEN) // zbugowany, wy³¹czony
 	{
 		if(!response) return sendTipDialogMessage(playerid, "Anulowa³eœ wysy³anie wiadomoœci do Administratora!");
 		valstr(adminTokenStr[playerid], adminToken[playerid]);

@@ -1,7 +1,5 @@
 
-new Float:iRotX, Float:iRotY, Float:iRotZ, Float:iZoom;
-
-new WeaponsInventory[48][8][64] =
+/*new WeaponsInventory[48][8][64] =
 {
 															   //typ ammo
 	// name 				//weap id 	//model //weight //stats1 //stats2 //stats3 //stats4
@@ -55,7 +53,7 @@ new WeaponsInventory[48][8][64] =
 	{ "Gogle termalne",			"45",		"368",	"0.8",	"0",	"0",	"0",	"0"},
 	{ "Spadochron",				"46",		"371",	"10",	"0",	"0",	"0",	"0"},
 	{ "Gaz pieprzowy",			"41",		"365",	"0.1",	"4",	"0",	"0",	"0"}
-};
+};*/
 
 new ItemsInventory[11][9][64] = 
 {	
@@ -130,7 +128,7 @@ UnloadPlayerInventory(playerid)
 	return 1;
 }
 
-PrintPlayerInventory(playerid)
+/*PrintPlayerInventory(playerid) // do debugu
 {
 	print("uid, owner, type, name, model, quant, weight, stats1, stats2, stats3, stats4");
 	for(new i = 0; i<PlayerInfo[playerid][pItems]; i++)
@@ -149,7 +147,7 @@ PrintPlayerInventory(playerid)
 		Inventory[playerid][i][iStats4],
 		Inventory[playerid][i][iLimit]);
 	}
-}
+}*/
 
 
 ShowPlayerInventory(pid, type)
@@ -470,7 +468,7 @@ public Inv_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(!response) return ShowPlayerInventory(playerid, 0);
 
 		if(strfind(inputtext, "U¿yj", true) != -1 || strfind(inputtext, "Zjedz", true) != -1 || strfind(inputtext, "Wypij", true) != -1) return UseItem(playerid, GetPVarInt(playerid, "itemID"));
-		else if(strfind(inputtext, "Od³ó¿", true) != -1) return PutAwayItem(playerid, GetPVarInt(playerid, "itemID"));
+		else if(strfind(inputtext, "Od³ó¿", true) != -1) return 1; /*PutAwayItem(playerid, GetPVarInt(playerid, "itemID"));*/
 		else if(strfind(inputtext, "Podaj", true) != -1) return OfferItem(playerid, GetPVarInt(playerid, "itemID"));
 		else if(strfind(inputtext, "Zniszcz", true) != -1) return DestroyItem(playerid, GetPVarInt(playerid, "itemID"));
 		else return ShowPlayerInventory(playerid, 0);
@@ -906,12 +904,13 @@ stock UseItem(playerid, itemid)
 	return 1;
 }
 
+/*
 stock PutAwayItem(playerid, itemid)
 {
 	sendTipMessage(playerid, "Funkcja odk³adania przedmiotów nie jest jeszcze zaimplementowana");
 	//SendClientMessage(playerid, -1, "PutAwayItem");
 	return 1;
-}
+}*/
 
 stock OfferItem(playerid, itemid)
 {
