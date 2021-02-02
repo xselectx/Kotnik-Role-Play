@@ -11956,28 +11956,32 @@ CMD:zderzaki(playerid, params[])
     return 1;
 }
 
-/*CMD:kary(playerid, params[])
+CMD:kary(playerid, params[])
 {
     new string[256];
     if(IsPlayerConnected(playerid))
     {   
         if(PlayerInfo[playerid][pBPojazd] > 0)
         {
-            strcat(string, sprintf("[#] Blokada pojazd闚 (Pozosta這: %d)\n", PlayerInfo[playerid][pBPojazd]), sizeof(string));
+            strcat(string, sprintf("[#] Blokada pojazd闚 (Pozosta這: %d h)\n", PlayerInfo[playerid][pBPojazd]), sizeof(string));
         }
         if(PlayerInfo[playerid][pBBron] > 0)
         {
-           strcat(string, sprintf("[#] Blokada broni (Pozosta這: %d)\n", PlayerInfo[playerid][pBBron]), sizeof(string));
+           strcat(string, sprintf("[#] Blokada broni (Pozosta這: %d h)\n", PlayerInfo[playerid][pBBron]), sizeof(string));
         }
         if(PlayerInfo[playerid][pBP] > 0)
         {
-            strcat(string, sprintf("[#] Blokada pisania (Pozosta這: %d)\n", PlayerInfo[playerid][pBP]), sizeof(string));
+            strcat(string, sprintf("[#] Blokada pisania (Pozosta這: %d h)\n", PlayerInfo[playerid][pBP]), sizeof(string));
+        }
+        if(PlayerInfo[playerid][pJailTime] > 0 && PlayerInfo[playerid][pJailed] == 3)
+        {
+            strcat(string, sprintf("[#] Admin Jail (Pozosta這: %d min)\n", PlayerInfo[playerid][pJailTime]), sizeof(string));
         }
         ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_LIST, "{8FCB04}Lisek-RP 認FFFFFF} Aktywne kary", string, "Zamknij", "");
         return 1;
     }
     return 1;
-}*/
+}
 
 CMD:sprzedajneon(playerid, params[]) return cmd_dajneony(playerid, params);
 CMD:dajneon(playerid, params[]) return cmd_dajneony(playerid, params);

@@ -18,7 +18,7 @@
         |---> LukeSQLY (github.com/LukeSQLY)
 */
 
-// ----- <[ Wy³¹czeni fake warningów ]> ----- //
+// ----- <[ Wy³¹czenie fake warningów ]> ----- //
 #pragma warning disable 238
 #pragma warning disable 208 
 //-------------------------------------------<[ Includy ]>---------------------------------------------------//
