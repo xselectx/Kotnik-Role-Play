@@ -37905,7 +37905,7 @@ CMD:kupbilet(playerid)
     if(IsPlayerInRangeOfPoint(playerid, 7, 397, -1804, 7) && gPlayerLogged[playerid] == 1) // budka ibizy
     {
         new tmp[128];
-        format(tmp, sizeof tmp, "Czy chcesz kupiæ bilet do Ibizy za {9ACD32$%d{A9C4E4}?", IbizaBilet);
+        format(tmp, sizeof tmp, "Czy chcesz kupiæ bilet do Ibizy za {9ACD32}$%d{A9C4E4}?", IbizaBilet);
         SetPVarInt(playerid, "IbizaBiletSell", INVALID_PLAYER_ID);
         ShowPlayerDialogEx(playerid, DIALOG_IBIZA_BILET, DIALOG_STYLE_MSGBOX, "Ibiza Club", tmp, "Kup", "Anuluj");
     }
