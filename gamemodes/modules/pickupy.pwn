@@ -154,7 +154,7 @@ Zaladuj3DTexty()
     //CreateDynamic3DTextLabel("Sala posiedzeñ", COLOR_BLUE, -778.3271484375,496.4326171875,1368.5303955078, 5.0);
     CreateDynamic3DTextLabel("Zaklad Bukmaherski", COLOR_BLUE, 1631.7883300781,-1171.4095458984,24.078125, 15.0);
     //CreateDynamic3DTextLabel("Gabinet Oyabuna", COLOR_BLUE, 368.3667,193.8689,1008.3828, 5.0);
-    CreateDynamic3DTextLabel("Los Santos Radio Station", COLOR_BLUE, 2292.3088,-1723.3538,13.5469, 10.0);
+    
     //CreateDynamic3DTextLabel("Stare studio tatua¿u", COLOR_BLUE, 1975.9598388672,-2036.7775878906,13.546875, 5.0);
     CreateDynamic3DTextLabel("Bank\n Oddzia³ Los Santos", COLOR_BLUE, 1462.395751,-1012.391174,26.843799, 10.0);
     CreateDynamic3DTextLabel("Bank\n Oddzia³ Palomino Creek", COLOR_BLUE, 2302.7798,-15.9637,26.4844, 10.0);
@@ -391,8 +391,9 @@ Zaladuj3DTexty()
 
     //CreateDynamic3DTextLabel("{333399}Tymczasowe wiêzienie stanowe FBI\n{FFFFFF}[/stanowe]", COLOR_BLUE, NG_JAIL_X,NG_JAIL_Y,NG_JAIL_Z, 5.0);
     //SN
-    //CreateDynamic3DTextLabel("Dach San News", 0xFFA500FF, 721.5504,-1381.8588,25.7176, 15.0);
-    //CreateDynamic3DTextLabel("Zaplecze San News", 0xFFA500FF, 732.5052,-1343.5123,13.5206, 15.0);
+    CreateDynamic3DTextLabel("Los Santos Radio Station", 0xFFA500FF, 648.4412, -1357.3232, 13.8579, 10.0);
+    CreateDynamic3DTextLabel("Dach Radio Los Santos", 0xFFA500FF, 721.5504,-1381.8588,25.7176, 15.0);
+    CreateDynamic3DTextLabel("Zaplecze Radio Los Santos", 0xFFA500FF, 732.5052,-1343.5123,13.5206, 15.0);
 
     //CreateDynamic3DTextLabel("Siedziba S¹du Najwy¿szego", COLOR_BLUE, 1310.1124,-1367.6780,13.5391, 35.0);
     //CreateDynamic3DTextLabel("Wejœcie ewakuacyjne", COLOR_LIGHTBLUE, 1286.0413,-1329.2007,13.5515, 9.0);

@@ -432,7 +432,9 @@ stock MruMySQL_SaveAccount(playerid, bool:forcegmx = false, bool:forcequit = fal
 	`ZaufanyGracz`='%d', \
 	`Apteczki`='%d', \
 	`DomWKJ`='%d', \
-	`DomT`='%d'\
+	`DomT`='%d', \
+	`pBPojazd` ='%d', \
+	`pBBron`='%d' \
 	WHERE `UID`='%d'", query,
     PlayerInfo[playerid][pCB],
 	PoziomPoszukiwania[playerid],
@@ -450,20 +452,28 @@ stock MruMySQL_SaveAccount(playerid, bool:forcegmx = false, bool:forcequit = fal
 	PlayerInfo[playerid][pApteczki],
 	PlayerInfo[playerid][pDomWKJ],
 	PlayerInfo[playerid][pDomT],
+	PlayerInfo[playerid][pBPojazd],
+	PlayerInfo[playerid][pBBron],
     PlayerInfo[playerid][pUID]);
 
     if(!mysql_query(query)) fault=false;
 
     format(query, sizeof(query), "UPDATE `mru_konta` SET \
 	`JailReason`='%s', \
-	`BWType`='%d' \
+	`BWType`='%d', \
+	`pFishTimer`='%d' \
 	 WHERE `UID`='%d'",
 	PlayerInfo[playerid][pJailReason],
 	PlayerInfo[playerid][pBWType],
+	PlayerInfo[playerid][pFishTimer],
 	PlayerInfo[playerid][pUID]);
 
     if(!mysql_query(query)) fault=false;
 
+    if(rgRakNet_SaveWeapons[playerid] == 1)
+    {
+    	RestoreOldWeapons(playerid, GetNick(playerid));
+    }
 
     //Zapis MruCoinow
     //premium_saveMc(playerid);  DO POPRAWY
@@ -634,7 +644,7 @@ public MruMySQL_LoadAcocount(playerid)
 		PlayerInfo[playerid][pFuel], 
 		PlayerInfo[playerid][pMarried]);
 
-        lStr = "`MarriedTo`, `CBRADIO`, `PoziomPoszukiwania`, `Dowod`, `PodszywanieSie`, `ZmienilNick`, `Wino`, `Piwo`, `Cygaro`, `Sprunk`, `PodgladWiadomosci`, `StylWalki`, `PAdmin`, `ZaufanyGracz`, `Auto1`, `Auto2`, `Auto3`, `Auto4`, `Lodz`, `Samolot`, `Garaz`, `KluczykiDoAuta`, `Spawn`, `BW`, `BWType`, `Czystka`, `CarSlots`, `Apteczki`, `DomWKJ`, `DomT`";
+        lStr = "`MarriedTo`, `CBRADIO`, `PoziomPoszukiwania`, `Dowod`, `PodszywanieSie`, `ZmienilNick`, `Wino`, `Piwo`, `Cygaro`, `Sprunk`, `PodgladWiadomosci`, `StylWalki`, `PAdmin`, `ZaufanyGracz`, `Auto1`, `Auto2`, `Auto3`, `Auto4`, `Lodz`, `Samolot`, `Garaz`, `KluczykiDoAuta`, `Spawn`, `BW`, `BWType`, `Czystka`, `CarSlots`, `Apteczki`, `DomWKJ`, `DomT`, `pBPojazd`, `pBBron`";
 
         format(lStr, 1024, "SELECT %s FROM `mru_konta` WHERE `Nick`='%s'", lStr, GetNick(playerid));
     	mysql_query(lStr);
@@ -643,7 +653,7 @@ public MruMySQL_LoadAcocount(playerid)
         mysql_fetch_row_format(lStr, "|");
         mysql_free_result();
 
-        sscanf(lStr, "p<|>s[24]ddddddddddddddddddddddddddddd",
+        sscanf(lStr, "p<|>s[32]ddddddddddddddddddddddddddddd",
         PlayerInfo[playerid][pMarriedTo],
 		PlayerInfo[playerid][pCB],
 		PlayerInfo[playerid][pWL],
@@ -674,8 +684,23 @@ public MruMySQL_LoadAcocount(playerid)
         PlayerInfo[playerid][pApteczki],
         PlayerInfo[playerid][pDomWKJ],
 		PlayerInfo[playerid][pDomT]);
+
+        lStr = "`pBPojazd`, `pBBron`, `pFishTimer`";
+
+        format(lStr, 1024, "SELECT %s FROM `mru_konta` WHERE `Nick`='%s'", lStr, GetNick(playerid));
+    	mysql_query(lStr);
+    	mysql_store_result();
+        if(mysql_num_rows()) id++;
+        mysql_fetch_row_format(lStr, "|");
+        mysql_free_result();
+
+        sscanf(lStr, "p<|>ddd",
+        PlayerInfo[playerid][pBPojazd],
+		PlayerInfo[playerid][pBBron],
+		PlayerInfo[playerid][pFishTimer]);
 	}
 
+	
 	// Pozycje kamizelki
 
 	loadKamiPos(playerid);
@@ -718,20 +743,23 @@ public MruMySQL_LoadAcocount(playerid)
 		db_free_result(db_query(db_handle, lStr));
 	}
 
-	if(PlayerInfo[playerid][pLider] == 14) 
-	{
-		gPlayerOrgLeader[playerid] = true;
-	}
-	if(PlayerInfo[playerid][pMember] == 14)
-	{
-		PlayerInfo[playerid][pOrg] = 22;
-	}
+	//if(PlayerInfo[playerid][pLider] == 14) 
+	//{
+	//	gPlayerOrgLeader[playerid] = true;
+	//}
+	//if(PlayerInfo[playerid][pMember] == 14)
+	//{
+	//	PlayerInfo[playerid][pOrg] = 22;
+	//}
+
+	if(PlayerInfo[playerid][pVW] == 7777 || PlayerInfo[playerid][pVW] == 1488) PlayerInfo[playerid][pVW] = 0;
 
     MruMySQL_LoadAccess(playerid);
     premium_loadForPlayer(playerid);
     //prezenty_Load(playerid);
     //MruMySQL_WczytajOpis(playerid, PlayerInfo[playerid][pUID], 1);
-	if(id != 4) return false;
+    OldPayCheck[playerid] = PlayerInfo[playerid][pPayCheck];
+	if(id != 5) return false;
 	return true;
 }
 
@@ -1145,54 +1173,6 @@ MruMySQL_Banuj(playerid, powod[]="Brak", admin=-1)
 	return 1;
 }
 
-MruMySQL_SprawdzBany2(nick[])
-{
-	new query[256];
-	new str[128];
-	
-	if(!MYSQL_ON) 
-	{
-		strcat(str, "mysql_off");
-		return str;
-	}
-	print("1");
-	format(query, sizeof(query), "SELECT `typ`, `nadal_uid`, `nadal`, `powod`, `czas`, `dostal`, `dostal_uid`, `IP` FROM `mru_bany` WHERE `dostal`='%s' ORDER BY `czas` DESC LIMIT 1", nick);
-	mysql_query(query);
-	mysql_store_result();
-	print("2");
-	if (mysql_num_rows())
-	{
-		print("3");
-        mysql_fetch_row_format(query, "|");
-        print("4");
-        mysql_free_result();
-        print("5");
-		new powod[64], admin[32], id, typ, czas[32], nickn[32], mip[16], pid;
-		print("6");
-		sscanf(query, "p<|>dds[32]s[64]s[32]s[32]ds[16]", typ, id, admin, powod, czas,nickn, pid, mip);
-		print("7");
-        if(typ == WARN_BAN)
-        {
-        	print("8");
-        	format(str, sizeof(str), "BAN, %s", powod);
-        	print("9");
-        	return str;
-        }
-        else if(typ == WARN_BLOCK)
-        {
-        	print("10");
-        	format(str, sizeof(str), "BLOCK, %s", powod);
-        	print("11");
-        	return str;
-        }
-    }
-    print("12");
-    strcat(str, "brak");
-    print("13");
-	return str;
-}
-
-
 bool:MruMySQL_SprawdzBany(playerid)
 {
 	if(!MYSQL_ON) return false;
@@ -1236,7 +1216,7 @@ bool:MruMySQL_SprawdzBany(playerid)
         }
 	}
 
-	format(query, sizeof(query), "SELECT `typ`, `nadal_uid`, `nadal`, `powod`, `czas`, `dostal`, `dostal_uid`, `IP` FROM `mru_bany` WHERE `GPCI` = '%s' ORDER BY `czas` DESC LIMIT 1", ReturnGPCI(playerid));
+	/*format(query, sizeof(query), "SELECT `typ`, `nadal_uid`, `nadal`, `powod`, `czas`, `dostal`, `dostal_uid`, `IP` FROM `mru_bany` WHERE `GPCI` = '%s' ORDER BY `czas` DESC LIMIT 1", ReturnGPCI(playerid));
 	mysql_query(query);
 	mysql_store_result();
 
@@ -1268,7 +1248,7 @@ bool:MruMySQL_SprawdzBany(playerid)
 		return true;
 	}
 
-	mysql_free_result();
+	mysql_free_result();*/
 
 	return false;
 }

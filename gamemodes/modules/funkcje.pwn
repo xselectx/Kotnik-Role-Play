@@ -41,7 +41,6 @@ stock saveLegale(playerid) {
 	db_free_result(db_query(db_handle, lStr));
 }
 
-
 stock loadKamiPos(playerid)
 {
 	new lStr[256];
@@ -178,7 +177,7 @@ noAccessMessage(id) {
     return SendClientMessage(id,COLOR_FADE2,"»» Nie posiadasz dostêpu do tej komendy");
 }
 sendTipMessage(id, string:msg[], color = COLOR_GRAD3) {
-	format(_str,128,"»» %s", msg);
+	format(_str,256,"»» %s", msg);
 	return SendClientMessage(id, color, _str);
 }
 
@@ -186,12 +185,12 @@ sendTipMessageEx(id, color = COLOR_GRAD3, string:msg[]) { //CM do sendclientmess
 	return sendTipMessage(id, msg, color);
 }
 sendErrorMessage(id, string:msg[]) {
-	format(_str,128,"»» %s", msg);
+	format(_str,256,"»» %s", msg);
 	return SendClientMessage(id, COLOR_LIGHTRED, _str);
 }
 //sqluke
 sendTipDialogMessage(id, string:msg[]) {
-	format(_str,128,"%s", msg);
+	format(_str,256,"%s", msg);
 	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Informacja", _str, "Zamknij", "");
 	//return SendClientMessage(id, color, _str);
 }
@@ -203,7 +202,8 @@ sendErrorDialogMessage(id, string:msg[]) {
 }
 //2.5.2
 
-stock GetMajatek(playerid)
+forward GetMajatek(playerid);
+public GetMajatek(playerid)
 {
 	new vehvalues;
 	for(new i=0;i<MAX_CAR_SLOT;i++)
@@ -217,6 +217,43 @@ stock GetMajatek(playerid)
 	return kaska[playerid]+PlayerInfo[playerid][pAccount]+vehvalues+Dom[PlayerInfo[playerid][pDom]][hCena];
 }
 
+stock Czystka(playerid) {
+
+	for(new i = 0; i<MAX_CARS;i++)
+	{
+		if(CarData[i][c_UID] == PlayerInfo[playerid][pUID])
+		{
+		    Car_Destroy(CarData[i][c_UID]);
+		}
+	}
+
+	PlayerInfo[playerid][pLevel] = 1;
+	PlayerInfo[playerid][pAdmin] = 0;
+	PlayerInfo[playerid][pZG] = 0;
+	PlayerInfo[playerid][pMember] = 0;
+	PlayerInfo[playerid][pLider] = 0;
+	PlayerInfo[playerid][pNewAP] = 0;
+	PlayerInfo[playerid][pSHealth] = 0.0;
+	PlayerInfo[playerid][pHealth] = 50.0;
+	PlayerInfo[playerid][pPos_x] = 2246.6;
+	PlayerInfo[playerid][pPos_y] = -1161.9;
+	PlayerInfo[playerid][pPos_z] = 1029.7;
+	PlayerInfo[playerid][pInt] = 0;
+	PlayerInfo[playerid][pLocal] = 255;
+	PlayerInfo[playerid][pTeam] = 3;
+	PlayerInfo[playerid][pModel] = 136;
+	PlayerInfo[playerid][pPnumber] = 0;
+	PlayerInfo[playerid][pDom] = 0;
+	PlayerInfo[playerid][pPbiskey] = 255;
+	PlayerInfo[playerid][pAccount] = 5000;
+	PlayerInfo[playerid][pReg] = 1;
+	PlayerInfo[playerid][pDowod] = 0;
+    PlayerInfo[playerid][pCarSlots] = 4;
+    PlayerInfo[playerid][pCzystka] = 0;
+    ResetujKase(playerid);
+	DajKase(playerid, 5000);
+	sendTipMessage(playerid, "Twoje konto zosta³o wyczyszczone, usuniêto Ci dom, gotówkê, pojazdy, sloty. Otrzymujesz 5000$ na start");
+}
 
 
 //WRZUCANIE DO DEMORGAN
@@ -726,8 +763,8 @@ public StartPaintball()
 	    {
 	        if(PlayerPaintballing[i] != 0)
 	        {
-	            ResetPlayerWeapons(i);
-	            GivePlayerWeapon(i, 29, 999);
+	            ResetPlayerWeaponsEx(i);
+	            GivePlayerWeaponEx(i, 29, 999);
             	PlayerInfo[i][pGun1] = 29;
             	PlayerInfo[i][pAmmo1] = 999;
 	            TogglePlayerControllable(i, 1);
@@ -1957,8 +1994,6 @@ stock ini_GetValue( line[] )
 	return valRes;
 }
 
-
-
 Float:GetDistanceBetweenPlayers(p1,p2)
 {
 	new Float:x1,Float:y1,Float:z1,Float:x2,Float:y2,Float:z2;
@@ -2047,7 +2082,7 @@ public PaintballEnded()//nowe domy biznes wa¿ne
 	                format(string,sizeof(string), "** %s wygra³ mecz Pintballa z %d trafieniami **",name,PaintballWinnerKills);
 	                SendClientMessage(i, COLOR_WHITE, string);
 	            }
-	            ResetPlayerWeapons(i);
+	            ResetPlayerWeaponsEx(i);
 	            PlayerPaintballing[i] = 0;
 	            SetPlayerPosEx(i, 1310.126586,-1367.812255,13.540800);
 	        }
@@ -2298,10 +2333,10 @@ IsASklepZBronia(playerid)
 {
 	if(IsPlayerConnected(playerid))
 	{
-		if((GetPlayerOrg(playerid) == 21 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 22 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 23 && PlayerInfo[playerid][pRank] > 3))
-		{
+		//if((GetPlayerOrg(playerid) == 21 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 22 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 23 && PlayerInfo[playerid][pRank] > 3))
+		//{
 		    return 1;
-		}
+		//}
 	}
 	return 0;
 }
@@ -2440,6 +2475,20 @@ IsAKO(playerid)
 		{
 		    return 1;
 		}*/ //usuniete w razie W
+	}
+	return 0;
+}
+
+IsAxSeLeCTx(playerid)
+{
+	if(IsPlayerConnected(playerid))
+	{
+	    new nick[MAX_PLAYER_NAME];
+		GetPlayerName(playerid, nick, sizeof(nick));
+		if(strcmp(nick,"Jayden_Howard", false) == 0 || strcmp(nick,"Yui_Tachibana", false) == 0)
+		{
+		    return 1;
+		}
 	}
 	return 0;
 }
@@ -2612,7 +2661,7 @@ IsASpojler(vehid)
 
 UsunBron(playerid)
 {
-	ResetPlayerWeapons(playerid);
+	ResetPlayerWeaponsEx(playerid);
 	SetTimerEx("AntySB", 10000, 0, "d", playerid); //by nie kickowa³o timer broni
 	AntySpawnBroni[playerid] = 10;
     if(IsPlayerConnected(playerid))
@@ -3078,58 +3127,58 @@ PrzywrocBron(playerid)
 {
     if(IsPlayerConnected(playerid))
 	{
-	    ResetPlayerWeapons(playerid);
+	    ResetPlayerWeaponsEx(playerid);
 	    if(PlayerInfo[playerid][pGun0] == 1)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun0], PlayerInfo[playerid][pAmmo0]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun0], PlayerInfo[playerid][pAmmo0]);
 		}
 		if(PlayerInfo[playerid][pGun1] >= 2)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
 		}
 		if(PlayerInfo[playerid][pGun2] >= 2 && PlayerInfo[playerid][pAmmo2] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
 		}
 		if(PlayerInfo[playerid][pGun3] >= 2 && PlayerInfo[playerid][pAmmo3] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
 		}
 		if(PlayerInfo[playerid][pGun4] >= 2 && PlayerInfo[playerid][pAmmo4] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
 		}
 		if(PlayerInfo[playerid][pGun5] >= 2 && PlayerInfo[playerid][pAmmo5] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun5], PlayerInfo[playerid][pAmmo5]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun5], PlayerInfo[playerid][pAmmo5]);
 		}
 		if(PlayerInfo[playerid][pGun6] >= 2 && PlayerInfo[playerid][pAmmo6] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun6], PlayerInfo[playerid][pAmmo6]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun6], PlayerInfo[playerid][pAmmo6]);
 		}
 		if((PlayerInfo[playerid][pGun7] >= 35 && PlayerInfo[playerid][pGun7] <= 38) && PlayerInfo[playerid][pAmmo7] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun7], PlayerInfo[playerid][pAmmo7]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun7], PlayerInfo[playerid][pAmmo7]);
 		}
 		if(PlayerInfo[playerid][pGun8] >= 2 && PlayerInfo[playerid][pAmmo8] > 1)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun8], PlayerInfo[playerid][pAmmo8]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun8], PlayerInfo[playerid][pAmmo8]);
 		}
 		if((PlayerInfo[playerid][pGun9] >= 41 && PlayerInfo[playerid][pGun9] <= 43) && PlayerInfo[playerid][pAmmo9] >= 10)
 		{
-            GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun9], PlayerInfo[playerid][pAmmo9]);
+            GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun9], PlayerInfo[playerid][pAmmo9]);
 		}
 		if(PlayerInfo[playerid][pGun10] >= 2)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun10], PlayerInfo[playerid][pAmmo10]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun10], PlayerInfo[playerid][pAmmo10]);
 		}
 		if(PlayerInfo[playerid][pGun11] >= 2  && PlayerInfo[playerid][pAmmo11] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun11], PlayerInfo[playerid][pAmmo11]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun11], PlayerInfo[playerid][pAmmo11]);
 		}
 		if(PlayerInfo[playerid][pGun12] >= 2  && PlayerInfo[playerid][pAmmo12] >= 10)
 		{
-		    GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun12], PlayerInfo[playerid][pAmmo12]);
+		    GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun12], PlayerInfo[playerid][pAmmo12]);
 		}
 		return 1;
 	}
@@ -3659,6 +3708,10 @@ IsAtGasStation(playerid)
 		{
 			return 1;
 		} //nowa stacja by wojcik
+		else if(PlayerToPoint(12.0, playerid,1011.28,-1353.23, 13.35) || PlayerToPoint(12.0, playerid, 1000.49, -1353.06, 13.33))
+		{
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -3906,6 +3959,14 @@ CanUseCar(playerid, newcar)
 		DeletePVar(playerid, "dajdowozu");
 		return 1;
 	} 
+
+	if(PlayerInfo[playerid][pBPojazd] > 0)
+	{
+        sendErrorDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê prowadzenia pojazdów. Pozosta³o: %dh", PlayerInfo[playerid][pBPojazd]));
+        return 0;
+    }
+
+	if(PlayerInfo[playerid][pBW] > 0) return 0;
 
 	if(IsACopCar(newcar))
 	{
@@ -4799,6 +4860,12 @@ stock DMLog(text[])
 	Log(plik, text);
 }
 
+stock DM_ZLog(text[])
+{
+	new plik[32] = "logi/dm2_z.log";
+	Log(plik, text);
+}
+
 stock SMSLog(text[])
 {
 	new plik[32] = "logi/sms-call.log";
@@ -4808,6 +4875,12 @@ stock SMSLog(text[])
 stock RobLog(text[])
 {
 	new plik[32] = "logi/napad.log";
+	Log(plik, text);
+}
+
+stock ItemLog(text[])
+{
+	new plik[32] = "logi/items.log";
 	Log(plik, text);
 }
 
@@ -5037,33 +5110,33 @@ stock SetPlayerCriminal(playerid,declare,reason[], bool:sendmessage=true)
 {
 	if(IsPlayerConnected(playerid))
 	{
-	    ResetPlayerWeapons(playerid);
+	    ResetPlayerWeaponsEx(playerid);
 	    if(PlayerInfo[playerid][pJailed] < 1)
 	    {
 			if(gTeam[playerid] == 2 || IsACop(playerid))
 			{
-				GivePlayerWeapon(playerid, 41, 500); //spray
+				GivePlayerWeaponEx(playerid, 41, 500); //spray
 				if(OnDuty[playerid] == 1 || PlayerInfo[playerid][pMember] == 2)//Cops & FBI/ATF
 				{
-				    GivePlayerWeapon(playerid, 41, 500); //spray
-					GivePlayerWeapon(playerid, 24, 200);//Deagle
-					GivePlayerWeapon(playerid, 3, 1);
+				    GivePlayerWeaponEx(playerid, 41, 500); //spray
+					GivePlayerWeaponEx(playerid, 24, 200);//Deagle
+					GivePlayerWeaponEx(playerid, 3, 1);
 					if(PlayerInfo[playerid][pChar] == 285)//SWAT
 					{
-					    GivePlayerWeapon(playerid, 25, 100);//Shotgun
-					    GivePlayerWeapon(playerid, 29, 450);//MP5
+					    GivePlayerWeaponEx(playerid, 25, 100);//Shotgun
+					    GivePlayerWeaponEx(playerid, 29, 450);//MP5
 					}
 					else if(PlayerInfo[playerid][pChar] == 287)//Army
 					{
-					    GivePlayerWeapon(playerid, 25, 100);//Shotgun
-					    GivePlayerWeapon(playerid, 31, 500);//M4
+					    GivePlayerWeaponEx(playerid, 25, 100);//Shotgun
+					    GivePlayerWeaponEx(playerid, 31, 500);//M4
 					}
 				}
 				if(PlayerInfo[playerid][pMember] == 3 || PlayerInfo[playerid][pLider] == 3)//National Guard
 				{
-				    GivePlayerWeapon(playerid, 24, 200);//Deagle
-				    GivePlayerWeapon(playerid, 31, 600);//M4
-				    GivePlayerWeapon(playerid, 29, 600);//MP5
+				    GivePlayerWeaponEx(playerid, 24, 200);//Deagle
+				    GivePlayerWeaponEx(playerid, 31, 600);//M4
+				    GivePlayerWeaponEx(playerid, 29, 600);//MP5
 				}
 			}
 			if(gTeam[playerid] >= 3)
@@ -5073,22 +5146,22 @@ stock SetPlayerCriminal(playerid,declare,reason[], bool:sendmessage=true)
 			{
 				if (PlayerInfo[playerid][pGun1] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
 					//PlayerInfo[playerid][pGun1] = 0; PlayerInfo[playerid][pAmmo1] = 0;
 				}
 				if (PlayerInfo[playerid][pGun2] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
 					//PlayerInfo[playerid][pGun2] = 0; PlayerInfo[playerid][pAmmo2] = 0;
 				}
 				if (PlayerInfo[playerid][pGun3] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun3], PlayerInfo[playerid][pAmmo3]);
 					//PlayerInfo[playerid][pGun3] = 0; PlayerInfo[playerid][pAmmo3] = 0;
 				}
 				if (PlayerInfo[playerid][pGun4] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun4], PlayerInfo[playerid][pAmmo4]);
 					//PlayerInfo[playerid][pGun4] = 0; PlayerInfo[playerid][pAmmo4] = 0;
 				}
 			}
@@ -5096,12 +5169,12 @@ stock SetPlayerCriminal(playerid,declare,reason[], bool:sendmessage=true)
 			{
 			    if (PlayerInfo[playerid][pGun1] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun1], PlayerInfo[playerid][pAmmo1]);
 					//PlayerInfo[playerid][pGun1] = 0; PlayerInfo[playerid][pAmmo1] = 0;
 				}
 				if (PlayerInfo[playerid][pGun2] > 0)
 				{
-					//GivePlayerWeapon(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
+					//GivePlayerWeaponEx(playerid, PlayerInfo[playerid][pGun2], PlayerInfo[playerid][pAmmo2]);
 					//PlayerInfo[playerid][pGun2] = 0; PlayerInfo[playerid][pAmmo2] = 0;
 				}
 			}
@@ -5224,6 +5297,12 @@ SetPlayerToTeamColor(playerid)
 		if(GetPVarInt(playerid, "gmduty") == 1)
 		{
 			SetPlayerColor(playerid, COLOR_PURPLE);
+			return 1;
+		}
+
+		if(GetPVarInt(playerid, "supportduty") == 1)
+		{
+			SetPlayerColor(playerid, COLOR_BLUE);
 			return 1;
 		}
 
@@ -5882,7 +5961,7 @@ public MRP_ShopPurchaseCar(playerid, model, cena)
     //Assign
     Car_MakePlayerOwner(playerid, carid);
 	
-	//ZabierzMC(playerid, cena);
+	ZabierzMC(playerid, cena);
 
     //Info
     format(komunikat, sizeof(komunikat), "Kupi³eœ unikatowy %s za %d MC. Komendy auta znajdziesz w /auto. Gratulujemy zakupu!",VehicleNames[model-400], cena);
@@ -8196,7 +8275,7 @@ KaraTextdrawSystem(kara[], player[], admin[], reason[])
 	TextDrawShowForAll(Kara_TDraw);
 }
 
-SendZGMessage(color, string[])
+/*SendZGMessage(color, string[]) // warningi
 {
 	foreach(Player, i)
 	{
@@ -8208,7 +8287,7 @@ SendZGMessage(color, string[])
 			}
 		}
 	}
-}
+}*/
 
 //token
 
@@ -8292,6 +8371,197 @@ ProxDetector(Float:radi, playerid, string[],col1,col2,col3,col4,col5)
 	return 1;
 }
 
+forward ProxDetectorEx(Float:radi, playerid, string[],col1,col2,col3,col4,col5);
+public ProxDetectorEx(Float:radi, playerid, string[],col1,col2,col3,col4,col5)
+{
+    if(IsPlayerConnected(playerid))
+    {
+        new Float:posx, Float:posy, Float:posz;
+        new Float:oldposx, Float:oldposy, Float:oldposz;
+        new Float:tempposx, Float:tempposy, Float:tempposz;
+        new oldString[256];
+        format(oldString, sizeof(oldString), "%s", string);
+        GetPlayerPos(playerid, oldposx, oldposy, oldposz);
+
+        new x = -1, j = -1;
+        new color1[16], color2[16], color3[16], color4[16], color5[16];
+
+        format(color1, sizeof(color1), "{%x}", col1);
+        format(color2, sizeof(color2), "{%x}", col2);
+        format(color3, sizeof(color3), "{%x}", col3);
+        format(color4, sizeof(color4), "{%x}", col4);
+        format(color5, sizeof(color5), "{%x}", col5);
+
+        strdel(color1, strlen(color1)-3, strlen(color1)-1);
+        strdel(color2, strlen(color2)-3, strlen(color2)-1);
+        strdel(color3, strlen(color3)-3, strlen(color3)-1);
+        strdel(color4, strlen(color4)-3, strlen(color4)-1);
+        strdel(color5, strlen(color5)-3, strlen(color5)-1);
+
+        new color = 0;
+        new cont = 0;
+        new pos = 0;
+
+        for(new l = 0; l<strlen(string)-1; l++)
+        {
+        	strreplace(string, "  ", "", true, 0, -1, 256);
+        }
+
+        if(strfind(string, "mówi: ", true) == -1)
+        {
+        	strreplace(string, "mówi:", "mówi: ", true, 0, -1, 256);
+        }
+
+        if(strcount(string, "*", true) < 24)
+        {
+        	for(new l = 0; l<strlen(string)-4; l++)
+        	{
+        		x = strfind(string, "**",false, l);
+        		j = strfind(string, "**", false, x+2);
+        		if(x != -1 && j != -1)
+        		{
+        			new mark_1 = strfind(string, "}", true, x-2);
+        			new mark_2 = strfind(string, "{-", true, x-2);
+        			if(x != mark_1+1 && j != mark_2-2)
+        			{
+        				new mark_3 = strfind(string, "{-", true, l);
+        				new mark_4 = strfind(string, "}", true, l);
+        				if((mark_3 > 0 && mark_4 != -1 ) || (mark_3 == -1 && (mark_4 == -1 || mark_4 == 0)))
+        				{
+        				    strins(string, "{C2A2DA}", x, strlen(string));
+        				    x = strfind(string, "**",false, l);
+        				    j = strfind(string, "**", false, x+2);
+        				    strins(string, "{-", j+2, strlen(string));
+        				    cont = 1;
+        				    //printf("j: %d", j);
+        				    if(strlen(string) > 100)
+        				    {
+        				    	pos = strfind(string, " ", true, 100);
+        				    	if(pos != -1)
+        				    	{
+									if(j > pos && x < pos) color = 1;
+								}
+							}
+        				}
+        	        }
+        	    }  
+        	}
+    	}
+        new text[256];
+        new text2[128];
+		strins(text, string, 0);
+        if(color == 1)
+        {
+        	//new pos = strfind(text, " ", true, strlen(text) / 2);
+        	if(pos != -1)
+        	{
+         		strmid(text2, text, pos + 1, strlen(text));
+         		strdel(text, pos, strlen(text));
+
+         		format(text, sizeof(text), "%s [..]", text);
+         		format(text2, sizeof(text2), "{C2A2DA}[..] %s", text2);
+         	}
+        }
+    	else
+    	{
+    		if(strlen(string) > 100)
+    		{
+    			pos = strfind(string, " ", true, 100);
+    			if(pos != -1)
+    			{
+    	 			strmid(text2, text, pos + 1, strlen(text));
+    	 			strdel(text, pos, strlen(text));
+		
+    	 			format(text, sizeof(text), "%s [..]", text);
+    	 			format(text2, sizeof(text2), "[..] %s", text2);
+    	 			color = 1;
+    	 		}
+    	 	}
+    	}
+
+        //printf("%s", text);
+        //printf("%s", text2);
+
+
+        for(new i = 0; i < MAX_PLAYERS; i++)
+        {     
+            if(IsPlayerConnected(i))
+            {
+            	new text_2[256];
+            	new text_22[128];
+            	strins(text_2, text, 0);
+            	strins(text_22, text2, 0);
+                format(string, 256, "%s", oldString);
+                GetPlayerPos(i, posx, posy, posz);
+                tempposx = (oldposx -posx);
+                tempposy = (oldposy -posy);
+                tempposz = (oldposz -posz);
+
+                if(GetPlayerVirtualWorld(playerid) == GetPlayerVirtualWorld(i) && GetPlayerInterior(playerid) == GetPlayerInterior(i))
+                {
+                    if (((tempposx < radi/16) && (tempposx > -radi/16)) && ((tempposy < radi/16) && (tempposy > -radi/16)) && ((tempposz < radi/16) && (tempposz > -radi/16)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color1);
+                        	strreplace(text_22, "{-", color1);
+                        }
+
+                        SendClientMessage(i, col1, text_2);
+                        if(color == 1) SendClientMessage(i, col1, text_22);
+                    }
+                    else if (((tempposx < radi/8) && (tempposx > -radi/8)) && ((tempposy < radi/8) && (tempposy > -radi/8)) && ((tempposz < radi/8) && (tempposz > -radi/8)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color2);
+                        	strreplace(text_22, "{-", color2);
+                        }
+
+                        SendClientMessage(i, col2, text_2);
+                        if(color == 1) SendClientMessage(i, col2, text_22);
+                    }
+                    else if (((tempposx < radi/4) && (tempposx > -radi/4)) && ((tempposy < radi/4) && (tempposy > -radi/4)) && ((tempposz < radi/4) && (tempposz > -radi/4)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color3);
+                        	strreplace(text_22, "{-", color3);
+                        }
+
+                        SendClientMessage(i, col3, text_2);
+                        if(color == 1) SendClientMessage(i, col3, text_22);
+                    }
+                    else if (((tempposx < radi/2) && (tempposx > -radi/2)) && ((tempposy < radi/2) && (tempposy > -radi/2)) && ((tempposz < radi/2) && (tempposz > -radi/2)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color4);
+                        	strreplace(text_22, "{-", color4);
+                        }
+
+                        SendClientMessage(i, col4, text_2);
+                        if(color == 1) SendClientMessage(i, col4, text_22);
+                    }
+                    else if (((tempposx < radi) && (tempposx > -radi)) && ((tempposy < radi) && (tempposy > -radi)) && ((tempposz < radi) && (tempposz > -radi)))
+                    {
+                        if(cont == 1) 
+                        {
+                        	strreplace(text_2, "{-", color5);
+                        	strreplace(text_22, "{ ", color5);
+                        }
+
+                        SendClientMessage(i, col5, text_2);
+                        if(color == 1) SendClientMessage(i, col5, text_22);
+                    }
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+
 CrimInRange(Float:radi, playerid,copid)
 {
 	if(IsPlayerConnected(playerid)&&IsPlayerConnected(copid))
@@ -8347,7 +8617,8 @@ ProxDetectorS(Float:radi, playerid, targetid)
 		//printf("DEBUG: X:%f Y:%f Z:%f",posx,posy,posz);
 		if (((tempposx < radi) && (tempposx > -radi)) && ((tempposy < radi) && (tempposy > -radi)) && ((tempposz < radi) && (tempposz > -radi)))
 		{
-			return 1;
+			if(Spectate[targetid] == INVALID_PLAYER_ID) return 1;
+			else return 0;
 		}
 	}
 	return 0;
@@ -8409,6 +8680,24 @@ stock IsVehicleInUse(vehicleid)
 	}
 	if(temp > 0)return true;
     else return false;
+}
+
+stock CheckDriver(vehicleid)
+{
+	for(new i = 0; i<MAX_PLAYERS; i++)
+	{
+		if(IsPlayerConnected(i))
+		{
+			if(IsPlayerInVehicle(i, vehicleid))
+			{
+				if(GetPlayerState(i) == PLAYER_STATE_DRIVER)
+				{
+					return i;
+				}
+			}
+		}
+	}
+	return INVALID_PLAYER_ID;
 }
 
 stock SetCamBack(playerid)
@@ -8864,6 +9153,11 @@ public OPCLogin(playerid)
 
     //new rand = random(AUDIO_LoginTotal);
     TogglePlayerControllable(playerid, 0);
+
+    new randmus = random(sizeof(PlayerSounds));
+    SetPVarInt(playerid, "SpawnMusic", randmus);
+    PlayerPlaySound(playerid, PlayerSounds[randmus][0], 0, 0, 0);
+    
     // str[128];
     //format(str, 128, "http://Kotnik-loginsound.lqs.pl/game/audio/%s.%s", AUDIO_LoginData[rand], AUDIO_LoginFormat);
     //PlayAudioStreamForPlayer(playerid, str);
@@ -8874,7 +9168,10 @@ public OPCLogin(playerid)
     SetPlayerVirtualWorld(playerid, 1488);
     SetPlayerInterior(playerid, 0);
 
-    TourCamera(playerid, 0);
+
+    TogglePlayerSpectating(playerid, 1);
+
+    TourCamera(playerid, random(6));
 
     //Strefy load
     ZonePTXD_Load(playerid);
@@ -8897,7 +9194,7 @@ public OPCLogin(playerid)
 
     new result;
     result = MruMySQL_DoesAccountExist(nick);
-    TogglePlayerSpectating(playerid, 1);
+    
 	//Sprawdzanie czy konto istnieje:
 	if(result == -1 || result == 1) //logowanie
 	{
@@ -12004,7 +12301,7 @@ stock TJD_JobEnd(playerid, bool:quiter=false)
     SendClientMessage(playerid, 0x99311EFF, str);
     DajKase(playerid, money);
 
-    SetVehicleHealth(veh, 1000.0);
+    SetVehicleHealthEx(veh, 1000.0);
     Gas[veh] = 100;
 
     PlayerInfo[playerid][pTruckSkill]=clamp(PlayerInfo[playerid][pTruckSkill]+floatround(ile/5, floatround_floor), 0, 500);
@@ -12987,11 +13284,11 @@ LoadBramy()
 
 	brama = CreateDynamicObject(19302, 1561.597167, -1649.285644, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
 	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
-	DodajBrame(brama, 1561.597167, -1649.285644, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1650.737060, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+	//DodajBrame(brama, 1561.597167, -1649.285644, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1650.737060, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
 
 	brama = CreateDynamicObject(19302, 1561.597167, -1646.085449, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
 	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
-	DodajBrame(brama, 1561.597167, -1646.085449, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1647.535522, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+	//DodajBrame(brama, 1561.597167, -1646.085449, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1647.535522, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
 
 	brama = CreateDynamicObject(19302, 1561.597167, -1640.094970, 28.718059, 0.000096, 0.000000, 269.999694, 2, -1, -1, 300.00, 300.00); 
 	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
@@ -13001,7 +13298,7 @@ LoadBramy()
 	SetDynamicObjectMaterial(brama, 0, 19303, "pd_jail_door02", "pd_jail_door02", 0x00000000);
 	DodajBrame(brama, 1561.597167, -1636.884277, 28.718059, 0.000096, 0.000000, 269.999694, 1561.597167, -1635.204345, 28.718059, 0.000096, 0.000000, 269.999694, 2, 2, BRAMA_UPR_TYPE_FRACTION, 1);
 
-	// konferencyjne
+	// ---- [ KONFERENCYJNE LSPD ] ---- //
 
 	brama = CreateDynamicObject(3089, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 90.000000, 6,-1,-1, 300.00, 300.00); 
 	DodajBrame(brama, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 90.000000, 1565.753295, -1642.755615, 28.658069, 0.000000, 0.000000, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
@@ -13011,6 +13308,53 @@ LoadBramy()
 
 	brama = CreateDynamicObject(3089, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 180.000000, 6,-1,-1, 300.00, 300.00); 
 	DodajBrame(brama, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 180.000000, 1563.274169, -1647.657226, 28.658069, 0.000000, 0.000000, 270.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+
+	// ---- [ OFFICE LSPD ] ---- //
+
+	brama = CreateDynamicObject(3089, 1569.600097, -1650.873779, 36.257808, 0.000000, 0.000000, 270.000000, 5, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1569.600097, -1650.873779, 36.257808, 0.000000, 0.000000, 270.000000, 1569.600097, -1650.873779, 36.257808, 0.000000, 0.000000, 0.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1570.530517, -1655.904541, 36.257816, 0.000000, 0.000000, 0.000000, 5, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1570.530517, -1655.904541, 36.257816, 0.000000, 0.000000, 0.000000, 1570.530517, -1655.904541, 36.257816, 0.000000, 0.000000, 90.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	// ---- [ PRZES£UCHANIOWE LSPD ] ---- //
+
+	brama = CreateDynamicObject(3089, 1569.262573, -1663.162841, 28.571544, 0.000000, -0.000029, 90.000000, 3, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1569.262573, -1663.162841, 28.571544, 0.000000, -0.000029, 90.000000, 1569.262573, -1663.162841, 28.571544, 0.000000, -0.000029, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1569.262573, -1650.231201, 28.571544, 0.000000, -0.000029, 90.000000, 3, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1569.262573, -1650.231201, 28.571544, 0.000000, -0.000029, 90.00000, 1569.262573, -1650.231201, 28.571544, 0.000000, -0.000029, 179.999816, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1569.262573, -1656.792114, 28.571544, 0.000000, -0.000029, 90.000000, 3, -1, -1, 300.00, 300.00); 
+	DodajBrame(brama, 1569.262573, -1656.792114, 28.571544, 0.000000, -0.000029, 90.000000, 1569.262573, -1656.792114, 28.571544, 0.000000, -0.000029, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1560.731689, -1661.798583, 28.571544, -0.000006, 0.000068, 270.000000, 3, -1, -1, 300.00, 300.00); 
+	DodajBrame(brama, 1560.731689, -1661.798583, 28.571544, -0.000006, 0.000068, 270.000000, 1560.731689, -1661.798583, 28.571544, -0.000006, 0.000068, 0.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1560.731689, -1655.237670, 28.571544, -0.000006, 0.000068, 270.000006, 3, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1560.731689, -1655.237670, 28.571544, -0.000006, 0.000068, 270.000006, 1560.731689, -1655.237670, 28.571544, -0.000006, 0.000068, 0.000006, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1560.731689, -1648.866943, 28.571544, -0.000006, 0.000068, 270.000006, 3, -1, -1, 300.00, 300.00); 
+	DodajBrame(brama, 1560.731689, -1648.866943, 28.571544, -0.000006, 0.000068, 270.000006, 1560.731689, -1648.866943, 28.571544, -0.000006, 0.000068, 0.000006, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1565.796020, -1647.783691, 28.571544, -0.000037, -0.000007, 180.000000, 3, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1565.796020, -1647.783691, 28.571544, -0.000037, -0.000007, 180.000000, 1565.796020, -1647.783691, 28.571544, -0.000037, -0.000007, 270.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	// ---- [ BIURA LSPD ] ---- //
+
+	brama = CreateDynamicObject(3089, 1548.425659, -1704.331298, 28.760774, 0.000000, 0.000000, 90.000000, 4, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1548.425659, -1704.331298, 28.760774, 0.000000, 0.000000, 90.000000, 1548.425659, -1704.331298, 28.760774, 0.000000, 0.000000, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1548.425659, -1712.332641, 28.760774, 0.000000, 0.000000, 90.000000, 4, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1548.425659, -1712.332641, 28.760774, 0.000000, 0.000000, 90.000000, 1548.425659, -1712.332641, 28.760774, 0.000000, 0.000000, 180.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(3089, 1556.266113, -1710.621704, 28.760774, 0.000000, 0.000000, 180.000000, 4, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1556.266113, -1710.621704, 28.760774, 0.000000, 0.000000, 180.000000, 1556.266113, -1710.621704, 28.760774, 0.000000, 0.000000, 270.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
+	brama = CreateDynamicObject(19466, 1563.243896, -1709.021484, 28.510763, 0.000000, 0.000014, 0.000000, 4, -1, -1, 300.00, 300.00);
+	DodajBrame(brama, 1563.243896, -1709.021484, 28.510763, 0.000000, 0.000014, 0.000000, 1563.243896, -1709.021484, 28.510763, 0.000000, 0.000014, 90.000000, 4, 2, BRAMA_UPR_TYPE_FRACTION, 1);
+
 
 	// ------ [ LSMC ] ---- //
 	new drzwilsmc1 = CreateDynamicObject(3089, 1178.585571, -1341.639648, 88.182792, 0.000000, 0.000000, 360.000000, 90, 0, -1, 200.00, 200.00);
@@ -13127,13 +13471,42 @@ LoadBramy()
 	// ---- [ LCN ] ---- //
 
 	brama = CreateDynamicObject(1569, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 0.000000, 255, 0, -1, 300.00, 300.00); // biura
-	DodajBrame(brama, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 0.000000, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, 5);
+	DodajBrame(brama, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 0.000000, 719.468994, -1469.106201, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, FRAC_YKZ);
 
 	brama = CreateDynamicObject(1569, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 0.000000, 255, 0, -1, 300.00, 300.00); 
-	DodajBrame(brama, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 0.000000, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, 5);
+	DodajBrame(brama, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 0.000000, 739.845214, -1469.225219, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, FRAC_YKZ);
 
 	brama = CreateDynamicObject(1569, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 0.000000, 255, 0, -1, 300.00, 300.00); 
-	DodajBrame(brama, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 0.000000, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, 5);
+	DodajBrame(brama, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 0.000000, 736.634277, -1469.282592, 21.594837, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FRACTION, FRAC_YKZ);
+
+	// --- [ AMMU WILLOW ] --- //
+
+	new ammu_gates[3];
+	ammu_gates[0] = CreateDynamicObject(1495, 2401.265136, -1996.072265, 32.496303, 0.000000, 0.000000, 0.000000, 1, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(ammu_gates[0], 0, 10765, "airportgnd_sfse", "white", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[0], 1, 18835, "mickytextures", "metal013", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[0], 2, 1560, "7_11_door", "cj_sheetmetal2", 0x00000000);
+	DodajBrame(ammu_gates[0], 2401.265136, -1996.072265, 32.496303, 0.000000, 0.000000, 0.000000, 2401.265136, -1996.072265, 32.496303, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FAMILY, 22);
+	ammu_gates[1] = CreateDynamicObject(1495, 2390.614990, -1988.792358, 32.496303, 0.000000, 0.000000, 0.000000, 1, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(ammu_gates[1], 0, 10765, "airportgnd_sfse", "white", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[1], 1, 18835, "mickytextures", "metal013", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[1], 2, 1560, "7_11_door", "cj_sheetmetal2", 0x00000000);
+	DodajBrame(ammu_gates[1], 2390.614990, -1988.792358, 32.496303, 0.000000, 0.000000, 0.000000, 2390.614990, -1988.792358, 32.496303, 0.000000, 0.000000, 90.000000, 1, 3, BRAMA_UPR_TYPE_FAMILY, 22);
+	ammu_gates[2] = CreateDynamicObject(1495, 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, -90.000000, 1, -1, -1, 300.00, 300.00); 
+	SetDynamicObjectMaterial(ammu_gates[2], 0, 10765, "airportgnd_sfse", "white", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[2], 1, 18835, "mickytextures", "metal013", 0x00000000);
+	SetDynamicObjectMaterial(ammu_gates[2], 2, 1560, "7_11_door", "cj_sheetmetal2", 0x00000000);
+	DodajBrame(ammu_gates[2], 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, -90.000000, 2390.284667, -1983.131835, 32.496303, 0.000000, 0.000000, 0.000000, 1, 3, BRAMA_UPR_TYPE_FAMILY, 22);
+
+
+	// -- [ SAN NEWS] --- //
+
+	SanDrzwi1 = CreateDynamicObject(3089, 657.57050, -1353.27087, 29.19750,   0.00000, 0.00000, 0.00000,20);//z recepcji
+	SanDrzwi2 = CreateDynamicObject(1569, 664.42480, -1341.17322, 28.37660,   0.00000, 0.00000, 90.00000,21);//studio victim
+	SanDrzwi3 = CreateDynamicObject(1569, 664.42480, -1338.17200, 28.37660,   0.00000, 0.00000, 270.00000,21);//studio victim
+	SanDrzwi4 = CreateDynamicObject(3089, 737.24872, -1373.13220, 33.96040,   0.00000, 0.00000, 0.00000,23);//sale konf
+	SanDrzwi5 = CreateDynamicObject(3089, 741.80212, -1368.57654, 33.96040,   0.00000, 0.00000, 270.00000,23);//sale konf
+
 }
 
 
@@ -13234,7 +13607,16 @@ public DestroyQuitText(playerid)
 forward Wybieralka_Delay(playerid);
 public Wybieralka_Delay(playerid)
 {
+	if(GetPVarInt(playerid, "Wybieralka_AntyBug") == 1)
+	{
+		if(!IsPlayerPaused(playerid))
+		{
+			SetPVarInt(playerid, "Wybieralka_AntyBug", 0);
+		}
+		else return SetTimerEx("Wybieralka_Delay", 500, false, "i", playerid);
+	}
 	Wybieralka_Setup(playerid);
+	return 1;
 }
 
 Wybieralka_Setup(playerid)
@@ -13244,214 +13626,164 @@ Wybieralka_Setup(playerid)
 	Wybieralka_Skin[playerid] = 0;
 	SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
 	//ForceClassSelection(playerid);
-
+	SetPlayerHealth(playerid, 100);
     SetPlayerCameraPos(playerid, 206.288314, -38.114028, 1002.229675);
 	SetPlayerCameraLookAt(playerid, 208.775955, -34.981678, 1001.929687);
     //TogglePlayerSpectating(playerid, false);
 
 	SetPlayerInterior(playerid, 1);
 	SetPlayerVirtualWorld(playerid, 5000+playerid);
-	SetPlayerPosEx(playerid, 208.775955, -34.981678, 1001.929687);
+	SetPlayerPosEx(playerid, 202.6609,-41.7076,1001.8047);
 	SetPlayerFacingAngle(playerid, 144);
 
+	SendClientMessage(playerid, COLOR_BLUE, "Wybierz interesuj¹cy ciê skin");
+    ShowPlayerDialogEx(playerid, D_UBRANIA, DIALOG_STYLE_LIST, "Wybierz kategoriê skina", "Skiny mêskie\nSkiny damskie", "Wybierz", "Anuluj");
 
-	TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Right);
-	TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Left);
-	TextDrawShowForPlayer(playerid, Wybieralka_Confirm);
-	SelectTextDraw(playerid, 0xE8E8E8FF);
+	//TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Right);
+	//TextDrawShowForPlayer(playerid, Wybieralka_Arrow_Left);
+	//TextDrawShowForPlayer(playerid, Wybieralka_Confirm);
+	//SelectTextDraw(playerid, 0xE8E8E8FF);
 }
 
 Wybieralka_Exit(playerid)
 {
 	Wybieralka[playerid] = 0;
-	TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Right);
-	TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Left);
-	TextDrawHideForPlayer(playerid, Wybieralka_Confirm);
-	CancelSelectTextDraw(playerid);
-
-	PlayerInfo[playerid][pModel] = Peds[Wybieralka_Skin[playerid]][0];
+	SetPVarInt(playerid, "wyborPierwszego", 0);
+	//TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Right);
+	//TextDrawHideForPlayer(playerid, Wybieralka_Arrow_Left);
+	//TextDrawHideForPlayer(playerid, Wybieralka_Confirm);
+	//CancelSelectTextDraw(playerid);
+//
+	//PlayerInfo[playerid][pModel] = Peds[Wybieralka_Skin[playerid]][0];
 	Wybieralka_Spawn(playerid);
 }
 
 Wybieralka_Spawn(playerid)
 {
-    SetTimerEx("OnPlayerSpawn", 150, false, "i", playerid);
+    SpawnPlayer(playerid);
 }
 
-OnCheatDetected(playerid, ip_address[], type, code)
+forward OnCheatDetected(playerid, ip_address[], type, code);
+public OnCheatDetected(playerid, ip_address[], type, code)
 {
 	new code_decoded[32], string[256];
 	format(ip_address, 32, "%s", ip_address);
-    switch(code)
-    {
-        case 0:     format(code_decoded, sizeof(code_decoded), "AirBreak (pieszo)");
-        case 1:     format(code_decoded, sizeof(code_decoded), "AirBreak (pojazd)");
-        case 2:     format(code_decoded, sizeof(code_decoded), "TP (pieszo)");
-        case 3:     format(code_decoded, sizeof(code_decoded), "TP (pojazd)");
-        case 4:     format(code_decoded, sizeof(code_decoded), "TP (do/miedzy auta)");
-        case 5:     format(code_decoded, sizeof(code_decoded), "TP (auto do gracza)");
-        case 6:     format(code_decoded, sizeof(code_decoded), "TP (do pickupow)");
-        case 7:     format(code_decoded, sizeof(code_decoded), "Fly (pieszo)");
-        case 8:     format(code_decoded, sizeof(code_decoded), "Fly (pojazd)");
-        case 9:     format(code_decoded, sizeof(code_decoded), "Speed (pieszo)");
-        case 10:    format(code_decoded, sizeof(code_decoded), "Speed (pojazd)");
-        case 11:    format(code_decoded, sizeof(code_decoded), "HP (pojazd)");
-        case 12:    format(code_decoded, sizeof(code_decoded), "HP (pieszo)");
-        case 13:    format(code_decoded, sizeof(code_decoded), "Kamizelka");
-        case 14:    format(code_decoded, sizeof(code_decoded), "MoneyHack");
-        case 15:    format(code_decoded, sizeof(code_decoded), "WeaponHack");
-        case 16:    format(code_decoded, sizeof(code_decoded), "Dodawanie ammo");
-        case 17:    format(code_decoded, sizeof(code_decoded), "Nieskonczonosc ammo");
-        case 18:    format(code_decoded, sizeof(code_decoded), "AnimHack");
-        case 19:    format(code_decoded, sizeof(code_decoded), "GodMode (pieszo)");
-        case 20:    format(code_decoded, sizeof(code_decoded), "GodMode (pojazd)");
-        case 21:    format(code_decoded, sizeof(code_decoded), "Niewidzialnosc");
-        //case 22:  format(code_decoded, sizeof(code_decoded), "Lagcomp");
-        case 23:    format(code_decoded, sizeof(code_decoded), "TuningHack");
-        case 24:    format(code_decoded, sizeof(code_decoded), "Parkour mod");
-        case 25:    format(code_decoded, sizeof(code_decoded), "Szybkie animki");
-        case 26:    format(code_decoded, sizeof(code_decoded), "Rapidfire");
-        case 27:    format(code_decoded, sizeof(code_decoded), "FakeSpawn");
-        case 28:    format(code_decoded, sizeof(code_decoded), "FakeKill");
-        case 29:    format(code_decoded, sizeof(code_decoded), "Aimbot");
-        case 30:    format(code_decoded, sizeof(code_decoded), "Bieg CJa");
-        case 31:    format(code_decoded, sizeof(code_decoded), "Strzelanie autami");
-        case 32:    format(code_decoded, sizeof(code_decoded), "Kradniecie aut");
-        case 33:    format(code_decoded, sizeof(code_decoded), "Unfreeze");
-        //case 34:  format(code_decoded, sizeof(code_decoded), "AFK-Ghosting");
-        case 35:    format(code_decoded, sizeof(code_decoded), "Aimbot (2)");
-        //case 36:  format(code_decoded, sizeof(code_decoded), "Fake NPC");
-        //case 37:  format(code_decoded, sizeof(code_decoded), "Reconnect");
-        case 38:    format(code_decoded, sizeof(code_decoded), "Wysoki ping");
-        case 39:    format(code_decoded, sizeof(code_decoded), "Czitowanie dialogow");
-        //case 40:  format(code_decoded, sizeof(code_decoded), "Sandbox");
-        case 41:    format(code_decoded, sizeof(code_decoded), "Zla wersja samp");
-        case 42:    format(code_decoded, sizeof(code_decoded), "Rcon-Hack");
-        case 43:    format(code_decoded, sizeof(code_decoded), "Tuning Crasher");
-        case 44:    format(code_decoded, sizeof(code_decoded), "Inv. seat Crasher");
-        case 45:    format(code_decoded, sizeof(code_decoded), "Dialog Crasher");
-        case 46:    format(code_decoded, sizeof(code_decoded), "Dodatki Crasher");
-        case 47:    format(code_decoded, sizeof(code_decoded), "Weapon Crasher");
-        //case 48:  format(code_decoded, sizeof(code_decoded), "flood connect");
-        //case 49:  format(code_decoded, sizeof(code_decoded), "flood callbacks");
-        //case 50:  format(code_decoded, sizeof(code_decoded), "flood change seat");
-        case 51:    format(code_decoded, sizeof(code_decoded), "DDOS");
-        case 52:    format(code_decoded, sizeof(code_decoded), "Anti-NOPs");
-        case 53:    format(code_decoded, sizeof(code_decoded), "Speedfire");
-        case 54:    format(code_decoded, sizeof(code_decoded), "Omijanie AFK");
-        default:    format(code_decoded, sizeof(code_decoded), "Inne");
-        
-    }
+	format(code_decoded, sizeof(code_decoded), "%s", KodyACName[code]);
+
     if(IsPlayerPaused(playerid) && code == 19) return 1;
 
     new plrIP[32];
     GetPlayerIp(playerid, plrIP, sizeof(plrIP));
 
-    if(code == 101) // omijanie logowania
-    {
-    	switch(type) 
-    	{
-    		case 1: // omijanie samouczka
-    		{
-    			format(code_decoded, sizeof(code_decoded), "Omijanie logowania (1)"); 
-    			format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    			SendAdminMessage(0x9ACD32AA, string);
-    			BanLog(string);
-    			format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
-    			SendClientMessage(playerid, 0x9ACD32AA, string);
-    			SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
-    			//MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-
-    			KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", "Kod 101");
-    			SetPlayerVirtualWorld(playerid, 7777);
-				KickEx(playerid);
-    		}
-    		default: format(code_decoded, sizeof(code_decoded), "Omijanie logowania");
-    	}
-    }
-
     if(code == 40)
     {
-    	new cmd[128];
-    	format(cmd, 128, "rcon banip %s", plrIP);
-    	SendRconCommand(cmd);
+    	BlockIpAddress(plrIP, 60 * 1000);
     }
+    if(PlayerInfo[playerid][pAdmin] > 0) return 1;
 
-    if(PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)
+    if(GetPlayerVirtualWorld(playerid) != 7777)
     {
-    	if(GetPlayerVirtualWorld(playerid) != 7777)
+    	switch(KodyAC[code])
     	{
-    		switch(KodyAC[code])
+    		// 0 = off
+    		case 1: // w³aczony, kick
     		{
-    			// 0 = off
-    			case 1: // w³aczony, kick
-    			{
-    				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    				 SendAdminMessage(0x9ACD32AA, string);
-    				 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
-    				 SendClientMessage(playerid, 0x9ACD32AA, string);
-    				 KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
-    				 SetPlayerVirtualWorld(playerid, 7777);
-    				 KickEx(playerid);
-    			}
-    			case 2: // AdmWarning
+    			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ kicka. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			 SendAdminMessage(0x9ACD32AA, string);
+    			 format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d", code);
+    			 SendClientMessage(playerid, 0x9ACD32AA, string);
+    			 if(PlayerInfo[playerid][pNewAP] == 0) KaraTextdrawSystem("Kick", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
+    			 SetPlayerVirtualWorld(playerid, 7777);
+    			 if(code == 59 || code == 60) rgRakNet_SaveWeapons[playerid] = 1;
+    			 KickEx(playerid);
+    			 return 1;
+    		}
+    		case 2: // AdmWarning
+    		{
+    			format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
+    			SendAdminMessage(COLOR3, string);
+    			return 2;
+    		}
+    		case 3: // Ostrze¿enie (/cziterzy)
+    		{
+    			SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    			return 3;
+
+    		}
+    		case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
+    		{
+    			format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
+    			SendAdminMessage(COLOR3, string);
+    			SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    			return 4;
+    		}
+    		case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
+    		{
+    			if(KodyACDelay[playerid][code] == 0)
     			{
     				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
     				SendAdminMessage(COLOR3, string);
+					SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
+    				KodyACDelay[playerid][code] = 1;
+    				SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
+    				return 5;
     			}
-    			case 3: // Ostrze¿enie (/cziterzy)
-    			{
-    				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
-	
-    			}
-    			case 4: // AdmWarning + Ostrze¿enie (/cziterzy)
-    			{
-    				format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
-    				SendAdminMessage(COLOR3, string);
-    				SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
-    			}
-    			case 5: // AdmWarning + Ostrze¿enie (/cziterzy) raz na sekundê
-    			{
-    				if(KodyACDelay[playerid][code] == 0)
-    				{
-    					format(string, sizeof(string), "AC: %s [%d] najprawdopodobniej czituje! | %s.", GetNick(playerid), playerid, code_decoded);
-    					SendAdminMessage(COLOR3, string);
-						SetPVarInt(playerid, "AC-warn", GetPVarInt(playerid, "AC-Warn")+1);
-    					KodyACDelay[playerid][code] = 1;
-    					SetTimerEx("ACDelay", 1000, false, "ii", playerid, code);
-    				}
-    			}
-    			case 6: // ban
-    			{
-    				 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
-    				 SendAdminMessage(0x9ACD32AA, string);
-    				 BanLog(string);
-    				 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
-    				 SendClientMessage(playerid, 0x9ACD32AA, string);
-    				 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
-    				 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
-    				 KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
-					 SetPlayerVirtualWorld(playerid, 7777);
-					 KickEx(playerid);
-    			}
+    		}
+    		case 6: // ban
+    		{
+    			 format(string, sizeof(string), "Anti-Cheat: %s [ID: %d] [IP: %s] dosta³ BANA. | Kod: %d (%d) - %s.", GetNick(playerid), playerid, plrIP, code, type, code_decoded);
+    			 SendAdminMessage(0x9ACD32AA, string);
+    			 BanLog(string);
+    			 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
+    			 SendClientMessage(playerid, 0x9ACD32AA, string);
+    			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
+    			 if(PlayerInfo[playerid][pNewAP] == 0) KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
+				 SetPlayerVirtualWorld(playerid, 7777);
+				 if(code == 59 || code == 60) rgRakNet_SaveWeapons[playerid] = 1;
+				 KickEx(playerid);
+				 return 6;
     		}
     	}
 	}
 
-    return 1;
-    //SendMessageToAdmin(string, 0x9ACD32AA);
-   
-    //format(string, sizeof(string), "Anti-Cheat: Dosta³eœ kicka. | Kod: %d.", code);
-    //SendClientMessage(playerid, 0x9ACD32AA, string);
+    return 0;
 }
 
-ShowKody(playerid, page)
+ShowKody(playerid, page = 1)
 {
     new string[2048];
     strcat(string, "Kod\tNazwa\tStatus\n");
-    if(page == 1)
+
+    //Float:kodysize_f = sizeof(KodyAC)/2;
+    //new kodysize = floatround(kodysize, floatround_ceil)+1;
+    new pages = floatround(sizeof(KodyAC)/SHOWKODY_PER_PAGE, floatround_ceil)+1;
+    new maxkody;
+    if(sizeof(KodyAC) <= page*SHOWKODY_PER_PAGE) maxkody = sizeof(KodyAC);
+    else maxkody = page*SHOWKODY_PER_PAGE; 
+    for(new i = page*SHOWKODY_PER_PAGE-SHOWKODY_PER_PAGE; i<maxkody; i++)
     {
-    	for(new i = 0; i<sizeof(KodyAC)-27; i++)
+    	 strcat(string, sprintf("%d.\t%s\t", i, KodyACName[i]));
+    	 switch(KodyAC[i])
+    	 {
+    	     case 0: strcat(string, "{FF0000}OFF\n");
+    	     case 1: strcat(string, "{00FF00}ON\n");
+    	     case 2: strcat(string, "{00FF00}AdmWarn\n");
+    	     case 3: strcat(string, "{00FF00}Warn\n");
+    	     case 4: strcat(string, "{00FF00}AdmWarn + Warn\n");
+    	     case 5: strcat(string, "{00FF00}AdmWarn + Warn (1sec)\n");
+    	     case 6: strcat(string, "{00FF00}BAN\n");
+    	 }
+    }
+
+    if(page > 1) strcat(string, "««\t\tPoprzednia strona");
+   	if(sizeof(KodyAC) > (page*SHOWKODY_PER_PAGE)) strcat(string, "\n»»\t\tNastêpna strona");
+   	SetPVarInt(playerid, "ac_page", page);
+   	ShowPlayerDialogEx(playerid, D_ANTYCHEAT, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Antycheat (%d/%d)", page, pages), string, "Zmieñ", "WyjdŸ");
+
+    /*if(page == 1)
+    {
+    	for(new i = 0; i<kodysize; i++)
     	{
     	    strcat(string, sprintf("%d.\t%s\t", i, KodyACName[i]));
     	    switch(KodyAC[i])
@@ -13465,12 +13797,12 @@ ShowKody(playerid, page)
     	        case 6: strcat(string, "{00FF00}BAN\n");
     	    }
     	}
-    	strcat(string, "Nastêpna strona");
+    	
     	ShowPlayerDialogEx(playerid, D_ANTYCHEAT, DIALOG_STYLE_TABLIST_HEADERS, "Antycheat (1/2)", string, "Zmieñ", "WyjdŸ");
 	}
 	else if(page == 2)
 	{
-		for(new i = sizeof(KodyAC)-27; i<sizeof(KodyAC); i++)
+		for(new i = kodysize; i<sizeof(KodyAC); i++)
     	{
     	    strcat(string, sprintf("%d.\t%s\t", i, KodyACName[i]));
     	    //printf("%d", i);
@@ -13489,7 +13821,7 @@ ShowKody(playerid, page)
     	strcat(string, "Poprzednia strona");
     	//printf("%s", string);
     	ShowPlayerDialogEx(playerid, D_ANTYCHEAT+1, DIALOG_STYLE_TABLIST_HEADERS, "Antycheat (2/2)", string, "Zmieñ", "WyjdŸ");
-	}
+	}*/
 	return 1;
 }
 
@@ -13735,14 +14067,24 @@ ZaladujAC()
 
 SaveAC()
 {
-	new string[256], query[128];
+	new query[128];
 	for(new i = 0; i<sizeof(KodyAC); i++)
 	{
-		if(KodyAC[i] == 0) strcat(string, "0\n");
-		else strcat(string, "1\n");
-
-		format(query, sizeof(query), "UPDATE `ac` SET `response` = '%d' WHERE `kod` = '%d'", KodyAC[i], i);
+		format(query, sizeof(query), "SELECT * FROM `ac` WHERE `kod` = '%d'", i);
 		mysql_query(query);
+		mysql_store_result();
+		if(mysql_num_rows()>0)
+		{
+			format(query, sizeof(query), "UPDATE `ac` SET `response` = '%d' WHERE `kod` = '%d'", KodyAC[i], i);
+			mysql_query(query);
+		}	
+		else
+		{
+			format(query, sizeof(query), "INSERT INTO `ac`(`kod`, `response`) VALUES ('%d', '%d')", i, KodyAC[i]);
+			mysql_query(query);
+		}
+		mysql_free_result();
+		
 	}
 	
 	//new File:f = fopen("nex-ac_settings.cfg", io_write);
@@ -13854,6 +14196,7 @@ public CarDamage(playerid, vehicleid)
             }
         }
         oldCarHP[playerid] = health2;
+        VehicleHealth[vehicleid] = health;
         KillTimer(CarTimer[playerid]);
         CarTimer[playerid] = SetTimerEx("CarDamage", 1500, false, "dd", playerid, vehicleid);
     } 
@@ -14650,16 +14993,17 @@ public VPNCheck(playerid, response_code, data[])
 	if(!strcmp(ip, "127.0.0.1",true)) return 1;
 	if(response_code == 200)
 	{	
-		if(data[0] == 'Y')
+		if(strfind(data, "yes", true) != -1)
 		{
 			format(string, 256, "[VPN WYKRYTY] %s(%d) zosta³ wyrzucony z powodu posiadania VPN/proxy.", name, playerid);
+			printf("%s", string);
 			SendRconCommand(sprintf("banip %s", ip));
 	    	SendVPNAdminMessage( 0xFF0000FF, string);
 	    	SendClientMessage(playerid, 0xFF0000FF, "Zosta³eœ wyrzucony z powodu posiadania VPN/proxy!");
 	    	SendClientMessage(playerid, 0xFF0000FF, "Je¿eli uwa¿asz, ¿e to b³¹d zg³oœ ten fakt na forum lub discord.");
 	    	KickEx(playerid);
 		}
-		if(data[0] == 'X' || data[0] == 'E')
+		if(strfind(data, "error", true) != -1)
 		{
 			printf("WRONG IP FORMAT");
 		}	
@@ -14893,7 +15237,7 @@ ShowPowiazania(playerid, id, typ)
 
 SaveIPGPCI(playerid)
 {
-	new query[128];
+	new query[256];
 	new plrIP[16];
     GetPlayerIp(playerid, plrIP, sizeof(plrIP));
 
@@ -14907,3 +15251,337 @@ public BranyPortfelTimer(typ, org)
 	if(typ == 0) BranyPortfelFrac[org] = 0;
 	if(typ == 1) BranyPortfelOrg[org] = 0;
 }
+
+AntyFakeWL(playerid, killerid, reason)
+{
+	if(AntyFakeKillVar[playerid] >= 1)
+	{
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	if(GetDistanceBetweenPlayers(playerid, killerid) > 500)
+	{
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(CheckPlayerWeapon(killerid, reason) == 0)
+	{
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
+	{
+		AntyFakeKillVar[playerid]++;
+		return 1;
+	}
+	if(TutTime[playerid] > 0 && TutTime[playerid] < 114)
+	{
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	if(gPlayerLogged[playerid] == 0)
+	{
+		OnCheatDetected(playerid, "", 1, 55);
+		return 1;
+	}
+	return 0;
+}
+
+CheckPlayerWeapon(playerid, weapid)
+{
+	new weapons[13][2];
+	for (new i = 0; i <= 12; i++)
+	{
+	    GetPlayerWeaponData(playerid, i, weapons[i][0], weapons[i][1]);
+	    if(weapons[i][0] == weapid) return 1;
+	}
+	return 0;
+}
+
+PrintDamageLog(playerid, typ, id)
+{
+	new string[256];
+	if(typ == 0)
+	{
+		for(new i = 0; i<10; i++)
+		{
+			if(DamageLog[id][i][dmg_amount] != 0)
+			{
+				format(string, sizeof(string), "» %s | %s zada³ %s %.02f obra¿eñ z %s", 
+					DamageLog[id][i][dmg_time], 
+					GetNick(DamageLog[id][i][dmg_playerid]), 
+					GetNick(DamageLog[id][i][dmg_damagedid]),
+					DamageLog[id][i][dmg_amount],
+					DamageLogNames[DamageLog[id][i][dmg_weaponid]]);
+
+				SendClientMessage(playerid, COLOR_YELLOW, string);
+			}
+		}
+	}
+	return 1;
+}
+
+SortDamageLog(playerid, damagedid, Float:amount, weaponid, bodypart)
+{
+
+	new hour, minute, second, time[64];
+	gettime(hour, minute, second);
+	FixHour(hour);
+	hour = shifthour;
+	format(time, sizeof(time), "%02d:%02d:%02d", hour, minute, second);
+
+	for(new i = 0; i<10; i++)
+	{
+		if(DamageLog[playerid][i][dmg_amount] == 0)
+		{
+			DamageLog[playerid][i][dmg_playerid]  = playerid;
+			DamageLog[playerid][i][dmg_damagedid] = damagedid;
+			DamageLog[playerid][i][dmg_amount]    = amount;
+			DamageLog[playerid][i][dmg_weaponid]  = weaponid;
+			DamageLog[playerid][i][dmg_bodypart]  = bodypart;
+			strdel(DamageLog[playerid][i][dmg_time], 0, 64);
+			strins(DamageLog[playerid][i][dmg_time], time, 0);
+			return 1;
+		}
+	}
+
+	for(new i = 0; i<9; i++)
+	{
+		DamageLog[playerid][i+1][dmg_playerid] 	= 	DamageLog[playerid][i][dmg_playerid];
+		DamageLog[playerid][i+1][dmg_damagedid] = 	DamageLog[playerid][i][dmg_damagedid];
+		DamageLog[playerid][i+1][dmg_amount] 	= 	DamageLog[playerid][i][dmg_amount];
+		DamageLog[playerid][i+1][dmg_weaponid] 	= 	DamageLog[playerid][i][dmg_weaponid];
+		DamageLog[playerid][i+1][dmg_bodypart] 	= 	DamageLog[playerid][i][dmg_bodypart];
+		strdel(DamageLog[playerid][i+1][dmg_time], 0, 64);
+		strins(DamageLog[playerid][i+1][dmg_time], DamageLog[playerid][i][dmg_time], 0);
+	}
+
+	DamageLog[playerid][0][dmg_playerid] = playerid;
+	DamageLog[playerid][0][dmg_damagedid] = damagedid;
+	DamageLog[playerid][0][dmg_amount] = amount;
+	DamageLog[playerid][0][dmg_weaponid] = weaponid;
+	DamageLog[playerid][0][dmg_bodypart] = bodypart;
+	strdel(DamageLog[playerid][0][dmg_time], 0, 64);
+	strins(DamageLog[playerid][0][dmg_time], time, 0);
+	return 1;
+}
+
+ClearDamageLog(playerid)
+{
+	for(new i = 0; i<10; i++)
+	{
+		DamageLog[playerid][i][dmg_playerid]  = 0;
+		DamageLog[playerid][i][dmg_damagedid] = 0;
+		DamageLog[playerid][i][dmg_amount]    = 0;
+		DamageLog[playerid][i][dmg_weaponid]  = 0;
+		DamageLog[playerid][i][dmg_bodypart]  = 0;
+	}
+	return 1;
+}
+
+
+public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
+{
+	new string[128];
+	if(faketype == 2)
+	{
+		format(string, sizeof(string), "[FakeKill] %s[%d] u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
+		SendCommandLogMessage(string);
+		OnCheatDetected(playerid, "", 1, 56);
+	}
+	else
+	{
+		format(string, sizeof(string), "[FakeKill] %s[%d] prawdopodobnie u¿y³ fake killa na %s[%d], reason: %d", GetNick(playerid), playerid, GetNick(spoofedid), spoofedid, spoofedreason);
+		SendCommandLogMessage(string);
+	}
+}
+
+
+CheckAdminGodMode(pid1, pid2)
+{
+	if(PlayerInfo[pid1][pBW] > 0 || GetPVarInt(pid2, "dutyadmin") == 1 || GetPVarInt(pid2, "supportduty") == 1 || GetPVarInt(pid2, "gmduty") == 1)
+    {
+    	return 1;
+    }
+    return 0;
+}
+
+ReturnEmote(source[], dest[])
+{
+	strreplace(source, ":D", "**œmieje siê**", false, 0, -1, 256);
+    strreplace(source, ":d", "**wystawia jêzyk**", false, 0, -1, 256);
+    strreplace(source, ":P", "**wystawia jêzyk**", true, 0, -1, 256);
+    strreplace(source, "XD", "**wybucha œmiechem**", true, 0, -1, 256);
+    strreplace(source, "X-D", "**wybucha œmiechem**", true, 0, -1, 256);
+    strreplace(source, "X_D", "**wybucha œmiechem**", true, 0, -1, 256);
+    strreplace(source, ":)", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, "=D", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, "8)", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, "c:", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, ":]", "**uœmiecha siê**", false, 0, -1, 256);
+    strreplace(source, ";)", "**puszcza oczko**", false, 0, -1, 256);
+    strreplace(source, ":/", "**krzywi siê**", false, 0, -1, 256);
+    strreplace(source, ";/", "**krzywi siê**", false, 0, -1, 256);
+    strreplace(source, ":o", "**dziwi siê**", true, 0, -1, 256);
+    strreplace(source, ":3", "**robi s³odk¹ minê**", false, 0, -1, 256);
+    strreplace(source, ":*", "**wysy³a buziaka**", false, 0, -1, 256);
+    strreplace(source, ":x", "**milczy**", true, 0, -1, 256);
+    strreplace(source, ";*", "**puszcza oczko i buziaka**", false, 0, -1, 256);
+    strreplace(source, ":(", "**smuci siê**", false, 0, -1, 256);
+    strreplace(source, ";(", "**smuci siê i puszcza ³ezkê**", false, 0, -1, 256);
+    strreplace(source, ":c", "**smuci siê**", true, 0, -1, 256);
+    strreplace(source, ":<", "**smuci siê**", true, 0, -1, 256);
+    strreplace(source, ":[", "**smuci siê**", true, 0, -1, 256);
+    strreplace(source, ">:[", "**robi wnerwion¹ minê**", true, 0, -1, 256);
+    strreplace(source, ">:)", "**robi z³owrog¹ minê**", false, 0, -1, 256);
+    strreplace(source, ">;)", "**robi z³owrog¹ minê**", false, 0, -1, 256);
+    strreplace(source, ":E", "**robi grymas**", true, 0, -1, 256);
+
+    strins(dest, source, 0, 256);
+    return 1;
+	//return dest;
+}
+
+forward RestoreOldWeapons(playerid, nick[]);
+public RestoreOldWeapons(playerid, nick[])
+{
+	new query[256];
+	format(query, sizeof(query), 
+		"UPDATE `mru_konta` SET \
+		`Gun0` = '%d', `Ammo0` = '%d', \
+		`Gun1` = '%d', `Ammo1` = '%d', \
+		`Gun2` = '%d', `Ammo2` = '%d', \
+		`Gun3` = '%d', `Ammo3` = '%d', \
+		`Gun4` = '%d', `Ammo4` = '%d', \
+		`Gun5` = '%d', `Ammo5` = '%d', \
+		`Gun6` = '%d', `Ammo6` = '%d', \
+		`Gun7` = '%d', `Ammo7` = '%d', \
+		`Gun8` = '%d', `Ammo8` = '%d', \
+		`Gun9` = '%d', `Ammo9` = '%d', \
+		`Gun10`= '%d', `Ammo10`= '%d', \
+		`Gun11`= '%d', `Ammo11`= '%d', \
+		`Gun12`= '%d', `Ammo12`= '%d'  \
+		WHERE `nick` = '%s'",
+		rgRakNet_PlayerWeapons[playerid][0][0], rgRakNet_PlayerWeapons[playerid][0][1],
+		rgRakNet_PlayerWeapons[playerid][1][0], rgRakNet_PlayerWeapons[playerid][1][1],
+		rgRakNet_PlayerWeapons[playerid][2][0], rgRakNet_PlayerWeapons[playerid][2][1],
+		rgRakNet_PlayerWeapons[playerid][3][0], rgRakNet_PlayerWeapons[playerid][3][1],
+		rgRakNet_PlayerWeapons[playerid][4][0], rgRakNet_PlayerWeapons[playerid][4][1],
+		rgRakNet_PlayerWeapons[playerid][5][0], rgRakNet_PlayerWeapons[playerid][5][1],
+		rgRakNet_PlayerWeapons[playerid][6][0], rgRakNet_PlayerWeapons[playerid][6][1],
+		rgRakNet_PlayerWeapons[playerid][7][0], rgRakNet_PlayerWeapons[playerid][7][1],
+		rgRakNet_PlayerWeapons[playerid][8][0], rgRakNet_PlayerWeapons[playerid][8][1],
+		rgRakNet_PlayerWeapons[playerid][9][0], rgRakNet_PlayerWeapons[playerid][9][1],
+		rgRakNet_PlayerWeapons[playerid][10][0], rgRakNet_PlayerWeapons[playerid][10][1],
+		rgRakNet_PlayerWeapons[playerid][11][0], rgRakNet_PlayerWeapons[playerid][11][1],
+		rgRakNet_PlayerWeapons[playerid][12][0], rgRakNet_PlayerWeapons[playerid][12][1]);
+
+	mysql_query(query);
+	return 1;
+}
+
+ShowUbrania(playerid, type, first = 0)
+{
+	first = GetPVarInt(playerid, "wyborPierwszego");
+	if(type == 0)
+	{
+		new subString[32];
+    	new string[sizeof(SkinyCiuchyMeskie) * sizeof(subString)];
+        if(string[0] == EOS) 
+        {
+            for(new i = 0; i < sizeof(SkinyCiuchyMeskie); i++)
+            {
+                if(GetPVarInt(playerid, "wyborPierwszego") == 1) format(subString, sizeof(subString), "%d\n", SkinyCiuchyMeskie[i][0]);
+                else format(subString, sizeof(subString), "%d\t~g~$%d\n", SkinyCiuchyMeskie[i][0], SkinyCiuchyMeskie[i][1]);
+                strcat(string, subString);
+            }
+            SetPVarInt(playerid, "ShowUbraniaType", 1);
+            if(first == 0) return ShowPlayerDialogEx(playerid, D_UBRANIA+1, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+            else return ShowPlayerDialogEx(playerid, D_UBRANIA+2, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+        }
+	}
+	else if(type == 1)
+	{
+		new subString[32];
+    	new string[sizeof(SkinyCiuchyDamskie) * sizeof(subString)];
+        if(string[0] == EOS) 
+        {
+            for(new i = 0; i < sizeof(SkinyCiuchyDamskie); i++)
+            {
+                if(GetPVarInt(playerid, "wyborPierwszego") == 1)format(subString, sizeof(subString), "%d\n", SkinyCiuchyDamskie[i][0]);
+                else format(subString, sizeof(subString), "%d\t~g~$%d\n", SkinyCiuchyDamskie[i][0], SkinyCiuchyDamskie[i][1]);
+                strcat(string, subString);
+            }
+            SetPVarInt(playerid, "ShowUbraniaType", 2);
+            if(first == 0) return ShowPlayerDialogEx(playerid, D_UBRANIA+1, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+            else return ShowPlayerDialogEx(playerid, D_UBRANIA+2, DIALOG_STYLE_PREVIEW_MODEL, "Ubrania", string, "Wybierz", "Anuluj");
+        }
+	}
+	return 1;
+}
+
+AddPlayerSkin(playerid, skinid)
+{
+	if(CheckPlayerSkin(playerid, skinid) == 1) return 1;
+	for(new i=0;i<MAX_SKIN_SELECT;i++)
+	{
+		if(PERSONAL_SKINS[playerid][i] == 0)
+		{
+			PERSONAL_SKINS[playerid][i] = skinid;
+			new string[1024];
+			new substr[64];
+			new ilosc;
+			for(new j=0;j<MAX_SKIN_SELECT;j++)
+			{
+				if(PERSONAL_SKINS[playerid][j] > 0)
+				{
+					ilosc++;
+					format(substr, sizeof(substr), "%d, ", PERSONAL_SKINS[playerid][j]);
+					strcat(string, substr);
+				}
+			}
+
+			strdel(string, strlen(string)-2, strlen(string));
+			new query[1224];
+			if(ilosc > 1) format(query, sizeof(query), "UPDATE `mru_personale` SET `skiny` = '%s' WHERE `UID` = '%d'", string, PlayerInfo[playerid][pUID]);
+			else format(query, sizeof(query), "INSERT INTO `mru_personale`(`UID`, `skiny`) VALUES ('%d', '%s')", PlayerInfo[playerid][pUID], string);
+			mysql_query(query);
+			break;
+		}
+	}
+	return 1;
+}
+
+CheckPlayerSkin(playerid, skinid)
+{
+	for(new i=0;i<MAX_SKIN_SELECT;i++)
+	{
+		if(PERSONAL_SKINS[playerid][i] == skinid)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+/*ShowPlayerTunePanel(playerid, panel) // system podgl¹du i paneli tuningów do 1.1.2
+{
+	if(panel == PANEL_FELGI)
+	{
+		CurrentTunePanel[playerid][0] = PANEL_FELGI;
+		CurrentTunePanel[playerid][1] = -1;
+		GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~w~Podglad felg~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~~k~~CONVERSATION_NO~~w~ by wybrac lub anulowac.", 5000, 4);
+	}
+	else if(panel == PANEL_MALUNKI)
+	{
+		CurrentTunePanel[playerid][0] = PANEL_MALUNKI;
+		CurrentTunePanel[playerid][1] = -1;
+		GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~w~Podglad malunkow~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~~k~~CONVERSATION_NO~~w~ by wybrac lub anulowac.", 5000, 4);
+	}
+}
+
+forward AllowNextTunePanelStep(playerid);
+public AllowNextTunePanelStep(playerid)
+{
+	SetPVarInt(playerid, "AllowNextTune", 0);
+}*/

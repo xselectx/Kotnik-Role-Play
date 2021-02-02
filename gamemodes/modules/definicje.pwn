@@ -2,7 +2,7 @@
 
 #pragma tabsize 0 // <------------------------------------------
 
-#define VERSION "v1.1.DEV"
+#define VERSION "v1.1.1"
 
 #define DEBUG 2   // 2 - off  /  1 - on
 #define NULL 0
@@ -13,6 +13,17 @@ native gpci(playerid, serial[], len);
 // globalny string
 new C_STRING[2048];
 //
+
+#define FELGA_CENA 40000
+#define MALUNEK_CENA 50000
+
+#define PANEL_FELGI 1
+#define PANEL_MALUNKI 2
+#define PANEL_SPOILERY 3
+#define PANEL_ZDERZAKI 4
+
+
+#define SHOWKODY_PER_PAGE 25
 
 #define MAX_AFK_TIME 3000
 
@@ -66,6 +77,7 @@ new acstr[128];
 	(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 #define HOLDING(%0) \
     ((newkeys & (%0)) == (%0))
+#define PreloadAnimLib(%1,%2)   ApplyAnimation(%1,%2,"null",0.0,0,0,0,0,0)
 
 #define EMERGENCY_NUMBERS -900 
 #define POLICE_NUMBER -901 //old 912
@@ -381,9 +393,15 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 
 #define D_CREATE_BRAMA 1360
 #define D_CREATE_BRAMA_ID 1361
-#define D_CREATE_BRAMA_TYP 1662
-#define D_CREATE_BRAMA_SPEED 1663
-#define D_CREATE_BRAMA_RANGE 1664
+#define D_CREATE_BRAMA_TYP 1362
+#define D_CREATE_BRAMA_SPEED 1363
+#define D_CREATE_BRAMA_RANGE 1364
+
+#define D_UBRANIA 1365
+#define D_UBRANIA1 1366
+#define D_UBRANIA2 1367
+
+#define D_TUNEPANEL 1370
 
 #define D_POWIAZANIA 1700
 #define D_POWIAZANIA_GPCI 1701
@@ -464,6 +482,14 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 
 #define D_SHOW_ITEMS 1500
 #define D_SHOW_ITEM_MENU 1501
+#define D_DESTROY_ITEM 1502
+#define D_DESTROY_ITEM_CONFIRM 1503
+#define D_OFFER_ITEM 1504
+#define D_OFFER_ITEM_QUANT 1505
+#define D_OFFER_ITEM_PRICE 1506
+#define D_OFFER_ITEM_CONFIRM 1507
+#define D_OFFER_ITEM_CONFIRM2 1508
+#define D_OFFER_ITEM_CANCEL 1509
 
 
 #define D_PHONE_POWER 1499
@@ -495,6 +521,10 @@ new FAMILY_SAD = -1, FAMILY_RSC = -1, FAMILY_ALHAMBRA = -1, FAMILY_VINYL = -1, F
 
 #define DIALOG_GAMEMASTER 4610
 #define DIALOG_GAMEMASTER_ROB_TIME 4611
+
+#define DIALOG_KONTAKTY 4800
+#define DIALOG_KONTAKTY_NUMBER 4801
+#define DIALOG_KONTAKTY_VCARD 4802
 
 // sprzedaz apteczek
 

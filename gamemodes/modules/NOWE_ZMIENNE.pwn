@@ -4,10 +4,18 @@ new GMX;
 
 new DC_AntySpam;
 new LOCALHOST = 0;
+new FishTimer[MAX_PLAYERS];
+new repairTimerVar[MAX_PLAYERS];
+new repairInProgress[MAX_PLAYERS];
+new AntyFakeKillVar[MAX_PLAYERS];
+new Float:VehicleHealth[MAX_VEHICLES];
+new OldPayCheck[MAX_PLAYERS];
 
 new TymczasowyOpisVar[MAX_PLAYERS];
 new TymczasowyOpisString[MAX_PLAYERS][256];
 new Text3D:TymczasowyOpis[MAX_PLAYERS];
+
+new CurrentTunePanel[MAX_PLAYERS][2];
 
 new UkradzionyPojazd[200];
 
@@ -44,9 +52,8 @@ new kaska[MAX_PLAYERS];
 new CzasInformacyjnego[MAX_PLAYERS];
 //new bramki_sasd[18];  WARNINGI DO POPRAWY
 //new bool:bramki_sasd_state[18];
-
-new KodyAC[55];
-new KodyACDelay[MAX_PLAYERS][55];
+new KodyAC[sizeof(KodyACName)];
+new KodyACDelay[MAX_PLAYERS][sizeof(KodyACName)];
 
 new AmmoWarn[MAX_PLAYERS];
 new CarOnEnterWeapon[MAX_PLAYERS];
@@ -81,6 +88,7 @@ new SadWindap4 = 0;//Winda S¹d
 new ServerTime = 14;//Czas
 new ServerWeather = 3;//Pogoda
 
+// new vCardOffer[MAX_PLAYERS]; // warningi
 
 //legal
 new DB:db_handle;
@@ -1386,6 +1394,7 @@ stock ZerujZmienne(playerid)
     PlayerInfo[playerid][pItems] = 0;
     PlayerInfo[playerid][pWeight] = 0;
 	PlayerInfo[playerid][pKluczeAuta] = 0;
+    PlayerInfo[playerid][pFishTimer] = 0;
 	ClearFishes(playerid);
 	ClearCooking(playerid);
 	ClearGroceries(playerid);
@@ -1491,7 +1500,30 @@ stock ZerujZmienne(playerid)
     quittext_time[playerid] = 0;
     SetPVarInt(playerid, "AC-warn", 0);
     SetPVarInt(playerid, "dutyadmin", 0);
+    SetPVarInt(playerid, "suportduty", 0);
 
+    AntyFakeKillVar[playerid] = 0;
+    OldPayCheck[playerid] = 0;
+    ClearDamageLog(playerid);
+    CancelTrade(playerid);
+    rgRakNet_SaveWeapons[playerid] = 0;
+    FishTimer[playerid] = 0;
+    
+    SetPVarInt(playerid, "OfferingItemFrom", INVALID_PLAYER_ID);
+
+    repairTimerVar[playerid] = 0;
+    repairInProgress[playerid] = 0;
+
+    for(new i=0;i<13;i++) 
+    {
+        rgRakNet_PlayerWeapons[playerid][i][0] = 0;
+        rgRakNet_PlayerWeapons[playerid][i][1] = 0;
+    }
+    for(new i = 0; i<300; i++)
+    {
+        rgAllowPlayerRPC[playerid][i] = 0;
+        rgAllowPlayerPacket[playerid][i] = 0;
+    }
     for(new i=0;i<MAX_CAR_SLOT;i++) PlayerInfo[playerid][pCars][i] = 0;
     for(new i=0;i<MAX_SKIN_SELECT+120;i++) PERSONAL_SKINS[playerid][i] = 0;
 

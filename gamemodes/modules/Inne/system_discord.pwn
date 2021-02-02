@@ -8,31 +8,6 @@
 
 
 // --------  < publici > -------- //
-
-DC_Slap(who[], pid[])
-{
-	new playa = strval(pid);
-	if(IsPlayerConnected(playa))
-	{
-	    if(playa != INVALID_PLAYER_ID)
-	    {
-	    	new Float:shealth, Float:slx, Float:sly, Float:slz, string[128];
-			GetPlayerHealth(playa, shealth);
-			SetPlayerHealth(playa, shealth-5);
-			GetPlayerPos(playa, slx, sly, slz);
-			SetPlayerPosEx(playa, slx, sly, slz+5);
-			PlayerPlaySound(playa, 1130, slx, sly, slz+5);
-			printf("AdmCmd: %s da³ klaspa w dupsko %s",who, GetNick(playa));
-			format(string, sizeof(string), "AdmCmd: %s da³ klapsa w dupsko %s", who, GetNick(playa));
-			ABroadCast(COLOR_LIGHTRED,string,1);
-			format(string, sizeof(string), "Dosta³eœ klapsa w dupsko od administratora %s, widocznie zrobi³eœ coœ z³ego :)", who);
-			_MruAdmin(playa, string);
-			return 1;
-		}
-	}
-	return 0;
-}
-
 public DCC_OnMessageCreate(DCC_Message:message)
 {
 	if(LOCALHOST == 0)
@@ -43,11 +18,12 @@ public DCC_OnMessageCreate(DCC_Message:message)
 		new channelid[DCC_ID_SIZE];
 		new nickname[DCC_NICKNAME_SIZE], userid[DCC_ID_SIZE], DCC_User:author, string[128], text[128], bool:is_bot;
 		
-		new command[32], params[128];
+		new command[32], params[512];
 		
 		//guild_name = DCC_FindGuildById("760578155806982205");
-
-		new DCC_Role:admin_role = DCC_FindRoleById("760578445783597089");
+		//770667863061037116
+		//760578445783597089
+		new DCC_Role:admin_role = DCC_FindRoleById("770667863061037116");
 
 		if(!DCC_GetMessageChannel(message, channel))
 			print("DCC_GetMessageChannel error");
@@ -66,7 +42,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 
 		if(!isnull(text) && text[0] != '\\')
 		{
-			sscanf(text, "s[32]s[128]", command, params);
+			sscanf(text, "s[32]s[512]", command, params);
 			if(DC_AntySpam <= 0 && !is_bot)
 			{
 
@@ -76,31 +52,40 @@ public DCC_OnMessageCreate(DCC_Message:message)
 				{
 					if(!strcmp(command, ">cmd", true))
 					{
-						new cmd[32], cmd_params[128];
-						sscanf(params, "s[32]s[128]", cmd, cmd_params);
-						if(!strcmp(cmd, "slap", true) && !isnull(cmd))
-						{
-							new nick[MAX_PLAYER_NAME];
-							format(nick, sizeof(nick), "%d", ReturnUser(cmd_params));
-							if(ReturnUser(cmd_params) != INVALID_PLAYER_ID)
-							{
-								format(string, sizeof(string), "Gracz %s [%d] dostal slapa!", GetNick(strval(nick)), strval(nick));
-								if(DC_Slap(nickname, nick) == 1) DCC_SendChannelMessage(channel, string);
-								else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
-							} else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
-						}
+						new cmd[32], cmd_params[256];
+						sscanf(params, "s[32]s[256]", cmd, cmd_params);
+						new cmd_var[64], nick[64];
+						format(cmd_var, sizeof(cmd_var), "cmd_%s", cmd);
+						gPlayerLogged[999] = 1;
+						PlayerInfo[999][pAdmin] = 5000;
+						format(nick, sizeof(nick), "%s", nickname);
+						format(pName[999], 32, "%s", nickname);
+						format(pNameRp[999], 32, "%s", nickname);
+						//CallLocalFunction(cmd_var, "999 %s", cmd_params);
+						CallLocalFunction(cmd_var, "ds", 999, cmd_params);
+						//if(!strcmp(cmd, "slap", true) && !isnull(cmd))
+						//{
+						//	new nick[MAX_PLAYER_NAME];
+						//	format(nick, sizeof(nick), "%d", ReturnUser(cmd_params));
+						//	if(ReturnUser(cmd_params) != INVALID_PLAYER_ID)
+						//	{
+						//		format(string, sizeof(string), "Gracz %s [%d] dostal slapa!", GetNick(strval(nick)), strval(nick));
+						//		if(DC_Slap(nickname, nick) == 1) DCC_SendChannelMessage(channel, string);
+						//		else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
+						//	} else DCC_SendChannelMessage(channel, "Nie ma takiego gracza!");
+						//}
 					}
 				}
 
-				if(!strcmp(command, ">kotnik", true) || !strcmp(command, ">samp") || !strcmp(command, "kotnik", true) || !strcmp(command, "samp")  || !strcmp(command, "players", true) || !strcmp(command, "gracze"))
+				if(!strcmp(command, ">lisek", true) || !strcmp(command, ">samp") || !strcmp(command, "lisek", true) || !strcmp(command, "samp")  || !strcmp(command, "players", true) || !strcmp(command, "gracze"))
 				{
 					new ilosc = 0;
 					for(new i = 0; i<MAX_PLAYERS; i++)
 					{
 						if(IsPlayerConnected(i)) ilosc++;
 					}
-					if(ilosc == 1) DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Kotniku** gra aktualnie %d gracz", userid, ilosc));
-					else DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Kotniku** gra aktualnie %d graczy", userid, ilosc));
+					if(ilosc == 1) DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Lisku** gra aktualnie %d gracz", userid, ilosc));
+					else DCC_SendChannelMessage(channel, sprintf("<@%s>, Na **Lisku** gra aktualnie %d graczy", userid, ilosc));
 					DC_AntySpam = DC_SPAM_LIMIT;
 				}
 			
@@ -147,7 +132,7 @@ public DCC_OnMessageCreate(DCC_Message:message)
 				}
 				if(!strcmp(command, "pracownicy", true) || !strcmp(command, ">pracownicy"))
 				{
-					new DCC_Guild:guild_lspd, pracownicy[512], guild_lspd_id[DCC_ID_SIZE], guild_name_id[DCC_ID_SIZE];
+					new pracownicy[512], guild_name_id[DCC_ID_SIZE];
 					//guild_lspd = DCC_FindGuildById(DiscordFractionChannels[1][2]);
 					DCC_GetGuildId(guild_name, guild_name_id);
 					//DCC_GetGuildId(guild_lspd, guild_lspd_id);

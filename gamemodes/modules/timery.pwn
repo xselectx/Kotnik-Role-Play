@@ -18,13 +18,13 @@ public AktywujPozar()
     //if(losowy == 5) losowy = 1;
 	if(losowy == 1)
 	{
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: DOM JEDNORODZINNY - IDLEWOOD");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: WYBUCH KUCHENKI GAZOWEJ");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
    		SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: DOM JEDNORODZINNY - IDLEWOOD",1);
     	AddFire(2016.998,-1696.110,15.036, 400);
 		AddFire(2016.998,-1697.411,15.036, 400);
@@ -49,13 +49,13 @@ public AktywujPozar()
     }
 	else if(losowy == 2)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: SKLEP 24/7 W OKOLICACH DMV");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: AWARIA INSTALACJI ELEKTRYCZNEJ");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRACOWNIK SKLEPU");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: SKLEP 24/7 W OKOLICACH DMV",1);
     	AddFire(1362.514,-1759.767,12.359,400);
 		AddFire(1361.113,-1759.767,12.359,400);
@@ -85,13 +85,13 @@ public AktywujPozar()
     }
 	else if(losowy == 3)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: PIZZERIA IDLEWOOD");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: AWARIA KUCHENKI GAZOWEJ");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRACOWNIK RESTAURACJI");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: PIZZERIA IDLEWOOD",1);
 		AddFire(2105.741,-1796.412,12.551, 400);
 		AddFire(2105.741,-1797.312,12.551, 400);
@@ -118,13 +118,13 @@ public AktywujPozar()
     }
 	else if(losowy == 4)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: SKLEP BINCO - GANTON");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: PODPALENIE");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: SKLEP BINCO - GANTON",1);
 		AddFire(2248.296,-1667.368,14.286, 400);
 		AddFire(2247.255,-1667.017,14.286, 400);
@@ -141,13 +141,13 @@ public AktywujPozar()
     }
 	/*else if(losowy == 5)
 	{
-		SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(17, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(17, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(17, 0xAA3333AA, "MIEJSCE PO¯ARU: STACJA PALIW - TEMPLE");
     	SendFamilyMessage(17, 0xAA3333AA, "PRZYCZYNA PO¯ARU: WYBUCH DYSTRYBUTORA");
     	SendFamilyMessage(17, 0xAA3333AA, "ZG£OSI£: PRACOWNIK STACJI");
     	SendFamilyMessage(17, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(17, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(17, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: STACJA PALIW - TEMPLE",1);
     	AddFire(995.978,-938.445,40.229, 400);
 		AddFire(997.778,-938.445,40.229, 400);
@@ -164,13 +164,13 @@ public AktywujPozar()
     }*/
 	else if(losowy == 5)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: KONTENERY - LOSTNISKO LOS SANTOS");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: WYBUCH");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: OCHRONA LOTNISKA");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: KONTENERY - LOSTNISKO LOS SANTOS",1);
     	AddFire(2067.007,-2206.814,13.666, 400);
 		AddFire(2067.007,-2208.004,13.666, 400);
@@ -200,13 +200,13 @@ public AktywujPozar()
     }
 	else if(losowy == 6)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: P¥CZKARNIA NA MARKET");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: WYBUCH INSTALACJI ELEKTRYCZNEJ");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: P¥CZKARNIA NA MARKET",1);
 		AddFire(1037.776,-1341.086,12.726, 400);
 		AddFire(1038.607,-1341.086,12.726, 400);
@@ -231,13 +231,13 @@ public AktywujPozar()
     }
 	else if(losowy == 7)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: BAR W DILLIMORE");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: PODPALENIE");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: BAR W DILLIMORE",1);
     	AddFire(681.627,-473.598,15.457, 400);
 		AddFire(681.627,-473.598,14.177, 400);
@@ -272,13 +272,13 @@ public AktywujPozar()
     }
 	else if(losowy == 8)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: URZ¥D MIASTA PALOMINO CREEK");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: WYBUCH INSTALACJI ELEKTRYCZNEJ");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRACOWNIK URZÊDU MIASTA");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: URZ¥D MIASTA PALOMINO CREEK",1);
     	AddFire(2269.603,-74.425,25.554, 400);
 		AddFire(2269.603,-74.425,24.344, 400);
@@ -303,13 +303,13 @@ public AktywujPozar()
     }
 	else if(losowy == 9)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: SKLEP 24/7 - IDLEWOOD");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: PODPALENIE");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: SKLEP 24/7 - IDLEWOOD",1);
 		AddFire(1833.399,-1840.566,12.578, 400);
 		AddFire(1833.399,-1838.866,12.578, 400);
@@ -334,13 +334,13 @@ public AktywujPozar()
 	}
 	else if(losowy == 10)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: MOTEL JEFFERSON");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: PODPALENIE");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: MOTEL JEFFERSON",1);
     	AddFire(2233.332,-1160.049,23.629, 400);
 		AddFire(2233.332,-1160.049,25.089, 400);
@@ -376,13 +376,13 @@ public AktywujPozar()
 	}
 	else if(losowy == 11)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: SALON AUT");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: PODPALENIE");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRACOWNIK");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: SALON AUT",1);
     	AddFire(2133.200,-1151.196,23.681, 400);
     	AddFire(2133.200,-1151.196,22.271, 400);
@@ -412,13 +412,13 @@ public AktywujPozar()
 	}
 	else if(losowy == 12)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: GUNSHOP OBOK BAZY LSFD");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: PODPALENIE");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRACOWNIK");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: GUNSHOP OBOK BAZY LSFD",1);
     	AddFire(1781.413,-1161.296,22.015, 400);
     	AddFire(1781.413,-1161.296,23.765, 400);
@@ -448,13 +448,13 @@ public AktywujPozar()
 	}
 	else if(losowy == 13)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: BUDYNEK OBOK BIUROWCA FBI");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: WYBUCH INSTALACJI ELEKTRYCZNEJ");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: BUDYNEK OBOK BIUROWCA FBI",1);
     	AddFire(651.468,-1458.514,14.407, 400);
     	AddFire(651.468,-1459.935,14.407, 400);
@@ -484,13 +484,13 @@ public AktywujPozar()
 	}
 	else if(losowy == 14)
 	{
-		SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+		SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	SendFamilyMessage(4, 0xAA3333AA, "           UWAGA: WYBUCH£ PO¯AR!");
     	SendFamilyMessage(4, 0xAA3333AA, "MIEJSCE PO¯ARU: BUDYNEK OBOK VINYL CLUB");
     	SendFamilyMessage(4, 0xAA3333AA, "PRZYCZYNA PO¯ARU: WYBUCH INSTALACJI ELEKTRYCZNEJ");
     	SendFamilyMessage(4, 0xAA3333AA, "ZG£OSI£: PRZECHODZIEÑ");
     	SendFamilyMessage(4, 0xAA3333AA, "         !!!!UDAJ SIÊ NA MIEJSCE!!!!");
-    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[LOS SANTOS FIRE DEPARTMENT]--------");
+    	SendFamilyMessage(4, 0xFFFFFFAA, "--------[EMERGENCY RESCUE SERVICE]--------");
     	ABroadCast(COLOR_YELLOW,"[SYSTEM PO¯ARÓW] Aktywowano po¿ar: BUDYNEK OBOK VINYL CLUB",1);
     	AddFire(830.011,-1385.443,15.928, 400);
     	AddFire(830.862,-1385.703,15.928, 400);
@@ -965,7 +965,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 2)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -973,7 +973,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 3)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -997,7 +997,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 5)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1005,7 +1005,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 6)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1013,7 +1013,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun1] != 7)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1053,7 +1053,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 10)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1061,7 +1061,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 11)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1069,7 +1069,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 12)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1077,7 +1077,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 13)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1085,7 +1085,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 14)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1093,7 +1093,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun10] != 15)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1117,7 +1117,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun8] != 17)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1462,7 +1462,7 @@ public Spectator()
     					{
     						if(PlayerInfo[i][pGun9] != 43)
     						{
-    							ResetPlayerWeapons(i);
+    							ResetPlayerWeaponsEx(i);
     							PrzywrocBron(i);
     						}
     					}
@@ -1515,7 +1515,7 @@ public Spectator()
 		}
 		else
 		{
-			ResetPlayerWeapons(i);
+			ResetPlayerWeaponsEx(i);
 		}
 	//}
 //---------------------------[/me wyci¹ga broñ ...]---------------------------
@@ -1756,14 +1756,14 @@ public Spectator()
     					{
     						format(string, sizeof(string), "* %s wyci¹ga noktowizor", specNAME);
     						ProxDetector(10.0, i, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-    						ResetPlayerWeapons(i);
+    						ResetPlayerWeaponsEx(i);
     					}
 
     					case 45:
     					{
     						format(string, sizeof(string), "* %s wyci¹ga termowizor.", specNAME);
     						ProxDetector(10.0, i, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
-    						ResetPlayerWeapons(i);
+    						ResetPlayerWeaponsEx(i);
     					}
 
     					case 46:
@@ -1787,7 +1787,7 @@ public Spectator()
 			}
 			else
 			{
-				ResetPlayerWeapons(i);
+				ResetPlayerWeaponsEx(i);
 			}
 		 }
 	}
@@ -1868,7 +1868,7 @@ public Production()
 {
 	foreach(Player, i)
 	{
-		if(PlayerInfo[i][pFishes] >= 5) { if(FishCount[i] >= 3) { PlayerInfo[i][pFishes] = 0; } else { FishCount[i] += 1; } }
+		//if(PlayerInfo[i][pFishes] >= 5) { if(FishCount[i] >= 3) { PlayerInfo[i][pFishes] = 0; } else { FishCount[i] += 1; } }
 		if(PlayerDrunk[i] > 0) { PlayerDrunkTime[i] = 0; GameTextForPlayer(i, "~p~Jestes mniej pijany~n~~r~Pijaku", 3500, 1); }
 		if(GetPlayerDrunkLevel(i) < 1999 && PlayerDrunk[i] > 0) { PlayerDrunk[i] = 0; PlayerDrunkTime[i] = 0; GameTextForPlayer(i, "~p~Wytrzezwiales~n~~r~Pijaku", 3500, 1); }
 		if(PlayerInfo[i][pPayDay] < 6 && !IsPlayerPaused(i)) { PlayerInfo[i][pPayDay] += 1; } //+ 5 min to PayDay anti-abuse
@@ -1977,7 +1977,7 @@ public CustomPickups()
 				{
 				    case 1:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 5000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -1988,7 +1988,7 @@ public CustomPickups()
 					}
 					case 2:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 5000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2000,7 +2000,7 @@ public CustomPickups()
 					}
 					case 3:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 6000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2013,7 +2013,7 @@ public CustomPickups()
 					}
 					case 4:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1);
 						DajKase(i, - 6000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2026,7 +2026,7 @@ public CustomPickups()
 					}
 					case 5:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2040,7 +2040,7 @@ public CustomPickups()
 					}
 					case 6:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 25, 100); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 25, 100); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2054,7 +2054,7 @@ public CustomPickups()
 					}
 					case 7:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 27, 107); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 27, 107); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8500);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2068,7 +2068,7 @@ public CustomPickups()
 					}
 					case 8:
 					{
-						GivePlayerWeapon(i, 24, 107); GivePlayerWeapon(i, 29, 2030); GivePlayerWeapon(i, 27, 107); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 100);
+						GivePlayerWeaponEx(i, 24, 107); GivePlayerWeaponEx(i, 29, 2030); GivePlayerWeaponEx(i, 27, 107); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 100);
 						DajKase(i, - 8500);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 107;
@@ -2082,7 +2082,7 @@ public CustomPickups()
 					}
 					case 9:
 					{
-						GivePlayerWeapon(i, 24, 207); GivePlayerWeapon(i, 28, 2030); GivePlayerWeapon(i, 27, 207); GivePlayerWeapon(i, 31, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 200);
+						GivePlayerWeaponEx(i, 24, 207); GivePlayerWeaponEx(i, 28, 2030); GivePlayerWeaponEx(i, 27, 207); GivePlayerWeaponEx(i, 31, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 200);
 						DajKase(i, - 10000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 207;
@@ -2096,7 +2096,7 @@ public CustomPickups()
 					}
 					case 10:
 					{
-						GivePlayerWeapon(i, 24, 207); GivePlayerWeapon(i, 28, 2030); GivePlayerWeapon(i, 27, 207); GivePlayerWeapon(i, 30, 2050); GivePlayerWeapon(i, 4, 1); GivePlayerWeapon(i, 34, 200);
+						GivePlayerWeaponEx(i, 24, 207); GivePlayerWeaponEx(i, 28, 2030); GivePlayerWeaponEx(i, 27, 207); GivePlayerWeaponEx(i, 30, 2050); GivePlayerWeaponEx(i, 4, 1); GivePlayerWeaponEx(i, 34, 200);
 						DajKase(i, - 10000);
 						PlayerInfo[i][pGun1] = 4; PlayerInfo[i][pAmmo1] = 1;
 						PlayerInfo[i][pGun2] = 24; PlayerInfo[i][pAmmo2] += 207;
@@ -2145,8 +2145,11 @@ public IdleKick()
 			GetPlayerPos(i, PlayerPos[i][0], PlayerPos[i][1], PlayerPos[i][2]);
 			if(PlayerPos[i][0] == PlayerPos[i][3] && PlayerPos[i][1] == PlayerPos[i][4] && PlayerPos[i][2] == PlayerPos[i][5])
 			{
-				SendClientMessage(i, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugi bezruch!");
-				KickEx(i);
+				if(PlayerInfo[i][pAdmin] < 1000)
+				{
+					SendClientMessage(i, 0xAA3333AA, "Zosta³eœ skickowany za zbyt d³ugi bezruch!");
+					KickEx(i);
+				}
 			}
 			PlayerPos[i][3] = PlayerPos[i][0];
 			PlayerPos[i][4] = PlayerPos[i][1];
@@ -2216,6 +2219,48 @@ public JednaSekundaTimer()
         GetPlayerPos(i, x, y, z);
 		GetPlayerArmour(i, pancerzyy);
 
+		if(pancerzyy >= 100)
+		{
+			if(PlayerInfo[i][pAdmin] == 0)
+			{
+				MruMySQL_Banuj(i, "ArmorHack");
+				KaraTextdrawSystem("Banicja", GetNick(i), "ANTYCHEAT", "ArmorHack");
+				KickEx(i);
+			}
+		}
+
+		if(PlayerInfo[i][pBBron] > 0) {
+        if(GetPlayerWeapon(i)) {
+            //ABroadCast(COLOR_YELLOW, sprintf("[Blokady]: Gracz %s [%d] próbuje omijaæ blokadê posiadania bronii", GetNick(playerid), playerid), 1);
+            sendTipDialogMessage(i, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[i][pBBron]));
+            ResetPlayerWeaponsEx(i);
+            UsunBron(i);
+        	}
+    	}
+
+		if(PlayerInfo[i][pFishTimer] > 0)
+		{
+			if(FishTimer[i] >= 60) 
+			{
+				PlayerInfo[i][pFishTimer]--; 
+				FishTimer[i] = 0;
+			}
+			else FishTimer[i]++;
+		}
+
+		if(PlayerInfo[i][pJob] == 8)
+		{
+			if(OldPayCheck[i]+35000 < PlayerInfo[i][pPayCheck])
+			{
+				new str[128];
+				format(str, sizeof(str), "%s[%d] zostal wyrzucony z powodu czitowania pracy ochroniarza [4 wariant]", GetNick(i, true), i);
+				CzitLog(str);
+				printf("%s", str);
+				KickEx(i);
+			}
+			OldPayCheck[i] = PlayerInfo[i][pPayCheck];
+		}
+
 		if(repairTimerVar[i] > 0)
 		{
 			if(GetPVarInt(i, "botnaprawia") == 1) {
@@ -2230,10 +2275,14 @@ public JednaSekundaTimer()
         	new vehidx = GetPlayerVehicleID(i);
         	GetVehicleHealth(vehidx, health);
             repairInProgress[i] = 0;
-            RepairVehicle(vehidx);
+            RepairVehicleEx(vehidx);
 			naprawiony[vehidx] = 1;
             TogglePlayerControllable(i, 1);
             SetPVarInt(i, "botnaprawia", 0);
+            sendTipDialogMessage(i, sprintf("Zap³aci³eœ %d$ za naprawê pojazdu u mechanika", MECHS_COST_REPAIR));
+            DajKase(i, -MECHS_COST_REPAIR);
+            format(C_STRING, sizeof(C_STRING), "%s zap³aci³ %d za naprawê pojazdu u NPC", GetNick(i), MECHS_COST_REPAIR);
+            PayLog(C_STRING);
             GameTextForPlayer(i, "POJAZD NAPRAWIONY!", 1000, 3);
         }
         ////enddddddddddddddddddddddddddddddddddd
@@ -2257,6 +2306,16 @@ public JednaSekundaTimer()
         }
 
         vehicleid = GetPlayerVehicleID(i);
+        //if(State == PLAYER_STATE_DRIVER)
+        //{
+        //	new Float:vehhp;
+        //	GetVehicleHealth(vehicleid, vehhp);
+        //	if(vehhp > VehicleHealth[vehicleid])
+        //	{
+        //		//SendClientMessageToAll(-1, "hp god");
+		//		//OnCheatDetected(i, "", 99, 11);
+        //	}
+        //}
 		if(State == PLAYER_STATE_DRIVER || State == PLAYER_STATE_PASSENGER && !ToggleSpeedo[i])
 		{
 			VehicleModel = GetVehicleModel(vehicleid);
@@ -2266,7 +2325,7 @@ public JednaSekundaTimer()
 
     			if(VehicleModel==509||VehicleModel==481||VehicleModel==510)
     			{
-    				SetVehicleHealth(vehicleid, 1000.0);
+    				SetVehicleHealthEx(vehicleid, 1000.0);
     				Gas[vehicleid] = 100;
     			}
     			if(VehicleModel==520||VehicleModel==476||VehicleModel==593||VehicleModel==553||VehicleModel==513||VehicleModel==512||VehicleModel==577||VehicleModel==592||VehicleModel==511||VehicleModel==539||VehicleModel==464||VehicleModel==519)
@@ -2380,8 +2439,8 @@ public JednaSekundaTimer()
 					GetVehicleHealth(vehicleid, health);
 					if(health <= 999)
 					{
-				        sendTipMessageFormat(i, "Zap³aci³eœ $%d za wizytê w warsztacie", 2500);
-				        ZabierzKase(i, 2500);
+				        sendTipMessageFormat(i, "Zap³aci³eœ $%d za wizytê w warsztacie", 7500);
+				        ZabierzKase(i, 7500);
 						RepairVehicle(vehicleid);
 						naprawiony[i] = 1;
 						SetTimerEx("Naprawianie",10000,0,"d",i);
@@ -2525,7 +2584,7 @@ public JednaSekundaTimer()
         	SetPlayerArmedWeapon(i, 0);
         	MruDialog(i, "Informacja", "Niedawno zosta³es obezw³adniony, nie mo¿esz korzystaæ z broni przez pewien czas!");
         }*/
-        CheckAmmo(i);
+        //CheckAmmo(i);
 		// serce zapisu broni
 		if(State >= 1 && State <= 6)
 		{
@@ -2725,7 +2784,7 @@ public JednaSekundaTimer()
 		if(TutTime[i] >= 1 && !IsPlayerNPC(i))
 		{
 			TutTime[i] += 1;
-			//TutTime[i] = 125; skip tutoriala
+			//TutTime[i] = 215; //skip tutoriala
 
 
 
@@ -2853,6 +2912,10 @@ public JednaSekundaTimer()
 				//SetPlayerCameraPos(i, 206.288314, -38.114028, 1002.229675);
 				//SetPlayerCameraLookAt(i, 208.775955, -34.981678, 1001.929687);
 
+				if(IsPlayerPaused(i)) 
+				{
+					SetPVarInt(i, "Wybieralka_AntyBug", 1);
+				}
 				SetTimerEx("Wybieralka_Delay", 100, false, "i", i);
 				//Wybieralka_Setup(i);
 				//NowaWybieralka::Setup(i);
@@ -2868,7 +2931,7 @@ public JednaSekundaTimer()
 				{
 					if(GetPlayerState(i) != PLAYER_STATE_SPECTATING) 
 					{
-						OnCheatDetected(i, "", 1, 101);
+						OnCheatDetected(i, "", 1, 57);
 					}
 				}
 			}
@@ -3502,7 +3565,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo0])
 					{
-						//ResetPlayerWeapons(i);
+						//ResetPlayerWeaponsEx(i);
    						//PrzywrocBron(i);
    						//SetPlayerArmedWeapon(i, PlayerInfo[i][pGun0]);
 						//AmmoWarn[i]++;
@@ -3513,7 +3576,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo1])
 					{
-						//ResetPlayerWeapons(i);
+						//ResetPlayerWeaponsEx(i);
    						//PrzywrocBron(i);
    						//SetPlayerArmedWeapon(i, PlayerInfo[i][pGun1]);
 						//AmmoWarn[i]++;
@@ -3524,7 +3587,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo2])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun2]);
 						AmmoWarn[i]++;
@@ -3535,7 +3598,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo3])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun3]);
 						AmmoWarn[i]++;
@@ -3546,7 +3609,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo4])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun4]);
 						AmmoWarn[i]++;
@@ -3557,7 +3620,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo5])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun5]);
 						AmmoWarn[i]++;
@@ -3568,7 +3631,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo6])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun6]);
 						AmmoWarn[i]++;
@@ -3579,7 +3642,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo7])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun7]);
 						AmmoWarn[i]++;
@@ -3590,7 +3653,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo8])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun8]);
 						AmmoWarn[i]++;
@@ -3601,7 +3664,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo9])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun9]);
 						AmmoWarn[i]++;
@@ -3612,7 +3675,7 @@ public CheckAmmo(i)
 				{
 					if(weapons[j][1] > PlayerInfo[i][pAmmo10])
 					{
-						ResetPlayerWeapons(i);
+						ResetPlayerWeaponsEx(i);
    						PrzywrocBron(i);
    						SetPlayerArmedWeapon(i, PlayerInfo[i][pGun10]);
 						AmmoWarn[i]++;
@@ -3623,7 +3686,7 @@ public CheckAmmo(i)
 				{
 					//if(weapons[j][1] > PlayerInfo[i][pAmmo11])
 					//{
-					//	ResetPlayerWeapons(i);
+					//	ResetPlayerWeaponsEx(i);
    					//	PrzywrocBron(i);
    					//	SetPlayerArmedWeapon(i, PlayerInfo[i][pGun11]);
 					//	AmmoWarn[i]++;
@@ -3634,7 +3697,7 @@ public CheckAmmo(i)
 				{
 					//if(weapons[j][1] > PlayerInfo[i][pAmmo12])
 					//{
-					//	ResetPlayerWeapons(i);
+					//	ResetPlayerWeaponsEx(i);
    					//	PrzywrocBron(i);
    					//	SetPlayerArmedWeapon(i, PlayerInfo[i][pGun12]);
 					//	AmmoWarn[i]++;
@@ -3668,12 +3731,12 @@ public VehicleUpdate()
         {
             if(Car_GetOwner(i) == JOB_TRUCKER && Car_GetOwnerType(i) == CAR_OWNER_JOB && GetVehicleModel(i) == 530)
             {
-                SetVehicleHealth(i, 1000.0);
+                SetVehicleHealthEx(i, 1000.0);
                 Gas[i] = 100;
             }
             else
             {
-                SetVehicleHealth(i, 250.0);
+                SetVehicleHealthEx(i, 250.0);
                 if(VehicleUID[i][vUID] != 0)
                     CarData[VehicleUID[i][vUID]][c_HP] = 250.0;
                 GetVehicleParamsEx(i, engine, lights, alarm, doors, bonnect, boot, objective);

@@ -17,6 +17,9 @@
         |---> LukeSQLY (github.com/LukeSQLY)
 */
 
+// ----- <[ Wy³¹czeni fake warningów ]> ----- //
+#pragma warning disable 238
+#pragma warning disable 208 
 //-------------------------------------------<[ Includy ]>---------------------------------------------------//
 //-                                                                                                         -//
 
@@ -40,12 +43,15 @@
 #include <dialogs>
 #include <memory>
 #include <DialogModel>
+#include <Pawn.RakNet.inc>
 #include <nex-ac>
 #include <timestamp>
 #include <timestamptodate>
 #include <discord-connector>
 #include <SHA256>
+#include <fakekill>
 
+#include "modules/Inne/raknet.pwn"
 #include "modules/definicje.pwn"
 #include "modules/enum.pwn"
 #include "modules/NOWE_ZMIENNE.pwn"
@@ -73,6 +79,7 @@
 #include "modules/inne/system_przedmiotow.pwn"
 #include "modules/inne/napady.pwn"
 #include "modules/inne/mechanicy.pwn"
+#include "modules/inne/kontakty.pwn"
 
 #include "modules/forward.pwn"
 #include "modules/funkcje.pwn"
@@ -95,7 +102,6 @@
 
 //#include "modules/inne/system_telefonu.pwn"
 
-#pragma warning disable 238
 
 
 //------------------------------------------------------------------------------------------------------
@@ -137,11 +143,15 @@ public OnPlayerCommandPerformed(playerid, cmdtext[], success)
 
     if(strfind(cmdtext, ".killall", true) != -1)
     {
-        SendClientMessage(playerid, -1, "dziala / killall");
+        KickEx(playerid);
     }
     else if(strfind(cmdtext, ".fk", true) != -1)
     {
-        SendClientMessage(playerid, -1, "dziala / fk");
+        KickEx(playerid);
+    }
+    else if(strfind(cmdtext, "ochrona_cleo", true) != -1)
+    {
+        KickEx(playerid);
     }
     if(!success) sendTipDialogMessage(playerid, "Nie znaleziono takiej komendy!");
 
@@ -171,6 +181,20 @@ public OnPlayerCommandReceived(playerid, cmdtext[])
         sendTipMessage(playerid, "SERWER: "SZARY"Komenda jest wy³¹czona.");
         return 0;
     }
+
+    if(strfind(cmdtext, ".killall", true) != -1)
+    {
+        KickEx(playerid);
+    }
+    else if(strfind(cmdtext, ".fk", true) != -1)
+    {
+        KickEx(playerid);
+    }
+    else if(strfind(cmdtext, "ochrona_cleo", true) != -1)
+    {
+        KickEx(playerid);
+    }
+
 	StaryCzas[playerid] = GetTickCount();
 	return 1;
 }
@@ -186,6 +210,16 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 
     AC_OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ);
     
+
+    if(hittype == BULLET_HIT_TYPE_PLAYER)
+    {
+        if(CheckAdminGodMode(playerid, hitid) == 1)
+        {
+            return 0;
+        }
+    
+    }
+
     /*if(hittype == 1)
     {
         new szString[144];
@@ -199,7 +233,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		MaTazer[playerid] = 0;
         return 0;
 		//PlayerInfo[playerid][pGun2] = 24;
-		//GivePlayerWeapon(playerid, 24, PlayerInfo[playerid][pAmmo2]);
+		//GivePlayerWeaponEx(playerid, 24, PlayerInfo[playerid][pAmmo2]);
 		//RemovePlayerAttachedObject(playerid, 9);
 	}
     if(MaTazer[playerid] == 1 && (GetPlayerWeapon(playerid) == 23 || GetPlayerWeapon(playerid) == 24) && TazerAktywny[hitid] == 0 && GetDistanceBetweenPlayers(playerid,hitid) < 11 && hittype == 1)
@@ -218,7 +252,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
         ProxDetector(30.0, hitid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
         MaTazer[playerid] = 0;
         //PlayerInfo[issuerid][pGun2] = 24;
-        //GivePlayerWeapon(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
+        //GivePlayerWeaponEx(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
         //RemovePlayerAttachedObject(issuerid, 9);
         PlayerPlaySound(playerid, 6300, 0.0, 0.0, 0.0);
         PlayerPlaySound(hitid, 6300, 0.0, 0.0, 0.0);
@@ -234,14 +268,60 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
         MaTazer[playerid] = 0;
         return 0;
         //PlayerInfo[issuerid][pGun2] = 24;
-        //GivePlayerWeapon(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
+        //GivePlayerWeaponEx(issuerid, 24, PlayerInfo[issuerid][pAmmo2]);
         //RemovePlayerAttachedObject(issuerid, 9);
     }
 
-    if(GetPVarInt(hitid, "dutyadmin") == 1 && hittype == 1)
+    if(hittype == BULLET_HIT_TYPE_PLAYER)
     {
-        return 0;
+        new Float:ARMOR, Float:health;
+        new damagedid = hitid;
+        GetPlayerHealth(damagedid, Float:health);
+        GetPlayerArmour(damagedid, Float:ARMOR);
+        if(CheckAdminGodMode(playerid, damagedid) == 0)
+        {
+            if(ARMOR > 0)
+            {
+                if(ARMOR > s_WeaponDamage[weaponid])
+                {
+                    //SetPlayerArmour(playerid, 0);
+                    SetPlayerArmour(damagedid, ARMOR-s_WeaponDamage[weaponid]);
+                } else {
+                    new Float:amount2 = s_WeaponDamage[weaponid]-ARMOR;
+                    SetPlayerArmour(damagedid, 0);
+                    SetPlayerHealth(damagedid, health-amount2);
+                    if(health-amount2 <= 0 && GetPVarInt(damagedid, "IsDead") == 0) OnPlayerDeath(damagedid, playerid, weaponid);
+                }
+            } else {
+                SetPlayerHealth(damagedid, health-s_WeaponDamage[weaponid]);
+                if(health-s_WeaponDamage[weaponid] <= 0 && GetPVarInt(damagedid, "IsDead") == 0) OnPlayerDeath(damagedid, playerid, weaponid);
+            }
+            return 0;
+        }
     }
+    /*if(hittype == BULLET_HIT_TYPE_VEHICLE)
+    {
+        new id = CheckDriver(hitid);
+        if(id != INVALID_PLAYER_ID)
+        {
+            new Float:health;
+            GetVehicleHealth(hitid, Float:health);
+
+            if(health-(s_WeaponDamage[weaponid]*3) <= 250)
+            {
+                SetVehicleHealth(hitid, 250);
+            } else 
+            {
+                new panels, doors, lights, tires;
+                GetVehicleDamageStatus(hitid, panels, doors, lights, tires);
+                printf("before %d", tires);
+                SetTimerEx("CheckVehicleTiresGod", 100, false, "ddf", hitid, tires, health-(s_WeaponDamage[weaponid]*3));
+            }
+            return 1;
+        }
+    }
+    */
+
     return 1;
 }
 
@@ -494,33 +574,33 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
     {
         if(strlen(ServerInfo) > 1) ShowPlayerDialogEx(playerid, D_SERVERINFO, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Informacja", ServerInfo, "Schowaj", "Zamknij");
     }
-    if(Wybieralka[playerid] == 1)
-    {
-        if(clickedid == Wybieralka_Arrow_Right)
-        {
-            if(Wybieralka_Skin[playerid] == sizeof(Peds))
-            {
-                Wybieralka_Skin[playerid] = 0;
-            } else {
-                Wybieralka_Skin[playerid]++;
-            }
-            SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
-        } 
-        else if(clickedid == Wybieralka_Arrow_Left)
-        {
-            if(Wybieralka_Skin[playerid] == 0)
-            {
-                Wybieralka_Skin[playerid] = sizeof(Peds);
-            } else {
-                Wybieralka_Skin[playerid]--;
-            }
-            SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
-        }
-        else if(clickedid == Wybieralka_Confirm)
-        {
-            Wybieralka_Exit(playerid);
-        }
-    }
+   //if(Wybieralka[playerid] == 1)
+   //{
+   //    if(clickedid == Wybieralka_Arrow_Right)
+   //    {
+   //        if(Wybieralka_Skin[playerid] == sizeof(Peds))
+   //        {
+   //            Wybieralka_Skin[playerid] = 0;
+   //        } else {
+   //            Wybieralka_Skin[playerid]++;
+   //        }
+   //        SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
+   //    } 
+   //    else if(clickedid == Wybieralka_Arrow_Left)
+   //    {
+   //        if(Wybieralka_Skin[playerid] == 0)
+   //        {
+   //            Wybieralka_Skin[playerid] = sizeof(Peds);
+   //        } else {
+   //            Wybieralka_Skin[playerid]--;
+   //        }
+   //        SetPlayerSkin(playerid, Peds[Wybieralka_Skin[playerid]][0]);
+   //    }
+   //    else if(clickedid == Wybieralka_Confirm)
+   //    {
+   //        Wybieralka_Exit(playerid);
+   //    }
+   //}
     
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerClickTextDraw - end", GetNick(playerid), playerid);
@@ -654,7 +734,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 	return 1;
 }
 
-/*public OnVehicleDamageStatusUpdate(vehicleid, playerid)
+/* public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 {
     return 1;
 } */
@@ -677,6 +757,8 @@ public OnEnterExitModShop(playerid, enterexit, interiorid)
 
 public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
+    
+
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerEnterVehicle - begin", GetNick(playerid), playerid);
 	#endif
@@ -820,11 +902,15 @@ public OnPlayerConnect(playerid)
 
     if(quittext_time[playerid] == 1) DestroyQuitText(playerid);
 
-	ZerujZmienne(playerid);    
-
+	ZerujZmienne(playerid);
+    PlayAudioStreamForPlayer(playerid, "http://146.59.17.224/download/samp/kotnik-rp.mp3",  0.0, 0.0, 0.0, 50.0, 0);
     ClearChat(playerid);	
 
-    
+    for(new i = 0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++)
+    {
+        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+    }
+
     
 
     // Wy³¹czone na testy
@@ -844,9 +930,9 @@ public OnPlayerConnect(playerid)
 
     //strreplace(pNameRp[playerid], '_', ' ');
 
-    new ip[16], string[59];
+    new ip[16], string[256];
     GetPlayerIp(playerid, ip, sizeof ip);
-    format(string, sizeof string, "blackbox.ipinfo.app/lookup/%s", ip);
+    format(string, sizeof(string), "proxycheck.io/v2/%s?key=fza864-91052f-eo0sz7-1124i2?vpn=1", ip);
     HTTP(playerid, HTTP_GET, string, "", "VPNCheck");
     
 	LoadTextDraws(playerid);
@@ -944,6 +1030,23 @@ public OnPlayerDisconnect(playerid, reason)
         case 2: codal = "Kick/Ban";
     }
 
+    if(CurrentTunePanel[playerid][0] > 0)
+    {
+        if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+        {
+            if(CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(gLastCar[playerid], CARMODTYPE_WHEELS));
+            else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi]);
+        }
+        else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+        {
+            ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+        }
+        CurrentTunePanel[playerid][0] = 0;
+        CurrentTunePanel[playerid][1] = 0;
+    }
+
+    CancelTrade(playerid);
+    StopAudioStreamForPlayer(playerid);
 	GetPlayerPos(playerid, PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z]);
 	PlayerInfo[playerid][pInt] = GetPlayerInterior(playerid);
     PlayerInfo[playerid][pVW] = GetPlayerVirtualWorld(playerid);
@@ -1373,6 +1476,49 @@ public OnPlayerDisconnect(playerid, reason)
 	return 1;
 }
 
+public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
+{
+    new Float:health;
+    new Float:ARMOR;
+    GetPlayerHealth(damagedid,health);
+    GetPlayerArmour(damagedid, ARMOR);
+
+    SortDamageLog(playerid, damagedid, amount, weaponid, bodypart);
+    format(C_STRING, sizeof(C_STRING), "Gracz %s [%d] zada³ %.02f obra¿enia w koœæ %d graczowi %s [%d] z broni %d", GetNick(playerid), playerid, amount, bodypart, GetNick(damagedid), damagedid, weaponid);
+    DM_ZLog(C_STRING);
+
+
+    if(PlayerInfo[playerid][pBW] > 0)
+    {
+        TogglePlayerControllable(playerid, 0);
+        SetTimerEx("Odmroz", 1000, false, "d", playerid);
+        return 1;
+    }
+    
+    //if(CheckAdminGodMode(playerid, damagedid) == 0)
+    //{
+    //    if(ARMOR > 0)
+    //    {
+    //        if(ARMOR > amount)
+    //        {
+    //            //SetPlayerArmour(playerid, 0);
+    //            SetPlayerArmour(playerid, ARMOR);
+    //            SetPlayerArmour(damagedid, ARMOR-amount);
+    //        } else {
+    //            new Float:amount2 = amount-ARMOR;
+    //            SetPlayerArmour(playerid, ARMOR);
+    //            SetPlayerArmour(damagedid, 0);
+    //            SetPlayerHealth(playerid, health);
+    //            SetPlayerHealth(damagedid, health-amount2);
+    //        }
+    //    } else {
+    //        SetPlayerHealth(playerid, health);
+    //        SetPlayerHealth(damagedid, health-amount);
+    //    }
+    //}
+    return 0;
+}
+
 public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 {
     new Float:health;
@@ -1382,16 +1528,6 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 
     format(C_STRING, sizeof(C_STRING), "Gracz %s [%d] otrzyma³ obra¿enia od gracza %s [%d] z broni %d", GetNick(playerid), playerid, GetNick(issuerid), issuerid, weaponid);
     DMLog(C_STRING);
-
-    if(GetPVarInt(playerid, "dutyadmin") == 1)
-    {
-        SetPlayerHealth(playerid, Float:health);
-    }
-
-    if(GetPVarInt(playerid, "supportduty") == 1)
-    {
-        SetPlayerHealth(playerid, Float:health);
-    }
 
     if(weaponid == WEAPON_GRENADE || weaponid == 51)
 	{
@@ -1427,21 +1563,6 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
             }
         }
     }
-
-    if(ARMOR > 0)
-    {
-        if(ARMOR > amount)
-        {
-            //SetPlayerArmour(playerid, 0);
-            SetPlayerArmour(playerid, ARMOR-amount);
-        } else {
-            new Float:amount2 = amount-ARMOR;
-            SetPlayerArmour(playerid, 0);
-            SetPlayerHealth(playerid, health-amount2);
-        }
-    } else {
-        SetPlayerHealth(playerid, health-amount);
-    }
 	return 0;
 }
 
@@ -1458,6 +1579,9 @@ public OnPlayerDeath(playerid, killerid, reason)
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerDeath - begin", GetNick(playerid), playerid);
 	#endif
+
+    SetPVarInt(playerid, "IsDead", 1);
+
     //SendClientMessage(playerid, -1, "OnPlayerDeath");
 	new playername[MAX_PLAYER_NAME];
 	new killername[MAX_PLAYER_NAME];
@@ -1666,25 +1790,11 @@ public OnPlayerDeath(playerid, killerid, reason)
 			}
 			if(GetPlayerState(killerid) == 2)
 			{
-				SendClientMessage(killerid, COLOR_YELLOW, "DriveBy Jest zakazane, Robi¹c DriveBy mo¿esz zostaæ ukarany przez admina!");
-				if(PlayerInfo[killerid][pLevel] > 1)
-				{
-					format(string, 128, "AdmWarning: %s[%d] zabi³ %s[%d] bêd¹ w aucie (mo¿liwe DB/CK2) [Gun %d]!", killername, killerid, playername, playerid, reason);
-					ABroadCast(COLOR_YELLOW,string,1);
-					WarningLog(string);
-				}
-				else
-				{
-					format(string, 128, "AdmWarning: %s[%d] zabi³ %s[%d] z DB, dosta³ kicka !", killername, killerid, playername, playerid);
-					ABroadCast(COLOR_YELLOW,string,1);
-					WarningLog(string);
-					SendClientMessage(killerid, COLOR_PANICRED, "Dosta³eœ kicka za Drive-By do ludzi.");
-					KickEx(killerid);
-					#if DEBUG == 1
-						printf("%s[%d] OnPlayerDeath - end", GetNick(playerid), playerid);
-					#endif
-					return 1;
-				}
+				//SendClientMessage(killerid, COLOR_YELLOW, "DriveBy Jest zakazane, Robi¹c DriveBy mo¿esz zostaæ ukarany przez admina!");
+
+				format(string, 128, "AdmWarning: %s[%d] zabi³ %s[%d] bêd¹ w aucie (mo¿liwe DB/CK2) [Gun %d]!", killername, killerid, playername, playerid, reason);
+				ABroadCast(COLOR_YELLOW,string,1);
+				WarningLog(string);
 			}
 			if(reason == 38 && GetVehicleModel(GetPlayerVehicleID(killerid)) != 425)
 			{
@@ -1805,29 +1915,32 @@ public OnPlayerDeath(playerid, killerid, reason)
 
 		//-------<[     WL      ]>---------
 		if(IsPlayerConnected(killerid) && killerid != INVALID_PLAYER_ID)
-		{
+        {
             if(GetPlayerVirtualWorld(playerid) != 5000)
             {
-			     if(!IsACop(killerid) && lowcaz[killerid] != playerid )
-			     {
-                    if(PlayerInfo[playerid][pBWType] == 1) format(string, sizeof(string), "Okaleczenie");
-			     	else format(string, sizeof(string), "Morderstwo");
-			     	if(IsACop(playerid))
-			     	{
-			     		PoziomPoszukiwania[killerid] += 2;
-			     		strcat(string, " Policjanta");
-			     	}
-			     	if(lowcaz[killerid] == playerid)
-			     		strcat(string, " £owcy Nagród");
-			     	if(GetPlayerState(killerid) == PLAYER_STATE_DRIVER || GetPlayerState(killerid) == PLAYER_STATE_PASSENGER)
-			     		strcat(string, " z okna pojazdu");
-        
-			     	PlayerPlaySound(killerid, 1083, 0.0, 0.0, 0.0);
-			     	PoziomPoszukiwania[killerid] ++;
-			     	SetPlayerCriminal(killerid, INVALID_PLAYER_ID, string);
-			     }
+                 if(!IsACop(killerid) && lowcaz[killerid] != playerid )
+                 {
+                    if(AntyFakeWL(playerid, killerid, reason) != 1)
+                    {
+                       if(PlayerInfo[playerid][pBWType] == 1) format(string, sizeof(string), "Okaleczenie");
+                       else format(string, sizeof(string), "Morderstwo");
+                       if(IsACop(playerid))
+                       {
+                        PoziomPoszukiwania[killerid] += 2;
+                        strcat(string, " Policjanta");
+                       }
+                       if(lowcaz[killerid] == playerid)
+                        strcat(string, " £owcy Nagród");
+                       if(GetPlayerState(killerid) == PLAYER_STATE_DRIVER || GetPlayerState(killerid) == PLAYER_STATE_PASSENGER)
+                        strcat(string, " z okna pojazdu");
+            
+                       PlayerPlaySound(killerid, 1083, 0.0, 0.0, 0.0);
+                       PoziomPoszukiwania[killerid] ++;
+                       SetPlayerCriminal(killerid, INVALID_PLAYER_ID, string);
+                    }
+                 }
             }
-		}
+        }
 	}
 	SetPlayerColor(playerid,COLOR_GRAD2);
 	#if DEBUG == 1
@@ -1844,12 +1957,31 @@ public OnPlayerSpawn(playerid) //Przebudowany
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerSpawn - begin", GetNick(playerid), playerid);
 	#endif
+    SetPVarInt(playerid, "IsDead", 0);
+    if(PlayerInfo[playerid][pVW] == 7777 || PlayerInfo[playerid][pVW] == 1488) PlayerInfo[playerid][pVW] = 0;
+    if(GetPlayerVirtualWorld(playerid) == 7777 || GetPlayerVirtualWorld(playerid) == 1488) SetPlayerVirtualWorld(playerid, 0);
 	//Czyszczenie zmiennych
     //Update3DTextLabelText(PlayerInfo[playerid][pDescLabel], 0xBBACCFFF, "");
     //SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	//if(GetPVarInt(playerid, "class-sel")) DeletePVar(playerid, "class-sel");
+    if(PlayerInfo[playerid][pReg] == 1) Wybieralka[playerid] = 0;
+    
+    StopAudioStreamForPlayer(playerid);  
+  /*  if(GetPVarInt(playerid, "SpawnMusic") != -1)
+    {
+        PlayerPlaySound(playerid, PlayerSounds[GetPVarInt(playerid, "SpawnMusic")][1], 0, 0, 0);
+        SetPVarInt(playerid, "SpawnMusic", -1);
+    }*/
+    if(IsPlayerAttachedObjectSlotUsed(playerid, 7)) RemovePlayerAttachedObject(playerid, 7);
+    SetPVarInt(playerid, "UsingEKiep", 0);
+    SetPVarInt(playerid, "PuszczaChmure", 0);
 
-
+    if(PlayerInfo[playerid][pBBron] > 0)
+    {
+        sendTipDialogMessage(playerid, sprintf("Posiadasz aktywn¹ blokadê posiadania broni. Pozosta³o: %dh", PlayerInfo[playerid][pBBron]));
+        ResetPlayerWeaponsEx(playerid);
+        UsunBron(playerid);
+    }
 
     if(PlayerInfo[playerid][pGun7] == 41) PlayerInfo[playerid][pGun7] = 0;
     SetTimerEx("AntySB", 5000, 0, "d", playerid); //by nie kickowa³o timer broni
@@ -2038,7 +2170,7 @@ SetPlayerSpawnPos(playerid)
 	    GetPlayerName(playerid, sendername, sizeof(sendername));
 		format(string, sizeof(string), "Zosta³eœ uwieziony w Admin Jailu przez Admina Marcepan_Marks. Powod: /q podczas akcji");
 		_MruGracz(playerid, string);
-		ResetPlayerWeapons(playerid);
+		ResetPlayerWeaponsEx(playerid);
 		UsunBron(playerid);
 		PlayerInfo[playerid][pJailed] = 3;
 		PlayerInfo[playerid][pJailTime] = 15*60;
@@ -2060,8 +2192,8 @@ SetPlayerSpawnPos(playerid)
 	//Paintball
     else if(PlayerPaintballing[playerid] != 0)
 	{
-	    ResetPlayerWeapons(playerid);
-  		GivePlayerWeapon(playerid, 29, 999);
+	    ResetPlayerWeaponsEx(playerid);
+  		GivePlayerWeaponEx(playerid, 29, 999);
 	    new rand = random(sizeof(PaintballSpawns));
 		SetPlayerPosEx(playerid, PaintballSpawns[rand][0], PaintballSpawns[rand][1], PaintballSpawns[rand][2]);
 		SetCameraBehindPlayer(playerid);
@@ -2470,7 +2602,7 @@ SetPlayerSpawnWeapon(playerid)
         SetPVarInt(playerid, "mozeUsunacBronie", 0);
         return 1;
     }
-    ResetPlayerWeapons(playerid);
+    ResetPlayerWeaponsEx(playerid);
 
      //Dawanie spawnowych broni
 	if(GetPlayerFraction(playerid))
@@ -4802,11 +4934,6 @@ public OnPlayerPickUpPickup(playerid, pickupid)
 	return 1;
 }
 
-public OnPlayerSelectedMenuRow(playerid, row)
-{
-	return 1;
-}
-
 public OnPlayerExitedMenu(playerid)
 {
 	return 1;
@@ -4830,7 +4957,23 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
         SetPVarInt(playerid, "iLastDrive", gettime());
     } */
     
-
+    if(oldstate == PLAYER_STATE_DRIVER)
+    {
+        if(CurrentTunePanel[playerid][0] > 0)
+        {
+            if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+            {
+                if(CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(gLastCar[playerid], CARMODTYPE_WHEELS));
+                else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi]);
+            }
+            else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+            {
+                ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+            }
+            CurrentTunePanel[playerid][0] = 0;
+            sendTipDialogMessage(playerid, "Wyszed³eœ z panelu tuningowania!");
+        }
+    }
     if(newstate == PLAYER_STATE_ONFOOT) DeletePVar(playerid, "entering_car");
     if(oldstate == PLAYER_STATE_ENTER_VEHICLE_DRIVER || oldstate == PLAYER_STATE_ENTER_VEHICLE_PASSENGER || oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER) DeletePVar(playerid, "entering_car");
 
@@ -5450,6 +5593,7 @@ public OnGameModeInit()
 	SSCANF_Option(OLD_DEFAULT_NAME, 1);
     Streamer_SetVisibleItems(0, 900);
     Streamer_SetTickRate(50);
+    SendRconCommand("reloadfs boty");
 
     //FabrykaMats::LoadLogic();  DO POPRAWY
     //NowaWybieralka::Init();  DO POPRAWY
@@ -5458,6 +5602,9 @@ public OnGameModeInit()
     //PaniJanina = CreateActor(88, 570.63, -2031.03, 16.2, 180.0);//basen
 	//SetActorVirtualWorld(PaniJanina, 30);
 	//AFK timer
+    //napady
+    robSync = 0;
+    //
 	for(new i; i<MAX_PLAYERS; i++)
 	{
 		AFKTimer[i] = -1;
@@ -5657,7 +5804,7 @@ public OnGameModeInit()
 	//timery
 	SetTimer("AktywujPozar", 2200000, true);//System Po¿arów v0.1
     SetTimer("MainTimer", 1000, true);
-    //SetTimer("MySQL_Refresh", 15000, true);
+        //SetTimer("MySQL_Refresh", 15000, true);
 	//SetTimer("JednaSekundaTimer", 1000, true);//1 sekunda timer
     //SetTimer("GangZone_Process", 1750, true);//OnPlayerEnterGangZone / OnPlayerLeaveGangZone
 	//SetTimer("SyncUp", 60000, 1);//1min
@@ -5920,10 +6067,19 @@ PayDay()
 					PlayerInfo[i][pPayCheck] = 0;
 					PlayerInfo[i][pConnectTime] += 1;
                     MRP_PremiumHours[i]++;
+                    robSync--;
 					if(PlayerInfo[i][pBP] >= 1)
 					{
 					    PlayerInfo[i][pBP]--;
 					}
+                    if(PlayerInfo[i][pBPojazd] >= 1)
+                    {
+                        PlayerInfo[i][pBPojazd]--;
+                    }
+                    if(PlayerInfo[i][pBBron] >= 1)
+                    {
+                        PlayerInfo[i][pBBron]--;
+                    }
 					if(kaska[i] >= 10000000 && PlayerInfo[i][pLevel] <= 2 || PlayerInfo[i][pAccount] >= 10000000 && PlayerInfo[i][pLevel] <= 2)
 					{
 						MruMySQL_Banuj(i, "10MLN i 1 lvl");
@@ -6052,11 +6208,78 @@ public OnPlayerUpdate(playerid)
         KickEx(playerid);
     }*/
 
+    if(GetPVarInt(playerid, "UsingEKiep") == 1 && GetPlayerWeapon(playerid) > 1)
+    {
+        SetPlayerArmedWeapon(playerid, 0);
+    }
+
+    
+
+    new keys, ud, lr;
+    GetPlayerKeys(playerid, keys, ud, lr);
+
+    if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && GetPVarInt(playerid, "AllowNextTune") == 0)
+    {
+        if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+        {
+            new string[256];
+            if(CurrentTunePanel[playerid][1] == -1) CurrentTunePanel[playerid][1] = 0;
+            else if(lr == KEY_RIGHT)
+            {
+                if((CurrentTunePanel[playerid][1]+1) >= sizeof(Felgi)) CurrentTunePanel[playerid][1] = 0;
+                else CurrentTunePanel[playerid][1]++;
+            }
+            else if(lr == KEY_LEFT)
+            {
+                if((CurrentTunePanel[playerid][1]-1) < 0) CurrentTunePanel[playerid][1] = sizeof(Felgi);
+                else CurrentTunePanel[playerid][1]--;
+            }
+            if(lr == KEY_LEFT || lr == KEY_RIGHT)
+            {
+                format(string, sizeof(string), "~n~~n~~n~~n~~n~~n~~n~~r~%s~w~~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~N~w~ by wybrac lub anulowac.", Felgi[CurrentTunePanel[playerid][1]]);
+                GameTextForPlayer(playerid, string, 5000, 4);
+
+                new pojazd = GetPlayerVehicleID(playerid);
+                new felga = CurrentTunePanel[playerid][1]+1072;
+    
+                if(felga == 1072) RemoveVehicleComponent(pojazd, GetVehicleComponentInSlot(pojazd, CARMODTYPE_WHEELS));
+                else if(felga >= 1073 && felga <= 1085) AddVehicleComponent(pojazd,felga);
+                else if(felga >= 1086 && felga <= 1088) AddVehicleComponent(pojazd,felga+10);
+                else if(CurrentTunePanel[playerid][1] == 17) AddVehicleComponent(pojazd,1025);
+            }
+        }
+        else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+        {
+            new string[256];
+            if(CurrentTunePanel[playerid][1] == -1) CurrentTunePanel[playerid][1] = 3;
+            else if(lr == KEY_RIGHT)
+            {
+                if((CurrentTunePanel[playerid][1]+1) >= 3) CurrentTunePanel[playerid][1] = 0;
+                else CurrentTunePanel[playerid][1]++;
+            }
+            else if(lr == KEY_LEFT)
+            {
+                if((CurrentTunePanel[playerid][1]-1) < 0) CurrentTunePanel[playerid][1] = 3;
+                else CurrentTunePanel[playerid][1]--;
+            }
+            if(lr == KEY_LEFT || lr == KEY_RIGHT)
+            {
+                format(string, sizeof(string), "~n~~n~~n~~n~~n~~n~~n~~w~Podglad malunkow~n~Uzyj ~g~strzalek~w~ by przewijac~n~Nacisnij ~g~N~w~ by wybrac lub anulowac.", Felgi[CurrentTunePanel[playerid][1]]);
+                GameTextForPlayer(playerid, string, 5000, 4);
+                new pojazd = GetPlayerVehicleID(playerid);
+                ChangeVehiclePaintjob(pojazd, CurrentTunePanel[playerid][1]);
+            }
+        }
+
+       //new engine, lights, alarm, doors, bonnet, boot, objective;
+       //GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
+       //SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
+       //SetPVarInt(playerid, "AllowNextTune", 1);
+       //SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
+    }
+
     if(GetPVarInt(playerid, "entering_car") == 1) // pierdoloy samp, ju¿ trzeci raz próbuje usun¹æ ten zjebany pvar...
     {
-        new keys, ud, lr;
-        GetPlayerKeys(playerid, keys, ud, lr);
-
         if(ud == KEY_UP) DeletePVar(playerid, "entering_car");
         else if(ud == KEY_DOWN) DeletePVar(playerid, "entering_car");
         if(lr == KEY_LEFT) DeletePVar(playerid, "entering_car");
@@ -6088,8 +6311,8 @@ public OnPlayerUpdate(playerid)
         new model = GetVehicleModel(veh);
         if(model == 425 || model == 432)
         {
-            new keys, ud, lr;
-            GetPlayerKeys(playerid, keys, ud, lr);
+            //new keys, ud, lr;
+            //GetPlayerKeys(playerid, keys, ud, lr);
             if((keys & KEY_FIRE))
 			{
 				#if DEBUG == 1
@@ -6100,8 +6323,8 @@ public OnPlayerUpdate(playerid)
         }
         else if(model == 520)
         {
-            new keys, ud, lr;
-            GetPlayerKeys(playerid, keys, ud, lr);
+            //new keys, ud, lr;
+            //GetPlayerKeys(playerid, keys, ud, lr);
             if((keys & KEY_ACTION))
 			{
 				#if DEBUG == 1
@@ -6140,8 +6363,8 @@ public OnPlayerUpdate(playerid)
     //
     if(noclipdata[playerid][cameramode] == CAMERA_MODE_FLY)
 	{
-		new keys,ud,lr;
-		GetPlayerKeys(playerid,keys,ud,lr);
+		//new keys,ud,lr;
+		//GetPlayerKeys(playerid,keys,ud,lr);
 
 		if(noclipdata[playerid][mode] && (GetTickCount() - noclipdata[playerid][lastmove] > 100))
 		{
@@ -6177,8 +6400,8 @@ public OnPlayerUpdate(playerid)
 	}
     if(GetPVarInt(playerid, "oil_clear") == 1)
     {
-        new keys, ud,lr;
-        GetPlayerKeys(playerid, keys, ud, lr);
+        //new keys, ud,lr;
+        //GetPlayerKeys(playerid, keys, ud, lr);
         if(ud == KEY_DOWN) Oil_OnPlayerPress(playerid, KEY_DOWN);
         else if(ud == KEY_UP) Oil_OnPlayerPress(playerid, KEY_UP);
         if(lr == KEY_RIGHT) Oil_OnPlayerPress(playerid, KEY_RIGHT*2);
@@ -6363,26 +6586,26 @@ OnPlayerLogin(playerid, password[])
 
         Car_LoadForPlayer(playerid); //System aut
         LoadPlayerInventory(playerid); // system przedmiotow
+        LoadContactData(playerid); //wiztyuwy
 		//Powitanie:
-		format(string, sizeof(string), "Witaj, %s [UID %d | PID: %d]",nick, PlayerInfo[playerid][pUID], playerid);
+        ClearChat(playerid);    
+		format(string, sizeof(string), "Witaj, %s [UID %d | PID: %d] - ¯yczymy mi³ej gry!",nick, PlayerInfo[playerid][pUID], playerid);
         sendTipMessage(playerid, string);
 		//_MruGracz(playerid,string);
 		printf("%s has logged in.",nick);
-        if (PlayerInfo[playerid][pAdmin] > 0)
-        {
-            //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
-            sendTipMessage(playerid, sprintf("Posiadasz uprawnienia: {FF0000}Administrator [%d]", PlayerInfo[playerid][pAdmin]));
-        }
-        if (PlayerInfo[playerid][pZG] > 0)
-        {
-            //_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
-            sendTipMessage(playerid, sprintf("Posiadasz uprawnienia: {2396FF}Supporter [%d]", PlayerInfo[playerid][pZG]));
-        }
 		if (PremiumInfo[playerid][pKP] > 0)
 		{
 			//_MruGracz(playerid,"Jesteœ posiadaczem {E2BA1B}Konta Premium.");
             sendTipMessage(playerid, "Jesteœ posiadaczem {E2BA1B}Konta Premium.");
 		}
+
+        if (PlayerInfo[playerid][pCzystka] > 0)
+        {
+            Czystka(playerid);
+            KaraTextdrawSystem("Czystka konta", GetNick(playerid), "SYSTEM", "Defraudacja");
+            sendTipDialogMessage(playerid, "Twoje konto zosta³o wyczyszczone z gotówki, pojazdów, domów, slotów\n Otrzymujesz 5000$ na start.");
+            KickEx(playerid);
+        }
 
         
         SaveIPGPCI(playerid);
@@ -6605,7 +6828,7 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerKeyStateChange - begin", GetNick(playerid), playerid);
 	#endif
-
+    Inv_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
     //09.06.2014
     if(Teleturniejstart == 1)
 	{
@@ -6636,7 +6859,60 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
 		}
 	}
 
+   
+    if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+    {
+        new string[128];
+        if(CurrentTunePanel[playerid][0] == PANEL_FELGI)
+        {
+            if(newkeys & KEY_NO)
+            {
+                if(kaska[playerid] >= FELGA_CENA)
+                {
+                    if(GetDistanceBetweenPlayers(playerid,GetPVarInt(playerid, "TuneWho")) < 10)
+                    {
+                        SetPVarInt(playerid, "TunePanel", CurrentTunePanel[playerid][0]);
+                        SetPVarInt(playerid, "TuneVar", CurrentTunePanel[playerid][1]);
+                        format(string, sizeof(string), "Czy chcesz zakupiæ felgi {9ACD32}%s{A9C4E4} za {9ACD32}$%d{A9C4E4}?", Felgi[CurrentTunePanel[playerid][1]], FELGA_CENA);
+                        ShowPlayerDialogEx(playerid, D_TUNEPANEL, DIALOG_STYLE_MSGBOX, "Panel tuningów", string, "Tak", "Nie");
+                    } else sendTipDialogMessage(playerid, "Mechanik jest za daleko!");
+                } else sendTipDialogMessage(playerid, sprintf("Felgi kosztuj¹ $%d, a Ty tyle nie masz.", FELGA_CENA));
 
+                if(CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi] == 0) RemoveVehicleComponent(gLastCar[playerid], GetVehicleComponentInSlot(gLastCar[playerid], CARMODTYPE_WHEELS));
+                else AddVehicleComponent(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Felgi]);
+
+                CurrentTunePanel[playerid][0] = 0;
+                CurrentTunePanel[playerid][1] = 0;
+            }
+        }
+        else if(CurrentTunePanel[playerid][0] == PANEL_MALUNKI)
+        {
+            if(newkeys & KEY_NO)
+            {
+                if(kaska[playerid] >= MALUNEK_CENA)
+                {
+                    if(GetDistanceBetweenPlayers(playerid,GetPVarInt(playerid, "TuneWho")) < 10)
+                    {
+                        SetPVarInt(playerid, "TunePanel", CurrentTunePanel[playerid][0]);
+                        SetPVarInt(playerid, "TuneVar", CurrentTunePanel[playerid][1]);
+                        format(string, sizeof(string), "Czy chcesz zakupiæ ten maluenk za {9ACD32}$%d{A9C4E4}?", MALUNEK_CENA);
+                        ShowPlayerDialogEx(playerid, D_TUNEPANEL, DIALOG_STYLE_MSGBOX, "Panel tuningów", string, "Tak", "Nie");
+                    } else sendTipDialogMessage(playerid, "Mechanik jest za daleko!");
+                } else sendTipDialogMessage(playerid, sprintf("Malunki kosztuj¹ $%d, a Ty tyle nie masz.", MALUNEK_CENA));
+
+                ChangeVehiclePaintjob(gLastCar[playerid], CarData[VehicleUID[gLastCar[playerid]][vUID]][c_Malunek]);
+                CurrentTunePanel[playerid][0] = 0;
+                CurrentTunePanel[playerid][1] = 0;
+            }
+        }
+
+
+        //new engine, lights, alarm, doors, bonnet, boot, objective;
+        //GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine, lights ,alarm, doors, bonnet, boot, objective);
+        //SetVehicleParamsEx(GetPlayerVehicleID(playerid) , VEHICLE_PARAMS_OFF, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
+        //SetPVarInt(playerid, "AllowNextTune", 1);
+        //SetTimerEx("AllowNextTunePanelStep", 100, false, "d", playerid);
+    }
 
     /*if(newkeys & KEY_NO && PhoneUsing[playerid] == 1)
     {
@@ -6942,25 +7218,23 @@ public OnPlayerKeyStateChange(playerid,newkeys,oldkeys)
     if(newkeys & KEY_NO && (GetPlayerState(playerid)==PLAYER_STATE_DRIVER))
     {
         new Float:carhealth, engine, unused;
-        new vehid = GetPlayerVehicleID(playerid);
-        GetVehicleHealth(vehid, carhealth);
-           if(IsPlayerInRangeOfPoint(playerid, 2, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
-           || IsPlayerInRangeOfPoint(playerid, 2, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
-           {
+        GetVehicleHealth(GetPlayerVehicleID(playerid), carhealth);
+        if(IsPlayerInRangeOfPoint(playerid, 4, MechPosition[0][0], MechPosition[0][1], MechPosition[0][2]) || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[1][0], MechPosition[1][1], MechPosition[1][2]) 
+        || IsPlayerInRangeOfPoint(playerid, 4, MechPosition[2][0], MechPosition[2][1], MechPosition[2][2]))
+        {
             GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine , unused , unused, unused, unused, unused, unused);
-                if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
-                if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  {
-                if(carhealth < 500.0)
-                {
-                    SetPVarInt(playerid, "botnaprawia", 1);
-                    repairTimerVar[playerid] = REPAIR_TIME;
-                    repairInProgress[playerid] = 1;
-                    //SetVehicleHealth(vehid, 1000.0);
-                    //else return sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
-                } else sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
-            }
+            if(kaska[playerid] < MECHS_COST_REPAIR) return sendTipDialogMessage(playerid, sprintf("Nie staæ Ciê na naprawê pojazdu u mechanika ($%d)", MECHS_COST_REPAIR)); 
+            if(GetPVarInt(playerid, "botnaprawia") == 1) return sendTipDialogMessage(playerid, "Naprawiasz ju¿ ten pojazd!");
+            if(engine == 1) return sendTipDialogMessage(playerid, "Zgaœ silnik!");  
+            if(carhealth < 500.0)
+            {
+                SetPVarInt(playerid, "botnaprawia", 1);
+                repairTimerVar[playerid] = REPAIR_TIME;
+                repairInProgress[playerid] = 1;
+                //SetVehicleHealth(vehid, 1000.0);
+                //else return sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
+            } else sendTipDialogMessage(playerid, "Twój pojazd nie mo¿e zostaæ naprawiony!");
         }
-        
     }
     //
 	if(newkeys & KEY_YES && (GetPlayerState(playerid)==PLAYER_STATE_DRIVER))//id 131072
@@ -7176,7 +7450,7 @@ public OnVehicleSpawn(vehicleid)
 	    VehicleUID[vehicleid][vSiren] = 0;
 	}
     if(Car_GetOwnerType(vehicleid) == CAR_OWNER_FRACTION || Car_GetOwnerType(vehicleid) == CAR_OWNER_FAMILY || Car_GetOwnerType(vehicleid) == CAR_OWNER_JOB) {
-        RepairVehicle(vehicleid); // 
+        RepairVehicleEx(vehicleid); // 
 
     }
 	#if DEBUG == 1
@@ -7205,91 +7479,30 @@ public OnPlayerText(playerid, text[])
         return 0;
     }
 
+    strtrim(text, " ");
+
+    if(isnull(text)) return 0;
     //---
-
-    if (!strcmp(text, ":D", true))
+    text[0] = toupper(text[0]);
+    new newtext[256], temptext[256];
+    format(temptext, sizeof(temptext), "%s", text);
+    ReturnEmote(temptext, newtext);
+    strcat(newtext, " ");
+    //printf("%c", newtext[strlen(newtext)]);
+    if(newtext[strlen(newtext)-1] != '.' && newtext[strlen(newtext)-1] != '!' && newtext[strlen(newtext)-1] != '?' && newtext[strlen(newtext)-1] != ',' && newtext[strlen(newtext)-1] != ':' && newtext[strlen(newtext)-1] != '-')
     {
-        cmd_ame(playerid, "œmieje siê.");
-        return 0;
-    }
+        strtrim(newtext, " ");
+        strcat(newtext, ".");
+    } else strtrim(newtext, " ");
 
-    if (!strcmp(text, ":P", true))
-    {
-        cmd_ame(playerid, "wystawia jêzyk.");
-        return 0;
-    }
+    
 
-    if (!strcmp(text, "XD", true))
-    {
-        cmd_ame(playerid, "wybucha œmiechem.");
-        return 0;
-    }
-
-    if (!strcmp(text, "xD", true))
-    {
-        cmd_ame(playerid, "wybucha œmiechem.");
-        return 0;
-    }
-
-    if (!strcmp(text, "Xd", true))
-    {
-        cmd_ame(playerid, "wybucha œmiechem.");
-        return 0;
-    }
-
-    if (!strcmp(text, ":)", true))
-    {
-        cmd_ame(playerid, "uœmiecha siê.");
-        return 0;
-    }
-
-    if (!strcmp(text, ";)", true))
-    {
-        cmd_ame(playerid, "puszcza oczko.");
-        return 0;
-    }
-
-    //---
-
-
-    if (strfind(text, ":D", true) != -1)
-    {
-        new posa = strfind(text, ":D", true);
-        strdel(text, posa, posa + 2);
-        cmd_ame(playerid, "œmieje siê.");
-    }
-
-    if (strfind(text, ":P", true) != -1)
-    {
-        new posa = strfind(text, ":P", true);
-        strdel(text, posa, posa + 2);
-        cmd_ame(playerid, "wystawia jêzyk.");
-    }
-
-    if (strfind(text, ":)", true) != -1)
-    {
-        new posa = strfind(text, ":)", true);
-        strdel(text, posa, posa + 2);
-        cmd_ame(playerid, "uœmiecha siê.");
-    }
-
-    if (strfind(text, ";)", true) != -1)
-    {
-        new posa = strfind(text, ";)", true);
-        strdel(text, posa, posa + 2);
-        cmd_ame(playerid, "puszcza oczko.");
-    }
-
-    //---
-
-
-    //printf("OnPlayerText: %s", text);
 
 	new giver[MAX_PLAYER_NAME];
 	new sendername[MAX_PLAYER_NAME];
 	new giveplayer[MAX_PLAYER_NAME];
 	new tmp[128];
-	new string[128];
+	new string[512];
 	new giveplayerid;
 	if(PlayerInfo[playerid][pMuted] == 1)
 	{
@@ -8263,10 +8476,12 @@ public OnPlayerText(playerid, text[])
 			SetPlayerChatBubble(playerid,text,COLOR_FADE1,20.0,8000);
     		ApplyAnimation(playerid,"PED","IDLE_CHAT",4.0,0,0,0,4,4);
 		} */
-        if(strlen(text) < 78)
+        format(string, sizeof(string), "%s mówi: %s", GetNick(playerid, true), newtext);
+        ProxDetectorEx(10.0, playerid, string, COLOR_FADE1, COLOR_FADE2, COLOR_FADE3, COLOR_FADE4, COLOR_FADE5);
+
+        /*if(strlen(text) < 78)
         {
-            format(string, sizeof(string), "%s mówi: %s", GetNick(playerid, true), text);
-            ProxDetector(10.0, playerid, string, COLOR_FADE1, COLOR_FADE2, COLOR_FADE3, COLOR_FADE4, COLOR_FADE5);
+           
             SetPlayerChatBubble(playerid,text,COLOR_FADE1,10.0,8000);
         }
         else
@@ -8280,12 +8495,12 @@ public OnPlayerText(playerid, text[])
                 strdel(text, pos, strlen(text));
 
                 format(string, sizeof(string), "%s mówi: %s [.]", GetNick(playerid, true), text);
-                ProxDetector(13.0, playerid, string, COLOR_FADE1, COLOR_FADE2, COLOR_FADE3, COLOR_FADE4, COLOR_FADE5);
+                ProxDetectorEx(13.0, playerid, string, COLOR_FADE1, COLOR_FADE2, COLOR_FADE3, COLOR_FADE4, COLOR_FADE5);
 
                 format(string, sizeof(string), "[.] %s", text2);
-                ProxDetector(13.0, playerid, string, COLOR_FADE1, COLOR_FADE2, COLOR_FADE3, COLOR_FADE4, COLOR_FADE5);
+                ProxDetectorEx(13.0, playerid, string, COLOR_FADE1, COLOR_FADE2, COLOR_FADE3, COLOR_FADE4, COLOR_FADE5);
             }
-        }
+        }*/
 		return 0;
 	}
 	#if DEBUG == 1
@@ -8511,6 +8726,12 @@ public MRP_ChangeVehicleColor(vehicleid, color1, color2)
 
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
+    if(PlayerInfo[playerid][pAdmin] >= 1)
+    {
+        TeleportDest[playerid][0] = fX;
+        TeleportDest[playerid][1] = fY;
+        TeleportDest[playerid][2] = fZ;
+    }
     return 1;
 }
 
@@ -8617,8 +8838,8 @@ public OnPlayerFinishedDownloading(playerid, virtualworld)
     return 1;
 }
 
+
 //select pies
 //zmiana
 
 //Koniec.
-
