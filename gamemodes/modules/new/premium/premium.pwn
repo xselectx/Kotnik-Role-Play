@@ -715,13 +715,13 @@ CMD:setkc(playerid, params[])
 		new giveplayerid, VARmcVal;
 		if( sscanf(params, "k<fix>d", giveplayerid, VARmcVal))
 		{
-			sendTipMessage(playerid, "U¿yj /setkc [playerid/CzêœæNicku] [kotnik coins]");
+			sendTipMessage(playerid, "U¿yj /setkc [playerid/CzêœæNicku] [Lisek coins]");
 			return 1;
 		}
 		
 		new string[90];
 
-		format(string, sizeof(string), "AdmCmd: %s dal %s %d kotnik coinsow", GetNick(playerid), GetNick(giveplayerid), VARmcVal);
+		format(string, sizeof(string), "AdmCmd: %s dal %s %d Lisek coinsow", GetNick(playerid), GetNick(giveplayerid), VARmcVal);
 
 		CKLog(string);
 
@@ -729,8 +729,8 @@ CMD:setkc(playerid, params[])
 
 		premium_saveMc(giveplayerid);
 
-		_MruAdmin(playerid, sprintf("Da³eœ %d Kotnik Coins graczowi %s [ID: %d]", VARmcVal, GetNick(giveplayerid, true), giveplayerid));
-		if(giveplayerid != playerid) _MruAdmin(giveplayerid, sprintf("Dosta³eœ %d Kotnik Coins od Admina %s [ID: %d]", VARmcVal, GetNick(playerid, true), playerid));
+		_MruAdmin(playerid, sprintf("Da³eœ %d Lisek Coins graczowi %s [ID: %d]", VARmcVal, GetNick(giveplayerid, true), giveplayerid));
+		if(giveplayerid != playerid) _MruAdmin(giveplayerid, sprintf("Dosta³eœ %d Lisek Coins od Admina %s [ID: %d]", VARmcVal, GetNick(playerid, true), playerid));
 
 		return 1;
 
@@ -832,7 +832,7 @@ premium_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 			else
 			{
-				_MruGracz(playerid, "Nie masz wystarczaj¹cej iloœci Kotnik Coin'ów aby przed³u¿yæ/zakupiæ konto premium!");
+				_MruGracz(playerid, "Nie masz wystarczaj¹cej iloœci Lisek Coin'ów aby przed³u¿yæ/zakupiæ konto premium!");
 				DialogKupKP(playerid);
 			}
 		}
@@ -1003,10 +1003,10 @@ DialogMenuDotacje(playerid)
 		format(kpinfo, sizeof(kpinfo), ""#PREMIUM_EMBED2"(Wygasa: %02d.%02d.%d)", date[2], date[1], date[0]);
 	}
 
-			//"Rynek Kotnik Coins'ów\n"
+			//"Rynek Lisek Coins'ów\n"
 		//"Wspomó¿ nasz serwer i otrzymaj Mrucznik Coins'y!", 
-	format(string, sizeof(string), ""#HQ_COLOR_TEKST"Iloœæ Kotnik Coins: \t\t"#PREMIUM_EMBED2"%d KC\n" \
-		"    "HQ_COLOR_TEKST2"Kup Kotnik Coins\n"\
+	format(string, sizeof(string), ""#HQ_COLOR_TEKST"Iloœæ Lisek Coins: \t\t"#PREMIUM_EMBED2"%d LC\n" \
+		"    "HQ_COLOR_TEKST2"Kup Lisek Coins\n"\
 		""#HQ_COLOR_TEKST"Konto Premium %s\n"\
 		"    "HQ_COLOR_TEKST2"%s konto premium\n"\
 		""#HQ_COLOR_TEKST"Numer Telefonu: \t"#PREMIUM_EMBED2"%d\n"\
@@ -1034,15 +1034,15 @@ static DialogKupKP(playerid)
 	if(IsPlayerPremium(playerid))
 		format(string, sizeof(string), "Posiadasz ju¿ aktywne konto premium!");
 	else
-		format(string, sizeof(string), "Mo¿esz kupiæ konto premium na miesi¹c za "INCOLOR_GREEN""#MIESIAC_KP_CENA" Kotnik Coinsów\nCzy chcesz to zrobiæ?");
+		format(string, sizeof(string), "Mo¿esz kupiæ konto premium na miesi¹c za "INCOLOR_GREEN""#MIESIAC_KP_CENA" Lisek Coinsów\nCzy chcesz to zrobiæ?");
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(KUP_KP), DIALOG_STYLE_MSGBOX, "Premium - KP", string, "Tak", "Nie");
 }
 
 /*static DialogRynekMC(playerid)
 {
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(RYNEK_MC), DIALOG_STYLE_LIST, "Premium - Rynek MC", 
-		"Oferty kupna Kotnik Coinów\n"\
-		"Oferty sprzeda¿y Kotnik Coinów\n"\
+		"Oferty kupna Lisek Coinów\n"\
+		"Oferty sprzeda¿y Lisek Coinów\n"\
 		"Stwórz ofertê kupna\n"\
 		"Stwórz ofertê sprzeda¿y\n"\
 		"Moje oferty\n"\
@@ -1053,9 +1053,9 @@ static DialogKupKP(playerid)
 static DialogDotacje(playerid)
 {
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(DOTACJE), DIALOG_STYLE_MSGBOX, "Premium - Dotacje", 
-		"Je¿eli wspomo¿esz nasz serwer dotacj¹ o okreœlonej wysokoœci, otrzymasz od nas okreœlon¹ iloœæ Kotnik Coinsów.\n" \
+		"Je¿eli wspomo¿esz nasz serwer dotacj¹ o okreœlonej wysokoœci, otrzymasz od nas okreœlon¹ iloœæ Lisek Coinsów.\n" \
 		"Informacje o tym, w jaki sposób mo¿esz wesprzeæ nasz serwer, znajdziesz na naszym forum\n" \
-		INCOLOR_WHITE"www.Kotnik-RP.pl", 
+		INCOLOR_WHITE"www.Lisek-RP.pl", 
 	"Wróæ", "");
 }
 
@@ -1081,7 +1081,7 @@ stock DialogPojazdyPremium(playerid)
 	for(new i; i<MAX_PREMIUM_VEHICLES; i++)
 	{
 		if(PojazdyPremium[i][Model] != 0)
-			format(string, sizeof(string), "%s%s - "INCOLOR_GREEN"%d Kotnik Coins\n", string, VehicleNames[PojazdyPremium[i][Model]-400], PojazdyPremium[i][Cena]);
+			format(string, sizeof(string), "%s%s - "INCOLOR_GREEN"%d Lisek Coins\n", string, VehicleNames[PojazdyPremium[i][Model]-400], PojazdyPremium[i][Cena]);
 	}
 	string[strlen(string)-1] = '\0';
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(POJAZDY), DIALOG_STYLE_LIST, "Premium - Us³ugi - Pojazdy", string,"Kup", "Wróæ");
@@ -1099,14 +1099,14 @@ stock DialogPojazdyPremium(playerid)
 stock DialogSlotyPojazdu(playerid)
 {
 	new string[300];
-	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" slotów na pojazdy.\nMo¿esz dokupiæ dodatkowe sloty za Kotnik Coiny, lecz nie mo¿esz posiadaæ wiêcej slotów, ni¿ "INCOLOR_ORANGE""#MAX_CAR_SLOT""INCOLOR_DIALOG".\nKoszt 1 slota to "INCOLOR_GREEN""#CAR_SLOT_CENA""INCOLOR_DIALOG" Kotnik Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pCarSlots]);
+	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" slotów na pojazdy.\nMo¿esz dokupiæ dodatkowe sloty za Lisek Coiny, lecz nie mo¿esz posiadaæ wiêcej slotów, ni¿ "INCOLOR_ORANGE""#MAX_CAR_SLOT""INCOLOR_DIALOG".\nKoszt 1 slota to "INCOLOR_GREEN""#CAR_SLOT_CENA""INCOLOR_DIALOG" Lisek Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pCarSlots]);
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(SLOTY_POJAZDU), DIALOG_STYLE_MSGBOX, "Premium - Us³ugi - Sloty", string, "Kup", "Wróæ");
 }
 
 stock DialogZmianyNicku(playerid)
 {
 	new string[256];
-	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" mo¿liwoœci zmiany nicku.\nMo¿esz dokupiæ dodatkowe zmiany nicku za Kotnik Coiny.\n\nKoszt 1 zmiany nicku to "INCOLOR_GREEN""#ZMIANA_NICKU_CENA""INCOLOR_DIALOG" Kotnik Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pZmienilNick]);
+	format(string, sizeof(string), "Aktualnie posiadasz "INCOLOR_WHITE"%d"INCOLOR_DIALOG" mo¿liwoœci zmiany nicku.\nMo¿esz dokupiæ dodatkowe zmiany nicku za Lisek Coiny.\n\nKoszt 1 zmiany nicku to "INCOLOR_GREEN""#ZMIANA_NICKU_CENA""INCOLOR_DIALOG" Lisek Coins.\nAby dokupiæ slot, naciœnij"INCOLOR_WHITE"\"Kup\"", PlayerInfo[playerid][pZmienilNick]);
 	ShowPlayerDialogEx(playerid, PREMIUM_DIALOG(ZMIANY_NICKU), DIALOG_STYLE_MSGBOX, "Premium - Us³ugi - Zmiany nicku", string, "Kup", "Wróæ");
 	return 1;
 }

@@ -80,7 +80,7 @@ CMD:marcepan(playerid, params[])
 }
 
 #if DEBUG == 1
-CMD:pakietkotnika(playerid)
+CMD:pakietLiska(playerid)
 {
 
     if(gettime() < GetPVarInt(playerid, "pakietl")) return sendTipMessage(playerid, "{dafc10}Mo¿esz u¿ywaæ tego co 60s");
@@ -215,7 +215,7 @@ CMD:panel(playerid, params[])
         DeletePVar(playerid, "panel-kary-continue");
         DeletePVar(playerid, "panel-powod");
         format(str, 256, "{FFFFFF}» PANEL KAR (%s{FFFFFF})\n{FFFFFF}» SprawdŸ konto gracza", (kary & 0b10) ? ("{00FF00}Uprawnienia") : ("{FF0000}Brak upr."));
-        ShowPlayerDialogEx(playerid, D_PANEL_ADMINA, DIALOG_STYLE_LIST, "K-RP » Panel administracyjny", str, "Wybierz", "WyjdŸ");
+        ShowPlayerDialogEx(playerid, D_PANEL_ADMINA, DIALOG_STYLE_LIST, "L-RP » Panel administracyjny", str, "Wybierz", "WyjdŸ");
     }
     else
     {
@@ -674,7 +674,7 @@ CMD:mysql_query(playerid, params[])
             return 1;
         }
         sendTipMessage(playerid, sprintf("[PANEL SA:MP]: Wygenerowano token konta dla konta: GID: %d [TOKEN: %d]", PlayerInfo[playerid][pUID], GenerujToken(playerid)));
-        sendTipDialogMessage(playerid, "U¿yj tego kodu na stronie kotnik-rp.pl/panel aby powi¹zaæ twoje konto z panelem gracza");
+        sendTipDialogMessage(playerid, "U¿yj tego kodu na stronie Lisek-rp.pl/panel aby powi¹zaæ twoje konto z panelem gracza");
     }
     return 1;
 }*/
@@ -844,7 +844,7 @@ CMD:opispomoc(playerid)
 		SendClientMessage(playerid, COLOR_WHITE,"         Przyk³ad 1: {99CC00}Nosi za pasem klucz francuski.");
 		SendClientMessage(playerid, COLOR_WHITE,"----> 2. NIE zamieszczaj reklam ani informacji o zawodzie czy skillu");
 		SendClientMessage(playerid, COLOR_WHITE,"Opis jest czatem globalnym IC. Je¿eli bêdziesz go u¿ywa³ Ÿle mo¿esz otrzymaæ blokadê tej komendy.");
-		SendClientMessage(playerid, COLOR_P@,"{99CC00}|___________ >>> Wiêcej pomocy na Kotnik-RP.pl <<< ___________|");
+		SendClientMessage(playerid, COLOR_P@,"{99CC00}|___________ >>> Wiêcej pomocy na Lisek-RP.pl <<< ___________|");
 	}
 	return 1;
 }
@@ -858,7 +858,7 @@ CMD:vopispomoc(playerid)
 		SendClientMessage(playerid, COLOR_WHITE,"         Przyk³ad 1: {99CC00}Przyciemniane szyby, kartka na przodzie z napisem: Sprzedam");
 		SendClientMessage(playerid, COLOR_WHITE,"----> 2. NIE zamieszczaj reklam");
 		SendClientMessage(playerid, COLOR_WHITE,"Opis jest czatem globalnym IC. Je¿eli bêdziesz go u¿ywa³ Ÿle mo¿esz otrzymaæ blokadê tej komendy.");
-		SendClientMessage(playerid, COLOR_P@,"{99CC00}|___________ >>> Wiêcej pomocy na Kotnik-RP.pl <<< ___________|");
+		SendClientMessage(playerid, COLOR_P@,"{99CC00}|___________ >>> Wiêcej pomocy na Lisek-RP.pl <<< ___________|");
 	}
 	return 1;
 }
@@ -1111,7 +1111,7 @@ CMD:pomoc(playerid)
 {
     new string[256];
     format(string, sizeof(string), "# Podstawowe komendy\n# Komendy czatów\n# Blokady czatów\n# Komendy pojazdu\n# Komendy posiad³oœci\n# Komendy bankowe\n# Komendy pracy\n# Komendy organizacji\n# Komendy przestêpstwa\n# Inne komendy");
-    ShowPlayerDialogEx(playerid, DIALOG_POMOC_NEW, DIALOG_STYLE_LIST, "{8FCB04}Kotnik-RP{FFFFFF} »» Pomoc", string, "Ok", "");
+    ShowPlayerDialogEx(playerid, DIALOG_POMOC_NEW, DIALOG_STYLE_LIST, "{8FCB04}Lisek-RP{FFFFFF} »» Pomoc", string, "Ok", "");
     return 1;
 }
 
@@ -1130,7 +1130,7 @@ CMD:id(playerid, params[])
 
 		if(!IsPlayerConnected(giveplayerid))
 		{
-            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Nie ma na serwerze gracza o podanym ID", "Zamknij", "");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Lisek-RP{FFFFFF} » B³¹d wyszukiwania ", "Nie ma na serwerze gracza o podanym ID", "Zamknij", "");
 			return 1;
 		}
 
@@ -1146,7 +1146,7 @@ CMD:id(playerid, params[])
         new ilosc;
 		if(strlen(params) < 3)
         {
-            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Musisz podaæ minimum 3 litery.", "Zamknij", "");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Lisek-RP{FFFFFF} » B³¹d wyszukiwania ", "Musisz podaæ minimum 3 litery.", "Zamknij", "");
             return 1;
         }
         
@@ -1176,12 +1176,12 @@ CMD:id(playerid, params[])
         } 
         else if(ilosc == 0)
         {
-            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Nie ma obecnie gracza o podanym nicku!", "Zamknij", "");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Lisek-RP{FFFFFF} » B³¹d wyszukiwania ", "Nie ma obecnie gracza o podanym nicku!", "Zamknij", "");
             return 1;
         }
         else 
         {
-            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » B³¹d wyszukiwania ", "Zbyt wiele dopasowañ", "Zamknij", "");
+            ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Lisek-RP{FFFFFF} » B³¹d wyszukiwania ", "Zbyt wiele dopasowañ", "Zamknij", "");
             return 1;
         }
 		
@@ -2685,7 +2685,7 @@ CMD:bbron(playerid, params[])//blokada pisania
                     sendTipDialogMessage(giveplayerid, C_STRING);
                     ResetPlayerWeaponsEx(playerid);
                     UsunBron(playerid);
-                   // SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Kotnik-RP.pl");
+                   // SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Lisek-RP.pl");
                     format(string, sizeof(string), "[BBRON]:  %s dostal blokade bronii od %s na %d godzin, z powodem %s", giveplayer, sendername, czas, text);
                     KickLog(string);
                     return 1;
@@ -2766,7 +2766,7 @@ CMD:bp(playerid, params[])//blokada pisania
                     else KaraTextdraw(sprintf("Blokada pisana (%dh)", czas), giveplayer, playerid, text);
 					format(string, sizeof(string), "Zosta³eœ ukarany blokad¹ pisania na globalnych czatach na %d godzin.", czas);
 					SendClientMessage(giveplayerid, COLOR_LIGHTBLUE, string);
-					SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Kotnik-RP.pl");
+					SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Lisek-RP.pl");
 					format(string, sizeof(string), "AdmCmd: %s dostal BP od %s na %d godzin, z powodem %s", giveplayer, sendername, czas, text);
 					KickLog(string);
 					//opis
@@ -9882,7 +9882,7 @@ CMD:sblok(playerid, params[])
 		            //PlayerInfo[giveplayerid][pCK] = 2;
 		            BanLog(string);
 		            PlayerInfo[playerid][pBlock] = 1;
-					SendClientMessage(giveplayerid, COLOR_NEWS, "Twoje konto zosta³o zablokowane za z³y nick. Jeœli block jest nies³uszny wejdŸ na www.Kotnik-RP.pl i napiœ proœbê o UN BLOCK");
+					SendClientMessage(giveplayerid, COLOR_NEWS, "Twoje konto zosta³o zablokowane za z³y nick. Jeœli block jest nies³uszny wejdŸ na www.Lisek-RP.pl i napiœ proœbê o UN BLOCK");
 					KickEx(giveplayerid);
 					SetTimerEx("AntySpamTimer",5000,0,"d",playerid);
 	    			AntySpam[playerid] = 1;
@@ -11973,7 +11973,7 @@ CMD:zderzaki(playerid, params[])
         {
             strcat(string, sprintf("[#] Blokada pisania (Pozosta³o: %d)\n", PlayerInfo[playerid][pBP]), sizeof(string));
         }
-        ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_LIST, "{8FCB04}Kotnik-RP »{FFFFFF} Aktywne kary", string, "Zamknij", "");
+        ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_LIST, "{8FCB04}Lisek-RP »{FFFFFF} Aktywne kary", string, "Zamknij", "");
         return 1;
     }
     return 1;
@@ -12763,7 +12763,7 @@ CMD:wezzlecenie(playerid, params[])
 						    		}
 						    		else
 						    		{
-						    		    SendClientMessage(playerid, COLOR_PANICRED, "B³¹d, zg³oœ okolicznoœci na forum: www.Kotnik-RP.pl");
+						    		    SendClientMessage(playerid, COLOR_PANICRED, "B³¹d, zg³oœ okolicznoœci na forum: www.Lisek-RP.pl");
 						    		}
 						    	}
 						    	else
@@ -15653,7 +15653,7 @@ CMD:datek(playerid, params[])
 
 
     format(C_STRING, sizeof C_STRING, "{4286F4}%s (UID: %d)\n{FFFFFF}Status konta: %s", realname, PlayerInfo[playerid][pUID], btext );
-    ShowPlayerDialog(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_LIST, " Kotnik-RP - statystyki postaci", C_STRING, "WyjdŸ", "");
+    ShowPlayerDialog(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_LIST, " Lisek-RP - statystyki postaci", C_STRING, "WyjdŸ", "");
     return 1;
 }*/
 
@@ -16307,7 +16307,7 @@ CMD:nonewbie(playerid)
 			SendClientMessageToAll(COLOR_WHITE,"2. Na czacie nie witamy siê || 3. Nie udzielamy odpowiedzi na /w - wszytkie odpowiedzi udzielamy na /n )");
 			SendClientMessageToAll(COLOR_WHITE,"4. Je¿eli chcesz og³osiæ, ¿e 'pomagasz  w RP' to nie tutaj, gdy¿ to w³asnie na tym czacie tej pomocy udzielamy! )");
 			SendClientMessageToAll(COLOR_WHITE,"Je¿eli nie chcesz widzieæ tego czatu, mozesz go wy³¹czyæ komend¹ {CD5C5C}/togn");
-			SendClientMessageToAll(COLOR_P@,"|________________________>>> Kotnik-RP.pl <<<________________________|");
+			SendClientMessageToAll(COLOR_P@,"|________________________>>> Lisek-RP.pl <<<________________________|");
 			BroadCast(COLOR_GRAD2, "Czat newbie zosta³ odblokowany przez Administratora !");
             format(string, 128, "CMD_Info: /nonewbie u¿yte przez %s [%d]", GetNick(playerid), playerid);
             SendCommandLogMessage(string);
@@ -17264,7 +17264,7 @@ CMD:forum(playerid)
         if(PlayerInfo[playerid][pAdmin] >= 1)
         {
 			GetPlayerName(playerid, sendername, sizeof(sendername));
-			format(string, sizeof(string), "Adres forum: www.Kotnik-RP.pl !! (%s)", sendername);
+			format(string, sizeof(string), "Adres forum: www.Lisek-RP.pl !! (%s)", sendername);
 			SendClientMessageToAll(0xff00ff, string);
 		}
 		else
@@ -18986,7 +18986,7 @@ CMD:wiadomosc(playerid, params[])
         //        printf("%s", adminTokenText[playerid]);
     //
         //        format(C_STRING, sizeof(C_STRING), "Aby wys³aæ wiadomoœæ do Administratora: %s [%d]\nMusisz przepisaæ token: {8FCB04}%d", GetNick(giveplayerid), giveplayerid, adminToken[playerid]);
-        //        ShowPlayerDialogEx(playerid, DIALOG_ADMIN_PM_TOKEN, DIALOG_STYLE_INPUT, "{8FCB04}Kotnik-RP{FFFFFF} » Token wiadomoœci", C_STRING, "Wyœlij", "Anuluj");
+        //        ShowPlayerDialogEx(playerid, DIALOG_ADMIN_PM_TOKEN, DIALOG_STYLE_INPUT, "{8FCB04}Lisek-RP{FFFFFF} » Token wiadomoœci", C_STRING, "Wyœlij", "Anuluj");
         //    
         //        return 1;
         //    }
@@ -19015,8 +19015,10 @@ CMD:wiadomosc(playerid, params[])
 
         if(giveplayerid == playerid) //easter egg
         {
-            format(string, sizeof(string), "* %s mruczy (jak Kotnik) coœ pod nosem.", sendername);
-            ProxDetector(5.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
+            sendTipMessage(playerid, "Nie mo¿esz wys³aæ wiadomoœci do samego siebie.");
+            return 1;
+            //format(string, sizeof(string), "* %s mruczy (jak Lisek) coœ pod nosem.", sendername);
+            //ProxDetector(5.0, playerid, string, COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE,COLOR_PURPLE);
             //return 1;
         }
 
@@ -23698,7 +23700,7 @@ CMD:adminajail(playerid, params[])
 						//adminowe logi
    						format(string, sizeof(string), "Admini/%s.ini", sendername);
 				        dini_IntSet(string, "Ilosc_AJ", dini_Int(string, "Ilosc_AJ")+1 );
-						SendClientMessage(playa, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Kotnik-RP.pl");
+						SendClientMessage(playa, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Lisek-RP.pl");
                         Wchodzenie(playa);
                     }
 				}
@@ -26562,7 +26564,7 @@ CMD:kick(playerid, params[])
 					GetPlayerName(playerid, sendername, sizeof(sendername));
   					if(PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pZG] >= 2 || PlayerInfo[playerid][pNewAP] >= 1)
   					{
-      					SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Kotnik-RP.pl");
+      					SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Lisek-RP.pl");
 						format(string, sizeof(string), "AdmCmd: Admin %s zkickowa³ %s, Powód: %s", sendername, giveplayer, (result));
 						KickLog(string);
 						format(string, sizeof(string), "AdmCmd: Admin %s zkickowa³ %s, Powód: %s", sendername, giveplayer, (result));
@@ -26650,7 +26652,7 @@ CMD:warn(playerid, params[])
 					{
 					    if(gPlayerLogged[giveplayerid] != 0)
 						{
-						    SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Kotnik-RP.pl");
+						    SendClientMessage(giveplayerid, COLOR_NEWS, "SprawdŸ czy otrzymana kara jest zgodna z list¹ kar i zasad, znajdziesz j¹ na www.Lisek-RP.pl");
 							format(string, sizeof(string), "AdmCmd: %s zosta³ zbanowany przez Admina %s (3 warny), powód: %s", giveplayer, sendername, (result));
 							BanLog(string);
 							format(string, sizeof(string), "AdmCmd: %s zosta³ zbanowany przez Admina %s (3 Ostrze¿enia), powód: %s", giveplayer, sendername, (result));
@@ -26900,7 +26902,7 @@ CMD:ban(playerid, params[])
                         sendTipMessageEx(playerid, COLOR_WHITE, " Gracz nie jest zalogowany, u¿yj kicka.");
 						return 1;
                     }
-					SendClientMessage(giveplayerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+					SendClientMessage(giveplayerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Lisek-RP.pl i z³ó¿ prosbê o UN-BAN");
 					format(string, sizeof(string), "AdmCmd: Admin %s zbanowal %s, powód: %s",  sendername, giveplayer, result);
 					BanLog(string);
 					format(string, sizeof(string), "AdmCmd: Admin %s zbanowa³ %s, powód: %s",  sendername, giveplayer, result);
@@ -26946,7 +26948,7 @@ CMD:ban(playerid, params[])
                             sendTipMessageEx(playerid, COLOR_WHITE, " Gracz nie jest zalogowany, u¿yj kicka.");
 							return 1;
                         }
-						SendClientMessage(giveplayerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+						SendClientMessage(giveplayerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Lisek-RP.pl i z³ó¿ prosbê o UN-BAN");
 						format(string, sizeof(string), "AdmCmd: Pó³Admin %s zbanowa³ %s, powód: %s",  sendername, giveplayer, (result));
 						BanLog(string);
                         if(!KarywTXD) SendPunishMessage(string, giveplayerid);
@@ -29979,7 +29981,7 @@ CMD:glosnik(playerid)
             new bool:inpos=true;
 		    if(inpos)
 		    {
-		        ShowPlayerDialogEx(playerid, 765, DIALOG_STYLE_LIST, "Wybierz muzykê", "Kotnik Radio 1\nKotnik Radio 2\nDisco polo\nDance100\nPrzeboje\nHip hop\nParty\nW³asna", "Wybierz", "Anuluj");
+		        ShowPlayerDialogEx(playerid, 765, DIALOG_STYLE_LIST, "Wybierz muzykê", "Lisek Radio 1\nLisek Radio 2\nDisco polo\nDance100\nPrzeboje\nHip hop\nParty\nW³asna", "Wybierz", "Anuluj");
 		    }
 		}
 		else
@@ -32985,7 +32987,7 @@ CMD:praca(playerid, params[])
     if(IsPlayerInRangeOfPoint(playerid, 3.0, 1498.4562,-1582.0427,13.5498))
     {
         format(string, sizeof(string), "£owca nagród\nPrawnik\nMechanik\nOchroniarz\nPizzaboy\nTrener boksu\nKurier");
-        ShowPlayerDialogEx(playerid, D_JOB_CENTER_DIALOG, DIALOG_STYLE_LIST, "Kotnik-RP »» Rynek pracy", string, "Wybierz", "Anuluj");
+        ShowPlayerDialogEx(playerid, D_JOB_CENTER_DIALOG, DIALOG_STYLE_LIST, "Lisek-RP »» Rynek pracy", string, "Wybierz", "Anuluj");
     }
     return 1;
 }
@@ -39435,7 +39437,7 @@ CMD:gmpanel(playerid, params[])
 {
     if(PlayerInfo[playerid][pNewAP] != 6) return noAccessMessage(playerid);
     format(C_STRING, sizeof(C_STRING), "\n{8FCB04}# Napady\n\t» Zmieñ czas napadu ({8FCB04}%d{FFFFFF} sekund)\n\t» Wy³¹cz/W³¹cz napady\n\n{8FCB04}# Opcje IC{FFFFFF}\n\n\t» Tymczasowy nick\n\t» Panel tworzenia", DEFAULT_ROB_TIME);
-    ShowPlayerDialogEx(playerid, DIALOG_GAMEMASTER, DIALOG_STYLE_LIST, "{8FCB04}Kotnik-RP{FFFFFF} » Gamemaster", C_STRING, "Ok", "Zamknij");
+    ShowPlayerDialogEx(playerid, DIALOG_GAMEMASTER, DIALOG_STYLE_LIST, "{8FCB04}Lisek-RP{FFFFFF} » Gamemaster", C_STRING, "Ok", "Zamknij");
     return 1;
 }
 
@@ -40503,7 +40505,7 @@ CMD:powiazania(playerid, params[])
         new id;
         if(sscanf(params, "k<fix>", id)) return sendTipDialogMessage(playerid, "U¿yj: /powiazania [playerid/CzêœæNicku]");
         SetPVarInt(playerid, "powiazania_id", id);
-        ShowPlayerDialogEx(playerid, D_POWIAZANIA, DIALOG_STYLE_LIST, "Kotnik RP | GPCI", "»» Powi¹zania IP\n»» Powi¹zania GPCI", "OK", "Anuluj");
+        ShowPlayerDialogEx(playerid, D_POWIAZANIA, DIALOG_STYLE_LIST, "Lisek RP | GPCI", "»» Powi¹zania IP\n»» Powi¹zania GPCI", "OK", "Anuluj");
     } else return noAccessMessage(playerid);
     return 1;
 }

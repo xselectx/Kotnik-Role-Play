@@ -742,11 +742,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         {
             if(!(upr & 0b10)) return 1;
             SetPVarInt(playerid, "panel-ok", 1);
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
         }
         else if(listitem == 1)
         {
-            ShowPlayerDialogEx(playerid, D_PANEL_CHECKPLAYER, DIALOG_STYLE_INPUT, "K-RP » Sprawdzanie statystyk gracza", "WprowadŸ nick gracza:                    ", "SprawdŸ", "WyjdŸ");
+            ShowPlayerDialogEx(playerid, D_PANEL_CHECKPLAYER, DIALOG_STYLE_INPUT, "L-RP » Sprawdzanie statystyk gracza", "WprowadŸ nick gracza:                    ", "SprawdŸ", "WyjdŸ");
         }
     }
     else if(dialogid == D_PANEL_CHECKPLAYER)
@@ -755,7 +755,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if(strlen(inputtext) < 1 || strlen(inputtext) > MAX_PLAYER_NAME)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawna d³ugosc!");
-            ShowPlayerDialogEx(playerid, D_PANEL_CHECKPLAYER, DIALOG_STYLE_INPUT, "K-RP » Sprawdzanie statystyk gracza", "WprowadŸ nick gracza:                    ", "SprawdŸ", "WyjdŸ");
+            ShowPlayerDialogEx(playerid, D_PANEL_CHECKPLAYER, DIALOG_STYLE_INPUT, "L-RP » Sprawdzanie statystyk gracza", "WprowadŸ nick gracza:                    ", "SprawdŸ", "WyjdŸ");
             return 0;
         }
         new lStr[256];
@@ -789,15 +789,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         {
             case 0: //nadaj kare
             {
-                ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
+                ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
             }
             case 1: //zdejmij kare
             {
-                ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
+                ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
             }
             case 2: //wyszukiwarka
             {
-                ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
+                ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
             }
         }
     }
@@ -812,15 +812,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             {
                 case 0:
                 {
-                    ShowPlayerDialogEx(playerid, D_PANEL_KAR_BANIP, DIALOG_STYLE_INPUT, "K-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej adres IP.", "Banuj", "Wróæ");
+                    ShowPlayerDialogEx(playerid, D_PANEL_KAR_BANIP, DIALOG_STYLE_INPUT, "L-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej adres IP.", "Banuj", "Wróæ");
                 }
                 case 1:
                 {
-                    ShowPlayerDialogEx(playerid, D_PANEL_KAR_BANNICK, DIALOG_STYLE_INPUT, "K-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej nick gracza.", "Banuj", "Wróæ");
+                    ShowPlayerDialogEx(playerid, D_PANEL_KAR_BANNICK, DIALOG_STYLE_INPUT, "L-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej nick gracza.", "Banuj", "Wróæ");
                 }
             }
         }
-        else return ShowPlayerDialogEx(playerid, D_PANEL_KARY_POWOD, DIALOG_STYLE_LIST, "K-RP » Powód", "Proszê poni¿ej wpisaæ powód.", "Dalej", "");
+        else return ShowPlayerDialogEx(playerid, D_PANEL_KARY_POWOD, DIALOG_STYLE_LIST, "L-RP » Powód", "Proszê poni¿ej wpisaæ powód.", "Dalej", "");
     }
     else if(dialogid == D_PANEL_KAR_ZDEJMIJ)
     {
@@ -828,18 +828,18 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if(!Uprawnienia(playerid, ACCESS_KARY_UNBAN))
         {
             SendClientMessage(playerid, COLOR_RED, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
             return 1;
         }
         switch(listitem)
         {
             case 0:
             {
-                ShowPlayerDialogEx(playerid, D_PANEL_KAR_UNBANIP, DIALOG_STYLE_INPUT, "K-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej adres IP.", "Odbanuj", "Wróæ");
+                ShowPlayerDialogEx(playerid, D_PANEL_KAR_UNBANIP, DIALOG_STYLE_INPUT, "L-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej adres IP.", "Odbanuj", "Wróæ");
             }
             case 1:
             {
-                ShowPlayerDialogEx(playerid, D_PANEL_KAR_UNBANNICK, DIALOG_STYLE_INPUT, "K-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej nick gracza.", "Odbanuj", "Wróæ");
+                ShowPlayerDialogEx(playerid, D_PANEL_KAR_UNBANNICK, DIALOG_STYLE_INPUT, "L-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej nick gracza.", "Odbanuj", "Wróæ");
             }
         }
     }
@@ -849,21 +849,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if(!Uprawnienia(playerid, ACCESS_KARY_BAN))
         {
             SendClientMessage(playerid, COLOR_RED, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
             return 1;
         }
         SetPVarInt(playerid, "panel-list", listitem);
         DeletePVar(playerid, "panel-kary-continue");
         DeletePVar(playerid, "panel-powod");
-        if(GetPVarInt(playerid, "panel-kary-continue") == 0) return ShowPlayerDialogEx(playerid, D_PANEL_KARY_POWOD, DIALOG_STYLE_INPUT, "K-RP » Powód", "Proszê poni¿ej wpisaæ powód.", "Dalej", "");
+        if(GetPVarInt(playerid, "panel-kary-continue") == 0) return ShowPlayerDialogEx(playerid, D_PANEL_KARY_POWOD, DIALOG_STYLE_INPUT, "L-RP » Powód", "Proszê poni¿ej wpisaæ powód.", "Dalej", "");
     }
     else if(dialogid == D_PANEL_KAR_BANIP)
     {
-        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
+        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
         if(strlen(inputtext) < 7 || strlen(inputtext) > 16)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawna d³ugosc IP!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
             return 1;
         }
         new count, cpos;
@@ -875,7 +875,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if(count != 3)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawny adres IP (dots)!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
             return 1;
         }
         new str[128], powod[128];
@@ -890,11 +890,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     }
     else if(dialogid == D_PANEL_KAR_BANNICK)
     {
-        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
+        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
         if(strlen(inputtext) < 1 || strlen(inputtext) > MAX_PLAYER_NAME)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawna d³ugosc!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_NADAJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Ban na IP\nBan na nick", "Wybierz", "Wróæ");
             return 1;
         }
         new str[128], powod[128];
@@ -909,11 +909,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     }
     else if(dialogid == D_PANEL_KAR_UNBANIP)
     {
-        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
+        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
         if(strlen(inputtext) < 7 || strlen(inputtext) > 16)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawna d³ugosc IP!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
             return 1;
         }
         new count, cpos=0;
@@ -925,7 +925,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if(count != 3)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawny adres IP (dots)!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
             return 1;
         }
         new str[128];
@@ -941,11 +941,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     }
     else if(dialogid == D_PANEL_KAR_UNBANNICK)
     {
-        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
+        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
         if(strlen(inputtext) < 1 || strlen(inputtext) > MAX_PLAYER_NAME)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawna d³ugosc!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZDEJMIJ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Unbanuj IP\nUnbanuj nick", "Wybierz", "Wróæ");
             return 1;
         }
         new str[128];
@@ -961,26 +961,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     }
     else if(dialogid == D_PANEL_KAR_ZNAJDZ)  //SprawdŸ dane po IP | SprawdŸ dane po nicku
     {
-        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
+        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
         if(!Uprawnienia(playerid, ACCESS_KARY_ZNAJDZ))
         {
             SendClientMessage(playerid, COLOR_RED, "Uprawnienia: Nie posiadasz wystarczaj¹cych uprawnieñ.");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
             return 1;
         }
         switch(listitem)
         {
-            case 0: ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZIP, DIALOG_STYLE_INPUT, "K-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej IP do sprawdzenia.", "SprawdŸ", "Wróæ");
-            case 1: ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZNICK, DIALOG_STYLE_INPUT, "K-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej NICK do sprawdzenia.", "SprawdŸ", "Wróæ");
+            case 0: ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZIP, DIALOG_STYLE_INPUT, "L-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej IP do sprawdzenia.", "SprawdŸ", "Wróæ");
+            case 1: ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZNICK, DIALOG_STYLE_INPUT, "L-RP » Panel zarz¹dzania karami", "WprowadŸ poni¿ej NICK do sprawdzenia.", "SprawdŸ", "Wróæ");
         }
     }
     else if(dialogid == D_PANEL_KAR_ZNAJDZIP)
     {
-        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
+        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
         if(strlen(inputtext) < 7 || strlen(inputtext) > 16)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawna d³ugosc IP!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
             return 1;
         }
         new count, cpos=0;
@@ -992,7 +992,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if(count != 3)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawny adres IP (dots)!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
             return 1;
         }
         //OK
@@ -1012,21 +1012,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     format(resultfit, 80, "{079FE1}%s\n", powod);
                 format(str, 800, "%s{FFFFFF}Gracz: %s\t\tPID: %d\tIP: %s\nNada³: %s\t\tPID: %d\n%sData: %s\tStatus: %s\n",str, nick,pid,ip,admin,id, resultfit, czas, (typ == WARN_BAN) ? ("{FF0000}BAN") : ("{00FF00}UNBAN"));
             }
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", str, "Wróæ", "");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", str, "Wróæ", "");
         }
         else
         {
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Brak wyników", "Wróæ", "");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Brak wyników", "Wróæ", "");
         }
         mysql_free_result();
     }
     else if(dialogid == D_PANEL_KAR_ZNAJDZNICK)
     {
-        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
+        if(!response) return ShowPlayerDialogEx(playerid, D_PANEL_KAR, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", TEXT_D_PANEL_KARY, "Wybierz", "WyjdŸ");
         if(strlen(inputtext) < 1 || strlen(inputtext) > MAX_PLAYER_NAME)
         {
             SendClientMessage(playerid, COLOR_RED, "Niepoprawna d³ugosc nazwy!");
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
             return 1;
         }
         //OK
@@ -1046,17 +1046,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     format(resultfit, 80, "{079FE1}%s\n", powod);
                 format(str, 800, "%s{FFFFFF}Gracz: %s\t\tPID: %d\tIP: %s\nNada³: %s\t\tPID: %d\n%sData: %s\tStatus: %s\n",str, nick,pid,ip,admin,id, resultfit, czas, (typ == WARN_BAN) ? ("{FF0000}BAN") : ("{00FF00}UNBAN"));
             }
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", str, "Wróæ", "");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", str, "Wróæ", "");
         }
         else
         {
-            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "Brak wyników", "Wróæ", "");
+            ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ_INFO, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "Brak wyników", "Wróæ", "");
         }
         mysql_free_result();
     }
     else if(dialogid == D_PANEL_KAR_ZNAJDZ_INFO)
     {
-        ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "K-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
+        ShowPlayerDialogEx(playerid, D_PANEL_KAR_ZNAJDZ, DIALOG_STYLE_LIST, "L-RP » Panel zarz¹dzania karami", "SprawdŸ dane po IP\nSprawdŸ dane po nicku", "Wybierz", "Wróæ");
         return 1;
     }
     //KONIEC PANELU ADMINA
@@ -1202,12 +1202,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(!response) return 1;
 	    switch(listitem)
 	    {
-	    	case 0: ShowPlayerDialogEx(playerid, D_JOBTYPE_LOWCA, DIALOG_STYLE_MSGBOX, "Kotnik-RP » £owca nagród", "Twoje zadanie polega na œciganiu przestêpców i oferowania im poddania siê\nW przypadku odmowy stosuje siê bardziej radykalne metody\nWynagrodzenie zale¿y od wysokoœci WL oraz sposobu zatrzymania (za ¿ywego dostaje siê wiêcej)\nWy¿szy skill pozwala na d³u¿sze namierzanie, dostêp do bardziej niebezpiecznych przestêpców i lepszych pojazdów.\nDobry ³owca nagród mo¿e zarobiæ ponad 50k w godzinê. Pocz¹tkuj¹cy jakieœ 6k-10k. Minus koszty broni. Pieni¹dze wyp³acamy od razu.\nJe¿eli masz trochê kasy na broñ, masz nerwy ze stali, mnóstwo sprytu i cierpliwoœci to ta wymagaj¹ca praca jest dla Ciebie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³acz", "Anuluj");
-	    	case 1: ShowPlayerDialogEx(playerid, D_JOBTYPE_PRAWNIK, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Prawnik", "Do twoich zadañ nale¿y wyci¹ganie ludzi z wiêzienia (za kaucj¹ lub bez)\nCzyszczenia im kartotek i obni¿ania poziomów poszukiwania\nPraca jest legalna jednak w LS dobry prawnik to taki który zna sporo skorumpowanych gliniarzy lub ma znajomego w policji\nJako pocz¹tkuj¹cy prawnik w g³ownej mierze bêdziesz zajmowa³ siê drobnymi z³odziejaszkami, zarobki równie¿ nie sa wysokie a o klienta trudno.\ny¿szy skill umo¿liwia zbijanie wy¿szych poziomów WL, uwlanianie groŸniejszych przestêpców oraz zmniejsza koszty ³apówek.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
-	    	case 2: ShowPlayerDialogEx(playerid, D_JOBTYPE_MECHANIK, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Mechanik", "Naprawiaj, tankuj, tunninguj, odbieraj zlecenia z terenu\nTo przede wszytkim robi mechanik.\nZarobki nie s¹ na pocz¹tku osza³amiaj¹ce, jakieœ 3k-7k co godzinê\nJednak zdobywa siê je doœæ ³atwo i przyjemnie. Pracy dla mechaników nigdy nie brakuje.\nWy¿szy skill pozwala siê poruszaæ specjalnymi pojazdami.\n Oraz umo¿liwia tunningowanie pojazdów, ktore jest bardziej dochodowe ni¿ ich serwisowanie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
-	    	case 3: ShowPlayerDialogEx(playerid, D_JOBTYPE_OCHRONIARZ, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Ochroniarz", "Mo¿esz ochraniaæ ludzi, jednak jest to tylko przykrywka dla sprzedawania pancerzy\nPraca jest doœæ monotonna gdy¿ praktycznie polega na wciskaniu wszytkim kamizelki kuloodpornej.\nPodobno niektórzy przy du¿ym szczêœciu potrafia zarobiæ nawet 90k-130k. Jednak norm¹ jest 10k a przy du¿ym pechu 2k.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
-	    	case 4: ShowPlayerDialogEx(playerid, D_JOBTYPE_PIZZABOY, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Pizzaboy", "Praca polega na rozwo¿eniu pizzy do g³odnych klientów.\nW tej pracy zarabiasz miêdzy innymi na napiwkach.\nNapiwki zale¿ne s¹ od tego jak szybko dostarczysz pizzê.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
-	    	case 5: ShowPlayerDialogEx(playerid, D_JOBTYPE_BOX, DIALOG_STYLE_MSGBOX, "Kotnik-RP » Trener boksu", "Jako bokser bierzesz udzia³ w galach boksu, toczysz za pieni¹dze sparingi z innymi i uczysz nowych technik walki.\nJednak prawda jest taka, ¿e gale s¹ bardzo rzadko, za sparingi ma³o kto chce p³aciæ i tak naprawdê pe³nisz rolê nauczyciela.\nZarobki s¹ bardzo zró¿nicowane i zale¿¹ od skilla. Zazwyczaj jest to ok. 30k ale nie jest to zarobek regularny.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 0: ShowPlayerDialogEx(playerid, D_JOBTYPE_LOWCA, DIALOG_STYLE_MSGBOX, "Lisek-RP » £owca nagród", "Twoje zadanie polega na œciganiu przestêpców i oferowania im poddania siê\nW przypadku odmowy stosuje siê bardziej radykalne metody\nWynagrodzenie zale¿y od wysokoœci WL oraz sposobu zatrzymania (za ¿ywego dostaje siê wiêcej)\nWy¿szy skill pozwala na d³u¿sze namierzanie, dostêp do bardziej niebezpiecznych przestêpców i lepszych pojazdów.\nDobry ³owca nagród mo¿e zarobiæ ponad 50k w godzinê. Pocz¹tkuj¹cy jakieœ 6k-10k. Minus koszty broni. Pieni¹dze wyp³acamy od razu.\nJe¿eli masz trochê kasy na broñ, masz nerwy ze stali, mnóstwo sprytu i cierpliwoœci to ta wymagaj¹ca praca jest dla Ciebie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³acz", "Anuluj");
+	    	case 1: ShowPlayerDialogEx(playerid, D_JOBTYPE_PRAWNIK, DIALOG_STYLE_MSGBOX, "Lisek-RP » Prawnik", "Do twoich zadañ nale¿y wyci¹ganie ludzi z wiêzienia (za kaucj¹ lub bez)\nCzyszczenia im kartotek i obni¿ania poziomów poszukiwania\nPraca jest legalna jednak w LS dobry prawnik to taki który zna sporo skorumpowanych gliniarzy lub ma znajomego w policji\nJako pocz¹tkuj¹cy prawnik w g³ownej mierze bêdziesz zajmowa³ siê drobnymi z³odziejaszkami, zarobki równie¿ nie sa wysokie a o klienta trudno.\ny¿szy skill umo¿liwia zbijanie wy¿szych poziomów WL, uwlanianie groŸniejszych przestêpców oraz zmniejsza koszty ³apówek.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 2: ShowPlayerDialogEx(playerid, D_JOBTYPE_MECHANIK, DIALOG_STYLE_MSGBOX, "Lisek-RP » Mechanik", "Naprawiaj, tankuj, tunninguj, odbieraj zlecenia z terenu\nTo przede wszytkim robi mechanik.\nZarobki nie s¹ na pocz¹tku osza³amiaj¹ce, jakieœ 3k-7k co godzinê\nJednak zdobywa siê je doœæ ³atwo i przyjemnie. Pracy dla mechaników nigdy nie brakuje.\nWy¿szy skill pozwala siê poruszaæ specjalnymi pojazdami.\n Oraz umo¿liwia tunningowanie pojazdów, ktore jest bardziej dochodowe ni¿ ich serwisowanie.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 3: ShowPlayerDialogEx(playerid, D_JOBTYPE_OCHRONIARZ, DIALOG_STYLE_MSGBOX, "Lisek-RP » Ochroniarz", "Mo¿esz ochraniaæ ludzi, jednak jest to tylko przykrywka dla sprzedawania pancerzy\nPraca jest doœæ monotonna gdy¿ praktycznie polega na wciskaniu wszytkim kamizelki kuloodpornej.\nPodobno niektórzy przy du¿ym szczêœciu potrafia zarobiæ nawet 90k-130k. Jednak norm¹ jest 10k a przy du¿ym pechu 2k.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 4: ShowPlayerDialogEx(playerid, D_JOBTYPE_PIZZABOY, DIALOG_STYLE_MSGBOX, "Lisek-RP » Pizzaboy", "Praca polega na rozwo¿eniu pizzy do g³odnych klientów.\nW tej pracy zarabiasz miêdzy innymi na napiwkach.\nNapiwki zale¿ne s¹ od tego jak szybko dostarczysz pizzê.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
+	    	case 5: ShowPlayerDialogEx(playerid, D_JOBTYPE_BOX, DIALOG_STYLE_MSGBOX, "Lisek-RP » Trener boksu", "Jako bokser bierzesz udzia³ w galach boksu, toczysz za pieni¹dze sparingi z innymi i uczysz nowych technik walki.\nJednak prawda jest taka, ¿e gale s¹ bardzo rzadko, za sparingi ma³o kto chce p³aciæ i tak naprawdê pe³nisz rolê nauczyciela.\nZarobki s¹ bardzo zró¿nicowane i zale¿¹ od skilla. Zazwyczaj jest to ok. 30k ale nie jest to zarobek regularny.\n\nKontrakt pracy trwa 5 godzin i przez ten czas nie mo¿esz zmieniæ pracy!", "Do³¹cz", "Anuluj");
 	   		case 6: sendTipMessage(playerid, "Ta praca jest wy³¹czona!");
 	    }   
 	}
@@ -1277,7 +1277,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	else if(dialogid == DIALOG_POMOC_NEW)
 	{
 		new string[556];
-		if(!response) return sendTipMessage(playerid, "Wiêcej informacji odnoœnie komend i zasad panuj¹cych na serwerze znajdziesz na naszej stronie: https://kotnik-rp.pl");
+		if(!response) return sendTipMessage(playerid, "Wiêcej informacji odnoœnie komend i zasad panuj¹cych na serwerze znajdziesz na naszej stronie: https://lisek-rp.pl");
 		switch(listitem)
 		{
 			case 0: {
@@ -1285,68 +1285,68 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				\n/zmienklucz /id /pij /muzyka /pokazlicencje /ubranie\n/resetulepszen(100k) /skill \
 				\n/laptop /licencje /lotto /zmienspawn /stopani /pobij /wyscigi\n/report /anuluj /akceptuj \
 				\n/wezdragi /kontrakt /tankuj /oczysc /wezwij /rodziny /wepchnij");
-				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Podstawowe komendy", string, "Zamknij", "");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Podstawowe komendy", string, "Zamknij", "");
 			}
 			case 1: {
 				format(string, sizeof(string), "(/w)iadomosc (/o)oc (/k)rzyk (/s)zept (/l)ocal (/b) (/og)loszenie (/f)amily /me (/n)ewbie /sprobuj");
-				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Czaty", string, "Zamknij", "");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Czaty", string, "Zamknij", "");
 			}
 			case 2: {
 				format(string, sizeof(string), "/togooc /tognews /togdepo /togfam /togw /togtel /toglicznik /tognewbie /togadmin");
-				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Blokada czatów", string, "Zamknij", "");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Blokada czatów", string, "Zamknij", "");
 			}
 			case 3: {
 				format(string, sizeof(string), "/dr /zp /wywal /lock /kanister /kogut");
-				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy pojazdu", string, "Zamknij", "");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Komendy pojazdu", string, "Zamknij", "");
 			}
 			case 4: {
 				format(string, sizeof(string), "/dom /dominfo");
-				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy domu", string, "Zamknij", "");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Komendy domu", string, "Zamknij", "");
 			}
 			case 5: {
 				format(string, sizeof(string), "/przelew /teczka /pay /plac");
-				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Komendy bankowe", string, "Zamknij", "");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Komendy bankowe", string, "Zamknij", "");
 			}
 			case 6: {
 				if(PlayerInfo[playerid][pJob] == 1) {
 					format(string, sizeof(string), "/namierz /wanted /poddajsie /zlecenie (/m)egafon");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» £owca nagród", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» £owca nagród", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 2) {
 					format(string, sizeof(string), "/uwolnij /oczyscmdc /zbijwl /kamera-wiezienna /wanted");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Prawnik", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Prawnik", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 3) {
 					format(string, sizeof(string), "/sex");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Prostytutka", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Prostytutka", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 4) {
 					format(string, sizeof(string), "/sprzedajdragi /get drugs /wywaldragi");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Diler dragów", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Diler dragów", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 5) {
 					format(string, sizeof(string), "/ukradnij");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Z³odziej aut", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Z³odziej aut", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 7) {
 					format(string, sizeof(string), "/napraw /tankowanie /sluzba /sprawdzneon");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Mechanik", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Mechanik", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 8) {
 					format(string, sizeof(string), "/ochrona");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Ochroniarz", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Ochroniarz", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 9) {
 					format(string, sizeof(string), "/materialy /wywalmaterialy /sprzedajbron");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Diler broni", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Diler broni", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 12) {
 					format(string, sizeof(string), "/walka /boxstats /naucz");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Bokser", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Bokser", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pJob] == 12) {
 					format(string, sizeof(string), "/walka /boxstats /naucz");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Bokser", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Bokser", string, "Zamknij", "");
 				}
 				else sendTipMessage(playerid, "Nie posiadasz ¿adnej pracy!");
 			}
@@ -1357,29 +1357,29 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					\n /sluzba /poszukiwani /tazer /cywil (/r)adio (/d)epartment (/m)egafon (/su)spect \
 					\n /ro(radiooc) /depo(departamentooc) /pd(wiadomosc) /cela /togcrime /poscig NEW: /pozwolenie \n\n{FFFFFF}# Federalne \
 					\n/zmienskin /namierz /fbi /federalne /cela /gps /dgps /red");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» S³u¿by mundurowe", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» S³u¿by mundurowe", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pMember] == 4 || PlayerInfo[playerid][pLider] == 4 || PlayerInfo[playerid][pMember] == 17 || PlayerInfo[playerid][pLider] == 17) {
 					format(string, sizeof(string), "(/r)adio (/d)epartment /ulecz /sluzba /apteczka /zastrzyk /szpital-info /zmienplec \
 					\n/sprzedajapteczke /gps /dgps /red /straz /megafon /ro /r /duty /czysc /gps /dgps /red");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» S³u¿by ratunkowe", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» S³u¿by ratunkowe", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pMember] == 9 || PlayerInfo[playerid][pLider] == 9) {
 					format(string, sizeof(string), "/napisz /gazety /wywiad /news [text] /reflektor /studia /glosnik /calllive /radiostacja \
 					\nP³atny numer SMS - /sms [od 100 do 150], dostajesz tyle stówek ile jest po 1 (nr. 125 - 25 * 100 = 2500$) \
 					\n/zamknijlinie /otworzlinie /linie");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» San News", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» San News", string, "Zamknij", "");
 				}	
 				else if(PlayerInfo[playerid][pMember] == 15||PlayerInfo[playerid][pLider] == 15) {
 					format(string, sizeof(string), "/sprzedajneon /napraw /tankowanie /nitro /hydraulika /maluj /felga /zderzak \
 					\n/kolory /malunki /felgi /sluzba /stworzwyscig /wyscigi /wyscig /wyscig-start /wyscig-stop /cp /cp-usun /meta \
 					\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Szajka zmotoryzowana", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Szajka zmotoryzowana", string, "Zamknij", "");
 				}
 				else if(PlayerInfo[playerid][pMember] == 8 || PlayerInfo[playerid][pLider] == 8) {
 					format(string, sizeof(string), "/laptop /zmienskin /reklama /namierz \
 					\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Hitman Agency", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Hitman Agency", string, "Zamknij", "");
 				} else sendTipMessage(playerid, "Nie jesteœ w ¿adnej organizacji b¹dŸ twoja organizacja nie ma dedykowanych komend!");
 			}
 			case 8:
@@ -1387,13 +1387,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(IsAPrzestepca(playerid)) {
 					format(string, sizeof(string), "/laptop /zmienskin /reklama /namierz \
 						\n/pobij /zwiaz /odwiaz /wepchnij /sprzedaja /maska-tak/nie");
-					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Przestêpcze", string, "Zamknij", "");
+					ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Przestêpcze", string, "Zamknij", "");
 				} else sendTipMessage(playerid, "Nie jesteœ w organizacji przestêpczej!");
 			}
 			case 9:
 			{
 				format(string, sizeof(string), "/animhelp /zapytaj /mecz (koszykowka)");
-				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Kotnik-RP »» Inne", string, "Zamknij", "");
+				ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "Lisek-RP »» Inne", string, "Zamknij", "");
 			}
 		}
 	}
@@ -1411,7 +1411,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
  			          strcat(C_STRING, sprintf("%s \t%d\n", ContactInfo[playerid][i][cName], ContactInfo[playerid][i][cNumber]));
  			      }
  			  }
- 			  ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_TABLIST_HEADERS, "{8FCB04}Kotnik-RP{FFFFFF} » Twoje kontakty", C_STRING, "Wybierz", "");
+ 			  ShowPlayerDialogEx(playerid, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_TABLIST_HEADERS, "{8FCB04}Lisek-RP{FFFFFF} » Twoje kontakty", C_STRING, "Wybierz", "");
 			}
 		}
 	}
@@ -1468,7 +1468,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		switch(listitem)
 		{
 			case 1: {
-				ShowPlayerDialogEx(playerid, DIALOG_GAMEMASTER_ROB_TIME, DIALOG_STYLE_INPUT,"{8FCB04}Kotnik-RP{FFFFFF} » Czas napadu" , "WprowadŸ nowy czas napadu", "Ok", "Zamknij");
+				ShowPlayerDialogEx(playerid, DIALOG_GAMEMASTER_ROB_TIME, DIALOG_STYLE_INPUT,"{8FCB04}Lisek-RP{FFFFFF} » Czas napadu" , "WprowadŸ nowy czas napadu", "Ok", "Zamknij");
 			}
 		}
 	}
@@ -4001,64 +4001,64 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 				    case 0:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 				    case 1:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 2:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 3:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 4:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 5:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 				    case 6:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 	                    taxitest[playerid] ++;
 					}
 					case 7:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 8:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 9:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 10:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 11:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 12:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 13:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 14:
 				    {
-				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnik Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 166, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Lisek Tower(biurowiec)?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 				}
 	 	    }
@@ -4075,64 +4075,64 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 				    case 0:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 	                    taxitest[playerid] ++;
 					}
 					case 1:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 2:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 3:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 4:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 5:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 6:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 7:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 8:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 9:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 10:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 11:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 12:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 13:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 					case 14:
 				    {
-				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Kotnikowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
+				    	ShowPlayerDialogEx(playerid, 167, DIALOG_STYLE_LIST, "W jakiej dzielnicy znajduje siê Liskowy Gun Shop?", "Rodeo\nGanton\nGlen Park\nDowntown\nPershing Square\nEl Corona\nIdlewood\nPlaya Del Seville\nOcean Docks\nVinewood\nMarket\nJefferson\nLos Flores\nEast Beach\nEast Los Santos", "Wybierz", "WyjdŸ");
 					}
 				}
 	 	    }
@@ -6022,12 +6022,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 				    case 0:
 					{
-		        		ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 55","Przystanki koñcowe:\nKoœció³ <==> Kotnik Tower\n\nCzas przejazdu trasy: 9minut \n\nIloœæ przystanków: 13\n\nSzczegó³owy rozpis trasy:\n Koœció³\n Motel Jefferson\n Glen Park\n Skate Park\n Unity Station\n Urz¹d Miasta\n Bank\n Kasyno\n Market Station\n Baza San News i Restauracja\n Siedziba FBI\n Molo Wêdkarskie\n Kotnik Tower","Wróæ","WyjdŸ");
+		        		ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 55","Przystanki koñcowe:\nKoœció³ <==> Lisek Tower\n\nCzas przejazdu trasy: 9minut \n\nIloœæ przystanków: 13\n\nSzczegó³owy rozpis trasy:\n Koœció³\n Motel Jefferson\n Glen Park\n Skate Park\n Unity Station\n Urz¹d Miasta\n Bank\n Kasyno\n Market Station\n Baza San News i Restauracja\n Siedziba FBI\n Molo Wêdkarskie\n Lisek Tower","Wróæ","WyjdŸ");
 						//\n\nOpis:\n Wsiadaj¹c do tego autobusu na pewno odwiedzisz\n ka¿de miejsce naprawdê warte twojej uwagi\n Jednak z powodu du¿ej liczby przystnaków\n czas podró¿y znacznie siê wyd³u¿a.
 					}
 					case 1:
 					{
-					    ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 72","Przystanki koñcowe:\nBaza Mechaników <==> Kotnik Tower\n\nCzas przejazdu trasy: 3min 50s\n\nIloœæ przystanków: 9\n\nSzczegó³owy rozpis trasy:\n Kotnik Tower (praca prawnika i ³owcy)\n Market Station\n Szpital\n AmmuNation (praca dilera broni)\n Bank)\n Urz¹d Miasta (wyrób licencji)\n Stacja Benzynowa\n Si³ownia (praca ochroniarza - sprzedaje pancerze i boksera)\n Willowfield\n Baza Mechaników","Wróæ","WyjdŸ");
+					    ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 72","Przystanki koñcowe:\nBaza Mechaników <==> Lisek Tower\n\nCzas przejazdu trasy: 3min 50s\n\nIloœæ przystanków: 9\n\nSzczegó³owy rozpis trasy:\n Lisek Tower (praca prawnika i ³owcy)\n Market Station\n Szpital\n AmmuNation (praca dilera broni)\n Bank)\n Urz¹d Miasta (wyrób licencji)\n Stacja Benzynowa\n Si³ownia (praca ochroniarza - sprzedaje pancerze i boksera)\n Willowfield\n Baza Mechaników","Wróæ","WyjdŸ");
 						//\n\nOpis:\n Szybka linia zapewniaj¹ca g³ównie cywilom szybki\n transport miêdzy kluczowymi punktami w mieœcie\n Najwa¿niejsza i najszybsza linia LSBD
 					}
 					case 2:
@@ -6037,12 +6037,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					}
 	    			case 3:
 					{
-					    ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 96","W Przystanki koñcowe:\nBaza Wojskowa <==> Kotnik Tower\n\nCzas przejazdu trasy:  ? \n\nIloœæ przystanków:  12\n\nSzczegó³owy rozpis trasy:\n Baza Wojskowa\n Fabryka (dostawa matsów)\n Pas Startowy \n Wiadukt\n Unity Station\n Verdant Bluffs (ty³y Urzêdu Miasta)\n Zajezdnia Commerce\n Galerie Handlowe\n Burger Shot Marina\n Baza FBI\n Wypo¿yczalnia aut (odbiór matsów)\n Kotnik Tower","Wróæ","WyjdŸ");
+					    ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 96","W Przystanki koñcowe:\nBaza Wojskowa <==> Lisek Tower\n\nCzas przejazdu trasy:  ? \n\nIloœæ przystanków:  12\n\nSzczegó³owy rozpis trasy:\n Baza Wojskowa\n Fabryka (dostawa matsów)\n Pas Startowy \n Wiadukt\n Unity Station\n Verdant Bluffs (ty³y Urzêdu Miasta)\n Zajezdnia Commerce\n Galerie Handlowe\n Burger Shot Marina\n Baza FBI\n Wypo¿yczalnia aut (odbiór matsów)\n Lisek Tower","Wróæ","WyjdŸ");
 						 //\n\nOpis:\nKolejna trasa ze wschodu na zachód, jednak tym razem\n szlakiem mniej uczêszczanych miejsc\n Ulubiona trasa pocz¹tkuj¹cych dilerów broni
 					}
   					case 4:
 					{
-					    ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 85","Przystanki koñcowe:\nWysypisko <==> Szpital\n\nCzas przejazdu trasy:  ? \n\nIloœæ przystanków:  12\n\nSzczegó³owy rozpis trasy:\n Wysypisko\n Clukin Bell Willofield\n Myjnia Samochodowa\n Baza Mechaników\n Agencja Ochrony\n Las Colinas \n Motel Jefferson\n Glen Park\n Kotnikowy GS\n Bank\n Szpital\n\n Opis:\n Niebezpieczna trasa prowadz¹ce przez tereny prawie wszytkich gangów","Wróæ","WyjdŸ");
+					    ShowPlayerDialogEx(playerid,5001,DIALOG_STYLE_MSGBOX,"Linia 85","Przystanki koñcowe:\nWysypisko <==> Szpital\n\nCzas przejazdu trasy:  ? \n\nIloœæ przystanków:  12\n\nSzczegó³owy rozpis trasy:\n Wysypisko\n Clukin Bell Willofield\n Myjnia Samochodowa\n Baza Mechaników\n Agencja Ochrony\n Las Colinas \n Motel Jefferson\n Glen Park\n Liskowy GS\n Bank\n Szpital\n\n Opis:\n Niebezpieczna trasa prowadz¹ce przez tereny prawie wszytkich gangów","Wróæ","WyjdŸ");
 					}
   					case 5:
 					{
@@ -8430,7 +8430,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			}
 		    if(!response)
 		    {
-		        ShowPlayerDialogEx(playerid, 70, DIALOG_STYLE_MSGBOX, "Witaj na Kotnik Role Play", "Witaj na serwerze Kotnik Role Play\nJeœli jesteœ tu nowy, to przygotowaliœmy dla ciebie poradnik\nZa chwilê bêdziesz móg³ go obejrzeæ, lecz najpierw bêdziesz musia³ opisaæ postaæ któr¹ bêdziesz sterowa³\nAby przejœæ dalej wciœnij przycisk 'dalej'", "Dalej", "");
+		        ShowPlayerDialogEx(playerid, 70, DIALOG_STYLE_MSGBOX, "Witaj na Lisek Role Play", "Witaj na serwerze Lisek Role Play\nJeœli jesteœ tu nowy, to przygotowaliœmy dla ciebie poradnik\nZa chwilê bêdziesz móg³ go obejrzeæ, lecz najpierw bêdziesz musia³ opisaæ postaæ któr¹ bêdziesz sterowa³\nAby przejœæ dalej wciœnij przycisk 'dalej'", "Dalej", "");
 		    }
 		}
 		if(dialogid == 72)
@@ -8502,7 +8502,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				TogglePlayerControllable(playerid, 0);
 				SetPlayerVirtualWorld(playerid, 0);
 				GUIExit[playerid] = 0;
-		   		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na Kotnik Role Play serwer.");
+		   		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na Lisek Role Play serwer.");
 				SendClientMessage(playerid, COLOR_WHITE, "Nie jest to serwer Full-RP ale obowi¹zuj¹ tu podstawowe zasady RP.");
 				SendClientMessage(playerid, COLOR_WHITE, "Jeœli ich nie znasz przybli¿e ci najwa¿niejsz¹ zasade.");
 				SendClientMessage(playerid, COLOR_LIGHTBLUE, "Obowi¹zuje absolutny zakaz DeathMatch`u(DM)");
@@ -13226,7 +13226,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         {
             if(!response) return 1;
             SetPVarInt(playerid, "sanradio", listitem);
-            ShowPlayerDialogEx(playerid, 669, DIALOG_STYLE_LIST, "Wybierz muzykê", "Kotnik Radio 1\nKotnik Radio 2\nDisco polo\nDance100\nPrzeboje\nHip hop\nParty\nW³asna", "Wybierz", "Anuluj");
+            ShowPlayerDialogEx(playerid, 669, DIALOG_STYLE_LIST, "Wybierz muzykê", "Lisek Radio 1\nLisek Radio 2\nDisco polo\nDance100\nPrzeboje\nHip hop\nParty\nW³asna", "Wybierz", "Anuluj");
 
         }
         else if(dialogid == 669)
