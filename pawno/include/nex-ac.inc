@@ -60,11 +60,11 @@
 #endif
 
 #if !defined AC_USE_PICKUP_WEAPONS
-	#define AC_USE_PICKUP_WEAPONS		true
+	#define AC_USE_PICKUP_WEAPONS		false
 #endif
 
 #if !defined AC_USE_AMMUNATIONS
-	#define AC_USE_AMMUNATIONS			true
+	#define AC_USE_AMMUNATIONS			false
 #endif
 
 #if !defined AC_USE_RESTAURANTS
@@ -76,7 +76,7 @@
 #endif
 
 #if !defined AC_USE_CASINOS
-	#define AC_USE_CASINOS				true
+	#define AC_USE_CASINOS				false
 #endif
 
 #if !defined AC_USE_QUERY
@@ -115,7 +115,7 @@
 #endif
 
 #if !defined AC_MAX_CONNECTS_FROM_IP
-	#define AC_MAX_CONNECTS_FROM_IP			1
+	#define AC_MAX_CONNECTS_FROM_IP			3
 #endif
 
 #if !defined AC_MAX_RCON_LOGIN_ATTEMPT
@@ -187,7 +187,7 @@
 #endif
 
 #if !defined AC_MAX_GODMODE_WARNINGS
-	#define AC_MAX_GODMODE_WARNINGS			3
+	#define AC_MAX_GODMODE_WARNINGS			1
 #endif
 
 #if !defined AC_MAX_GODMODE_VEH_WARNINGS
@@ -258,7 +258,7 @@ static bool:ac_ACAllow[] =
 	true,	//21 Anti-Invisible hack
 	true,	//22 Anti-lagcomp-spoof
 	true,	//23 Anti-Tuning hack
-	false,	//24 Anti-Parkour mod
+	true,	//24 Anti-Parkour mod
 	true,	//25 Anti-Quick turn
 	true,	//26 Anti-Rapid fire
 	true,	//27 Anti-FakeSpawn
@@ -267,30 +267,25 @@ static bool:ac_ACAllow[] =
 	true,	//30 Anti-CJ run
 	true,	//31 Anti-CarShot
 	true,	//32 Anti-CarJack
-	false,	//33 Anti-UnFreeze
+	true,	//33 Anti-UnFreeze
 	true,	//34 Anti-AFK Ghost
 	true,	//35 Anti-Full Aiming
-
-	false,	//36 Anti-Fake NPC
+	true,	//36 Anti-Fake NPC
 	true,	//37 Anti-Reconnect
 	true,	//38 Anti-High ping
 	true,	//39 Anti-Dialog hack
 	true,	//40 Protection from sandbox
 	true,	//41 Protection from invalid version
 	true,	//42 Anti-Rcon hack
-
 	true,	//43 Anti-Tuning crasher
 	true,	//44 Anti-Invalid seat crasher
 	true,	//45 Anti-Dialog crasher
 	true,	//46 Anti-Attached object crasher
 	true,	//47 Anti-Weapon Crasher
-
 	true,	//48 Protection from connection flood in one slot
 	true,	//49 Anti-callback functions flood
 	true,	//50 Anti-flood by seat changing
-
 	true,	//51 Anti-DoS
-
 	true	//52 Anti-NOPs
 },
 
@@ -3875,7 +3870,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 			return ac_OnPlayerTakeDamage(playerid, issuerid, amount, weaponid);
 		#endif
 	#else
-		return 0;
+		//return 0;
 	#endif
 }
 
@@ -4521,7 +4516,7 @@ public OnPlayerUpdate(playerid)
 				{
 					if(ACInfo[playerid][acACAllow][52] && ACInfo[playerid][acNOPAllow][3])
 					{
-						if(++ACInfo[playerid][acNOPCount][3] > AC_MAX_NOP_WARNINGS)
+						if(++ACInfo[playerid][acNOPCount][3] > 1 /*AC_MAX_NOP_WARNINGS-6*/)
 						{
 							#if defined DEBUG2
 								printf(DEBUG2_CODE_5, playerid, "SetPlayerHealth");
@@ -5128,7 +5123,7 @@ public OnPlayerUpdate(playerid)
 							}
 							else if(ac_vsp < 12 && ac_gtc - ACInfo[playerid][acGtc][10] > ac_gpp)
 							{
-								if(ac_dist >= 40.0 && ac_dist_set >= 40.0)
+								if(ac_dist >= 100.0 && ac_dist_set >= 100.0) // 40.0 TUTAJ
 								{
 									if(ACInfo[playerid][acACAllow][3])
 									{
@@ -5170,11 +5165,11 @@ public OnPlayerUpdate(playerid)
 							new ac_spDiff = ac_vsp - ACVehInfo[ac_vehid][acSpeed];
 							if(ACInfo[playerid][acACAllow][10])
 							{
-								if(ac_spDiff > 230)
+								if(ac_spDiff > 80) // 230  TUTAJ
 								{
 									#if defined DEBUG2
-										printf("[Nex-AC DEBUG2] Speed: %d, old speed: %d, veh model: %d, veh: %d",
-										ac_vsp, ACVehInfo[ac_vehid][acSpeed], ac_i, ac_vehid);
+										//printf("[Nex-AC DEBUG2] Speed: %d, old speed: %d, veh model: %d, veh: %d ",
+										//ac_vsp, ACVehInfo[ac_vehid][acSpeed], ac_i, ac_vehid);
 									#endif
 									#if defined OnCheatDetected
 										ac_KickWithCode(playerid, "", 0, 10, 3);
@@ -5723,9 +5718,9 @@ public OnPlayerUpdate(playerid)
 	#if defined ac_OnPlayerUpdate
 		ac_gpp = ac_OnPlayerUpdate(playerid);
 	#endif
-	#if !defined FreezeSyncPacket
-		if(ACInfo[playerid][acACAllow][33] && !ACInfo[playerid][acUnFrozen]) return 0;
-	#endif
+	/*#if !defined FreezeSyncPacket
+		if(ACInfo[playerid][acACAllow][33] && !ACInfo[playerid][acUnFrozen]) return 1;
+	#endif*/
 	#if defined ac_OnPlayerUpdate
 		return ac_gpp;
 	#else
@@ -8831,7 +8826,7 @@ ac_fpublic ac_Timer(playerid)
 					#undef AC_DEFAULT_COLOR
 				}
 			}
-			//AntiCheatKickWithDesync(playerid, code);
+			AntiCheatKickWithDesync(playerid, code);
 		}
 		return 1;
 	}
