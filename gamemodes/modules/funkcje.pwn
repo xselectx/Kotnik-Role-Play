@@ -191,13 +191,13 @@ sendErrorMessage(id, string:msg[]) {
 //sqluke
 sendTipDialogMessage(id, string:msg[]) {
 	format(_str,256,"%s", msg);
-	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Informacja", _str, "Zamknij", "");
+	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Lisek-RP{FFFFFF} » Informacja", _str, "Zamknij", "");
 	//return SendClientMessage(id, color, _str);
 }
 
 sendErrorDialogMessage(id, string:msg[]) {
 	format(_str,128,"%s", msg);
-	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Kotnik-RP{FFFFFF} » Wyst¹pi³ b³¹d", _str, "Zamknij", "");
+	return ShowPlayerDialogEx(id, DIALOG_ID_NO_RESPONSE, DIALOG_STYLE_MSGBOX, "{8FCB04}Lisek-RP{FFFFFF} » Wyst¹pi³ b³¹d", _str, "Zamknij", "");
 	//return SendClientMessage(id, color, _str);
 }
 //2.5.2
@@ -827,7 +827,7 @@ stock MruDialog(playerid, title[], text[])
 stock MruTitle(text[])
 {
 	new title_str[128];
-	format(title_str, 128, "Kotnik-RP » {00b33c}%s", text);
+	format(title_str, 128, "Lisek-RP » {00b33c}%s", text);
 	return title_str;
 }
 
@@ -5273,7 +5273,7 @@ ShowStats(playerid,targetid)
 		SendClientMessage(playerid, COLOR_GRAD4,coordsstring);
 		format(coordsstring, sizeof(coordsstring), "Drugs:[%d] Mats:[%d] Frakcja:[%s] Ranga:[%s] Warny:[%d] Dostêpnych zmian nicków:[%d]",drugs,mats,ftext,rtext,PlayerInfo[targetid][pWarns],znick);
 		SendClientMessage(playerid, COLOR_GRAD5,coordsstring);
-		format(coordsstring, sizeof(coordsstring), "Skin:[%d] Uniform:[%d] Apteczki:[%d] KotnikCoins:[%d]",PlayerInfo[targetid][pModel], PlayerInfo[targetid][pSkin], PlayerInfo[targetid][pApteczki],PremiumInfo[targetid][pMC]);
+		format(coordsstring, sizeof(coordsstring), "Skin:[%d] Uniform:[%d] Apteczki:[%d] LisekCoins:[%d]",PlayerInfo[targetid][pModel], PlayerInfo[targetid][pSkin], PlayerInfo[targetid][pApteczki],PremiumInfo[targetid][pMC]);
 		SendClientMessage(playerid, COLOR_GRAD5,coordsstring);
 		if (PlayerInfo[playerid][pAdmin] >= 1 || PlayerInfo[playerid][pNewAP] == 5 || PlayerInfo[playerid][pNewAP] == 1)
 		{
@@ -9200,7 +9200,7 @@ public OPCLogin(playerid)
 	{
         //Logowanie
 		new string[256];
-		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na serwerze Kotnik Role Play! Zaloguj siê aby rozpocz¹æ grê.");
+		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na serwerze Lisek Role Play! Zaloguj siê aby rozpocz¹æ grê.");
 		//SendClientMessage(playerid, COLOR_LIGHTRED, "Witaj na serwerze Kotnik Role Play BETA! Wszystkie konta zostan¹ wyzerowane i skasowane na start serwera!");
 		format(string, sizeof(string), "Nick %s jest zarejestrowany.\nZaloguj siê wpisuj¹c w okienko poni¿ej has³o.\nJeœli nie znasz has³a do tego konta, wejdŸ pod innym nickiem", nick);
 		ShowPlayerDialogEx(playerid, D_LOGIN, DIALOG_STYLE_PASSWORD, "Logowanie", string, "Zaloguj", "WyjdŸ");
@@ -9209,7 +9209,7 @@ public OPCLogin(playerid)
     else if(result == -999)
     {
         new string[256];
-		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na serwerze Kotnik Role Play! Zaloguj siê aby rozpocz¹æ grê.");
+		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na serwerze Lisek Role Play! Zaloguj siê aby rozpocz¹æ grê.");
 		format(string, sizeof(string), "Nick podobny do %s jest zarejestrowany.\n{FF0000}Podobny nick jest ju¿ w bazie, sprawdŸ wielkosæ znaków.", nick);
         SendClientMessage(playerid, COLOR_RED, string);
         SendClientMessage(playerid, COLOR_RED, string);
@@ -9220,7 +9220,7 @@ public OPCLogin(playerid)
 	{
         if(VAR_MySQLREGISTER)
         {
-    		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na serwerze Kotnik Role Play! Zarejestruj swoje konto aby rozpocz¹æ grê.");
+    		SendClientMessage(playerid, COLOR_YELLOW, "Witaj na serwerze Lisek Role Play! Zarejestruj swoje konto aby rozpocz¹æ grê.");
     		ShowPlayerDialogEx(playerid, D_REGISTER, DIALOG_STYLE_INPUT, "Rejestracja konta", "Witaj. Aby zacz¹æ grê na serwerze musisz siê zarejestrowaæ.\nAby to zrobiæ wpisz w okienko poni¿ej has³o które chcesz u¿ywaæ w swoim koncie.\nZapamiêtaj je gdy¿ bêdziesz musia³ go u¿ywaæ za ka¿dym razem kiedy wejdziesz na serwer", "Rejestruj", "WyjdŸ");
     		gPlayerAccount[playerid] = 0;//rejestracja
         }
@@ -13736,7 +13736,7 @@ public OnCheatDetected(playerid, ip_address[], type, code)
     			 BanLog(string);
     			 format(string, sizeof(string), "Anti-Cheat: Zosta³eœ zbanowany. | Kod: %d.", code);
     			 SendClientMessage(playerid, 0x9ACD32AA, string);
-    			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Kotnik-RP.pl i z³ó¿ prosbê o UN-BAN");
+    			 SendClientMessage(playerid, COLOR_NEWS, "Jeœli uwa¿asz ze ban jest nies³uszny wejdŸ na www.Lisek-RP.pl i z³ó¿ prosbê o UN-BAN");
     			 MruMySQL_Banuj(playerid, sprintf("AC - KOD: %d (%d)", code, type)); 
     			 if(PlayerInfo[playerid][pNewAP] == 0) KaraTextdrawSystem("Banicja", GetNick(playerid), "ANTYCHEAT", sprintf("Kod: %d", code));
 				 SetPlayerVirtualWorld(playerid, 7777);

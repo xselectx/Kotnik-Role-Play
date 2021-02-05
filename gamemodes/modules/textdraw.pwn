@@ -188,7 +188,7 @@ LoadTXD()
     TextDrawSetOutline(Loading_Box, 0);
     TextDrawFont(Loading_Box, 0);
 
-    Loading_Title = TextDrawCreate(320.000000, 213.214828, "~g~~h~~h~~h~Kotnik~w~-~g~~h~~h~~h~RP");
+    Loading_Title = TextDrawCreate(320.000000, 213.214828, "~g~~h~~h~~h~Lisek~w~-~g~~h~~h~~h~RP");
     TextDrawLetterSize(Loading_Title, 0.449999, 1.600000);
     TextDrawAlignment(Loading_Title, 2);
     TextDrawColor(Loading_Title, -1);
@@ -253,7 +253,7 @@ LoadTXD()
     TextDrawSetProportional(Pasek2, 1);
     TextDrawSetSelectable(Pasek2, 0);*/
     
-    PasekName = TextDrawCreate(2.000000, 437.000000, sprintf("KOTNIK-RP %s", VERSION));
+    PasekName = TextDrawCreate(2.000000, 437.000000, sprintf("LISEK-RP %s", VERSION));
     TextDrawFont(PasekName, 2);
     TextDrawLetterSize(PasekName, 0.162500, 0.900000);
     TextDrawTextSize(PasekName, 400.000000, 17.000000);

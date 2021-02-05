@@ -291,7 +291,7 @@ Zaladuj3DTexty()
    
     CreateDynamic3DTextLabel("{FFFF00}Korporacja Transportowa\n{FF8C00}Zajezdnia Autobusowa Ocean Docks\nBaza taksówkarska\nHangary dla helikopterów", COLOR_BLUE , 2424.0740,-2089.3833,16.0, 20.0);
 
-	CreateDynamic3DTextLabel("Biurowiec\n'Kotnik Tower'", COLOR_BROWN, 330.6893,-1513.0613,35.8672, 100.0);
+	CreateDynamic3DTextLabel("Biurowiec\n'Lisek Tower'", COLOR_BROWN, 330.6893,-1513.0613,35.8672, 100.0);
 
     CreateDynamic3DTextLabel("Kancelaria Prawnicza", COLOR_LIGHTGREEN, 315.4501953125, -1501.822265625, 13.820824623108, 20.0);
     CreateDynamic3DTextLabel("Biuro £owców Nagród", COLOR_LIGHTGREEN, 292.85711669922, -1530.8516845703, 13.818398475647, 20.0);//99

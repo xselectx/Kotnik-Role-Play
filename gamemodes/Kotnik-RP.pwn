@@ -116,7 +116,8 @@
 
 //#include "modules/inne/system_telefonu.pwn"
 
-
+//Add
+#include "modules/casino.pwn"
 
 //------------------------------------------------------------------------------------------------------
 main()
@@ -5499,24 +5500,24 @@ public OnPlayerRequestClass(playerid, classid)
 		printf("%s[%d] OnPlayerRequestClass - begin", GetNick(playerid), playerid);
 	#endif
     //SendClientMessage(playerid, -1, "ClassRequsted");
-
-        if(gPlayerLogged[playerid] == 1)
+    if(gPlayerLogged[playerid] == 1)
+    {
+        SetSpawnInfo(playerid, PlayerInfo[playerid][pTeam], PlayerInfo[playerid][pModel], PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z], 1.0, -1, -1, -1, -1, -1, -1);
+        Wybieralka_Spawn(playerid);
+       	TogglePlayerSpectating(playerid, 0);
+        if(weryfikacja[playerid] == 1 && (PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] > 0)) 
         {
+            SetSpawnInfo(playerid, PlayerInfo[playerid][pTeam], PlayerInfo[playerid][pModel], PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z], 1.0, -1, -1, -1, -1, -1, -1);
+            Wybieralka_Spawn(playerid);
             TogglePlayerSpectating(playerid, 0);
-            TogglePlayerSpectating(playerid, 1);
-            if(weryfikacja[playerid] == 1 && (PlayerInfo[playerid][pAdmin] > 0 || PlayerInfo[playerid][pNewAP] > 0)) 
-            {
-                SetSpawnInfo(playerid, PlayerInfo[playerid][pTeam], PlayerInfo[playerid][pModel], PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z], 1.0, -1, -1, -1, -1, -1, -1);
-                TogglePlayerSpectating(playerid, 0);
-                Wybieralka_Spawn(playerid);
-            }
-            else if (PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)  
-            {
-                SetSpawnInfo(playerid, PlayerInfo[playerid][pTeam], PlayerInfo[playerid][pModel], PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z], 1.0, -1, -1, -1, -1, -1, -1);
-                TogglePlayerSpectating(playerid, 0);
-                Wybieralka_Spawn(playerid);
-            }
         }
+        else if (PlayerInfo[playerid][pAdmin] == 0 && PlayerInfo[playerid][pNewAP] == 0)  
+        {
+            SetSpawnInfo(playerid, PlayerInfo[playerid][pTeam], PlayerInfo[playerid][pModel], PlayerInfo[playerid][pPos_x], PlayerInfo[playerid][pPos_y], PlayerInfo[playerid][pPos_z], 1.0, -1, -1, -1, -1, -1, -1);
+            Wybieralka_Spawn(playerid);
+            TogglePlayerSpectating(playerid, 0);
+        }
+    }
     //TogglePlayerSpectating(playerid, false);
     //TogglePlayerSpectating(playerid, true);
     //if(!GetPVarInt(playerid, "class-sel")) 
@@ -5550,9 +5551,6 @@ public OnPlayerRequestClass(playerid, classid)
 	//}
 	//SetPlayerTeamFromClass(playerid,classid);
 	//SetupPlayerForClassSelection(playerid);
-
-    
-
 	#if DEBUG == 1
 		printf("%s[%d] OnPlayerRequestClass - end", GetNick(playerid), playerid);
 	#endif
@@ -5608,6 +5606,7 @@ public OnGameModeInit()
     Streamer_SetVisibleItems(0, 900);
     Streamer_SetTickRate(50);
     SendRconCommand("reloadfs boty");
+    SendRconCommand("reloadfs obiekty");
 
     //FabrykaMats::LoadLogic();  DO POPRAWY
     //NowaWybieralka::Init();  DO POPRAWY
@@ -5720,6 +5719,8 @@ public OnGameModeInit()
     LoadDisallowedCommands();
 
 	SetGameModeText("Lisek-RP "VERSION);
+
+	Casino_Init();
 
     //13.06
     LoadTXD();
@@ -5910,7 +5911,6 @@ public OnGameModeInit()
     FracRGPS = -1;
 
     print("GameMode init - done!");
-    SendRconCommand("reloadfs obiekty");
     //SendRconCommand("reloadfs MRP/mrpshop");
     //SendRconCommand("reloadfs MRP/mrpattach");
     print("=====================================================================================");
@@ -6226,8 +6226,6 @@ public OnPlayerUpdate(playerid)
     {
         SetPlayerArmedWeapon(playerid, 0);
     }
-
-    
 
     new keys, ud, lr;
     GetPlayerKeys(playerid, keys, ud, lr);
@@ -8817,7 +8815,7 @@ WasteDeAMXersTime()
     #emit stor.pri b
 }
 
-new baseurl[] = "http://lisek-rp.pl/download/";
+/*new baseurl[] = "http://lisek-rp.pl/download/";
  
 public OnPlayerRequestDownload(playerid, type, crc)
 {
@@ -8840,7 +8838,7 @@ public OnPlayerRequestDownload(playerid, type, crc)
     }
  
     return 0;
-}
+}*/
 
 public OnPlayerFinishedDownloading(playerid, virtualworld)
 {

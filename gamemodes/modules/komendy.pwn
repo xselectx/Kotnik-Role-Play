@@ -15925,7 +15925,7 @@ CMD:ksiazkatel(playerid, params[])
 	return 1;
 }
 
-CMD:sprawdzkase(playerid, params[])
+/*CMD:sprawdzkase(playerid, params[])
 {
 	new string[128];
 	new giveplayer[MAX_PLAYER_NAME];
@@ -15972,11 +15972,8 @@ CMD:sprawdzkase(playerid, params[])
 		}
 	}
 	return 1;
-}
+}*/
 //-------------------------------[BuyLevel]--------------------------------------------------------------------------
-
-
-
 
 CMD:buylevel(playerid) return cmd_nastepnylevel(playerid);
 CMD:kuplevel(playerid) return cmd_nastepnylevel(playerid);
@@ -19233,7 +19230,7 @@ CMD:balans(playerid)
 }
 
 
-CMD:dice(playerid) return cmd_kostka2(playerid);
+/*CMD:dice(playerid) return cmd_kostka2(playerid);
 CMD:kostka2(playerid)
 {
 	new string[64];
@@ -19259,9 +19256,9 @@ CMD:kostka2(playerid)
 		}
 	}
 	return 1;
-}
+}*/
 //kostka skryptowa by Kubi
-CMD:kostka(playerid, params[])
+/*CMD:kostka(playerid, params[])
 {
     if(!IsPlayerInRangeOfPoint(playerid, 50.0, 1038.22924805,-1090.59741211,-67.52223969)) return sendTipMessageEx(playerid, COLOR_PAPAYAWHIP, "Tylko w kasynie!");
     if(strcmp(params, "akceptuj", true) == 0 || strcmp(params, "a", true) == 0)
@@ -19455,7 +19452,7 @@ CMD:kostka(playerid, params[])
         sendTipMessageEx(id, COLOR_PAPAYAWHIP, "Aby zaakceptowaæ u¿yj /kostka akceptuj, aby odrzuciæ u¿yj /kostka odrzuæ");
     }
     return 1;
-}
+}*/
 
 /*CMD:ruletka(playerid) return cmd_ruleta(playerid);
 CMD:ruleta(playerid)
@@ -19498,7 +19495,7 @@ CMD:ruleta(playerid)
 	return 1;
 }*/
 
-CMD:ruletka(playerid, params[]) return cmd_ruleta(playerid, params);
+/*CMD:ruletka(playerid, params[]) return cmd_ruleta(playerid, params);
 CMD:ruleta(playerid, params[])
 {
     new string[128];
@@ -19607,7 +19604,6 @@ CMD:ruleta(playerid, params[])
     return 1;
 }
 
-
 CMD:oczko(playerid) return cmd_blackjack(playerid);
 CMD:blackjack(playerid)
 {
@@ -19654,8 +19650,7 @@ CMD:blackjack(playerid)
         }
     }
 	return 1;
-}
-
+}*/
 
 /*CMD:kolofortuny(playerid) return cmd_kolo(playerid);
 CMD:kf(playerid) return cmd_kolo(playerid);
@@ -19712,7 +19707,7 @@ CMD:kolo(playerid)
 }*/
 
 
-CMD:kolofortuny(playerid) return cmd_kolo(playerid);
+/*CMD:kolofortuny(playerid) return cmd_kolo(playerid);
 CMD:kf(playerid) return cmd_kolo(playerid);
 CMD:kolo(playerid)
 {
@@ -19760,7 +19755,7 @@ CMD:kolo(playerid)
                 //ProxDetector(5.0, playerid, string, TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR,TEAM_GREEN_COLOR);
                 DajKase(playerid, 10000);
             }
-            else if(kolo == 60 || kolo == 61)//*
+            else if(kolo == 60 || kolo == 61)//
             {
                 format(string, sizeof(string), "* %s zakrêci³ ko³em fortuny które zatrzyma³o siê na gwieŸdzie fortuny (20000$)", sendername);
                 SendClientMessage(playerid, COLOR_PURPLE, string);
@@ -19776,7 +19771,7 @@ CMD:kolo(playerid)
         }
     }
     return 1;
-}
+}*/
 
 CMD:transfer(playerid, params[]) return cmd_przelew(playerid, params);
 CMD:wiretransfer(playerid, params[]) return cmd_przelew(playerid, params);
@@ -26193,16 +26188,13 @@ CMD:veh(playerid, params[])
 			sendTipDialogMessage(playerid, "U¿yj /veh [car] [color1] [color2]");
 			return 1;
 		}
-
-
 		if(car < 400 || car > 611) { sendTipMessageEx(playerid, COLOR_GREY, "   Numer pojazdu musi byæ wiêkszy od 400 i mniejszy od 611 !"); return 1; }
 		if(color1 < 0 || color1 > 255) { sendTipMessageEx(playerid, COLOR_GREY, "   Numery kolorów od 0 do 255 !"); return 1; }
 		if(color2 < 0 || color2 > 255) { sendTipMessageEx(playerid, COLOR_GREY, "   Numery kolorów od 0 do 255 !"); return 1; }
 		new Float:X,Float:Y,Float:Z;
 		GetPlayerPos(playerid, X,Y,Z);
-
 		CreatedCars[CreatedCar] = car;
-		CreatedCar ++;
+		CreatedCar++;
 		format(string, sizeof(string), "   Pojazd %d zespawnowany.", car);
 		printf("   Pojazd %d zespawnowany.", car);
 		sendTipMessageEx(playerid, COLOR_GREY, string);
@@ -28092,6 +28084,16 @@ CMD:organizacje(playerid, p[])
     return 1;
 }
 
+CMD:zapiszorg(playerid)
+{
+    for(new i=0;i<MAX_ORG;i++)
+    {
+        orgSave(i, ORG_SAVE_TYPE_BASIC);
+        orgSave(i, ORG_SAVE_TYPE_DESC);
+    }
+    return 1;
+}
+
 CMD:panelrodzinny(playerid, params[]) return cmd_pr(playerid, params);
 CMD:pr(playerid, params[])
 {
@@ -28125,6 +28127,7 @@ CMD:pr(playerid, params[])
 				}
                 mysql_real_escape_string(name, name);
                 if(orgSetName(org, name)) sendTipMessageEx(playerid, COLOR_WHITE, "Zmieni³eœ nazwê swojej rodziny.");
+                orgSave(org, ORG_SAVE_TYPE_DESC);
 			}
 			else if(strcmp(x_nr,"motd",true) == 0)
 			{
@@ -28136,6 +28139,7 @@ CMD:pr(playerid, params[])
 				}
                 mysql_real_escape_string(lStr, lStr);
 			    if(orgSetMotd(org, lStr)) sendTipMessageEx(playerid, COLOR_WHITE, "Zmieni³eœ MOTD rodziny.");
+                orgSave(org, ORG_SAVE_TYPE_DESC);
 			}
 			else if(strcmp(x_nr,"color",true) == 0 || strcmp(x_nr,"kolor",true) == 0)
 			{
@@ -28154,10 +28158,12 @@ CMD:pr(playerid, params[])
                 OrgInfo[org][o_Color] = hexa;
                 printf("%08x i %08x i %08h", hexa, OrgInfo[org][o_Color], hexa);
 			    sendTipMessageEx(playerid, hexa, "Zmieni³eœ kolor rodziny.");
+                orgSave(org, ORG_SAVE_TYPE_BASIC);
 			}
 			else if(strcmp(x_nr,"spawn",true) == 0)
 			{
 			    orgSetSpawnAtPlayerPos(playerid, org);
+                orgSave(org, ORG_SAVE_TYPE_BASIC);
 			}
 			else if(strcmp(x_nr,"invite",true) == 0 || strcmp(x_nr,"przyjmij",true) == 0)
 			{
@@ -31531,6 +31537,7 @@ CMD:sprzedajrybe(playerid, params[])
 			KickEx(playerid);
 			return 1;
 		}
+        new pre = 25;
 		if(fishid < 1 || fishid > 5) { sendTipMessageEx(playerid, COLOR_GREY, "Numer ryby od 1 do 5 !"); return 1; }
 		else if(fishid == 1 && Fishes[playerid][pWeight1] < 1) { SendClientMessage(playerid, COLOR_GREY, "   Nie z³owi³eœ ¿adnej ryby pod numerem(1) !"); return 1; }
 		else if(fishid == 2 && Fishes[playerid][pWeight2] < 1) { SendClientMessage(playerid, COLOR_GREY, "   Nie z³owi³eœ ¿adnej ryby pod numerem(2) !"); return 1; }
@@ -31540,9 +31547,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 1 && Fishes[playerid][pWeight1] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 1!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish1], Fishes[playerid][pWeight1], Fishes[playerid][pWeight1]*120);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish1], Fishes[playerid][pWeight1], Fishes[playerid][pWeight1]*pre);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight1]*120);
+			DajKase(playerid, Fishes[playerid][pWeight1]*pre);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31551,9 +31558,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 2 && Fishes[playerid][pWeight2] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 2!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish2], Fishes[playerid][pWeight2], Fishes[playerid][pWeight2]*120);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish2], Fishes[playerid][pWeight2], Fishes[playerid][pWeight2]*pre);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight2]*120);
+			DajKase(playerid, Fishes[playerid][pWeight2]*pre);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31562,9 +31569,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 3 && Fishes[playerid][pWeight3] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 3!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish3], Fishes[playerid][pWeight3], Fishes[playerid][pWeight3]*120);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish3], Fishes[playerid][pWeight3], Fishes[playerid][pWeight3]*pre);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight3]*120);
+			DajKase(playerid, Fishes[playerid][pWeight3]*pre);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31573,9 +31580,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 4 && Fishes[playerid][pWeight4] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 4!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish4], Fishes[playerid][pWeight4], Fishes[playerid][pWeight4]*120);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish4], Fishes[playerid][pWeight4], Fishes[playerid][pWeight4]*pre);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight4]*120);
+			DajKase(playerid, Fishes[playerid][pWeight4]*pre);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -31584,9 +31591,9 @@ CMD:sprzedajrybe(playerid, params[])
 		else if(fishid == 5 && Fishes[playerid][pWeight5] >= 1)
 		{
 			SendClientMessage(playerid, COLOR_GREY, "Sprzeda³eœ rybê numer 5!");
-			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish5], Fishes[playerid][pWeight5], Fishes[playerid][pWeight5]*120);
+			format(string, sizeof(string), "Sprzeda³eœ rybê: %s, wa¿¹c¹ %d kg. Otrzymujesz %d$.", Fishes[playerid][pFish5], Fishes[playerid][pWeight5], Fishes[playerid][pWeight5]*pre);
 			SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-			DajKase(playerid, Fishes[playerid][pWeight5]*120);
+			DajKase(playerid, Fishes[playerid][pWeight5]*pre);
 			ClearFishID(playerid, fishid);
 			Fishes[playerid][pLastFish] = 0;
 			Fishes[playerid][pFishID] = 0;
@@ -38328,8 +38335,10 @@ CMD:rapidfly(playerid, p[])
     {
         new typ;
         sscanf(p, "D(0)", typ);
-    	if(GetPVarType(playerid, "FlyMode")) CancelFlyMode(playerid);
-    	else FlyMode(playerid, typ);
+    	if(GetPVarType(playerid, "FlyMode"))
+            return CancelFlyMode(playerid);
+    	else 
+            FlyMode(playerid, typ);
     }
     return 1;
 }
