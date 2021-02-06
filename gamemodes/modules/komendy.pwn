@@ -20639,7 +20639,7 @@ CMD:wejdz(playerid)
         if(SprawdzWejscia(playerid))
             return 1;
         if(PlayerInfo[playerid][pBW] > 0) return 1;
-        
+
         /*else if(IsPlayerInRangeOfPoint(playerid,1, 286.1271, -30.4991, 1001.52)) //Gunshop LS
         {
             SetPlayerPosEx(playerid,286.0633, -28.6249, 1001.52);
@@ -21791,8 +21791,8 @@ CMD:wyjdz(playerid)
 		if(SprawdzWejscia(playerid))
 			return 1;
         if(PlayerInfo[playerid][pBW] > 0) return 1;
-		
-		else if(IsPlayerInRangeOfPoint(playerid,4,1568.7660,-1691.4886,5.8906) && IsACop(playerid)//parking Dolny LSPD 1568.7660,-1691.4886,5.8906
+
+		if(IsPlayerInRangeOfPoint(playerid,4,1568.7660,-1691.4886,5.8906) && IsACop(playerid)//parking Dolny LSPD 1568.7660,-1691.4886,5.8906
         || IsPlayerInRangeOfPoint(playerid,4, 1570.24, -1635.73, 13.55) // górny
         || IsPlayerInRangeOfPoint(playerid,4, 1543.98, -1643.51, 28.49) // cele
         || IsPlayerInRangeOfPoint(playerid,4, 1585.2897,-1685.4037,62.2363)// komisariat

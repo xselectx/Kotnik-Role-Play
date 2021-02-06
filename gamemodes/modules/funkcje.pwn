@@ -2333,10 +2333,10 @@ IsASklepZBronia(playerid)
 {
 	if(IsPlayerConnected(playerid))
 	{
-		//if((GetPlayerOrg(playerid) == 21 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 22 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 23 && PlayerInfo[playerid][pRank] > 3))
-		//{
+		if((GetPlayerOrg(playerid) == 21 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 22 && PlayerInfo[playerid][pRank] > 3) || (GetPlayerOrg(playerid) == 23 && PlayerInfo[playerid][pRank] > 3))
+		{
 		    return 1;
-		//}
+		}
 	}
 	return 0;
 }
